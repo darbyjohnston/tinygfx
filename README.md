@@ -8,7 +8,7 @@ Small experiments with graphics programming.
 Game of Life
 ============
 
-![Game of Life](etc/Images/gol.png)
+![Game of Life](etc/Images/gol.PNG)
 
 
 Building
