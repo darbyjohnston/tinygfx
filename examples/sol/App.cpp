@@ -4,8 +4,8 @@
 
 #include "App.h"
 
+#include "SolFactory.h"
 #include "Sol000.h"
-#include "Sol001.h"
 
 #include <tgApp/IWindow.h>
 
@@ -15,7 +15,7 @@ namespace tg
 {
     namespace
     {
-        const float duration = 3.F;
+        const float duration = 10.F;
         const float transition = 3.F;
     }
 
@@ -23,10 +23,9 @@ namespace tg
     {
         app::App::_init(argc, argv);
 
-        _solList.push_back(Sol000::create());
-        _solList.push_back(Sol000::create());
+        _solFactory = SolFactory::create();
 
-        _nextSol = 1;
+        _sols.push_back(_solFactory->createRandom(duration));
 
         _startTimer = std::chrono::steady_clock::now();
         _prevTimer = _startTimer;
@@ -59,32 +58,26 @@ namespace tg
         const std::chrono::duration<float> time = now - _startTimer;
         const float timeCount = time.count();
 
-        if (_currentSol < _solList.size())
+        for (auto& i : _sols)
         {
-            _solList[_currentSol]->tick(deltaCount);
-        }
-        if (timeCount > duration)
-        {
-            _solList[_nextSol]->tick(deltaCount);
+            i->tick(deltaCount);
         }
 
-        _solData.a = _currentSol < _solList.size() ? _solList[_currentSol] : nullptr;
-        _solData.b = _nextSol < _solList.size() ? _solList[_nextSol] : nullptr;
-        _solData.transition = 0.F;
-        if (timeCount > duration)
+        if (timeCount > duration && 1 == _sols.size())
         {
-            _solData.transition = math::lerp((timeCount - duration) / transition, 0.F, 1.F);
+            _sols.push_back(_solFactory->createRandom(duration));
         }
         if (timeCount > duration + transition)
         {
             _startTimer = now;
-            _currentSol = _nextSol;
-            ++_nextSol;
-            if (_nextSol >= _solList.size())
-            {
-                _nextSol = 0;
-            }
+            _sols.erase(_sols.begin());
         }
+
+        _solData.a = _sols.size() > 0 ? _sols[0] : nullptr;
+        _solData.b = _sols.size() > 1 ? _sols[1] : nullptr;
+        _solData.transition = transition > 0.F ?
+            math::clamp(math::lerp((timeCount - duration) / transition, 0.F, 1.F), 0.F, 1.F) :
+            0.F;
 
         for (const auto& window : getWindows())
         {

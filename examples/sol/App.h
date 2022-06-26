@@ -13,6 +13,7 @@
 namespace tg
 {
     class ISol;
+    class SolFactory;
 
     //! Sol data.
     struct SolData
@@ -41,9 +42,8 @@ namespace tg
         void _tick() override;
 
     private:
-        std::vector<std::shared_ptr<ISol> > _solList;
-        size_t _currentSol = 0;
-        size_t _nextSol = 0;
+        std::shared_ptr<SolFactory> _solFactory;
+        std::vector<std::shared_ptr<ISol> > _sols;
         SolData _solData;
         std::chrono::steady_clock::time_point _startTimer;
         std::chrono::steady_clock::time_point _prevTimer;

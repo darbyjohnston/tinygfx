@@ -13,18 +13,21 @@ namespace tg
     class Sol000 : public ISol
     {
     protected:
-        Sol000();
+        Sol000(float duration);
 
     public:
-        static std::shared_ptr<Sol000> create();
+        ~Sol000() override;
+
+        static std::shared_ptr<Sol000> create(float duration);
 
         void tick(float delta) override;
 
         void render(const math::Vector2i& size) override;
 
     private:
+        float _t = 0.F;
         math::Vector2i _size = math::Vector2i(0, 0);
-        std::vector<math::Vector2i> _pts;
+        std::vector<math::Vector2f> _pts;
         std::vector<std::pair<size_t, size_t> > _lines;
         std::shared_ptr<gl::Shader> _shader;
     };

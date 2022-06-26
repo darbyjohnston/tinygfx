@@ -48,16 +48,21 @@ namespace tg
             "}\n";
     }
 
-    Sol000::Sol000()
+    Sol000::Sol000(float duration) :
+        ISol("Sol000", duration)
     {}
 
-    std::shared_ptr<Sol000> Sol000::create()
+    Sol000::~Sol000()
+    {}
+
+    std::shared_ptr<Sol000> Sol000::create(float duration)
     {
-        return std::shared_ptr<Sol000>(new Sol000);
+        return std::shared_ptr<Sol000>(new Sol000(duration));
     }
 
     void Sol000::tick(float delta)
     {
+        _t += delta;
     }
 
     void Sol000::render(const math::Vector2i& size)
@@ -69,7 +74,7 @@ namespace tg
             _pts.clear();
             for (size_t i = 0; i < 50; ++i)
             {
-                _pts.push_back(math::Vector2i(
+                _pts.push_back(math::Vector2f(
                     _size.x * math::getRandom(),
                     _size.y * math::getRandom()));
             }
@@ -116,6 +121,11 @@ namespace tg
         {
             const auto& p0 = _pts[line.first];
             const auto& p1 = _pts[line.second];
+            const float l = sqrtf(powf(p1.x - p0.x, 2) + powf(p1.y - p0.y, 2));
+            const float t = std::min(_t * 100.F, l);
+            const math::Vector2f p2(
+                p0.x + (p1.x - p0.x) / l * t,
+                p0.y + (p1.y - p0.y) / l * t);
             const float a = atan2f(
                 p0.y - p1.y,
                 p0.x - p1.x);
@@ -128,14 +138,14 @@ namespace tg
 
             vboP[0].vx = p0.x + v0.x * lineWidth;
             vboP[0].vy = p0.y + v0.y * lineWidth;
-            vboP[1].vx = p1.x + v0.x * lineWidth;
-            vboP[1].vy = p1.y + v0.y * lineWidth;
-            vboP[2].vx = p1.x + v1.x * lineWidth;
-            vboP[2].vy = p1.y + v1.y * lineWidth;
+            vboP[1].vx = p2.x + v0.x * lineWidth;
+            vboP[1].vy = p2.y + v0.y * lineWidth;
+            vboP[2].vx = p2.x + v1.x * lineWidth;
+            vboP[2].vy = p2.y + v1.y * lineWidth;
             vboP += 3;
 
-            vboP[0].vx = p1.x + v1.x * lineWidth;
-            vboP[0].vy = p1.y + v1.y * lineWidth;
+            vboP[0].vx = p2.x + v1.x * lineWidth;
+            vboP[0].vy = p2.y + v1.y * lineWidth;
             vboP[1].vx = p0.x + v1.x * lineWidth;
             vboP[1].vy = p0.y + v1.y * lineWidth;
             vboP[2].vx = p0.x + v0.x * lineWidth;

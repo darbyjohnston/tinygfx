@@ -6,6 +6,11 @@
 
 namespace tg
 {
+    ISol::ISol(const std::string& name, float duration) :
+        _name(name),
+        _duration(duration)
+    {}
+
     ISol::~ISol()
     {}
 }
