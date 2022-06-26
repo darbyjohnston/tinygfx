@@ -5,7 +5,7 @@
 #include "Window.h"
 
 #include "App.h"
-#include "ISol.h"
+#include "Sol.h"
 
 #include <tgGL/Mesh.h>
 

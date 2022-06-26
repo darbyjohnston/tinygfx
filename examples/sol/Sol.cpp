@@ -2,7 +2,7 @@
 // Copyright (c) 2022 Darby Johnston
 // All rights reserved.
 
-#include "Sol000.h"
+#include "Sol.h"
 
 #include <tgGL/Mesh.h>
 
@@ -48,24 +48,21 @@ namespace tg
             "}\n";
     }
 
-    Sol000::Sol000(float duration) :
-        ISol("Sol000", duration)
+    Sol::Sol(float duration) :
+        _duration(duration)
     {}
 
-    Sol000::~Sol000()
-    {}
-
-    std::shared_ptr<Sol000> Sol000::create(float duration)
+    std::shared_ptr<Sol> Sol::create(float duration)
     {
-        return std::shared_ptr<Sol000>(new Sol000(duration));
+        return std::shared_ptr<Sol>(new Sol(duration));
     }
 
-    void Sol000::tick(float delta)
+    void Sol::tick(float delta)
     {
         _t += delta;
     }
 
-    void Sol000::render(const math::Vector2i& size)
+    void Sol::render(const math::Vector2i& size)
     {
         if (size != _size)
         {

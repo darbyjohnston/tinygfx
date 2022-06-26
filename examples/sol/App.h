@@ -12,14 +12,14 @@
 
 namespace tg
 {
-    class ISol;
+    class Sol;
     class SolFactory;
 
     //! Sol data.
     struct SolData
     {
-        std::shared_ptr<ISol> a;
-        std::shared_ptr<ISol> b;
+        std::shared_ptr<Sol> a;
+        std::shared_ptr<Sol> b;
         float transition = 0.F;
     };
 
@@ -43,7 +43,7 @@ namespace tg
 
     private:
         std::shared_ptr<SolFactory> _solFactory;
-        std::vector<std::shared_ptr<ISol> > _sols;
+        std::vector<std::shared_ptr<Sol> > _sols;
         SolData _solData;
         std::chrono::steady_clock::time_point _startTimer;
         std::chrono::steady_clock::time_point _prevTimer;

@@ -4,27 +4,24 @@
 
 #pragma once
 
-#include "ISol.h"
-
 #include <tgGL/Shader.h>
 
 namespace tg
 {
-    class Sol000 : public ISol
+    class Sol
     {
     protected:
-        Sol000(float duration);
+        Sol(float duration);
 
     public:
-        ~Sol000() override;
+        static std::shared_ptr<Sol> create(float duration);
 
-        static std::shared_ptr<Sol000> create(float duration);
+        void tick(float delta);
 
-        void tick(float delta) override;
-
-        void render(const math::Vector2i& size) override;
+        void render(const math::Vector2i& size);
 
     private:
+        float _duration = 0.F;
         float _t = 0.F;
         math::Vector2i _size = math::Vector2i(0, 0);
         std::vector<math::Vector2f> _pts;

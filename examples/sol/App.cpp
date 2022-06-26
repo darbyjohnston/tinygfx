@@ -4,8 +4,7 @@
 
 #include "App.h"
 
-#include "SolFactory.h"
-#include "Sol000.h"
+#include "Sol.h"
 
 #include <tgApp/IWindow.h>
 
@@ -23,9 +22,7 @@ namespace tg
     {
         app::App::_init(argc, argv);
 
-        _solFactory = SolFactory::create();
-
-        _sols.push_back(_solFactory->createRandom(duration));
+        _sols.push_back(Sol::create(duration));
 
         _startTimer = std::chrono::steady_clock::now();
         _prevTimer = _startTimer;
@@ -65,7 +62,7 @@ namespace tg
 
         if (timeCount > duration && 1 == _sols.size())
         {
-            _sols.push_back(_solFactory->createRandom(duration));
+            _sols.push_back(Sol::create(duration));
         }
         if (timeCount > duration + transition)
         {
