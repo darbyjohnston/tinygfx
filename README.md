@@ -5,15 +5,14 @@ tinygfx
 Small experiments with graphics programming.
 
 
-Game of Life
-============
-
-![Game of Life](etc/Images/gol.PNG)
+Examples
+========
+![gol](etc/Images/gol.PNG)
+![sol](etc/Images/sol.PNG)
 
 
 Building
 ========
-
 CMake Build Options
 -------------------
 * TINYGFX_ENABLE_COVERAGE - Enable code coverage

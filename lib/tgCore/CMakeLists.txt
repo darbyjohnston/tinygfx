@@ -1,6 +1,8 @@
 set(HEADERS
 	Assert.h
 	Image.h
+	Math.h
+	MathInline.h
 	Matrix.h
 	MatrixInline.h
 	Random.h

@@ -97,26 +97,12 @@ namespace tg
             _size = size;
 
             GLenum target = GL_TEXTURE_2D;
-            size_t samples = 0;
-            switch (options.sampling)
+            GLint maxSamples = 0;
+            glGetIntegerv(GL_MAX_COLOR_TEXTURE_SAMPLES, &maxSamples);
+            GLsizei samples = std::min(static_cast<GLint>(options.samples), maxSamples);
+            if (samples > 0)
             {
-            case OffscreenSampling::_2:
-                samples = 2;
                 target = GL_TEXTURE_2D_MULTISAMPLE;
-                break;
-            case OffscreenSampling::_4:
-                samples = 4;
-                target = GL_TEXTURE_2D_MULTISAMPLE;
-                break;
-            case OffscreenSampling::_8:
-                samples = 8;
-                target = GL_TEXTURE_2D_MULTISAMPLE;
-                break;
-            case OffscreenSampling::_16:
-                samples = 16;
-                target = GL_TEXTURE_2D_MULTISAMPLE;
-                break;
-            default: break;
             }
 
             // Create the color texture.
@@ -129,21 +115,18 @@ namespace tg
                     throw std::runtime_error(getErrorLabel(Error::ColorTexture));
                 }
                 glBindTexture(target, _colorID);
-                switch (options.sampling)
+                if (samples > 0)
                 {
-                case OffscreenSampling::_2:
-                case OffscreenSampling::_4:
-                case OffscreenSampling::_8:
-                case OffscreenSampling::_16:
                     glTexImage2DMultisample(
                         target,
-                        static_cast<GLsizei>(samples),
+                        samples,
                         getTextureInternalFormat(options.colorFormat, options.colorType),
                         _size.x,
                         _size.y,
                         false);
-                    break;
-                default:
+                }
+                else
+                {
                     glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     glTexParameteri(target, GL_TEXTURE_MAG_FILTER, options.colorMag);
@@ -158,7 +141,6 @@ namespace tg
                         getTextureFormat(options.colorFormat),
                         getTextureType(options.colorType),
                         0);
-                    break;
                 }
             }
 
@@ -174,7 +156,7 @@ namespace tg
                 glBindRenderbuffer(GL_RENDERBUFFER, _depthStencilID);
                 glRenderbufferStorageMultisample(
                     GL_RENDERBUFFER,
-                    static_cast<GLsizei>(samples),
+                    samples,
                     getBufferInternalFormat(options.depth, options.stencil),
                     _size.x,
                     _size.y);

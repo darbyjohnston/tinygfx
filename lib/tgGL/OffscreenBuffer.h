@@ -35,19 +35,6 @@ namespace tg
             First = None
         };
 
-        //! Offscreen buffer multisampling.
-        enum class OffscreenSampling
-        {
-            None,
-            _2,
-            _4,
-            _8,
-            _16,
-
-            Count,
-            First = None
-        };
-
         //! Offscreen buffer options.
         struct OffscreenBufferOptions
         {
@@ -57,7 +44,7 @@ namespace tg
             GLint colorMag = GL_LINEAR;
             OffscreenDepth depth = OffscreenDepth::None;
             OffscreenStencil stencil = OffscreenStencil::None;
-            OffscreenSampling sampling = OffscreenSampling::None;
+            GLsizei samples = 0;
         };
 
         //! Offscreen buffer.

@@ -122,6 +122,15 @@ namespace tg
         constexpr Vector2<T> operator / (const Vector2<T>&, const Vector2<T>&);
 
         template<typename T>
+        constexpr Vector2<T> operator + (const Vector2<T>&, T);
+        template<typename T>
+        constexpr Vector2<T> operator - (const Vector2<T>&, T);
+        template<typename T>
+        constexpr Vector2<T> operator * (const Vector2<T>&, T);
+        template<typename T>
+        constexpr Vector2<T> operator / (const Vector2<T>&, T);
+
+        template<typename T>
         constexpr Vector3<T> operator + (const Vector3<T>&, const Vector3<T>&);
         template<typename T>
         constexpr Vector3<T> operator - (const Vector3<T>&, const Vector3<T>&);
@@ -131,6 +140,15 @@ namespace tg
         constexpr Vector3<T> operator / (const Vector3<T>&, const Vector3<T>&);
 
         template<typename T>
+        constexpr Vector3<T> operator + (const Vector3<T>&, T);
+        template<typename T>
+        constexpr Vector3<T> operator - (const Vector3<T>&, T);
+        template<typename T>
+        constexpr Vector3<T> operator * (const Vector3<T>&, T);
+        template<typename T>
+        constexpr Vector3<T> operator / (const Vector3<T>&, T);
+
+        template<typename T>
         constexpr Vector4<T> operator + (const Vector4<T>&, const Vector4<T>&);
         template<typename T>
         constexpr Vector4<T> operator - (const Vector4<T>&, const Vector4<T>&);
@@ -138,6 +156,15 @@ namespace tg
         constexpr Vector4<T> operator * (const Vector4<T>&, const Vector4<T>&);
         template<typename T>
         constexpr Vector4<T> operator / (const Vector4<T>&, const Vector4<T>&);
+
+        template<typename T>
+        constexpr Vector4<T> operator + (const Vector4<T>&, T);
+        template<typename T>
+        constexpr Vector4<T> operator - (const Vector4<T>&, T);
+        template<typename T>
+        constexpr Vector4<T> operator * (const Vector4<T>&, T);
+        template<typename T>
+        constexpr Vector4<T> operator / (const Vector4<T>&, T);
 
         std::ostream& operator << (std::ostream&, const Vector2i&);
         std::ostream& operator << (std::ostream&, const Vector2f&);
