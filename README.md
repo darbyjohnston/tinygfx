@@ -8,6 +8,7 @@ Small experiments with graphics programming.
 Examples
 ========
 ![gol](etc/Images/gol.PNG)
+
 ![sol](etc/Images/sol.PNG)
 
 
