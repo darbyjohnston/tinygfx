@@ -5,6 +5,7 @@
 #include "App.h"
 
 #include "GOL.h"
+#include "Window.h"
 
 #include <tgApp/IWindow.h>
 
@@ -15,6 +16,9 @@ namespace tg
         app::App::_init(argc, argv);
 
         _gol = GOL::create();
+
+        _window = tg::Window::create(shared_from_this());
+        _window->show();
     }
 
     App::App()
@@ -39,9 +43,6 @@ namespace tg
     {
         _gol->tick();
 
-        for (const auto& window : getWindows())
-        {
-            window->repaint();
-        }
+        _window->repaint();
     }
 }

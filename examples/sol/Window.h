@@ -22,8 +22,6 @@ namespace tg
         static std::shared_ptr<Window> create(const std::shared_ptr<app::App>& app);
 
     protected:
-        void _resize(const math::Vector2i& size) override;
-
         void _paint() override;
 
     private:

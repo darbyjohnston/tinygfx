@@ -7,13 +7,13 @@
 #include <tgApp/App.h>
 
 #include <chrono>
-#include <memory>
 #include <vector>
 
 namespace tg
 {
     class Sol;
     class SolFactory;
+    class Window;
 
     //! Sol data.
     struct SolData
@@ -47,5 +47,6 @@ namespace tg
         SolData _solData;
         std::chrono::steady_clock::time_point _startTimer;
         std::chrono::steady_clock::time_point _prevTimer;
+        std::shared_ptr<Window> _window;
     };
 }

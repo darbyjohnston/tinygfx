@@ -70,11 +70,6 @@ namespace tg
         return out;
     }
 
-    void Window::_resize(const math::Vector2i& size)
-    {
-        glViewport(0, 0, size.x, size.y);
-    }
-
     void Window::_paint()
     {
         if (auto app = std::dynamic_pointer_cast<App>(_app.lock()))

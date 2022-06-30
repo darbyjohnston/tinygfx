@@ -3,7 +3,6 @@
 // All rights reserved.
 
 #include "App.h"
-#include "Window.h"
 
 #include <iostream>
 
@@ -12,10 +11,7 @@ int main(int argc, char* argv[])
     int r = 0;
     try
     {
-        auto app = tg::App::create(argc, argv);
-        auto window = tg::Window::create(app);
-        window->show();
-        r = app->run();
+        r = tg::App::create(argc, argv)->run();
     }
     catch(const std::exception& e)
     {

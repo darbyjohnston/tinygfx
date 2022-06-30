@@ -5,8 +5,7 @@
 #include "App.h"
 
 #include "Sol.h"
-
-#include <tgApp/IWindow.h>
+#include "Window.h"
 
 #include <tgCore/Math.h>
 
@@ -26,6 +25,9 @@ namespace tg
 
         _startTimer = std::chrono::steady_clock::now();
         _prevTimer = _startTimer;
+
+        _window = tg::Window::create(shared_from_this());
+        _window->show();
     }
 
     App::App()
@@ -76,9 +78,6 @@ namespace tg
             math::clamp(math::lerp((timeCount - duration) / transition, 0.F, 1.F), 0.F, 1.F) :
             0.F;
 
-        for (const auto& window : getWindows())
-        {
-            window->repaint();
-        }
+        _window->repaint();
     }
 }

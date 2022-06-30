@@ -11,6 +11,7 @@
 namespace tg
 {
     class GOL;
+    class Window;
 
     //! Applicaton.
     class App : public app::App
@@ -32,5 +33,6 @@ namespace tg
 
     private:
         std::shared_ptr<GOL> _gol;
+        std::shared_ptr<Window> _window;
     };
 }
