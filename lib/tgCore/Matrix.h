@@ -55,9 +55,38 @@ namespace tg
             ///@}
         };
 
+        //! \name Transforms
+        ///@{
+
+        //! Create a translation matrix.
+        template<typename T>
+        constexpr Matrix4x4<T> translate(const Vector3<T>&);
+
+        //! Create a X rotation matrix.
+        template<typename T>
+        Matrix4x4<T> rotateX(T);
+
+        //! Create a Y rotation matrix.
+        template<typename T>
+        Matrix4x4<T> rotateY(T);
+
+        //! Create a Z rotation matrix.
+        template<typename T>
+        Matrix4x4<T> rotateZ(T);
+
+        //! Create a scale matrix.
+        template<typename T>
+        constexpr Matrix4x4<T> scale(const Vector3<T>&);
+
         //! Create an orthographic matrix.
         template<typename T>
         Matrix4x4<T> ortho(T left, T right, T bottom, T top, T near, T far);
+
+        //! Create a perspective matrix.
+        template<typename T>
+        Matrix4x4<T> perspective(T fov, T aspect, T near, T far);
+
+        ///@}
 
         //! 3x3 floating point matrix.
         typedef Matrix3x3<float> Matrix3x3f;

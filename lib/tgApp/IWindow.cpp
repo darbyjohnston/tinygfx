@@ -48,6 +48,9 @@ namespace tg
             //std::cout << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision << std::endl;
             glfwSetFramebufferSizeCallback(_glfwWindow, _frameBufferSizeCallback);
             glfwSetWindowContentScaleCallback(_glfwWindow, _windowContentScaleCallback);
+            glfwSetCursorEnterCallback(_glfwWindow, _cursorEnterCallback);
+            glfwSetCursorPosCallback(_glfwWindow, _cursorPosCallback);
+            glfwSetMouseButtonCallback(_glfwWindow, _mouseButtonCallback);
             glfwSetKeyCallback(_glfwWindow, _keyCallback);
 
             app->_addWindow(shared_from_this());
@@ -91,6 +94,21 @@ namespace tg
         void IWindow::_paint()
         {}
 
+        void IWindow::_mouseEnter()
+        {}
+
+        void IWindow::_mouseLeave()
+        {}
+
+        void IWindow::_mousePos(const math::Vector2f&)
+        {}
+
+        void IWindow::_mouseDelta(const math::Vector2f&)
+        {}
+
+        void IWindow::_mouseButton(int, int, int)
+        {}
+
         void IWindow::_frameBufferSizeCallback(GLFWwindow* glfwWindow, int w, int h)
         {
             IWindow* window = reinterpret_cast<IWindow*>(glfwGetWindowUserPointer(glfwWindow));
@@ -111,6 +129,41 @@ namespace tg
             window->_resize(math::Vector2i(
                 window->_size.x * window->_contentScale.x,
                 window->_size.y * window->_contentScale.y));
+        }
+
+        void IWindow::_cursorEnterCallback(GLFWwindow* glfwWindow, int value)
+        {
+            IWindow* window = reinterpret_cast<IWindow*>(glfwGetWindowUserPointer(glfwWindow));
+            if (GLFW_TRUE == value)
+            {
+                window->_mouseEnter();
+            }
+            else
+            {
+                window->_mouseLeave();
+            }
+        }
+
+        void IWindow::_cursorPosCallback(GLFWwindow* glfwWindow, double x, double y)
+        {
+            IWindow* window = reinterpret_cast<IWindow*>(glfwGetWindowUserPointer(glfwWindow));
+            window->_mousePosList.push_front(math::Vector2f(x, y));
+            while (window->_mousePosList.size() > 2)
+            {
+                window->_mousePosList.pop_back();
+            }
+            window->_mousePos(window->_mousePosList.front());
+            if (window->_mousePosList.size() > 1)
+            {
+                const auto delta = window->_mousePosList.front() - window->_mousePosList.back();
+                window->_mouseDelta(delta);
+            }
+        }
+
+        void IWindow::_mouseButtonCallback(GLFWwindow* glfwWindow, int button, int action, int mods)
+        {
+            IWindow* window = reinterpret_cast<IWindow*>(glfwGetWindowUserPointer(glfwWindow));
+            window->_mouseButton(button, action, mods);
         }
 
         void IWindow::_keyCallback(GLFWwindow* glfwWindow, int key, int scanCode, int action, int mods)

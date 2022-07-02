@@ -4,6 +4,10 @@
 
 #include <tgCore/String.h>
 
+#include <algorithm>
+#include <codecvt>
+#include <locale>
+
 namespace tg
 {
     namespace string
@@ -155,6 +159,18 @@ namespace tg
         std::string getLabel(bool value)
         {
             return value ? "True" : "False";
+        }
+
+        std::wstring toWide(const std::string& value)
+        {
+            std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+            return converter.from_bytes(value);
+        }
+
+        std::string fromWide(const std::wstring& value)
+        {
+            std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+            return converter.to_bytes(value);
         }
     }
 }

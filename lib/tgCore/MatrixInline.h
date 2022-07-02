@@ -2,6 +2,10 @@
 // Copyright (c) 2022 Darby Johnston
 // All rights reserved.
 
+#include <tgCore/Math.h>
+
+#include <cmath>
+
 namespace tg
 {
     namespace math
@@ -20,9 +24,9 @@ namespace tg
             T e3, T e4, T e5,
             T e6, T e7, T e8) noexcept
         {
-            e[0] = e0; e[1] = e3; e[2] = e6;
-            e[3] = e1; e[4] = e4; e[5] = e7;
-            e[6] = e2; e[7] = e5; e[8] = e8;
+            e[0] = e0; e[1] = e1; e[2] = e2;
+            e[3] = e3; e[4] = e4; e[5] = e5;
+            e[6] = e6; e[7] = e7; e[8] = e8;
         }
 
         template<typename T>
@@ -50,7 +54,8 @@ namespace tg
         template<typename T>
         constexpr bool Matrix3x3<T>::operator == (const Matrix3x3<T>& other) const
         {
-            return e[0] == other.e[0] &&
+            return
+                e[0] == other.e[0] &&
                 e[1] == other.e[1] &&
                 e[2] == other.e[2] &&
                 e[3] == other.e[3] &&
@@ -70,7 +75,8 @@ namespace tg
         template<typename T>
         constexpr bool Matrix4x4<T>::operator == (const Matrix4x4<T>& other) const
         {
-            return e[0] == other.e[0] &&
+            return
+                e[0] == other.e[0] &&
                 e[1] == other.e[1] &&
                 e[2] == other.e[2] &&
                 e[3] == other.e[3] &&
@@ -95,6 +101,62 @@ namespace tg
         }
 
         template<typename T>
+        constexpr Matrix4x4<T> translate(const Vector3<T>& value)
+        {
+            return Matrix4x4<float>(
+                T(1), T(0), T(0), T(0),
+                T(0), T(1), T(0), T(0),
+                T(0), T(0), T(1), T(0),
+                value.x, value.y, value.z, T(1));
+        }
+
+        template<>
+        inline Matrix4x4<float> rotateX(float angle)
+        {
+            const float a = std::cosf(deg2rad(-angle));
+            const float b = std::sinf(deg2rad(-angle));
+            return Matrix4x4<float>(
+                1.F, 0.F, 0.F, 0.F,
+                0.F, a,  -b,   0.F,
+                0.F, b,   a,   0.F,
+                0.F, 0.F, 0.F, 1.F);
+        }
+
+        template<>
+        inline Matrix4x4<float> rotateY(float angle)
+        {
+            const float a = std::cosf(deg2rad(-angle));
+            const float b = std::sinf(deg2rad(-angle));
+            return Matrix4x4<float>(
+                a,   0.F, b,   0.F,
+                0.F, 1.F, 0.F, 0.F,
+                -b,  0.F, a,   0.F,
+                0.F, 0.F, 0.F, 1.F);
+        }
+
+        template<>
+        inline Matrix4x4<float> rotateZ(float angle)
+        {
+            const float a = std::cosf(deg2rad(-angle));
+            const float b = std::sinf(deg2rad(-angle));
+            return Matrix4x4<float>(
+                a,  -b,   0.F, 0.F,
+                b,   a,   0.F, 0.F,
+                0.F, 0.F, 1.F, 0.F,
+                0.F, 0.F, 0.F, 1.F);
+        }
+
+        template<typename T>
+        constexpr Matrix4x4<T> scale(const Vector3<T>& value)
+        {
+            return Matrix4x4<float>(
+                value.x, T(0),    T(0),    T(0),
+                T(0),    value.y, T(0),    T(0),
+                T(0),    T(0),    value.z, T(0),
+                T(0),    T(0),    T(0),    T(1));
+        }
+
+        template<typename T>
         inline Matrix4x4<T> ortho(T left, T right, T bottom, T top, T near, T far)
         {
             const T a = T(2) / (right - left);
@@ -104,10 +166,24 @@ namespace tg
             const T y = -(top + bottom) / (top - bottom);
             const T z = -(far + near) / (far - near);
             return Matrix4x4<T>(
-                a, T(0), T(0), T(0),
-                T(0), b, T(0), T(0),
-                T(0), T(0), c, T(0),
-                x, y, z, T(1));
+                a,    T(0), T(0), T(0),
+                T(0), b,    T(0), T(0),
+                T(0), T(0), c,    T(0),
+                x,    y,    z,    T(1));
+        }
+
+        template<>
+        inline Matrix4x4<float> perspective(float fov, float aspect, float near, float far)
+        {
+            const float f = 1.F / std::tanf(deg2rad(fov) / 2.F);
+            const float a = f / aspect;
+            const float b = (far + near) / (near - far);
+            const float c = 2.F * far * near / (near - far);
+            return Matrix4x4<float>(
+                a,   0.F, 0.F, 0.F,
+                0.F, f,   0.F, 0.F,
+                0.F, 0.F, b,  -1.F,
+                0.F, 0.F, c,   0.F);
         }
 
         template<typename T>
@@ -118,7 +194,7 @@ namespace tg
             {
                 for (int j = 0; j < 3; ++j)
                 {
-                    float tmp = 0.F;
+                    T tmp = T(0);
                     for (int k = 0; k < 3; ++k)
                     {
                         tmp += b.e[i * 3 + k] * a.e[k * 3 + j];
@@ -137,7 +213,7 @@ namespace tg
             {
                 for (int j = 0; j < 4; ++j)
                 {
-                    float tmp = 0.F;
+                    T tmp = T(0);
                     for (int k = 0; k < 4; ++k)
                     {
                         tmp += b.e[i * 4 + k] * a.e[k * 4 + j];

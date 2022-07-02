@@ -181,9 +181,23 @@ namespace tg
             }
             if (_depthStencilID)
             {
+                GLenum attachment = GL_NONE;
+                if (options.depth != OffscreenDepth::None &&
+                    options.stencil != OffscreenStencil::None)
+                {
+                    attachment = GL_DEPTH_STENCIL_ATTACHMENT;
+                }
+                else if (options.depth != OffscreenDepth::None)
+                {
+                    attachment = GL_DEPTH_ATTACHMENT;
+                }
+                else if (options.stencil != OffscreenStencil::None)
+                {
+                    attachment = GL_STENCIL_ATTACHMENT;
+                }
                 glFramebufferRenderbuffer(
                     GL_FRAMEBUFFER,
-                    GL_DEPTH_STENCIL_ATTACHMENT,
+                    attachment,
                     GL_RENDERBUFFER,
                     _depthStencilID);
             }
