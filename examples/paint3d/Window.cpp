@@ -18,7 +18,9 @@ namespace tg
             "in vec3 vPos;\n"
             "in vec2 vTexture;\n"
             "in vec3 vNormal;\n"
+            "\n"
             "out vec2 fTexture;\n"
+            "out vec3 fNormal;\n"
             "\n"
             "struct Transform\n"
             "{\n"
@@ -31,12 +33,15 @@ namespace tg
             "{\n"
             "    gl_Position = transform.mvp * vec4(vPos, 1.0);\n"
             "    fTexture = vTexture;\n"
+            "    fNormal = vNormal;\n"
             "}\n";
 
         const std::string fragmentSource3D =
             "#version 410\n"
             "\n"
             "in vec2 fTexture;\n"
+            "in vec3 fNormal;\n"
+            "\n"
             "out vec4 fColor;\n"
             "\n"
             "uniform sampler2D textureSampler;\n"
@@ -47,6 +52,9 @@ namespace tg
             "    fColor.r = fTexture.x;\n"
             "    fColor.g = fTexture.y;\n"
             "    fColor.b = 0.0;\n"
+            //"    fColor.r = fNormal.x;\n"
+            //"    fColor.g = fNormal.y;\n"
+            //"    fColor.b = fNormal.z;\n"
             "    fColor.a = 1.0;\n"
             "}\n";
 
@@ -161,20 +169,29 @@ namespace tg
                 vboP[0].vx = v[triangle.v[0] - 1].x;
                 vboP[0].vy = v[triangle.v[0] - 1].y;
                 vboP[0].vz = v[triangle.v[0] - 1].z;
-                vboP[0].tx = triangle.t[0] > 0 ? v[triangle.t[0] - 1].x : 0.F;
-                vboP[0].ty = triangle.t[0] > 0 ? v[triangle.t[0] - 1].y : 0.F;
+                vboP[0].tx = triangle.t[0] > 0 ? t[triangle.t[0] - 1].x : 0.F;
+                vboP[0].ty = triangle.t[0] > 0 ? t[triangle.t[0] - 1].y : 0.F;
+                vboP[0].nx = triangle.n[0] > 0 ? n[triangle.n[0] - 1].x : 0.F;
+                vboP[0].ny = triangle.n[0] > 0 ? n[triangle.n[0] - 1].y : 0.F;
+                vboP[0].nz = triangle.n[0] > 0 ? n[triangle.n[0] - 1].z : 0.F;
 
                 vboP[1].vx = v[triangle.v[1] - 1].x;
                 vboP[1].vy = v[triangle.v[1] - 1].y;
                 vboP[1].vz = v[triangle.v[1] - 1].z;
-                vboP[1].tx = triangle.t[1] > 0 ? v[triangle.t[1] - 1].x : 0.F;
-                vboP[1].ty = triangle.t[1] > 0 ? v[triangle.t[1] - 1].y : 0.F;
+                vboP[1].tx = triangle.t[1] > 0 ? t[triangle.t[1] - 1].x : 0.F;
+                vboP[1].ty = triangle.t[1] > 0 ? t[triangle.t[1] - 1].y : 0.F;
+                vboP[1].nx = triangle.n[1] > 0 ? n[triangle.n[1] - 1].x : 0.F;
+                vboP[1].ny = triangle.n[1] > 0 ? n[triangle.n[1] - 1].y : 0.F;
+                vboP[1].nz = triangle.n[1] > 0 ? n[triangle.n[1] - 1].z : 0.F;
 
                 vboP[2].vx = v[triangle.v[2] - 1].x;
                 vboP[2].vy = v[triangle.v[2] - 1].y;
                 vboP[2].vz = v[triangle.v[2] - 1].z;
-                vboP[2].tx = triangle.t[2] > 0 ? v[triangle.t[2] - 1].x : 0.F;
-                vboP[2].ty = triangle.t[2] > 0 ? v[triangle.t[2] - 1].y : 0.F;
+                vboP[2].tx = triangle.t[2] > 0 ? t[triangle.t[2] - 1].x : 0.F;
+                vboP[2].ty = triangle.t[2] > 0 ? t[triangle.t[2] - 1].y : 0.F;
+                vboP[2].nx = triangle.n[2] > 0 ? n[triangle.n[2] - 1].x : 0.F;
+                vboP[2].ny = triangle.n[2] > 0 ? n[triangle.n[2] - 1].y : 0.F;
+                vboP[2].nz = triangle.n[2] > 0 ? n[triangle.n[2] - 1].z : 0.F;
 
                 vboP += 3;
             }
