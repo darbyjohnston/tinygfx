@@ -66,24 +66,20 @@ namespace tg
                         break;
                     }
                     const auto split = string::split(s, '/', true);
-                    if (split.size() != 3)
-                    {
-                        throw error::ParseError();
-                    }
                     size_t v = 0;
                     size_t t = 0;
                     size_t n = 0;
-                    if (!split[0].empty())
+                    if (split.size() > 0 && !split[0].empty())
                     {
                         std::stringstream ss2(split[0]);
                         ss2 >> v;
                     }
-                    if (!split[1].empty())
+                    if (split.size() > 1 && !split[1].empty())
                     {
                         std::stringstream ss2(split[1]);
                         ss2 >> t;
                     }
-                    if (!split[2].empty())
+                    if (split.size() > 2 && !split[2].empty())
                     {
                         std::stringstream ss2(split[2]);
                         ss2 >> n;

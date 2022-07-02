@@ -6,8 +6,13 @@
 
 #include <tgApp/App.h>
 
+#include <tgCore/ValueObserver.h>
+
+#include <string>
+
 namespace tg
 {
+    class Mesh;
     class Window;
 
     //! Applicaton.
@@ -23,7 +28,12 @@ namespace tg
 
         static std::shared_ptr<App> create(int& argc, char** argv);
 
+        void open(const std::string&);
+
+        std::shared_ptr<observer::IValue<std::shared_ptr<Mesh> > > observeMesh() const;
+
     private:
+        std::shared_ptr<observer::Value<std::shared_ptr<Mesh> > > _mesh;
         std::shared_ptr<Window> _window;
     };
 }

@@ -3,6 +3,8 @@ set(HEADERS
     ErrorTest.h
     FileIOTest.h
     FileTest.h
+	ListObserverTest.h
+	MapObserverTest.h
     MathTest.h
 	MatrixTest.h
     MemoryTest.h
@@ -10,12 +12,15 @@ set(HEADERS
     RangeTest.h
     StringTest.h
     StringFormatTest.h
+	ValueObserverTest.h
 	VectorTest.h)
 set(SOURCE
     BBoxTest.cpp
     ErrorTest.cpp
     FileIOTest.cpp
     FileTest.cpp
+	ListObserverTest.cpp
+	MapObserverTest.cpp
     MathTest.cpp
 	MatrixTest.cpp
     MemoryTest.cpp
@@ -23,6 +28,7 @@ set(SOURCE
     RangeTest.cpp
     StringTest.cpp
     StringFormatTest.cpp
+	ValueObserverTest.cpp
 	VectorTest.cpp)
 
 add_library(tgCoreTest ${SOURCE} ${HEADERS})

@@ -8,12 +8,17 @@ set(HEADERS
     FileInfo.h
     FileInfoInline.h
 	Image.h
+	ListObserver.h
+	ListObserverInline.h
+	MapObserver.h
+	MapObserverInline.h
 	Math.h
 	MathInline.h
 	Matrix.h
 	MatrixInline.h
 	Memory.h
 	MemoryInline.h
+	Observer.h
 	Path.h
 	PathInline.h
 	Random.h
@@ -23,6 +28,8 @@ set(HEADERS
 	StringFormat.h
 	StringFormatInline.h
 	Util.h
+	ValueObserver.h
+	ValueObserverInline.h
 	Vector.h
 	VectorInline.h)
 

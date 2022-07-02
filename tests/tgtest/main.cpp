@@ -6,6 +6,8 @@
 #include <tgCoreTest/ErrorTest.h>
 #include <tgCoreTest/FileTest.h>
 #include <tgCoreTest/FileIOTest.h>
+#include <tgCoreTest/ListObserverTest.h>
+#include <tgCoreTest/MapObserverTest.h>
 #include <tgCoreTest/MathTest.h>
 #include <tgCoreTest/MatrixTest.h>
 #include <tgCoreTest/MemoryTest.h>
@@ -13,6 +15,7 @@
 #include <tgCoreTest/RangeTest.h>
 #include <tgCoreTest/StringTest.h>
 #include <tgCoreTest/StringFormatTest.h>
+#include <tgCoreTest/ValueObserverTest.h>
 #include <tgCoreTest/VectorTest.h>
 
 #include <iostream>
@@ -24,7 +27,7 @@ using namespace tg::tests;
 int main(int argc, char* argv[])
 {
     std::vector<std::shared_ptr<tests::ITest> > tests;
-    if (1)
+    if (0)
     {
         tests.push_back(core_tests::MatrixTest::create());
     }
@@ -34,6 +37,8 @@ int main(int argc, char* argv[])
         tests.push_back(core_tests::ErrorTest::create());
         tests.push_back(core_tests::FileTest::create());
         tests.push_back(core_tests::FileIOTest::create());
+        tests.push_back(core_tests::ListObserverTest::create());
+        tests.push_back(core_tests::MapObserverTest::create());
         tests.push_back(core_tests::MathTest::create());
         tests.push_back(core_tests::MatrixTest::create());
         tests.push_back(core_tests::MemoryTest::create());
@@ -41,6 +46,7 @@ int main(int argc, char* argv[])
         tests.push_back(core_tests::RangeTest::create());
         tests.push_back(core_tests::StringTest::create());
         tests.push_back(core_tests::StringFormatTest::create());
+        tests.push_back(core_tests::ValueObserverTest::create());
         tests.push_back(core_tests::VectorTest::create());
     }
     for (const auto& i : tests)

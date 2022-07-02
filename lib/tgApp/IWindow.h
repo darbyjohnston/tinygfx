@@ -14,6 +14,7 @@
 #include <list>
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace tg
 {
@@ -55,6 +56,8 @@ namespace tg
             virtual void _mousePos(const math::Vector2f&);
             virtual void _mouseDelta(const math::Vector2f&);
             virtual void _mouseButton(int button, int action, int mods);
+            virtual void _key(int key, int scanCode, int action, int mods);
+            virtual void _drop(const std::vector<std::string>&);
 
             std::weak_ptr<App> _app;
 
@@ -64,7 +67,8 @@ namespace tg
             static void _cursorEnterCallback(GLFWwindow*, int);
             static void _cursorPosCallback(GLFWwindow*, double, double);
             static void _mouseButtonCallback(GLFWwindow*, int button, int action, int mods);
-            static void _keyCallback(GLFWwindow*, int, int, int, int);
+            static void _keyCallback(GLFWwindow*, int key, int scanCode, int action, int mods);
+            static void _dropCallback(GLFWwindow*, int pathCount, const char* paths[]);
 
             GLFWwindow* _glfwWindow = nullptr;
             math::Vector2i _size = math::Vector2i(1280, 720);

@@ -52,6 +52,7 @@ namespace tg
             glfwSetCursorPosCallback(_glfwWindow, _cursorPosCallback);
             glfwSetMouseButtonCallback(_glfwWindow, _mouseButtonCallback);
             glfwSetKeyCallback(_glfwWindow, _keyCallback);
+            glfwSetDropCallback(_glfwWindow, _dropCallback);
 
             app->_addWindow(shared_from_this());
         }
@@ -107,6 +108,22 @@ namespace tg
         {}
 
         void IWindow::_mouseButton(int, int, int)
+        {}
+
+        void IWindow::_key(int key, int scanCode, int action, int mods)
+        {
+            switch (key)
+            {
+            case GLFW_KEY_ESCAPE:
+                if (auto app = _app.lock())
+                {
+                    app->exit();
+                }
+                break;
+            }
+        }
+
+        void IWindow::_drop(const std::vector<std::string>&)
         {}
 
         void IWindow::_frameBufferSizeCallback(GLFWwindow* glfwWindow, int w, int h)
@@ -169,15 +186,18 @@ namespace tg
         void IWindow::_keyCallback(GLFWwindow* glfwWindow, int key, int scanCode, int action, int mods)
         {
             IWindow* window = reinterpret_cast<IWindow*>(glfwGetWindowUserPointer(glfwWindow));
-            switch (key)
+            window->_key(key, scanCode, action, mods);
+        }
+
+        void IWindow::_dropCallback(GLFWwindow* glfwWindow, int pathCount, const char* paths[])
+        {
+            IWindow* window = reinterpret_cast<IWindow*>(glfwGetWindowUserPointer(glfwWindow));
+            std::vector<std::string> pathList;
+            for (int i = 0; i < pathCount; ++i)
             {
-            case GLFW_KEY_ESCAPE:
-                if (auto app = window->_app.lock())
-                {
-                    app->exit();
-                }
-                break;
+                pathList.push_back(paths[i]);
             }
+            window->_drop(pathList);
         }
     }
 }
