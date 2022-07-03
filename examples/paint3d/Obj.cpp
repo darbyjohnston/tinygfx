@@ -14,9 +14,9 @@
 
 namespace tg
 {
-    std::shared_ptr<Mesh> readObj(const std::string& fileName)
+    std::shared_ptr<geom::Mesh3D> readObj(const std::string& fileName)
     {
-        auto out = std::shared_ptr<Mesh>(new Mesh);
+        auto out = std::shared_ptr<geom::Mesh3D>(new geom::Mesh3D);
 
         auto io = file::FileIO::create();
         io->open(fileName, file::Mode::Read);
@@ -92,7 +92,7 @@ namespace tg
                 {
                     for (size_t i = 1; i < vList.size() - 1; ++i)
                     {
-                        Mesh::Triangle triangle;
+                        geom::Mesh3D::Triangle triangle;
                         triangle.v[0] = vList[0];
                         triangle.v[1] = vList[i];
                         triangle.v[2] = vList[i + 1];

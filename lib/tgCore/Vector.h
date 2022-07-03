@@ -36,6 +36,8 @@ namespace tg
             Vector2<T>& operator *= (T);
             Vector2<T>& operator /= (T);
 
+            operator Vector2<float>() const;
+
             ///@}
         };
 
@@ -106,8 +108,25 @@ namespace tg
         //! Three-dimensional floating point vector.
         typedef Vector3<float> Vector3f;
 
-        //! Fout-dimensional floating point vector.
+        //! Four-dimensional floating point vector.
         typedef Vector4<float> Vector4f;
+
+        //! \name Functions
+        ///@{
+
+        //! Get the length of a vector.
+        float length(const Vector2i&);
+
+        //! Get the length of a vector.
+        float length(const Vector2f&);
+
+        //! Get the distance between two vectors.
+        float distance(const Vector2i&, const Vector2i&);
+
+        //! Get the distance between two vectors.
+        float distance(const Vector2f&, const Vector2f&);
+
+        ///@}
 
         //! \name Operators
         ///@{

@@ -18,6 +18,7 @@ set(HEADERS
 	MatrixInline.h
 	Memory.h
 	MemoryInline.h
+	Mesh.h
 	Observer.h
 	Path.h
 	PathInline.h
@@ -42,6 +43,7 @@ set(SOURCE
 	Image.cpp
 	Matrix.cpp
 	Memory.cpp
+	Mesh.cpp
 	Path.cpp
 	Random.cpp
 	Range.cpp

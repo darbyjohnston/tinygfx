@@ -40,7 +40,7 @@ namespace tg
             case image::Format::RGBA:
                 switch (type)
                 {
-                case image::Type::Float: out = GL_RGB32F; break;
+                case image::Type::Float: out = GL_RGBA32F; break;
                 }
                 break;
             }

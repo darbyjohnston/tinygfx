@@ -93,6 +93,12 @@ namespace tg
         }
 
         template<typename T>
+        inline Vector2<T>::operator Vector2<float>() const
+        {
+            return Vector2<float>(x, y);
+        }
+
+        template<typename T>
         constexpr Vector3<T>::Vector3() noexcept
         {}
 

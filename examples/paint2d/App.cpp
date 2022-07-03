@@ -4,7 +4,6 @@
 
 #include "App.h"
 
-#include "Obj.h"
 #include "Window.h"
 
 namespace tg
@@ -12,12 +11,6 @@ namespace tg
     void App::_init(int& argc, char** argv)
     {
         app::App::_init(argc, argv);
-
-        _mesh = observer::Value<std::shared_ptr<geom::Mesh3D> >::create();
-        if (argc > 1)
-        {
-            open(argv[1]);
-        }
 
         _window = tg::Window::create(std::dynamic_pointer_cast<App>(shared_from_this()));
         _window->show();
@@ -34,15 +27,5 @@ namespace tg
         auto out = std::shared_ptr<App>(new App);
         out->_init(argc, argv);
         return out;
-    }
-
-    void App::open(const std::string& fileName)
-    {
-        _mesh->setIfChanged(readObj(fileName));
-    }
-
-    std::shared_ptr<observer::IValue<std::shared_ptr<geom::Mesh3D> > > App::observeMesh() const
-    {
-        return _mesh;
     }
 }

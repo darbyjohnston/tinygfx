@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <tgCore/Mesh.h>
+
 #include <memory>
 #include <string>
 
@@ -12,5 +14,5 @@ namespace tg
     class Mesh;
 
     //! Wavefront .obj reader.
-    std::shared_ptr<Mesh> readObj(const std::string&);
+    std::shared_ptr<geom::Mesh3D> readObj(const std::string&);
 }

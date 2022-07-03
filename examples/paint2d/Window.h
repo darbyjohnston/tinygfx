@@ -6,11 +6,11 @@
 
 #include <tgApp/IWindow.h>
 
-#include <tgGL/Mesh.h>
 #include <tgGL/OffscreenBuffer.h>
 #include <tgGL/Shader.h>
+#include <tgGL/Texture.h>
 
-#include <tgCore/ValueObserver.h>
+#include <array>
 
 namespace tg
 {
@@ -26,22 +26,22 @@ namespace tg
         static std::shared_ptr<Window> create(const std::shared_ptr<App>&);
 
     protected:
+        void _resize(const math::Vector2i&) override;
         void _paint() override;
-        void _mouseDelta(const math::Vector2f&) override;
+        void _mousePos(const math::Vector2f&) override;
         void _mouseButton(int button, int action, int mods) override;
-        void _drop(const std::vector<std::string>&) override;
 
     private:
-        std::shared_ptr<geom::Mesh3D> _mesh;
-        std::shared_ptr<observer::ValueObserver<std::shared_ptr<geom::Mesh3D> > > _meshObserver;
+        size_t _getNextBuffer() const;
 
-        math::Vector3f _polarCamera = math::Vector3f(15.F, 45.F, 5);
+        void _paintUpdate();
 
+        std::shared_ptr<image::Image> _brush;
+        std::shared_ptr<gl::Texture> _brushTexture;
+        std::array<std::shared_ptr<gl::OffscreenBuffer>, 2> _buffers;
+        size_t _currentBuffer = 0;
+        std::shared_ptr<gl::Shader> _shader;
+        math::Vector2f _mouse = math::Vector2f(0.F, 0.F);
         int _button = -1;
-
-        gl::VBOVAO _meshVBOVAO;
-        std::shared_ptr<gl::OffscreenBuffer> _buffer;
-        std::shared_ptr<gl::Shader> _shader3D;
-        std::shared_ptr<gl::Shader> _shader2D;
     };
 }

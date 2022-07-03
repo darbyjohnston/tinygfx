@@ -6,6 +6,8 @@
 
 #include <tgGlad/gl.h>
 
+#include <tgCore/Mesh.h>
+
 #include <memory>
 #include <vector>
 
@@ -77,5 +79,26 @@ namespace tg
         private:
             GLuint _id = 0;
         };
+
+        //! VBO and VAO.
+        typedef std::pair<std::shared_ptr<VBO>, std::shared_ptr<VAO> > VBOVAO;
+
+        //! Two-dimensional mesh data types.
+        enum class Mesh2DType
+        {
+            V2F_T2F,
+        };
+
+        //! Create a VBO and VAO for a two-dimensional mesh.
+        VBOVAO create(const geom::Mesh2D&, Mesh2DType);
+
+        //! Three-dimensional mesh data types.
+        enum class Mesh3DType
+        {
+            V3F_T2F_N3F
+        };
+
+        //! Create a VBO and VAO for a three-dimensional mesh.
+        VBOVAO create(const geom::Mesh3D&, Mesh3DType);
     }
 }

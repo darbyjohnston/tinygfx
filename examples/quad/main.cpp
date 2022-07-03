@@ -75,7 +75,7 @@ namespace tg
 
         void _paint() override
         {
-            glClearColor(0.F, 0.F, 1.F, 0.F);
+            glClearColor(0.F, 0.F, 0.F, 0.F);
             glClear(GL_COLOR_BUFFER_BIT);
 
             _shader->bind();
@@ -83,42 +83,10 @@ namespace tg
             const auto mvp = math::ortho<float>(0.F, size.x, size.y, 0.F, -1.F, 1.F);
             _shader->setUniform("transform.mvp", mvp);
 
-            std::vector<uint8_t> vboData;
-            struct VBOData
-            {
-                float vx;
-                float vy;
-                uint16_t tx;
-                uint16_t ty;
-            };
-            vboData.resize(4 * sizeof(VBOData));
-            auto* vboP = reinterpret_cast<VBOData*>(vboData.data());
-            vboP[0].vx = 0.F;
-            vboP[0].vy = 0.F;
-            vboP[0].tx = 0;
-            vboP[0].ty = 0;
-            vboP[1].vx = size.x;
-            vboP[1].vy = 0.F;
-            vboP[1].tx = 65535;
-            vboP[1].ty = 0;
-            vboP[2].vx = 0.F;
-            vboP[2].vy = size.y;
-            vboP[2].tx = 0;
-            vboP[2].ty = 65535;
-            vboP[3].vx = size.x;
-            vboP[3].vy = size.y;
-            vboP[3].tx = 65535;
-            vboP[3].ty = 65535;
-            auto vbo = gl::VBO::create(4, sizeof(VBOData));
-            vbo->copy(vboData);
-
-            auto vao = gl::VAO::create(vbo->getID());
-            vao->bind();
-            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(VBOData), (GLvoid*)0);
-            glEnableVertexAttribArray(0);
-            glVertexAttribPointer(1, 2, GL_UNSIGNED_SHORT, GL_TRUE, sizeof(VBOData), (GLvoid*)8);
-            glEnableVertexAttribArray(1);
-            vao->draw(GL_TRIANGLE_STRIP, 0, 4);
+            auto mesh = geom::bbox(math::BBox2f(0.F, 0.F, size.x, size.y));
+            auto vboVao = gl::create(mesh, gl::Mesh2DType::V2F_T2F);
+            vboVao.second->bind();
+            vboVao.second->draw(GL_TRIANGLES, 0, mesh.triangles.size() * 3);
         }
 
     private:
