@@ -18,6 +18,13 @@ namespace tg
         {
             open(argv[1]);
         }
+        else
+        {
+            const math::BBox3f bbox(
+                math::Vector3f(-1.F, -1.F, -1.F),
+                math::Vector3f( 1.F,  1.F,  1.F));
+            _mesh->setIfChanged(std::shared_ptr<geom::Mesh3D>(new geom::Mesh3D(geom::bbox(bbox))));
+        }
 
         _window = tg::Window::create(std::dynamic_pointer_cast<App>(shared_from_this()));
         _window->show();

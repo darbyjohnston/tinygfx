@@ -190,6 +190,11 @@ namespace tg
         std::ostream& operator << (std::ostream&, const Vector3f&);
         std::ostream& operator << (std::ostream&, const Vector4f&);
 
+        std::istream& operator >> (std::istream&, Vector2i&);
+        std::istream& operator >> (std::istream&, Vector2f&);
+        std::istream& operator >> (std::istream&, Vector3f&);
+        std::istream& operator >> (std::istream&, Vector4f&);
+
         ///@}
     }
 }

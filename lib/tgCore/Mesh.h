@@ -48,5 +48,8 @@ namespace tg
 
         //! Create a two-dimensional bounding box mesh.
         Mesh2D bbox(const math::BBox2f&);
+
+        //! Create a three-dimensional bounding box mesh.
+        Mesh3D bbox(const math::BBox3f&);
     }
 }

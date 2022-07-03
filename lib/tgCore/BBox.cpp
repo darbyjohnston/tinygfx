@@ -25,30 +25,28 @@ namespace tg
             return os;
         }
 
+        std::ostream& operator << (std::ostream& os, const BBox3f& value)
+        {
+            os << value.min.x << "," << value.min.y << "-" << value.max.x << "," << value.max.y;
+            return os;
+        }
+
         std::istream& operator >> (std::istream& is, BBox2i& value)
         {
             std::string s;
             is >> s;
             auto split = string::split(s, '-');
-            if (split.size() != 4)
+            if (split.size() != 2)
             {
                 throw error::ParseError();
             }
             {
                 std::stringstream ss(split[0]);
-                ss >> value.min.x;
+                ss >> value.min;
             }
             {
                 std::stringstream ss(split[1]);
-                ss >> value.min.y;
-            }
-            {
-                std::stringstream ss(split[2]);
-                ss >> value.max.x;
-            }
-            {
-                std::stringstream ss(split[3]);
-                ss >> value.max.y;
+                ss >> value.max;
             }
             return is;
         }
@@ -58,25 +56,17 @@ namespace tg
             std::string s;
             is >> s;
             auto split = string::split(s, '-');
-            if (split.size() != 4)
+            if (split.size() != 2)
             {
                 throw error::ParseError();
             }
             {
                 std::stringstream ss(split[0]);
-                ss >> value.min.x;
+                ss >> value.min;
             }
             {
                 std::stringstream ss(split[1]);
-                ss >> value.min.y;
-            }
-            {
-                std::stringstream ss(split[2]);
-                ss >> value.max.x;
-            }
-            {
-                std::stringstream ss(split[3]);
-                ss >> value.max.y;
+                ss >> value.max;
             }
             return is;
         }

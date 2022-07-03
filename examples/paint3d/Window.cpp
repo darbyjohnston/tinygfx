@@ -145,7 +145,7 @@ namespace tg
 
             _shader3D->bind();
             math::Matrix4x4f mvp;
-            mvp = math::rotateX(180.F) * mvp;
+            //mvp = math::rotateX(180.F) * mvp;
             mvp = math::rotateY(-_polarCamera.x) * mvp;
             mvp = math::rotateX(-_polarCamera.y) * mvp;
             mvp = math::translate(math::Vector3f(0.F, 0.F, -_polarCamera.z)) * mvp;
