@@ -402,7 +402,7 @@ namespace tg
         template<typename T>
         constexpr Vector4<T> operator - (const Vector4<T>& a, const Vector4<T>& b)
         {
-            return Vector4<T>(a.x + b.x, a.y - b.y, a.z - b.z, a.w - b.w);
+            return Vector4<T>(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
         }
 
         template<typename T>
@@ -426,7 +426,7 @@ namespace tg
         template<typename T>
         constexpr Vector4<T> operator - (const Vector4<T>& a, T b)
         {
-            return Vector4<T>(a.x + b, a.y - b, a.z - b, a.w - b);
+            return Vector4<T>(a.x - b, a.y - b, a.z - b, a.w - b);
         }
 
         template<typename T>
