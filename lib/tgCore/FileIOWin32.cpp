@@ -501,7 +501,7 @@ namespace tg
                     getErrorMessage(ErrorType::Write, p.fileName, error::getLastError()));
             }
 #else // TINYGFX_ENABLE_MMAP
-            size_t r = fwrite(in, 1, size * wordSize, p.f);
+            size_t r = fwrite(inP, 1, size * wordSize, p.f);
             if (r != size * wordSize)
             {
                 throw std::runtime_error(getErrorMessage(ErrorType::Write, p.fileName));
