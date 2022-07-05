@@ -164,7 +164,7 @@ namespace tg
         void IWindow::_cursorPosCallback(GLFWwindow* glfwWindow, double x, double y)
         {
             IWindow* window = reinterpret_cast<IWindow*>(glfwGetWindowUserPointer(glfwWindow));
-            window->_mousePosList.push_front(math::Vector2f(x, y));
+            window->_mousePosList.push_front(math::Vector2f(x, window->_size.y - 1 - y));
             while (window->_mousePosList.size() > 2)
             {
                 window->_mousePosList.pop_back();

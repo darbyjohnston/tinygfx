@@ -142,6 +142,7 @@ namespace tg
             glClearColor(.5F, .5F, .5F, 0.F);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glEnable(GL_DEPTH_TEST);
+            glEnable(GL_CULL_FACE);
 
             _shader3D->bind();
             math::Matrix4x4f mvp;
@@ -161,15 +162,17 @@ namespace tg
                 _meshVBOVAO.second->bind();
                 _meshVBOVAO.second->draw(GL_TRIANGLES, 0, _mesh->triangles.size() * 3);
             }
+
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_CULL_FACE);
         }
 
         glViewport(0, 0, size.x, size.y);
         glClearColor(0.F, 0.F, 0.F, 0.F);
         glClear(GL_COLOR_BUFFER_BIT);
-        glDisable(GL_DEPTH_TEST);
 
         _shader2D->bind();
-        const auto mvp = math::ortho<float>(0.F, size.x, size.y, 0.F, -1.F, 1.F);
+        const auto mvp = math::ortho<float>(0.F, size.x, 0.F, size.y, -1.F, 1.F);
         _shader2D->setUniform("transform.mvp", mvp);
         if (_buffer)
         {

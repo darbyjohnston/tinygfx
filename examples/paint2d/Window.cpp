@@ -112,8 +112,9 @@ namespace tg
         glClear(GL_COLOR_BUFFER_BIT);
 
         _shader->bind();
-        const auto mvp = math::ortho<float>(0.F, size.x, size.y, 0.F, -1.F, 1.F);
+        const auto mvp = math::ortho<float>(0.F, size.x, 0.F, size.y, -1.F, 1.F);
         _shader->setUniform("transform.mvp", mvp);
+        
         if (_buffers[_currentBuffer])
         {
             glActiveTexture(GL_TEXTURE0);
@@ -186,7 +187,7 @@ namespace tg
         glClear(GL_COLOR_BUFFER_BIT);
 
         _shader->bind();
-        const auto mvp = math::ortho<float>(0.F, bufferSize.x, bufferSize.y, 0.F, -1.F, 1.F);
+        const auto mvp = math::ortho<float>(0.F, bufferSize.x, 0.F, bufferSize.y, -1.F, 1.F);
         _shader->setUniform("transform.mvp", mvp);
 
         {

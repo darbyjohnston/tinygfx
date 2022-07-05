@@ -35,7 +35,7 @@ namespace tg
         std::shared_ptr<geom::Mesh3D> _mesh;
         std::shared_ptr<observer::ValueObserver<std::shared_ptr<geom::Mesh3D> > > _meshObserver;
 
-        math::Vector3f _polarCamera = math::Vector3f(15.F, 45.F, 5);
+        math::Vector3f _polarCamera = math::Vector3f(0.F, 0.F, 5);
 
         int _button = -1;
 

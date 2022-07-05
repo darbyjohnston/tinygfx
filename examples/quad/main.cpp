@@ -80,7 +80,7 @@ namespace tg
 
             _shader->bind();
             const auto& size = getSize();
-            const auto mvp = math::ortho<float>(0.F, size.x, size.y, 0.F, -1.F, 1.F);
+            const auto mvp = math::ortho<float>(0.F, size.x, 0.F, size.y, -1.F, 1.F);
             _shader->setUniform("transform.mvp", mvp);
 
             auto mesh = geom::bbox(math::BBox2f(0.F, 0.F, size.x, size.y));
