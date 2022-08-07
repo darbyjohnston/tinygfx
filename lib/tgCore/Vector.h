@@ -120,6 +120,9 @@ namespace tg
         //! Get the length of a vector.
         float length(const Vector2f&);
 
+        //! Normalize a vector.
+        Vector2f normalize(const Vector2f&);
+
         //! Get the distance between two vectors.
         float distance(const Vector2i&, const Vector2i&);
 

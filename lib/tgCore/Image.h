@@ -42,6 +42,7 @@ namespace tg
         public:
             Info();
             Info(const math::Vector2i& size, Format, Type);
+            Info(int width, int height, Format, Type);
 
             math::Vector2i size = math::Vector2i(0, 0);
             Format format = Format::None;
@@ -78,6 +79,9 @@ namespace tg
 
             //! Get the data.
             uint8_t* getData();
+
+            //! Zero the data.
+            void zero();
 
         private:
             Info _info;

@@ -4,6 +4,8 @@
 
 #include <tgCore/Image.h>
 
+#include <cstring>
+
 namespace tg
 {
     namespace image
@@ -31,8 +33,14 @@ namespace tg
         Info::Info()
         {}
 
-        Info::Info(const math::Vector2i& size, Format format, Type type) :
+        Info::Info(const math::Vector2i & size, Format format, Type type) :
             size(size),
+            format(format),
+            type(type)
+        {}
+
+        Info::Info(int width, int height, Format format, Type type) :
+            size(width, height),
             format(format),
             type(type)
         {}
@@ -89,6 +97,11 @@ namespace tg
         uint8_t* Image::getData()
         {
             return _data;
+        }
+
+        void Image::zero()
+        {
+            std::memset(_data, 0, _byteCount);
         }
     }
 }

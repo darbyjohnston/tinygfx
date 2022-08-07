@@ -8,6 +8,7 @@
 
 #include <tgGL/OffscreenBuffer.h>
 #include <tgGL/Shader.h>
+#include <tgGL/Texture.h>
 
 namespace tg
 {
@@ -24,10 +25,8 @@ namespace tg
         void _paint() override;
 
     private:
+        std::shared_ptr<gl::Texture> _texture;
         std::shared_ptr<gl::Shader> _shader;
-        std::pair<std::shared_ptr<gl::OffscreenBuffer>,
-            std::shared_ptr<gl::OffscreenBuffer> > _buffersA;
-        std::pair<std::shared_ptr<gl::OffscreenBuffer>,
-            std::shared_ptr<gl::OffscreenBuffer> > _buffersB;
+        std::shared_ptr<gl::OffscreenBuffer> _buffer;
     };
 }

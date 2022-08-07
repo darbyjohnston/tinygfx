@@ -15,6 +15,9 @@ namespace tg
         //! Approximate value of PI times two.
         constexpr float pi2 = pi * 2.F;
 
+        //! Approximate value of PI divide by two.
+        constexpr float pi_2 = pi / 2.F;
+
         //! Convert degress to radians.
         constexpr float deg2rad(float) noexcept;
 

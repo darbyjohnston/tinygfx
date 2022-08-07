@@ -24,6 +24,18 @@ namespace tg
             return std::sqrtf(value.x * value.x + value.y * value.y);
         }
 
+        Vector2f normalize(const Vector2f& value)
+        {
+            Vector2f out = value;
+            const float l = length(value);
+            if (l != 0.F)
+            {
+                out.x /= l;
+                out.y /= l;
+            }
+            return out;
+        }
+
         float distance(const Vector2i& a, const Vector2i& b)
         {
             return length(b - a);
