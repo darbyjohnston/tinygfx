@@ -28,10 +28,8 @@ namespace tg
         TINYGFX_ENUM_SERIALIZE(Mode);
 
         //! File I/O.
-        class FileIO
+        class FileIO : public NonCopyable
         {
-            TINYGFX_NON_COPYABLE(FileIO);
-
         protected:
             FileIO();
 

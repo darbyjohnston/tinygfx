@@ -15,10 +15,10 @@ namespace tg
 {
     namespace tests
     {
-        class ITest : public std::enable_shared_from_this<ITest>
+        class ITest :
+            public NonCopyable,
+            public std::enable_shared_from_this<ITest>
         {
-            TINYGFX_NON_COPYABLE(ITest);
-
         protected:
             ITest(const std::string& name);
 

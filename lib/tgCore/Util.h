@@ -4,10 +4,22 @@
 
 #pragma once
 
+namespace tg
+{
+    //! Convenience for making a class non-copyable.
+    class NonCopyable
+    {
+    protected:
+        NonCopyable() {};
+        NonCopyable(const NonCopyable&) = delete;
+        NonCopyable& operator = (const NonCopyable&) = delete;
+    };
+}
+
 //! Convenience macro for making a class non-copyable.
-#define TINYGFX_NON_COPYABLE(CLASS) \
-    CLASS(const CLASS&) = delete; \
-    CLASS& operator = (const CLASS&) = delete
+//#define TINYGFX_NON_COPYABLE(CLASS) \
+//    CLASS(const CLASS&) = delete; \
+//    CLASS& operator = (const CLASS&) = delete
 
 //! Convenience macro for private implementations.
 //! 

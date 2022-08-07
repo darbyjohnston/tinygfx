@@ -47,10 +47,10 @@ namespace tg
     };
 
     //! Renderer.
-    class Render : std::enable_shared_from_this<Render>
+    class Render :
+        public NonCopyable,
+        std::enable_shared_from_this<Render>
     {
-        TINYGFX_NON_COPYABLE(Render);
-
         void _init();
 
         Render();

@@ -21,10 +21,10 @@ namespace tg
 
         //! Map observer.
         template<typename T, typename U>
-        class MapObserver : public std::enable_shared_from_this<MapObserver<T, U> >
+        class MapObserver :
+            public NonCopyable,
+            public std::enable_shared_from_this<MapObserver<T, U> >
         {
-            TINYGFX_NON_COPYABLE(MapObserver);
-
             void _init(
                 const std::weak_ptr<IMap<T, U> >&,
                 const std::function<void(const std::map<T, U>&)>&,
@@ -85,10 +85,10 @@ namespace tg
 
         //! Map.
         template<typename T, typename U>
-        class Map : public IMap<T, U>
+        class Map :
+            public IMap<T, U>,
+            public NonCopyable
         {
-            TINYGFX_NON_COPYABLE(Map);
-
             Map();
             explicit Map(const std::map<T, U>&);
 

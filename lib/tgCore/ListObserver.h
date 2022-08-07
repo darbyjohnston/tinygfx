@@ -23,10 +23,10 @@ namespace tg
 
         //! List observer.
         template<typename T>
-        class ListObserver : public std::enable_shared_from_this<ListObserver<T> >
+        class ListObserver :
+            public NonCopyable,
+            public std::enable_shared_from_this<ListObserver<T> >
         {
-            TINYGFX_NON_COPYABLE(ListObserver);
-
         protected:
             void _init(
                 const std::weak_ptr<IList<T> >&,
@@ -91,10 +91,10 @@ namespace tg
 
         //! List.
         template<typename T>
-        class List : public IList<T>
+        class List :
+            public IList<T>,
+            public NonCopyable
         {
-            TINYGFX_NON_COPYABLE(List);
-
         protected:
             List();
             explicit List(const std::vector<T>&);

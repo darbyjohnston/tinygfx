@@ -20,10 +20,10 @@ namespace tg
 
         //! Value observer.
         template<typename T>
-        class ValueObserver : public std::enable_shared_from_this<ValueObserver<T> >
+        class ValueObserver :
+            public NonCopyable,
+            public std::enable_shared_from_this<ValueObserver<T> >
         {
-            TINYGFX_NON_COPYABLE(ValueObserver);
-
         protected:
             void _init(
                 const std::weak_ptr<IValue<T> >&,
@@ -73,10 +73,10 @@ namespace tg
 
         //! Value.
         template<typename T>
-        class Value : public IValue<T>
+        class Value :
+            public IValue<T>,
+            public NonCopyable
         {
-            TINYGFX_NON_COPYABLE(Value);
-
         protected:
             Value();
             explicit Value(const T&);
