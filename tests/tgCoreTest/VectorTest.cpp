@@ -5,7 +5,9 @@
 #include <tgCoreTest/VectorTest.h>
 
 #include <tgCore/Assert.h>
-#include <tgCore/Vector.h>
+#include <tgCore/Vector2.h>
+#include <tgCore/Vector3.h>
+#include <tgCore/Vector4.h>
 
 using namespace tg::math;
 
@@ -31,22 +33,50 @@ namespace tg
         void VectorTest::_ctors()
         {
             {
+                const Vector2i v(1);
+                TINYGFX_ASSERT(1 == v[0]);
+                TINYGFX_ASSERT(1 == v[1]);
+            }
+            {
+                const Vector2i v(1, 2);
+                TINYGFX_ASSERT(1 == v[0]);
+                TINYGFX_ASSERT(2 == v[1]);
+            }
+            {
+                const Vector2f v(1.F);
+                TINYGFX_ASSERT(1.F == v[0]);
+                TINYGFX_ASSERT(1.F == v[1]);
+            }
+            {
                 const Vector2f v(1.F, 2.F);
-                TINYGFX_ASSERT(1.F == v.x);
-                TINYGFX_ASSERT(2.F == v.y);
+                TINYGFX_ASSERT(1.F == v[0]);
+                TINYGFX_ASSERT(2.F == v[1]);
+            }
+            {
+                const Vector3f v(1.F);
+                TINYGFX_ASSERT(1.F == v[0]);
+                TINYGFX_ASSERT(1.F == v[1]);
+                TINYGFX_ASSERT(1.F == v[2]);
             }
             {
                 const Vector3f v(1.F, 2.F, 3.F);
-                TINYGFX_ASSERT(1.F == v.x);
-                TINYGFX_ASSERT(2.F == v.y);
-                TINYGFX_ASSERT(3.F == v.z);
+                TINYGFX_ASSERT(1.F == v[0]);
+                TINYGFX_ASSERT(2.F == v[1]);
+                TINYGFX_ASSERT(3.F == v[2]);
+            }
+            {
+                const Vector4f v(1.F);
+                TINYGFX_ASSERT(1.F == v[0]);
+                TINYGFX_ASSERT(1.F == v[1]);
+                TINYGFX_ASSERT(1.F == v[2]);
+                TINYGFX_ASSERT(1.F == v[3]);
             }
             {
                 const Vector4f v(1.F, 2.F, 3.F, 4.F);
-                TINYGFX_ASSERT(1.F == v.x);
-                TINYGFX_ASSERT(2.F == v.y);
-                TINYGFX_ASSERT(3.F == v.z);
-                TINYGFX_ASSERT(4.F == v.w);
+                TINYGFX_ASSERT(1.F == v[0]);
+                TINYGFX_ASSERT(2.F == v[1]);
+                TINYGFX_ASSERT(3.F == v[2]);
+                TINYGFX_ASSERT(4.F == v[3]);
             }
         }
 

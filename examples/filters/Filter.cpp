@@ -14,11 +14,11 @@ namespace tg
         out->zero();
         const math::Vector2i spacing(20, 20);
         float* p = reinterpret_cast<float*>(out->getData());
-        for (int y = 0; y < info.size.y; ++y)
+        for (int y = 0; y < info.size[1]; ++y)
         {
-            for (int x = 0; x < info.size.x; ++x)
+            for (int x = 0; x < info.size[0]; ++x)
             {
-                if (0 == x % spacing.x || 0 == y % spacing.y)
+                if (0 == x % spacing[0] || 0 == y % spacing[1])
                 {
                     p[0] = p[1] = p[2] = 1.F;
                     p[3] = 1.F;

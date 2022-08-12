@@ -125,20 +125,20 @@ namespace tg
                 for (size_t i = 0; i < mesh.triangles.size(); ++i)
                 {
                     const auto& triangle = mesh.triangles[i];
-                    vboP[0].vx = mesh.v[triangle.v[0] - 1].x;
-                    vboP[0].vy = mesh.v[triangle.v[0] - 1].y;
-                    vboP[0].tx = triangle.t[0] > 0 ? mesh.t[triangle.t[0] - 1].x : 0.F;
-                    vboP[0].ty = triangle.t[0] > 0 ? mesh.t[triangle.t[0] - 1].y : 0.F;
+                    vboP[0].vx = mesh.v[triangle.v[0] - 1][0];
+                    vboP[0].vy = mesh.v[triangle.v[0] - 1][1];
+                    vboP[0].tx = triangle.t[0] > 0 ? mesh.t[triangle.t[0] - 1][0] : 0.F;
+                    vboP[0].ty = triangle.t[0] > 0 ? mesh.t[triangle.t[0] - 1][1] : 0.F;
 
-                    vboP[1].vx = mesh.v[triangle.v[1] - 1].x;
-                    vboP[1].vy = mesh.v[triangle.v[1] - 1].y;
-                    vboP[1].tx = triangle.t[1] > 0 ? mesh.t[triangle.t[1] - 1].x : 0.F;
-                    vboP[1].ty = triangle.t[1] > 0 ? mesh.t[triangle.t[1] - 1].y : 0.F;
+                    vboP[1].vx = mesh.v[triangle.v[1] - 1][0];
+                    vboP[1].vy = mesh.v[triangle.v[1] - 1][1];
+                    vboP[1].tx = triangle.t[1] > 0 ? mesh.t[triangle.t[1] - 1][0] : 0.F;
+                    vboP[1].ty = triangle.t[1] > 0 ? mesh.t[triangle.t[1] - 1][1] : 0.F;
 
-                    vboP[2].vx = mesh.v[triangle.v[2] - 1].x;
-                    vboP[2].vy = mesh.v[triangle.v[2] - 1].y;
-                    vboP[2].tx = triangle.t[2] > 0 ? mesh.t[triangle.t[2] - 1].x : 0.F;
-                    vboP[2].ty = triangle.t[2] > 0 ? mesh.t[triangle.t[2] - 1].y : 0.F;
+                    vboP[2].vx = mesh.v[triangle.v[2] - 1][0];
+                    vboP[2].vy = mesh.v[triangle.v[2] - 1][1];
+                    vboP[2].tx = triangle.t[2] > 0 ? mesh.t[triangle.t[2] - 1][0] : 0.F;
+                    vboP[2].ty = triangle.t[2] > 0 ? mesh.t[triangle.t[2] - 1][1] : 0.F;
 
                     vboP += 3;
                 }
@@ -184,32 +184,32 @@ namespace tg
                 for (size_t i = 0; i < mesh.triangles.size(); ++i)
                 {
                     const auto& triangle = mesh.triangles[i];
-                    vboP[0].vx = v[triangle.v[0] - 1].x;
-                    vboP[0].vy = v[triangle.v[0] - 1].y;
-                    vboP[0].vz = v[triangle.v[0] - 1].z;
-                    vboP[0].tx = triangle.t[0] > 0 ? t[triangle.t[0] - 1].x : 0.F;
-                    vboP[0].ty = triangle.t[0] > 0 ? t[triangle.t[0] - 1].y : 0.F;
-                    vboP[0].nx = triangle.n[0] > 0 ? n[triangle.n[0] - 1].x : 0.F;
-                    vboP[0].ny = triangle.n[0] > 0 ? n[triangle.n[0] - 1].y : 0.F;
-                    vboP[0].nz = triangle.n[0] > 0 ? n[triangle.n[0] - 1].z : 0.F;
+                    vboP[0].vx = v[triangle.v[0] - 1][0];
+                    vboP[0].vy = v[triangle.v[0] - 1][1];
+                    vboP[0].vz = v[triangle.v[0] - 1][2];
+                    vboP[0].tx = triangle.t[0] > 0 ? t[triangle.t[0] - 1][0] : 0.F;
+                    vboP[0].ty = triangle.t[0] > 0 ? t[triangle.t[0] - 1][1] : 0.F;
+                    vboP[0].nx = triangle.n[0] > 0 ? n[triangle.n[0] - 1][0] : 0.F;
+                    vboP[0].ny = triangle.n[0] > 0 ? n[triangle.n[0] - 1][1] : 0.F;
+                    vboP[0].nz = triangle.n[0] > 0 ? n[triangle.n[0] - 1][2] : 0.F;
 
-                    vboP[1].vx = v[triangle.v[1] - 1].x;
-                    vboP[1].vy = v[triangle.v[1] - 1].y;
-                    vboP[1].vz = v[triangle.v[1] - 1].z;
-                    vboP[1].tx = triangle.t[1] > 0 ? t[triangle.t[1] - 1].x : 0.F;
-                    vboP[1].ty = triangle.t[1] > 0 ? t[triangle.t[1] - 1].y : 0.F;
-                    vboP[1].nx = triangle.n[1] > 0 ? n[triangle.n[1] - 1].x : 0.F;
-                    vboP[1].ny = triangle.n[1] > 0 ? n[triangle.n[1] - 1].y : 0.F;
-                    vboP[1].nz = triangle.n[1] > 0 ? n[triangle.n[1] - 1].z : 0.F;
+                    vboP[1].vx = v[triangle.v[1] - 1][0];
+                    vboP[1].vy = v[triangle.v[1] - 1][1];
+                    vboP[1].vz = v[triangle.v[1] - 1][2];
+                    vboP[1].tx = triangle.t[1] > 0 ? t[triangle.t[1] - 1][0] : 0.F;
+                    vboP[1].ty = triangle.t[1] > 0 ? t[triangle.t[1] - 1][1] : 0.F;
+                    vboP[1].nx = triangle.n[1] > 0 ? n[triangle.n[1] - 1][0] : 0.F;
+                    vboP[1].ny = triangle.n[1] > 0 ? n[triangle.n[1] - 1][1] : 0.F;
+                    vboP[1].nz = triangle.n[1] > 0 ? n[triangle.n[1] - 1][2] : 0.F;
 
-                    vboP[2].vx = v[triangle.v[2] - 1].x;
-                    vboP[2].vy = v[triangle.v[2] - 1].y;
-                    vboP[2].vz = v[triangle.v[2] - 1].z;
-                    vboP[2].tx = triangle.t[2] > 0 ? t[triangle.t[2] - 1].x : 0.F;
-                    vboP[2].ty = triangle.t[2] > 0 ? t[triangle.t[2] - 1].y : 0.F;
-                    vboP[2].nx = triangle.n[2] > 0 ? n[triangle.n[2] - 1].x : 0.F;
-                    vboP[2].ny = triangle.n[2] > 0 ? n[triangle.n[2] - 1].y : 0.F;
-                    vboP[2].nz = triangle.n[2] > 0 ? n[triangle.n[2] - 1].z : 0.F;
+                    vboP[2].vx = v[triangle.v[2] - 1][0];
+                    vboP[2].vy = v[triangle.v[2] - 1][1];
+                    vboP[2].vz = v[triangle.v[2] - 1][2];
+                    vboP[2].tx = triangle.t[2] > 0 ? t[triangle.t[2] - 1][0] : 0.F;
+                    vboP[2].ty = triangle.t[2] > 0 ? t[triangle.t[2] - 1][1] : 0.F;
+                    vboP[2].nx = triangle.n[2] > 0 ? n[triangle.n[2] - 1][0] : 0.F;
+                    vboP[2].ny = triangle.n[2] > 0 ? n[triangle.n[2] - 1][1] : 0.F;
+                    vboP[2].nz = triangle.n[2] > 0 ? n[triangle.n[2] - 1][2] : 0.F;
 
                     vboP += 3;
                 }

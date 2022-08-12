@@ -138,7 +138,7 @@ namespace tg
         {
             auto binding = gl::OffscreenBufferBinding(_buffer);
 
-            glViewport(0, 0, size.x, size.y);
+            glViewport(0, 0, size[0], size[1]);
             glClearColor(.5F, .5F, .5F, 0.F);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glEnable(GL_DEPTH_TEST);
@@ -147,12 +147,12 @@ namespace tg
             _shader3D->bind();
             math::Matrix4x4f mvp;
             //mvp = math::rotateX(180.F) * mvp;
-            mvp = math::rotateY(-_polarCamera.x) * mvp;
-            mvp = math::rotateX(-_polarCamera.y) * mvp;
-            mvp = math::translate(math::Vector3f(0.F, 0.F, -_polarCamera.z)) * mvp;
+            mvp = math::rotateY(-_polarCamera[0]) * mvp;
+            mvp = math::rotateX(-_polarCamera[1]) * mvp;
+            mvp = math::translate(math::Vector3f(0.F, 0.F, -_polarCamera[2])) * mvp;
             mvp = math::perspective(
                 60.F,
-                size.x / static_cast<float>(size.y),
+                size[0] / static_cast<float>(size[1]),
                 .1F,
                 10000.F) * mvp;
             _shader3D->setUniform("transform.mvp", mvp);
@@ -167,12 +167,12 @@ namespace tg
             glDisable(GL_CULL_FACE);
         }
 
-        glViewport(0, 0, size.x, size.y);
+        glViewport(0, 0, size[0], size[1]);
         glClearColor(0.F, 0.F, 0.F, 0.F);
         glClear(GL_COLOR_BUFFER_BIT);
 
         _shader2D->bind();
-        const auto mvp = math::ortho<float>(0.F, size.x, 0.F, size.y, -1.F, 1.F);
+        const auto mvp = math::ortho<float>(0.F, size[0], 0.F, size[1], -1.F, 1.F);
         _shader2D->setUniform("transform.mvp", mvp);
         if (_buffer)
         {
@@ -181,7 +181,7 @@ namespace tg
             _shader2D->setUniform("textureSampler", 0);
         }
 
-        auto mesh = geom::bbox(math::BBox2f(0.F, 0.F, size.x, size.y));
+        auto mesh = geom::bbox(math::BBox2f(0.F, 0.F, size[0], size[1]));
         auto vaoVbo = gl::create(mesh, gl::Mesh2DType::V2F_T2F);
         vaoVbo.second->bind();
         vaoVbo.second->draw(GL_TRIANGLES, 0, mesh.triangles.size() * 3);
@@ -192,12 +192,12 @@ namespace tg
         switch (_button)
         {
         case 0:
-            _polarCamera.x -= pos.x;
-            _polarCamera.y += pos.y;
+            _polarCamera[0] -= pos[0];
+            _polarCamera[1] += pos[1];
             repaint();
             break;
         case 1:
-            _polarCamera.z -= (pos.x + pos.y) / 10.F;
+            _polarCamera[2] -= (pos[0] + pos[1]) / 10.F;
             repaint();
             break;
         }

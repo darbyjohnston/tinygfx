@@ -56,17 +56,17 @@ namespace tg
             image::Type::Float);
         _brush = image::Image::create(brushInfo);
         float* brushP = reinterpret_cast<float*>(_brush->getData());
-        for (int y = 0; y < brushInfo.size.y; ++y)
+        for (int y = 0; y < brushInfo.size[1]; ++y)
         {
-            for (int x = 0; x < brushInfo.size.x; ++x)
+            for (int x = 0; x < brushInfo.size[0]; ++x)
             {
-                const math::Vector2f h = math::Vector2f(brushInfo.size) / 2.F;
-                const math::Vector2f v(x - h.x, y - h.y);
+                const math::Vector2f h = math::Vector2f(brushInfo.size[0], brushInfo.size[1]) / 2.F;
+                const math::Vector2f v(x - h[0], y - h[1]);
                 const float l = math::length(v);
                 *brushP++ = 1.F;
                 *brushP++ = 1.F;
                 *brushP++ = 1.F;
-                *brushP++ = std::max(h.x - l, 0.F) / h.x;
+                *brushP++ = std::max(h[0] - l, 0.F) / h[0];
             }
         }
         _brushTexture = gl::Texture::create(brushInfo);
@@ -92,7 +92,7 @@ namespace tg
 
             gl::OffscreenBufferBinding binding(_buffers[_currentBuffer]);
 
-            glViewport(0, 0, size.x, size.y);
+            glViewport(0, 0, size[0], size[1]);
             glClearColor(0.F, 0.F, 0.F, 1.F);
             glClear(GL_COLOR_BUFFER_BIT);
         }
@@ -107,12 +107,12 @@ namespace tg
     void Window::_paint()
     {
         const auto& size = getSize();
-        glViewport(0, 0, size.x, size.y);
+        glViewport(0, 0, size[0], size[1]);
         glClearColor(0.F, 0.F, 0.F, 0.F);
         glClear(GL_COLOR_BUFFER_BIT);
 
         _shader->bind();
-        const auto mvp = math::ortho<float>(0.F, size.x, 0.F, size.y, -1.F, 1.F);
+        const auto mvp = math::ortho<float>(0.F, size[0], 0.F, size[1], -1.F, 1.F);
         _shader->setUniform("transform.mvp", mvp);
         
         if (_buffers[_currentBuffer])
@@ -122,7 +122,7 @@ namespace tg
             _shader->setUniform("textureSampler", 0);
 
             const auto& bufferSize = _buffers[_currentBuffer]->getSize();
-            auto mesh = geom::bbox(math::BBox2f(0.F, 0.F, bufferSize.x, bufferSize.y));
+            auto mesh = geom::bbox(math::BBox2f(0.F, 0.F, bufferSize[0], bufferSize[1]));
             auto vaoVbo = gl::create(mesh, gl::Mesh2DType::V2F_T2F);
             vaoVbo.second->bind();
             vaoVbo.second->draw(GL_TRIANGLES, 0, mesh.triangles.size() * 3);
@@ -182,12 +182,12 @@ namespace tg
         gl::OffscreenBufferBinding binding(_buffers[index]);
 
         const auto& bufferSize = _buffers[index]->getSize();
-        glViewport(0, 0, bufferSize.x, bufferSize.y);
+        glViewport(0, 0, bufferSize[0], bufferSize[1]);
         glClearColor(0.F, 0.F, 0.F, 0.F);
         glClear(GL_COLOR_BUFFER_BIT);
 
         _shader->bind();
-        const auto mvp = math::ortho<float>(0.F, bufferSize.x, 0.F, bufferSize.y, -1.F, 1.F);
+        const auto mvp = math::ortho<float>(0.F, bufferSize[0], 0.F, bufferSize[1], -1.F, 1.F);
         _shader->setUniform("transform.mvp", mvp);
 
         {
@@ -195,7 +195,7 @@ namespace tg
             glBindTexture(GL_TEXTURE_2D, _buffers[_currentBuffer]->getColorID());
             _shader->setUniform("textureSampler", 0);
 
-            auto mesh = geom::bbox(math::BBox2f(0.F, 0.F, bufferSize.x, bufferSize.y));
+            auto mesh = geom::bbox(math::BBox2f(0.F, 0.F, bufferSize[0], bufferSize[1]));
             auto vaoVbo = gl::create(mesh, gl::Mesh2DType::V2F_T2F);
             vaoVbo.second->bind();
             vaoVbo.second->draw(GL_TRIANGLES, 0, mesh.triangles.size() * 3);
@@ -211,10 +211,10 @@ namespace tg
 
             const auto& size = _brush->getInfo().size;
             auto mesh = geom::bbox(math::BBox2f(
-                _mouse.x - size.x / 2.F,
-                _mouse.y - size.y / 2.F,
-                size.x,
-                size.y));
+                _mouse[0] - size[0] / 2.F,
+                _mouse[1] - size[1] / 2.F,
+                size[0],
+                size[1]));
             auto vaoVbo = gl::create(mesh, gl::Mesh2DType::V2F_T2F);
             vaoVbo.second->bind();
             vaoVbo.second->draw(GL_TRIANGLES, 0, mesh.triangles.size() * 3);

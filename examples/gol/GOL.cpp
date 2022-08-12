@@ -35,11 +35,11 @@ namespace tg
     {
         DoubleBuffer<Cell> newBuffer(size);
         const math::Vector2i& prevSize = _buffer.getSize();
-        for (math::Vector2i pos(0, 0); pos.y < size.y; ++pos.y)
+        for (math::Vector2i pos(0, 0); pos[1] < size[1]; ++pos[1])
         {
-            for (pos.x = 0; pos.x < size.x; ++pos.x)
+            for (pos[0] = 0; pos[0] < size[0]; ++pos[0])
             {
-                if (pos.x < prevSize.x && pos.y < prevSize.y)
+                if (pos[0] < prevSize[0] && pos[1] < prevSize[1])
                 {
                     newBuffer.set(_buffer.get(pos), pos);
                 }
@@ -75,9 +75,9 @@ namespace tg
             _timer = now;
 
             const math::Vector2i& size = _buffer.getSize();
-            for (math::Vector2i pos(0, 0); pos.y < size.y; ++pos.y)
+            for (math::Vector2i pos(0, 0); pos[1] < size[1]; ++pos[1])
             {
-                for (pos.x = 0; pos.x < size.x; ++pos.x)
+                for (pos[0] = 0; pos[0] < size[0]; ++pos[0])
                 {
                     const auto neighbors = _getNeighbors(pos);
                     Cell c = _buffer.get(pos);
@@ -134,21 +134,21 @@ namespace tg
         for (const auto& neighbor : neighbors)
         {
             math::Vector2i pos2 = pos + neighbor;
-            if (pos2.x < 0)
+            if (pos2[0] < 0)
             {
-                pos2.x += size.x;
+                pos2[0] += size[0];
             }
-            else if (pos2.x >= size.x)
+            else if (pos2[0] >= size[0])
             {
-                pos2.x -= size.x;
+                pos2[0] -= size[0];
             }
-            if (pos2.y < 0)
+            if (pos2[1] < 0)
             {
-                pos2.y += size.y;
+                pos2[1] += size[1];
             }
-            else if (pos2.y >= size.y)
+            else if (pos2[1] >= size[1])
             {
-                pos2.y -= size.y;
+                pos2[1] -= size[1];
             }
             const auto c = _buffer.get(pos2);
             if (c.alive)

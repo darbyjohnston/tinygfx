@@ -70,7 +70,7 @@ namespace tg
     protected:
         void _resize(const math::Vector2i& size) override
         {
-            glViewport(0, 0, size.x, size.y);
+            glViewport(0, 0, size[0], size[1]);
         }
 
         void _paint() override
@@ -80,10 +80,10 @@ namespace tg
 
             _shader->bind();
             const auto& size = getSize();
-            const auto mvp = math::ortho<float>(0.F, size.x, 0.F, size.y, -1.F, 1.F);
+            const auto mvp = math::ortho<float>(0.F, size[0], 0.F, size[1], -1.F, 1.F);
             _shader->setUniform("transform.mvp", mvp);
 
-            auto mesh = geom::bbox(math::BBox2f(0.F, 0.F, size.x, size.y));
+            auto mesh = geom::bbox(math::BBox2f(0.F, 0.F, size[0], size[1]));
             auto vboVao = gl::create(mesh, gl::Mesh2DType::V2F_T2F);
             vboVao.second->bind();
             vboVao.second->draw(GL_TRIANGLES, 0, mesh.triangles.size() * 3);

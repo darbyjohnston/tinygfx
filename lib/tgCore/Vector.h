@@ -4,199 +4,85 @@
 
 #pragma once
 
+#include <array>
 #include <iostream>
 
 namespace tg
 {
     namespace math
     {
-        //! Two-dimensional vector.
-        template<typename T>
-        class Vector2
+        //! Vector template.
+        template<size_t D, typename T>
+        class Vector
         {
         public:
-            constexpr Vector2() noexcept;
-            constexpr Vector2(T, T) noexcept;
+            constexpr Vector();
 
-            T x, y;
+            //! Get the underlying array.
+            constexpr const std::array<T, D>& getArray() const;
+
+            //! Get a pointer to the data.
+            constexpr const T* getData() const;
 
             //! \name Operators
             ///@{
 
-            constexpr bool operator == (const Vector2<T>&) const;
-            constexpr bool operator != (const Vector2<T>&) const;
+            constexpr T operator [] (size_t) const;
+            T& operator [] (size_t);
 
-            Vector2<T>& operator += (const Vector2<T>&);
-            Vector2<T>& operator -= (const Vector2<T>&);
-            Vector2<T>& operator *= (const Vector2<T>&);
-            Vector2<T>& operator /= (const Vector2<T>&);
+            bool operator == (const Vector<D, T>&) const;
+            bool operator != (const Vector<D, T>&) const;
 
-            Vector2<T>& operator += (T);
-            Vector2<T>& operator -= (T);
-            Vector2<T>& operator *= (T);
-            Vector2<T>& operator /= (T);
+            Vector<D, T>& operator += (const Vector<D, T>&);
+            Vector<D, T>& operator -= (const Vector<D, T>&);
+            Vector<D, T>& operator *= (const Vector<D, T>&);
+            Vector<D, T>& operator /= (const Vector<D, T>&);
 
-            operator Vector2<float>() const;
-
-            ///@}
-        };
-
-        //! Three-dimensional vector.
-        template<typename T>
-        class Vector3
-        {
-        public:
-            constexpr Vector3() noexcept;
-            constexpr Vector3(T, T, T) noexcept;
-
-            T x, y, z;
-
-            //! \name Operators
-            ///@{
-
-            constexpr bool operator == (const Vector3<T>&) const;
-            constexpr bool operator != (const Vector3<T>&) const;
-
-            Vector3<T>& operator += (const Vector3<T>&);
-            Vector3<T>& operator -= (const Vector3<T>&);
-            Vector3<T>& operator *= (const Vector3<T>&);
-            Vector3<T>& operator /= (const Vector3<T>&);
-
-            Vector3<T>& operator += (T);
-            Vector3<T>& operator -= (T);
-            Vector3<T>& operator *= (T);
-            Vector3<T>& operator /= (T);
+            Vector<D, T>& operator += (T);
+            Vector<D, T>& operator -= (T);
+            Vector<D, T>& operator *= (T);
+            Vector<D, T>& operator /= (T);
 
             ///@}
+
+        private:
+            std::array<T, D> _v;
         };
-
-        //! Four-dimensional vector.
-        template<typename T>
-        class Vector4
-        {
-        public:
-            constexpr Vector4() noexcept;
-            constexpr Vector4(T, T, T, T) noexcept;
-
-            T x, y, z, w;
-
-            //! \name Operators
-            ///@{
-
-            constexpr bool operator == (const Vector4<T>&) const;
-            constexpr bool operator != (const Vector4<T>&) const;
-
-            Vector4<T>& operator += (const Vector4<T>&);
-            Vector4<T>& operator -= (const Vector4<T>&);
-            Vector4<T>& operator *= (const Vector4<T>&);
-            Vector4<T>& operator /= (const Vector4<T>&);
-
-            Vector4<T>& operator += (T);
-            Vector4<T>& operator -= (T);
-            Vector4<T>& operator *= (T);
-            Vector4<T>& operator /= (T);
-
-            ///@}
-        };
-
-        //! Two-dimensional integer vector.
-        typedef Vector2<int> Vector2i;
-
-        //! Two-dimensional floating point vector.
-        typedef Vector2<float> Vector2f;
-
-        //! Three-dimensional floating point vector.
-        typedef Vector3<float> Vector3f;
-
-        //! Four-dimensional floating point vector.
-        typedef Vector4<float> Vector4f;
-
-        //! \name Functions
-        ///@{
-
-        //! Get the length of a vector.
-        float length(const Vector2i&);
-
-        //! Get the length of a vector.
-        float length(const Vector2f&);
-
-        //! Normalize a vector.
-        Vector2f normalize(const Vector2f&);
-
-        //! Get the distance between two vectors.
-        float distance(const Vector2i&, const Vector2i&);
-
-        //! Get the distance between two vectors.
-        float distance(const Vector2f&, const Vector2f&);
-
-        ///@}
 
         //! \name Operators
         ///@{
 
-        template<typename T>
-        constexpr Vector2<T> operator + (const Vector2<T>&, const Vector2<T>&);
-        template<typename T>
-        constexpr Vector2<T> operator - (const Vector2<T>&, const Vector2<T>&);
-        template<typename T>
-        constexpr Vector2<T> operator * (const Vector2<T>&, const Vector2<T>&);
-        template<typename T>
-        constexpr Vector2<T> operator / (const Vector2<T>&, const Vector2<T>&);
+        template<size_t D, typename T>
+        void zero(Vector<D, T>&);
 
-        template<typename T>
-        constexpr Vector2<T> operator + (const Vector2<T>&, T);
-        template<typename T>
-        constexpr Vector2<T> operator - (const Vector2<T>&, T);
-        template<typename T>
-        constexpr Vector2<T> operator * (const Vector2<T>&, T);
-        template<typename T>
-        constexpr Vector2<T> operator / (const Vector2<T>&, T);
+        ///@}
+    
+        //! \name Operators
+        ///@{
 
-        template<typename T>
-        constexpr Vector3<T> operator + (const Vector3<T>&, const Vector3<T>&);
-        template<typename T>
-        constexpr Vector3<T> operator - (const Vector3<T>&, const Vector3<T>&);
-        template<typename T>
-        constexpr Vector3<T> operator * (const Vector3<T>&, const Vector3<T>&);
-        template<typename T>
-        constexpr Vector3<T> operator / (const Vector3<T>&, const Vector3<T>&);
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator + (const Vector<D, T>&, const Vector<D, T>&);
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator - (const Vector<D, T>&, const Vector<D, T>&);
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator * (const Vector<D, T>&, const Vector<D, T>&);
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator / (const Vector<D, T>&, const Vector<D, T>&);
 
-        template<typename T>
-        constexpr Vector3<T> operator + (const Vector3<T>&, T);
-        template<typename T>
-        constexpr Vector3<T> operator - (const Vector3<T>&, T);
-        template<typename T>
-        constexpr Vector3<T> operator * (const Vector3<T>&, T);
-        template<typename T>
-        constexpr Vector3<T> operator / (const Vector3<T>&, T);
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator + (const Vector<D, T>&, T);
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator - (const Vector<D, T>&, T);
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator * (const Vector<D, T>&, T);
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator / (const Vector<D, T>&, T);
 
-        template<typename T>
-        constexpr Vector4<T> operator + (const Vector4<T>&, const Vector4<T>&);
-        template<typename T>
-        constexpr Vector4<T> operator - (const Vector4<T>&, const Vector4<T>&);
-        template<typename T>
-        constexpr Vector4<T> operator * (const Vector4<T>&, const Vector4<T>&);
-        template<typename T>
-        constexpr Vector4<T> operator / (const Vector4<T>&, const Vector4<T>&);
+        template<size_t D, typename T>
+        std::ostream& operator << (std::ostream&, const Vector<D, T>&);
 
-        template<typename T>
-        constexpr Vector4<T> operator + (const Vector4<T>&, T);
-        template<typename T>
-        constexpr Vector4<T> operator - (const Vector4<T>&, T);
-        template<typename T>
-        constexpr Vector4<T> operator * (const Vector4<T>&, T);
-        template<typename T>
-        constexpr Vector4<T> operator / (const Vector4<T>&, T);
-
-        std::ostream& operator << (std::ostream&, const Vector2i&);
-        std::ostream& operator << (std::ostream&, const Vector2f&);
-        std::ostream& operator << (std::ostream&, const Vector3f&);
-        std::ostream& operator << (std::ostream&, const Vector4f&);
-
-        std::istream& operator >> (std::istream&, Vector2i&);
-        std::istream& operator >> (std::istream&, Vector2f&);
-        std::istream& operator >> (std::istream&, Vector3f&);
-        std::istream& operator >> (std::istream&, Vector4f&);
+        template<size_t D, typename T>
+        std::istream& operator >> (std::istream&, Vector<D, T>&);
 
         ///@}
     }

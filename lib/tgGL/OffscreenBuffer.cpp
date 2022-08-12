@@ -121,8 +121,8 @@ namespace tg
                         target,
                         samples,
                         getTextureInternalFormat(options.colorFormat, options.colorType),
-                        _size.x,
-                        _size.y,
+                        _size[0],
+                        _size[1],
                         false);
                 }
                 else
@@ -135,8 +135,8 @@ namespace tg
                         target,
                         0,
                         getTextureInternalFormat(options.colorFormat, options.colorType),
-                        _size.x,
-                        _size.y,
+                        _size[0],
+                        _size[1],
                         0,
                         getTextureFormat(options.colorFormat),
                         getTextureType(options.colorType),
@@ -158,8 +158,8 @@ namespace tg
                     GL_RENDERBUFFER,
                     samples,
                     getBufferInternalFormat(options.depth, options.stencil),
-                    _size.x,
-                    _size.y);
+                    _size[0],
+                    _size[1]);
                 glBindRenderbuffer(GL_RENDERBUFFER, 0);
             }
 
@@ -262,8 +262,8 @@ namespace tg
         bool doCreate(const std::shared_ptr<OffscreenBuffer>& offscreenBuffer, const math::Vector2i& size)
         {
             bool out = false;
-            out |= size.x > 0 && size.y > 0 && !offscreenBuffer;
-            out |= size.x > 0 && size.y > 0 && offscreenBuffer && offscreenBuffer->getSize() != size;
+            out |= size[0] > 0 && size[1] > 0 && !offscreenBuffer;
+            out |= size[0] > 0 && size[1] > 0 && offscreenBuffer && offscreenBuffer->getSize() != size;
             return out;
         }
 

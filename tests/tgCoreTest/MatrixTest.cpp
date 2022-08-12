@@ -5,7 +5,8 @@
 #include <tgCoreTest/MatrixTest.h>
 
 #include <tgCore/Assert.h>
-#include <tgCore/Matrix.h>
+#include <tgCore/Matrix3.h>
+#include <tgCore/Matrix4.h>
 
 using namespace tg::math;
 
@@ -34,17 +35,17 @@ namespace tg
             {
                 const Matrix3x3f m;
 
-                TINYGFX_ASSERT(1.F == m.e[0]);
-                TINYGFX_ASSERT(0.F == m.e[1]);
-                TINYGFX_ASSERT(0.F == m.e[2]);
+                TINYGFX_ASSERT(1.F == m[0]);
+                TINYGFX_ASSERT(0.F == m[1]);
+                TINYGFX_ASSERT(0.F == m[2]);
 
-                TINYGFX_ASSERT(0.F == m.e[3]);
-                TINYGFX_ASSERT(1.F == m.e[4]);
-                TINYGFX_ASSERT(0.F == m.e[5]);
+                TINYGFX_ASSERT(0.F == m[3]);
+                TINYGFX_ASSERT(1.F == m[4]);
+                TINYGFX_ASSERT(0.F == m[5]);
 
-                TINYGFX_ASSERT(0.F == m.e[6]);
-                TINYGFX_ASSERT(0.F == m.e[7]);
-                TINYGFX_ASSERT(1.F == m.e[8]);
+                TINYGFX_ASSERT(0.F == m[6]);
+                TINYGFX_ASSERT(0.F == m[7]);
+                TINYGFX_ASSERT(1.F == m[8]);
             }
             {
                 const Matrix3x3f m(
@@ -52,40 +53,40 @@ namespace tg
                     3.F, 4.F, 5.F,
                     6.F, 7.F, 8.F);
 
-                TINYGFX_ASSERT(0.F == m.e[0]);
-                TINYGFX_ASSERT(1.F == m.e[1]);
-                TINYGFX_ASSERT(2.F == m.e[2]);
+                TINYGFX_ASSERT(0.F == m[0]);
+                TINYGFX_ASSERT(1.F == m[1]);
+                TINYGFX_ASSERT(2.F == m[2]);
 
-                TINYGFX_ASSERT(3.F == m.e[3]);
-                TINYGFX_ASSERT(4.F == m.e[4]);
-                TINYGFX_ASSERT(5.F == m.e[5]);
+                TINYGFX_ASSERT(3.F == m[3]);
+                TINYGFX_ASSERT(4.F == m[4]);
+                TINYGFX_ASSERT(5.F == m[5]);
 
-                TINYGFX_ASSERT(6.F == m.e[6]);
-                TINYGFX_ASSERT(7.F == m.e[7]);
-                TINYGFX_ASSERT(8.F == m.e[8]);
+                TINYGFX_ASSERT(6.F == m[6]);
+                TINYGFX_ASSERT(7.F == m[7]);
+                TINYGFX_ASSERT(8.F == m[8]);
             }
             {
                 const Matrix4x4f m;
 
-                TINYGFX_ASSERT(1.F == m.e[0]);
-                TINYGFX_ASSERT(0.F == m.e[1]);
-                TINYGFX_ASSERT(0.F == m.e[2]);
-                TINYGFX_ASSERT(0.F == m.e[3]);
+                TINYGFX_ASSERT(1.F == m[0]);
+                TINYGFX_ASSERT(0.F == m[1]);
+                TINYGFX_ASSERT(0.F == m[2]);
+                TINYGFX_ASSERT(0.F == m[3]);
 
-                TINYGFX_ASSERT(0.F == m.e[4]);
-                TINYGFX_ASSERT(1.F == m.e[5]);
-                TINYGFX_ASSERT(0.F == m.e[6]);
-                TINYGFX_ASSERT(0.F == m.e[7]);
+                TINYGFX_ASSERT(0.F == m[4]);
+                TINYGFX_ASSERT(1.F == m[5]);
+                TINYGFX_ASSERT(0.F == m[6]);
+                TINYGFX_ASSERT(0.F == m[7]);
 
-                TINYGFX_ASSERT(0.F == m.e[8]);
-                TINYGFX_ASSERT(0.F == m.e[9]);
-                TINYGFX_ASSERT(1.F == m.e[10]);
-                TINYGFX_ASSERT(0.F == m.e[11]);
+                TINYGFX_ASSERT(0.F == m[8]);
+                TINYGFX_ASSERT(0.F == m[9]);
+                TINYGFX_ASSERT(1.F == m[10]);
+                TINYGFX_ASSERT(0.F == m[11]);
 
-                TINYGFX_ASSERT(0.F == m.e[12]);
-                TINYGFX_ASSERT(0.F == m.e[13]);
-                TINYGFX_ASSERT(0.F == m.e[14]);
-                TINYGFX_ASSERT(1.F == m.e[15]);
+                TINYGFX_ASSERT(0.F == m[12]);
+                TINYGFX_ASSERT(0.F == m[13]);
+                TINYGFX_ASSERT(0.F == m[14]);
+                TINYGFX_ASSERT(1.F == m[15]);
             }
             {
                 const Matrix4x4f m(
@@ -94,25 +95,25 @@ namespace tg
                     8.F, 9.F, 10.F, 11.F,
                     12.F, 13.F, 14.F, 15.F);
 
-                TINYGFX_ASSERT(0.F == m.e[0]);
-                TINYGFX_ASSERT(1.F == m.e[1]);
-                TINYGFX_ASSERT(2.F == m.e[2]);
-                TINYGFX_ASSERT(3.F == m.e[3]);
+                TINYGFX_ASSERT(0.F == m[0]);
+                TINYGFX_ASSERT(1.F == m[1]);
+                TINYGFX_ASSERT(2.F == m[2]);
+                TINYGFX_ASSERT(3.F == m[3]);
 
-                TINYGFX_ASSERT(4.F == m.e[4]);
-                TINYGFX_ASSERT(5.F == m.e[5]);
-                TINYGFX_ASSERT(6.F == m.e[6]);
-                TINYGFX_ASSERT(7.F == m.e[7]);
+                TINYGFX_ASSERT(4.F == m[4]);
+                TINYGFX_ASSERT(5.F == m[5]);
+                TINYGFX_ASSERT(6.F == m[6]);
+                TINYGFX_ASSERT(7.F == m[7]);
 
-                TINYGFX_ASSERT(8.F == m.e[8]);
-                TINYGFX_ASSERT(9.F == m.e[9]);
-                TINYGFX_ASSERT(10.F == m.e[10]);
-                TINYGFX_ASSERT(11.F == m.e[11]);
+                TINYGFX_ASSERT(8.F == m[8]);
+                TINYGFX_ASSERT(9.F == m[9]);
+                TINYGFX_ASSERT(10.F == m[10]);
+                TINYGFX_ASSERT(11.F == m[11]);
 
-                TINYGFX_ASSERT(12.F == m.e[12]);
-                TINYGFX_ASSERT(13.F == m.e[13]);
-                TINYGFX_ASSERT(14.F == m.e[14]);
-                TINYGFX_ASSERT(15.F == m.e[15]);
+                TINYGFX_ASSERT(12.F == m[12]);
+                TINYGFX_ASSERT(13.F == m[13]);
+                TINYGFX_ASSERT(14.F == m[14]);
+                TINYGFX_ASSERT(15.F == m[15]);
             }
         }
 

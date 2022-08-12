@@ -24,8 +24,8 @@ namespace tg
             //glfwWindowHint(GLFW_SAMPLES, 8);
             //glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
             _glfwWindow = glfwCreateWindow(
-                _size.x,
-                _size.y,
+                _size[0],
+                _size[1],
                 name.c_str(),
                 NULL,
                 NULL);
@@ -34,8 +34,8 @@ namespace tg
                 throw std::runtime_error("Cannot create window");
             }
             glfwSetWindowUserPointer(_glfwWindow, this);
-            glfwGetFramebufferSize(_glfwWindow, &_size.x, &_size.y);
-            glfwGetWindowContentScale(_glfwWindow, &_contentScale.x, &_contentScale.y);
+            glfwGetFramebufferSize(_glfwWindow, &_size[0], &_size[1]);
+            glfwGetWindowContentScale(_glfwWindow, &_contentScale[0], &_contentScale[1]);
             glfwMakeContextCurrent(_glfwWindow);
             if (!gladLoaderLoadGL())
             {
@@ -129,23 +129,23 @@ namespace tg
         void IWindow::_frameBufferSizeCallback(GLFWwindow* glfwWindow, int w, int h)
         {
             IWindow* window = reinterpret_cast<IWindow*>(glfwGetWindowUserPointer(glfwWindow));
-            window->_size.x = w;
-            window->_size.y = h;
+            window->_size[0] = w;
+            window->_size[1] = h;
             window->_repaint = true;
             window->_resize(math::Vector2i(
-                window->_size.x * window->_contentScale.x,
-                window->_size.y * window->_contentScale.y));
+                window->_size[0] * window->_contentScale[0],
+                window->_size[1] * window->_contentScale[1]));
         }
 
         void IWindow::_windowContentScaleCallback(GLFWwindow* glfwWindow, float w, float h)
         {
             IWindow* window = reinterpret_cast<IWindow*>(glfwGetWindowUserPointer(glfwWindow));
-            window->_contentScale.x = w;
-            window->_contentScale.y = h;
+            window->_contentScale[0] = w;
+            window->_contentScale[1] = h;
             window->_repaint = true;
             window->_resize(math::Vector2i(
-                window->_size.x * window->_contentScale.x,
-                window->_size.y * window->_contentScale.y));
+                window->_size[0] * window->_contentScale[0],
+                window->_size[1] * window->_contentScale[1]));
         }
 
         void IWindow::_cursorEnterCallback(GLFWwindow* glfwWindow, int value)
@@ -164,7 +164,7 @@ namespace tg
         void IWindow::_cursorPosCallback(GLFWwindow* glfwWindow, double x, double y)
         {
             IWindow* window = reinterpret_cast<IWindow*>(glfwGetWindowUserPointer(glfwWindow));
-            window->_mousePosList.push_front(math::Vector2f(x, window->_size.y - 1 - y));
+            window->_mousePosList.push_front(math::Vector2f(x, window->_size[1] - 1 - y));
             while (window->_mousePosList.size() > 2)
             {
                 window->_mousePosList.pop_back();

@@ -79,17 +79,17 @@ namespace tg
 
     void Window::_resize(const math::Vector2i& size)
     {
-        glViewport(0, 0, size.x, size.y);
+        glViewport(0, 0, size[0], size[1]);
 
         if (auto app = std::dynamic_pointer_cast<App>(_app.lock()))
         {
             const auto& gol = app->getGOL();
             const auto& golSize = gol->getSize();
 
-            app->getGOL()->resize(math::Vector2i(size.x / cellSize, size.y / cellSize));
+            app->getGOL()->resize(math::Vector2i(size[0] / cellSize, size[1] / cellSize));
 
-            _vboData.resize(golSize.x * golSize.y * 6 * sizeof(VBOData));
-            _vbo = gl::VBO::create(golSize.x * golSize.y * 6, sizeof(VBOData));
+            _vboData.resize(golSize[0] * golSize[1] * 6 * sizeof(VBOData));
+            _vbo = gl::VBO::create(golSize[0] * golSize[1] * 6, sizeof(VBOData));
             _vao = gl::VAO::create(_vbo->getID());
         }
     }
@@ -107,56 +107,56 @@ namespace tg
 
             _shader->bind();
             const auto& size = getSize();
-            const auto mvp = math::ortho<float>(0.F, size.x, 0.F, size.y, -1.F, 1.F);
+            const auto mvp = math::ortho<float>(0.F, size[0], 0.F, size[1], -1.F, 1.F);
             _shader->setUniform("transform.mvp", mvp);
 
             _vboCount = 0;
             auto* vboP = reinterpret_cast<VBOData*>(_vboData.data());
-            for (math::Vector2i pos(0, 0); pos.y < golSize.y; ++pos.y)
+            for (math::Vector2i pos(0, 0); pos[1] < golSize[1]; ++pos[1])
             {
-                for (pos.x = 0; pos.x < golSize.x; ++pos.x)
+                for (pos[0] = 0; pos[0] < golSize[0]; ++pos[0])
                 {
                     const auto& c = golBuffer.get(pos);
                     if (c.alive)
                     {
                         ++_vboCount;
 
-                        const float cx = pos.x / static_cast<float>(golSize.x) * size.x;
-                        const float cy = pos.y / static_cast<float>(golSize.y) * size.y;
-                        const float cw = 1.F / static_cast<float>(golSize.x) * size.x;
-                        const float ch = 1.F / static_cast<float>(golSize.y) * size.y;
+                        const float cx = pos[0] / static_cast<float>(golSize[0]) * size[0];
+                        const float cy = pos[1] / static_cast<float>(golSize[1]) * size[1];
+                        const float cw = 1.F / static_cast<float>(golSize[0]) * size[0];
+                        const float ch = 1.F / static_cast<float>(golSize[1]) * size[1];
 
                         vboP[0].vx = cx + cellBorder;
                         vboP[0].vy = cy + cellBorder;
-                        vboP[0].cr = c.color.x;
-                        vboP[0].cg = c.color.y;
-                        vboP[0].cb = c.color.z;
+                        vboP[0].cr = c.color[0];
+                        vboP[0].cg = c.color[1];
+                        vboP[0].cb = c.color[2];
                         vboP[1].vx = cx + cw - cellBorder;
                         vboP[1].vy = cy + cellBorder;
-                        vboP[1].cr = c.color.x;
-                        vboP[1].cg = c.color.y;
-                        vboP[1].cb = c.color.z;
+                        vboP[1].cr = c.color[0];
+                        vboP[1].cg = c.color[1];
+                        vboP[1].cb = c.color[2];
                         vboP[2].vx = cx + cw - cellBorder;
                         vboP[2].vy = cy + ch - cellBorder;
-                        vboP[2].cr = c.color.x;
-                        vboP[2].cg = c.color.y;
-                        vboP[2].cb = c.color.z;
+                        vboP[2].cr = c.color[0];
+                        vboP[2].cg = c.color[1];
+                        vboP[2].cb = c.color[2];
 
                         vboP[3].vx = cx + cw - cellBorder;
                         vboP[3].vy = cy + ch - cellBorder;
-                        vboP[3].cr = c.color.x;
-                        vboP[3].cg = c.color.y;
-                        vboP[3].cb = c.color.z;
+                        vboP[3].cr = c.color[0];
+                        vboP[3].cg = c.color[1];
+                        vboP[3].cb = c.color[2];
                         vboP[4].vx = cx + cellBorder;
                         vboP[4].vy = cy + ch - cellBorder;
-                        vboP[4].cr = c.color.x;
-                        vboP[4].cg = c.color.y;
-                        vboP[4].cb = c.color.z;
+                        vboP[4].cr = c.color[0];
+                        vboP[4].cg = c.color[1];
+                        vboP[4].cb = c.color[2];
                         vboP[5].vx = cx + cellBorder;
                         vboP[5].vy = cy + cellBorder;
-                        vboP[5].cr = c.color.x;
-                        vboP[5].cg = c.color.y;
-                        vboP[5].cb = c.color.z;
+                        vboP[5].cr = c.color[0];
+                        vboP[5].cg = c.color[1];
+                        vboP[5].cb = c.color[2];
 
                         vboP += 6;
                     }

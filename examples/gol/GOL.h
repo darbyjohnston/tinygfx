@@ -6,6 +6,8 @@
 
 #include "Buffer.h"
 
+#include <tgCore/Vector3.h>
+
 #include <array>
 #include <chrono>
 #include <memory>

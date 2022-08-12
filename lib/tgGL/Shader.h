@@ -4,8 +4,11 @@
 
 #pragma once
 
-#include <tgCore/Matrix.h>
-#include <tgCore/Vector.h>
+#include <tgCore/Matrix3.h>
+#include <tgCore/Matrix4.h>
+#include <tgCore/Vector2.h>
+#include <tgCore/Vector3.h>
+#include <tgCore/Vector4.h>
 
 #include <tgGlad/gl.h>
 

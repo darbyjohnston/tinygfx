@@ -15,11 +15,12 @@ namespace tg
         IWindow::_init(app, "bezier");
 
         const auto& size = getSize();
-        _bezier.p[0] = math::Vector2f(size.x / 4.F, size.y / 4.F);
-        _bezier.p[1] = math::Vector2f(size.x / 4.F, size.y / 4.F * 3.F);
-        _bezier.p[2] = math::Vector2f(size.x / 4.F * 3.F, size.y / 4.F * 3.F);
-        _bezier.p[3] = math::Vector2f(size.x / 4.F * 3.F, size.y / 4.F);
+        _bezier.p[0] = math::Vector2f(size[0] / 4.F, size[1] / 4.F);
+        _bezier.p[1] = math::Vector2f(size[0] / 4.F, size[1] / 4.F * 3.F);
+        _bezier.p[2] = math::Vector2f(size[0] / 4.F * 3.F, size[1] / 4.F * 3.F);
+        _bezier.p[3] = math::Vector2f(size[0] / 4.F * 3.F, size[1] / 4.F);
         _bezier.width = 20.F;
+        _bezier.color = math::Vector4f(.5F, 1.F, .5F, 1.F);
 
         _render = Render::create();
     }
@@ -53,17 +54,23 @@ namespace tg
 
             _render->begin(size);
 
-            _render->setColor(math::Vector4f(.5F, 1.F, .5F, 1.F));
-            _render->draw(_bezier);
+            //_render->draw(_bezier);
 
-            _render->setColor(math::Vector4f(1.F, .7F, 0.F, 1.F));
+            Polyline polyline;
             for (size_t i = 0; i < _bezier.p.size(); ++i)
+            {
+                polyline.p.push_back(_bezier.p[i]);
+            }
+            polyline.width = 20.F;
+            polyline.color = math::Vector4f(1.F, .7F, 0.F, 1.F);
+            _render->draw(polyline);
+            /*for (size_t i = 0; i < _bezier.p.size(); ++i)
             {
                 Disc disc;
                 disc.p = _bezier.p[i];
                 disc.radius = 10.F;
                 _render->draw(disc);
-            }
+            }*/
 
             _render->end();
         }
@@ -71,8 +78,8 @@ namespace tg
         glBindFramebuffer(GL_READ_FRAMEBUFFER, _buffer->getID());
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
         glBlitFramebuffer(
-            0, 0, size.x, size.y,
-            0, 0, size.x, size.y,
+            0, 0, size[0], size[1],
+            0, 0, size[0], size[1],
             GL_COLOR_BUFFER_BIT,
             GL_NEAREST);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

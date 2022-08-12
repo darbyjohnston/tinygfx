@@ -2,443 +2,262 @@
 // Copyright (c) 2022 Darby Johnston
 // All rights reserved.
 
+#include <tgCore/Error.h>
+#include <tgCore/String.h>
+
+#include <sstream>
+
 namespace tg
 {
     namespace math
     {
-        template<typename T>
-        constexpr Vector2<T>::Vector2() noexcept
+        template<size_t D, typename T>
+        constexpr Vector<D, T>::Vector()
         {}
 
-        template<typename T>
-        constexpr Vector2<T>::Vector2(T x, T y) noexcept :
-            x(x),
-            y(y)
-        {}
-
-        template<typename T>
-        constexpr bool Vector2<T>::operator == (const Vector2<T>& that) const
+        template<size_t D, typename T>
+        constexpr const std::array<T, D>& Vector<D, T>::getArray() const
         {
-            return x == that.x && y == that.y;
+            return _v;
         }
 
-        template<typename T>
-        constexpr bool Vector2<T>::operator != (const Vector2<T>& that) const
+        template<size_t D, typename T>
+        constexpr const T* Vector<D, T>::getData() const
         {
-            return !(*this == that);
+            return _v.data();
         }
 
-        template<typename T>
-        inline Vector2<T>& Vector2<T>::operator += (const Vector2<T>& that)
+        template<size_t D, typename T>
+        inline T& Vector<D, T>::operator [] (size_t index)
         {
-            x += that.x;
-            y += that.y;
+            return _v[index];
+        }
+
+        template<size_t D, typename T>
+        constexpr T Vector<D, T>::operator [] (size_t index) const
+        {
+            return _v[index];
+        }
+
+        template<size_t D, typename T>
+        bool Vector<D, T>::operator == (const Vector& other) const
+        {
+            return _v == other._v;
+        }
+
+        template<size_t D, typename T>
+        bool Vector<D, T>::operator != (const Vector& other) const
+        {
+            return _v != other._v;
+        }
+
+        template<size_t D, typename T>
+        inline Vector<D, T>& Vector<D, T>::operator += (const Vector<D, T>& value)
+        {
+            for (size_t i = 0; i < D; ++i)
+            {
+                _v[i] += value._v[i];
+            }
             return *this;
         }
 
-        template<typename T>
-        inline Vector2<T>& Vector2<T>::operator -= (const Vector2<T>& that)
+        template<size_t D, typename T>
+        inline Vector<D, T>& Vector<D, T>::operator -= (const Vector<D, T>& value)
         {
-            x -= that.x;
-            y -= that.y;
+            for (size_t i = 0; i < D; ++i)
+            {
+                _v[i] -= value._v[i];
+            }
             return *this;
         }
 
-        template<typename T>
-        inline Vector2<T>& Vector2<T>::operator *= (const Vector2<T>& that)
+        template<size_t D, typename T>
+        inline Vector<D, T>& Vector<D, T>::operator *= (const Vector<D, T>& value)
         {
-            x *= that.x;
-            y *= that.y;
+            for (size_t i = 0; i < D; ++i)
+            {
+                _v[i] *= value._v[i];
+            }
             return *this;
         }
 
-        template<typename T>
-        inline Vector2<T>& Vector2<T>::operator /= (const Vector2<T>& that)
+        template<size_t D, typename T>
+        inline Vector<D, T>& Vector<D, T>::operator /= (const Vector<D, T>& value)
         {
-            x /= that.x;
-            y /= that.y;
+            for (size_t i = 0; i < D; ++i)
+            {
+                _v[i] /= value._v[i];
+            }
             return *this;
         }
 
-        template<typename T>
-        inline Vector2<T>& Vector2<T>::operator += (T that)
+        template<size_t D, typename T>
+        inline Vector<D, T>& Vector<D, T>::operator += (T value)
         {
-            x += that;
-            y += that;
+            for (size_t i = 0; i < D; ++i)
+            {
+                _v[i] += value;
+            }
             return *this;
         }
 
-        template<typename T>
-        inline Vector2<T>& Vector2<T>::operator -= (T that)
+        template<size_t D, typename T>
+        inline Vector<D, T>& Vector<D, T>::operator -= (T value)
         {
-            x -= that;
-            y -= that;
+            for (size_t i = 0; i < D; ++i)
+            {
+                _v[i] -= value;
+            }
             return *this;
         }
 
-        template<typename T>
-        inline Vector2<T>& Vector2<T>::operator *= (T that)
+        template<size_t D, typename T>
+        inline Vector<D, T>& Vector<D, T>::operator *= (T value)
         {
-            x *= that;
-            y *= that;
+            for (size_t i = 0; i < D; ++i)
+            {
+                _v[i] *= value;
+            }
             return *this;
         }
 
-        template<typename T>
-        inline Vector2<T>& Vector2<T>::operator /= (T that)
+        template<size_t D, typename T>
+        inline Vector<D, T>& Vector<D, T>::operator /= (T value)
         {
-            x /= that;
-            y /= that;
+            for (size_t i = 0; i < D; ++i)
+            {
+                _v[i] /= value;
+            }
             return *this;
         }
 
-        template<typename T>
-        inline Vector2<T>::operator Vector2<float>() const
+        template<size_t D, typename T>
+        void zero(Vector<D, T>& value)
         {
-            return Vector2<float>(x, y);
+            for (size_t i = 0; i < D; ++i)
+            {
+                value[i] = T(0);
+            }
         }
 
-        template<typename T>
-        constexpr Vector3<T>::Vector3() noexcept
-        {}
-
-        template<typename T>
-        constexpr Vector3<T>::Vector3(T x, T y, T z) noexcept :
-            x(x),
-            y(y),
-            z(z)
-        {}
-
-        template<typename T>
-        constexpr bool Vector3<T>::operator == (const Vector3<T>&that) const
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator + (const Vector<D, T>& a, const Vector<D, T>& b)
         {
-            return x == that.x && y == that.y && z == that.z;
+            Vector<D, T> out;
+            for (size_t i = 0; i < D; ++i)
+            {
+                out[i] = a[i] + b[i];
+            }
+            return out;
         }
 
-        template<typename T>
-        constexpr bool Vector3<T>::operator != (const Vector3<T>&that) const
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator - (const Vector<D, T>& a, const Vector<D, T>& b)
         {
-            return !(*this == that);
+            Vector<D, T> out;
+            for (size_t i = 0; i < D; ++i)
+            {
+                out[i] = a[i] - b[i];
+            }
+            return out;
         }
 
-        template<typename T>
-        inline Vector3<T>& Vector3<T>::operator += (const Vector3<T>& that)
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator * (const Vector<D, T>& a, const Vector<D, T>& b)
         {
-            x += that.x;
-            y += that.y;
-            z += that.z;
-            return *this;
+            Vector<D, T> out;
+            for (size_t i = 0; i < D; ++i)
+            {
+                out[i] = a[i] * b[i];
+            }
+            return out;
         }
 
-        template<typename T>
-        inline Vector3<T>& Vector3<T>::operator -= (const Vector3<T>& that)
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator / (const Vector<D, T>& a, const Vector<D, T>& b)
         {
-            x -= that.x;
-            y -= that.y;
-            z -= that.z;
-            return *this;
+            Vector<D, T> out;
+            for (size_t i = 0; i < D; ++i)
+            {
+                out[i] = a[i] / b[i];
+            }
+            return out;
         }
 
-        template<typename T>
-        inline Vector3<T>& Vector3<T>::operator *= (const Vector3<T>& that)
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator + (const Vector<D, T>& a, T b)
         {
-            x *= that.x;
-            y *= that.y;
-            z *= that.z;
-            return *this;
+            Vector<D, T> out;
+            for (size_t i = 0; i < D; ++i)
+            {
+                out[i] = a[i] + b;
+            }
+            return out;
         }
 
-        template<typename T>
-        inline Vector3<T>& Vector3<T>::operator /= (const Vector3<T>& that)
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator - (const Vector<D, T>& a, T b)
         {
-            x /= that.x;
-            y /= that.y;
-            z /= that.z;
-            return *this;
+            Vector<D, T> out;
+            for (size_t i = 0; i < D; ++i)
+            {
+                out[i] = a[i] - b;
+            }
+            return out;
         }
 
-        template<typename T>
-        inline Vector3<T>& Vector3<T>::operator += (T that)
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator * (const Vector<D, T>& a, T b)
         {
-            x += that;
-            y += that;
-            z += that;
-            return *this;
+            Vector<D, T> out;
+            for (size_t i = 0; i < D; ++i)
+            {
+                out[i] = a[i] * b;
+            }
+            return out;
         }
 
-        template<typename T>
-        inline Vector3<T>& Vector3<T>::operator -= (T that)
+        template<size_t D, typename T>
+        constexpr Vector<D, T> operator / (const Vector<D, T>& a, T b)
         {
-            x -= that;
-            y -= that;
-            z -= that;
-            return *this;
+            Vector<D, T> out;
+            for (size_t i = 0; i < D; ++i)
+            {
+                out[i] = a[i] / b;
+            }
+            return out;
         }
 
-        template<typename T>
-        inline Vector3<T>& Vector3<T>::operator *= (T that)
+        template<size_t D, typename T>
+        inline std::ostream& operator << (std::ostream& os, const Vector<D, T>& value)
         {
-            x *= that;
-            y *= that;
-            z *= that;
-            return *this;
+            for (size_t i = 0; i < D; ++i)
+            {
+                os << value[i];
+                if (i < D - 1)
+                {
+                    os << ",";
+                }
+            }
+            return os;
         }
 
-        template<typename T>
-        inline Vector3<T>& Vector3<T>::operator /= (T that)
+        template<size_t D, typename T>
+        inline std::istream& operator >> (std::istream& is, Vector<D, T>& value)
         {
-            x /= that;
-            y /= that;
-            z /= that;
-            return *this;
-        }
-
-        template<typename T>
-        constexpr Vector4<T>::Vector4() noexcept
-        {}
-
-        template<typename T>
-        constexpr Vector4<T>::Vector4(T x, T y, T z, T w) noexcept :
-            x(x),
-            y(y),
-            z(z),
-            w(w)
-        {}
-
-        template<typename T>
-        constexpr bool Vector4<T>::operator == (const Vector4<T>&that) const
-        {
-            return x == that.x && y == that.y && z == that.z && w == that.w;
-        }
-
-        template<typename T>
-        constexpr bool Vector4<T>::operator != (const Vector4<T>&that) const
-        {
-            return !(*this == that);
-        }
-
-        template<typename T>
-        inline Vector4<T>& Vector4<T>::operator += (const Vector4<T>& that)
-        {
-            x += that.x;
-            y += that.y;
-            z += that.z;
-            w += that.w;
-            return *this;
-        }
-
-        template<typename T>
-        inline Vector4<T>& Vector4<T>::operator -= (const Vector4<T>& that)
-        {
-            x -= that.x;
-            y -= that.y;
-            z -= that.z;
-            w -= that.w;
-            return *this;
-        }
-
-        template<typename T>
-        inline Vector4<T>& Vector4<T>::operator *= (const Vector4<T>& that)
-        {
-            x *= that.x;
-            y *= that.y;
-            z *= that.z;
-            w *= that.w;
-            return *this;
-        }
-
-        template<typename T>
-        inline Vector4<T>& Vector4<T>::operator /= (const Vector4<T>& that)
-        {
-            x /= that.x;
-            y /= that.y;
-            z /= that.z;
-            w /= that.w;
-            return *this;
-        }
-
-        template<typename T>
-        inline Vector4<T>& Vector4<T>::operator += (T that)
-        {
-            x += that;
-            y += that;
-            z += that;
-            w += that;
-            return *this;
-        }
-
-        template<typename T>
-        inline Vector4<T>& Vector4<T>::operator -= (T that)
-        {
-            x -= that;
-            y -= that;
-            z -= that;
-            w -= that;
-            return *this;
-        }
-
-        template<typename T>
-        inline Vector4<T>& Vector4<T>::operator *= (T that)
-        {
-            x *= that;
-            y *= that;
-            z *= that;
-            w *= that;
-            return *this;
-        }
-
-        template<typename T>
-        inline Vector4<T>& Vector4<T>::operator /= (T that)
-        {
-            x /= that;
-            y /= that;
-            z /= that;
-            w /= that;
-            return *this;
-        }
-
-        template<typename T>
-        constexpr Vector2<T> operator + (const Vector2<T>& a, const Vector2<T>& b)
-        {
-            return Vector2<T>(a.x + b.x, a.y + b.y);
-        }
-
-        template<typename T>
-        constexpr Vector2<T> operator - (const Vector2<T>& a, const Vector2<T>& b)
-        {
-            return Vector2<T>(a.x - b.x, a.y - b.y);
-        }
-
-        template<typename T>
-        constexpr Vector2<T> operator * (const Vector2<T>& a, const Vector2<T>& b)
-        {
-            return Vector2<T>(a.x * b.x, a.y * b.y);
-        }
-
-        template<typename T>
-        constexpr Vector2<T> operator / (const Vector2<T>& a, const Vector2<T>& b)
-        {
-            return Vector2<T>(a.x / b.x, a.y / b.y);
-        }
-
-        template<typename T>
-        constexpr Vector2<T> operator + (const Vector2<T>& a, T b)
-        {
-            return Vector2<T>(a.x + b, a.y + b);
-        }
-
-        template<typename T>
-        constexpr Vector2<T> operator - (const Vector2<T>& a, T b)
-        {
-            return Vector2<T>(a.x - b, a.y - b);
-        }
-
-        template<typename T>
-        constexpr Vector2<T> operator * (const Vector2<T>& a, T b)
-        {
-            return Vector2<T>(a.x * b, a.y * b);
-        }
-
-        template<typename T>
-        constexpr Vector2<T> operator / (const Vector2<T>& a, T b)
-        {
-            return Vector2<T>(a.x / b, a.y / b);
-        }
-
-        template<typename T>
-        constexpr Vector3<T> operator + (const Vector3<T>& a, const Vector3<T>& b)
-        {
-            return Vector3<T>(a.x + b.x, a.y + b.y, a.z + b.z);
-        }
-
-        template<typename T>
-        constexpr Vector3<T> operator - (const Vector3<T>& a, const Vector3<T>& b)
-        {
-            return Vector3<T>(a.x - b.x, a.y - b.y, a.z - b.z);
-        }
-
-        template<typename T>
-        constexpr Vector3<T> operator * (const Vector3<T>& a, const Vector3<T>& b)
-        {
-            return Vector3<T>(a.x * b.x, a.y * b.y, a.z * b.z);
-        }
-
-        template<typename T>
-        constexpr Vector3<T> operator / (const Vector3<T>& a, const Vector3<T>& b)
-        {
-            return Vector3<T>(a.x / b.x, a.y / b.y, a.z / b.z);
-        }
-
-        template<typename T>
-        constexpr Vector3<T> operator + (const Vector3<T>& a, T b)
-        {
-            return Vector3<T>(a.x + b, a.y + b, a.z + b);
-        }
-
-        template<typename T>
-        constexpr Vector3<T> operator - (const Vector3<T>& a, T b)
-        {
-            return Vector3<T>(a.x - b, a.y - b, a.z - b);
-        }
-
-        template<typename T>
-        constexpr Vector3<T> operator * (const Vector3<T>& a, T b)
-        {
-            return Vector3<T>(a.x * b, a.y * b, a.z * b);
-        }
-
-        template<typename T>
-        constexpr Vector3<T> operator / (const Vector3<T>& a, T b)
-        {
-            return Vector3<T>(a.x / b, a.y / b, a.z / b);
-        }
-
-        template<typename T>
-        constexpr Vector4<T> operator + (const Vector4<T>& a, const Vector4<T>& b)
-        {
-            return Vector4<T>(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
-        }
-
-        template<typename T>
-        constexpr Vector4<T> operator - (const Vector4<T>& a, const Vector4<T>& b)
-        {
-            return Vector4<T>(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
-        }
-
-        template<typename T>
-        constexpr Vector4<T> operator * (const Vector4<T>& a, const Vector4<T>& b)
-        {
-            return Vector4<T>(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
-        }
-
-        template<typename T>
-        constexpr Vector4<T> operator / (const Vector4<T>& a, const Vector4<T>& b)
-        {
-            return Vector4<T>(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
-        }
-
-        template<typename T>
-        constexpr Vector4<T> operator + (const Vector4<T>& a, T b)
-        {
-            return Vector4<T>(a.x + b, a.y + b, a.z + b, a.w + b);
-        }
-
-        template<typename T>
-        constexpr Vector4<T> operator - (const Vector4<T>& a, T b)
-        {
-            return Vector4<T>(a.x - b, a.y - b, a.z - b, a.w - b);
-        }
-
-        template<typename T>
-        constexpr Vector4<T> operator * (const Vector4<T>& a, T b)
-        {
-            return Vector4<T>(a.x * b, a.y * b, a.z * b, a.w * b);
-        }
-
-        template<typename T>
-        constexpr Vector4<T> operator / (const Vector4<T>& a, T b)
-        {
-            return Vector4<T>(a.x / b, a.y / b, a.z / b, a.w / b);
+            std::string s;
+            is >> s;
+            auto split = string::split(s, ',');
+            if (split.size() != D)
+            {
+                throw error::ParseError();
+            }
+            for (size_t i = 0; i < D; ++i)
+            {
+                std::stringstream ss(split[i]);
+                ss >> value[i];
+            }
+            return is;
         }
     }
 }

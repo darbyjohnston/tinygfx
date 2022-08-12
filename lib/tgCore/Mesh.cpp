@@ -12,10 +12,12 @@ namespace tg
         {
             Mesh2D out;
 
-            out.v.push_back(math::Vector2f(bbox.min.x, bbox.min.y));
-            out.v.push_back(math::Vector2f(bbox.max.x, bbox.min.y));
-            out.v.push_back(math::Vector2f(bbox.max.x, bbox.max.y));
-            out.v.push_back(math::Vector2f(bbox.min.x, bbox.max.y));
+            const auto& min = bbox.getMin();
+            const auto& max = bbox.getMax();
+            out.v.push_back(math::Vector2f(min[0], min[1]));
+            out.v.push_back(math::Vector2f(max[0], min[1]));
+            out.v.push_back(math::Vector2f(max[0], max[1]));
+            out.v.push_back(math::Vector2f(min[0], max[1]));
             out.t.push_back(math::Vector2f(0.F, 0.F));
             out.t.push_back(math::Vector2f(1.F, 0.F));
             out.t.push_back(math::Vector2f(1.F, 1.F));
@@ -44,14 +46,16 @@ namespace tg
         {
             Mesh3D out;
 
-            out.v.push_back(math::Vector3f(bbox.min.x, bbox.min.y, bbox.min.z));
-            out.v.push_back(math::Vector3f(bbox.max.x, bbox.min.y, bbox.min.z));
-            out.v.push_back(math::Vector3f(bbox.max.x, bbox.max.y, bbox.min.z));
-            out.v.push_back(math::Vector3f(bbox.min.x, bbox.max.y, bbox.min.z));
-            out.v.push_back(math::Vector3f(bbox.min.x, bbox.min.y, bbox.max.z));
-            out.v.push_back(math::Vector3f(bbox.max.x, bbox.min.y, bbox.max.z));
-            out.v.push_back(math::Vector3f(bbox.max.x, bbox.max.y, bbox.max.z));
-            out.v.push_back(math::Vector3f(bbox.min.x, bbox.max.y, bbox.max.z));
+            const auto& min = bbox.getMin();
+            const auto& max = bbox.getMax();
+            out.v.push_back(math::Vector3f(min[0], min[1], min[2]));
+            out.v.push_back(math::Vector3f(max[0], min[1], min[2]));
+            out.v.push_back(math::Vector3f(max[0], max[1], min[2]));
+            out.v.push_back(math::Vector3f(min[0], max[1], min[2]));
+            out.v.push_back(math::Vector3f(min[0], min[1], max[2]));
+            out.v.push_back(math::Vector3f(max[0], min[1], max[2]));
+            out.v.push_back(math::Vector3f(max[0], max[1], max[2]));
+            out.v.push_back(math::Vector3f(min[0], max[1], max[2]));
             out.t.push_back(math::Vector2f(0.F, 0.F));
             out.t.push_back(math::Vector2f(1.F, 0.F));
             out.t.push_back(math::Vector2f(1.F, 1.F));

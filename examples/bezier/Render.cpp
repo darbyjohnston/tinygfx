@@ -74,12 +74,12 @@ namespace tg
 
     void Render::end()
     {
-        glViewport(0, 0, _size.x, _size.y);
+        glViewport(0, 0, _size[0], _size[1]);
         glClearColor(0.F, 0.F, 0.F, 1.F);
         glClear(GL_COLOR_BUFFER_BIT);
 
         _shader->bind();
-        const auto mvp = math::ortho<float>(0.F, _size.x, 0.F, _size.y, -1.F, 1.F);
+        const auto mvp = math::ortho<float>(0.F, _size[0], 0.F, _size[1], -1.F, 1.F);
         _shader->setUniform("transform.mvp", mvp);
 
         size_t triangleCount = 0;
@@ -88,8 +88,8 @@ namespace tg
         {
             ranges.push_back(math::SizeTRange(
                 triangleCount,
-                triangleCount + mesh.triangles.size() - 1));
-            triangleCount += mesh.triangles.size();
+                triangleCount + mesh.m.triangles.size() - 1));
+            triangleCount += mesh.m.triangles.size();
         }
 
         std::vector<uint8_t> vboData;
@@ -97,17 +97,17 @@ namespace tg
         auto vboP = reinterpret_cast<VBOData*>(vboData.data());
         for (const auto& mesh : _meshes)
         {
-            const size_t trianglesSize = mesh.triangles.size();
+            const size_t trianglesSize = mesh.m.triangles.size();
             for (size_t i = 0; i < trianglesSize; ++i)
             {
-                vboP->vx = mesh.v[mesh.triangles[i].v[0] - 1].x;
-                vboP->vy = mesh.v[mesh.triangles[i].v[0] - 1].y;
+                vboP->vx = mesh.m.v[mesh.m.triangles[i].v[0] - 1][0];
+                vboP->vy = mesh.m.v[mesh.m.triangles[i].v[0] - 1][1];
                 ++vboP;
-                vboP->vx = mesh.v[mesh.triangles[i].v[1] - 1].x;
-                vboP->vy = mesh.v[mesh.triangles[i].v[1] - 1].y;
+                vboP->vx = mesh.m.v[mesh.m.triangles[i].v[1] - 1][0];
+                vboP->vy = mesh.m.v[mesh.m.triangles[i].v[1] - 1][1];
                 ++vboP;
-                vboP->vx = mesh.v[mesh.triangles[i].v[2] - 1].x;
-                vboP->vy = mesh.v[mesh.triangles[i].v[2] - 1].y;
+                vboP->vx = mesh.m.v[mesh.m.triangles[i].v[2] - 1][0];
+                vboP->vy = mesh.m.v[mesh.m.triangles[i].v[2] - 1][1];
                 ++vboP;
             }
         }
@@ -120,7 +120,7 @@ namespace tg
         glEnableVertexAttribArray(0);
         for (size_t i = 0; i < _meshes.size(); ++i)
         {
-            _shader->setUniform("color", _colors[i]);
+            _shader->setUniform("color", _meshes[i].color);
             const auto& range = ranges[i];
             vao->draw(
                 GL_TRIANGLES,
@@ -129,18 +129,12 @@ namespace tg
         }
 
         _meshes.clear();
-        _colors.clear();
-    }
-
-    void Render::setColor(const math::Vector4f& color)
-    {
-        _color = color;
     }
 
     void Render::draw(const Line& line)
     {
         const math::Vector2f v = math::normalize(line.p[1] - line.p[0]);
-        const float a = std::atan2(v.y, v.x);
+        const float a = std::atan2(v[1], v[0]);
         const math::Vector2f e(
             std::cosf(a + math::pi_2) * line.width / 2.F,
             std::sinf(a + math::pi_2) * line.width / 2.F);
@@ -160,8 +154,7 @@ namespace tg
         t.v[2] = 0 + 1;
         mesh.triangles.push_back(t);
 
-        _meshes.push_back(std::move(mesh));
-        _colors.push_back(_color);
+        _meshes.push_back({ mesh, line.color });
     }
 
     void Render::draw(const Polyline& polyline)
@@ -172,6 +165,40 @@ namespace tg
             line.p[0] = polyline.p[i - 1];
             line.p[1] = polyline.p[i];
             line.width = polyline.width;
+            line.color = polyline.color;
+            draw(line);
+        }
+
+        typedef std::array<math::Vector2f, 4> Segment;
+        std::vector<Segment> segments;
+        for (size_t i = 1; i < polyline.p.size(); ++i)
+        {
+            const math::Vector2f v = math::normalize(polyline.p[i] - polyline.p[i - 1]);
+            const float a = std::atan2(v[1], v[0]);
+            const math::Vector2f e(
+                std::cosf(a + math::pi_2) * polyline.width / 2.F,
+                std::sinf(a + math::pi_2) * polyline.width / 2.F);
+
+            Segment s;
+            s[0] = polyline.p[i - 1] + e;
+            s[1] = polyline.p[i] + e;
+            s[2] = polyline.p[i] - e;
+            s[3] = polyline.p[i - 1] - e;
+            segments.push_back(s);
+        }
+
+        for (size_t i = 2; i < polyline.p.size(); ++i)
+        {
+            const math::Vector2f v0 = math::normalize(polyline.p[i - 2] - polyline.p[i - 1]);
+            const math::Vector2f v1 = math::normalize(polyline.p[i] - polyline.p[i - 1]);
+            const float a0 = std::atan2(v0[1], v0[0]);
+            const float a1 = std::atan2(v1[1], v1[0]);
+            const float a = (a1 + a0) / 2.F;
+            Line line;
+            line.p[0] = polyline.p[i - 1] + math::Vector2f(std::cosf(a), std::sinf(a)) * polyline.width / 2.F;
+            line.p[1] = polyline.p[i - 1] - math::Vector2f(std::cosf(a), std::sinf(a)) * polyline.width / 2.F;
+            line.width = 1.F;
+            line.color = math::Vector4f(1.F, 0.F, 0.F, 1.F);
             draw(line);
         }
     }
@@ -192,6 +219,7 @@ namespace tg
                 bezier.p[3] * v_3);
         }
         polyline.width = bezier.width;
+        polyline.color = bezier.color;
         draw(polyline);
     }
 
@@ -220,7 +248,6 @@ namespace tg
         t.v[2] = 1 + 0 + 1;
         mesh.triangles.push_back(t);
 
-        _meshes.push_back(std::move(mesh));
-        _colors.push_back(_color);
+        _meshes.push_back({ mesh, disc.color });
     }
 }

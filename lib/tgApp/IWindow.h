@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <tgCore/Vector.h>
+#include <tgCore/Vector2.h>
 
 #include <tgGlad/gl.h>
 

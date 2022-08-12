@@ -72,8 +72,8 @@ namespace tg
             for (size_t i = 0; i < 50; ++i)
             {
                 _pts.push_back(math::Vector2f(
-                    _size.x * math::getRandom(),
-                    _size.y * math::getRandom()));
+                    _size[0] * math::getRandom(),
+                    _size[1] * math::getRandom()));
             }
 
             _lines.clear();
@@ -94,7 +94,7 @@ namespace tg
             }
         }
 
-        glViewport(0, 0, size.x, size.y);
+        glViewport(0, 0, size[0], size[1]);
         glClearColor(1.F, 1.F, 1.F, 0.F);
         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -103,7 +103,7 @@ namespace tg
             _shader = gl::Shader::create(vertexSource, fragmentSource);
         }
         _shader->bind();
-        const auto mvp = math::ortho<float>(0.F, size.x, size.y, 0.F, -1.F, 1.F);
+        const auto mvp = math::ortho<float>(0.F, size[0], size[1], 0.F, -1.F, 1.F);
         _shader->setUniform("transform.mvp", mvp);
 
         std::vector<uint8_t> vboData;
@@ -118,14 +118,14 @@ namespace tg
         {
             const auto& p0 = _pts[line.first];
             const auto& p1 = _pts[line.second];
-            const float l = sqrtf(powf(p1.x - p0.x, 2) + powf(p1.y - p0.y, 2));
+            const float l = sqrtf(powf(p1[0] - p0[0], 2) + powf(p1[1] - p0[1], 2));
             const float t = std::min(_t * 100.F, l);
             const math::Vector2f p2(
-                p0.x + (p1.x - p0.x) / l * t,
-                p0.y + (p1.y - p0.y) / l * t);
+                p0[0] + (p1[0] - p0[0]) / l * t,
+                p0[1] + (p1[1] - p0[1]) / l * t);
             const float a = atan2f(
-                p0.y - p1.y,
-                p0.x - p1.x);
+                p0[1] - p1[1],
+                p0[0] - p1[0]);
             const math::Vector2f v0(
                 cosf(a + math::pi / 2),
                 sinf(a + math::pi / 2));
@@ -133,20 +133,20 @@ namespace tg
                 cosf(a - math::pi / 2),
                 sinf(a - math::pi / 2));
 
-            vboP[0].vx = p0.x + v0.x * lineWidth;
-            vboP[0].vy = p0.y + v0.y * lineWidth;
-            vboP[1].vx = p2.x + v0.x * lineWidth;
-            vboP[1].vy = p2.y + v0.y * lineWidth;
-            vboP[2].vx = p2.x + v1.x * lineWidth;
-            vboP[2].vy = p2.y + v1.y * lineWidth;
+            vboP[0].vx = p0[0] + v0[0] * lineWidth;
+            vboP[0].vy = p0[1] + v0[1] * lineWidth;
+            vboP[1].vx = p2[0] + v0[0] * lineWidth;
+            vboP[1].vy = p2[1] + v0[1] * lineWidth;
+            vboP[2].vx = p2[0] + v1[0] * lineWidth;
+            vboP[2].vy = p2[1] + v1[1] * lineWidth;
             vboP += 3;
 
-            vboP[0].vx = p2.x + v1.x * lineWidth;
-            vboP[0].vy = p2.y + v1.y * lineWidth;
-            vboP[1].vx = p0.x + v1.x * lineWidth;
-            vboP[1].vy = p0.y + v1.y * lineWidth;
-            vboP[2].vx = p0.x + v0.x * lineWidth;
-            vboP[2].vy = p0.y + v0.y * lineWidth;
+            vboP[0].vx = p2[0] + v1[0] * lineWidth;
+            vboP[0].vy = p2[1] + v1[1] * lineWidth;
+            vboP[1].vx = p0[0] + v1[0] * lineWidth;
+            vboP[1].vy = p0[1] + v1[1] * lineWidth;
+            vboP[2].vx = p0[0] + v0[0] * lineWidth;
+            vboP[2].vy = p0[1] + v0[1] * lineWidth;
             vboP += 3;
         }
         auto vbo = gl::VBO::create(_lines.size() * 2 * 3, sizeof(VBOData));

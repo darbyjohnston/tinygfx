@@ -4,8 +4,10 @@
 
 #pragma once
 
-#include <tgCore/BBox.h>
-#include <tgCore/Vector.h>
+#include <tgCore/BBox2.h>
+#include <tgCore/BBox3.h>
+#include <tgCore/Vector2.h>
+#include <tgCore/Vector3.h>
 
 #include <array>
 #include <vector>

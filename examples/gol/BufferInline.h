@@ -12,7 +12,7 @@ namespace tg
     inline Buffer<T>::Buffer(const math::Vector2i& size) :
         _size(size)
     {
-        _data.resize(_size.x * _size.y);
+        _data.resize(_size[0] * _size[1]);
     }
 
     template<typename T>
@@ -24,13 +24,13 @@ namespace tg
     template<typename T>
     inline const T& Buffer<T>::get(const math::Vector2i& pos) const
     {
-        return _data[pos.y * _size.x + pos.x];
+        return _data[pos[1] * _size[0] + pos[0]];
     }
 
     template<typename T>
     inline void Buffer<T>::set(const T& value, const math::Vector2i& pos)
     {
-        _data[pos.y * _size.x + pos.x] = value;
+        _data[pos[1] * _size[0] + pos[0]] = value;
     }
 
     template<typename T>

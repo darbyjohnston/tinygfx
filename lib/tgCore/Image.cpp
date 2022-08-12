@@ -27,7 +27,7 @@ namespace tg
 
         size_t Info::getByteCount() const
         {
-            return size.x * size.y * image::getByteCount(format, type);
+            return size[0] * size[1] * image::getByteCount(format, type);
         }
 
         Info::Info()
@@ -48,8 +48,8 @@ namespace tg
         bool Info::isValid() const
         {
             return
-                size.x > 0 &&
-                size.y > 0 &&
+                size[0] > 0 &&
+                size[1] > 0 &&
                 format != Format::None &&
                 type != Type::None;
         }

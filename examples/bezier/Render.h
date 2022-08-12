@@ -22,6 +22,23 @@ namespace tg
     {
         std::array<math::Vector2f, 2> p;
         float width;
+        math::Vector4f color;
+    };
+
+    //! Polyline joints.
+    enum class PolylineJoint
+    {
+        Bevel,
+        Round,
+        Miter
+    };
+
+    //! Polyline end caps.
+    enum class PolyLineCap
+    {
+        Flush,
+        Round,
+        Square
     };
 
     //! Polyline.
@@ -29,6 +46,9 @@ namespace tg
     {
         std::vector<math::Vector2f> p;
         float width;
+        PolylineJoint joint = PolylineJoint::Bevel;
+        PolyLineCap cap = PolyLineCap::Flush;
+        math::Vector4f color;
     };
 
     //! Bezier.
@@ -36,6 +56,7 @@ namespace tg
     {
         std::array<math::Vector2f, 4> p;
         float width;
+        math::Vector4f color;
     };
 
     //! Disc.
@@ -44,6 +65,7 @@ namespace tg
         math::Vector2f p;
         float radius;
         size_t resolution = 16;
+        math::Vector4f color;
     };
 
     //! Renderer.
@@ -61,8 +83,6 @@ namespace tg
         void begin(const math::Vector2i& size);
         void end();
 
-        void setColor(const math::Vector4f&);
-
         void draw(const Line&);
         void draw(const Polyline&);
         void draw(const Bezier&);
@@ -71,10 +91,13 @@ namespace tg
     private:
         std::shared_ptr<gl::Shader> _shader;
 
-        math::Vector2i _size;        
-        math::Vector4f _color;
+        math::Vector2i _size;
 
-        std::vector<geom::Mesh2D> _meshes;
-        std::vector<math::Vector4f> _colors;
+        struct Mesh
+        {
+            geom::Mesh2D m;
+            math::Vector4f color;
+        };
+        std::vector<Mesh> _meshes;
     };
 }

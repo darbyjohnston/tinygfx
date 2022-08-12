@@ -2,6 +2,10 @@ set(HEADERS
 	Assert.h
 	BBox.h
 	BBoxInline.h
+	BBox2.h
+	BBox2Inline.h
+	BBox3.h
+	BBox3Inline.h
 	Error.h
     File.h
     FileIO.h
@@ -16,6 +20,10 @@ set(HEADERS
 	MathInline.h
 	Matrix.h
 	MatrixInline.h
+	Matrix3.h
+	Matrix3Inline.h
+	Matrix4.h
+	Matrix4Inline.h
 	Memory.h
 	MemoryInline.h
 	Mesh.h
@@ -32,24 +40,27 @@ set(HEADERS
 	ValueObserver.h
 	ValueObserverInline.h
 	Vector.h
-	VectorInline.h)
+	VectorInline.h
+	Vector2.h
+	Vector2Inline.h
+	Vector3.h
+	Vector3Inline.h
+	Vector4.h
+	Vector4Inline.h)
 
 set(SOURCE
 	Assert.cpp
-	BBox.cpp
 	Error.cpp
     FileIO.cpp
     FileInfo.cpp
 	Image.cpp
-	Matrix.cpp
 	Memory.cpp
 	Mesh.cpp
 	Path.cpp
 	Random.cpp
 	Range.cpp
 	String.cpp
-	StringFormat.cpp
-	Vector.cpp)
+	StringFormat.cpp)
 
 if (WIN32)
     set(SOURCE

@@ -101,8 +101,8 @@ namespace tg
                 glBindFramebuffer(GL_READ_FRAMEBUFFER, _buffersA.first->getID());
                 glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _buffersA.second->getID());
                 glBlitFramebuffer(
-                    0, 0, size.x, size.y,
-                    0, 0, size.x, size.y,
+                    0, 0, size[0], size[1],
+                    0, 0, size[0], size[1],
                     GL_COLOR_BUFFER_BIT,
                     GL_NEAREST);
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -132,19 +132,19 @@ namespace tg
                 glBindFramebuffer(GL_READ_FRAMEBUFFER, _buffersB.first->getID());
                 glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _buffersB.second->getID());
                 glBlitFramebuffer(
-                    0, 0, size.x, size.y,
-                    0, 0, size.x, size.y,
+                    0, 0, size[0], size[1],
+                    0, 0, size[0], size[1],
                     GL_COLOR_BUFFER_BIT,
                     GL_NEAREST);
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
             }
 
-            glViewport(0, 0, size.x, size.y);
+            glViewport(0, 0, size[0], size[1]);
             glClearColor(0.F, 0.F, 0.F, 0.F);
             glClear(GL_COLOR_BUFFER_BIT);
 
             _shader->bind();
-            const auto mvp = math::ortho<float>(0.F, size.x, size.y, 0.F, -1.F, 1.F);
+            const auto mvp = math::ortho<float>(0.F, size[0], size[1], 0.F, -1.F, 1.F);
             _shader->setUniform("transform.mvp", mvp);
             _shader->setUniform("transition", solData.transition);
             if (_buffersA.second)
@@ -160,7 +160,7 @@ namespace tg
                 _shader->setUniform("textureSamplerB", 1);
             }
 
-            auto mesh = geom::bbox(math::BBox2f(0.F, 0.F, size.x, size.y));
+            auto mesh = geom::bbox(math::BBox2f(0.F, 0.F, size[0], size[1]));
             auto vaoVbo = gl::create(mesh, gl::Mesh2DType::V2F_T2F);
             vaoVbo.second->bind();
             vaoVbo.second->draw(GL_TRIANGLES, 0, mesh.triangles.size() * 3);
