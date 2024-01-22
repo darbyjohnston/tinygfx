@@ -7,6 +7,8 @@
 #include <tgCore/Math.h>
 
 #include <cmath>
+#include <utility>
+#include <vector>
 
 namespace tg
 {
