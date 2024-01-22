@@ -15,13 +15,10 @@ Clone the repository:
 git clone https://github.com/darbyjohnston/tinygfx.git
 cd tinygfx
 ```
-Create a build directory:
+Create a build directory and run CMake:
 ```
 mkdir build
 cd build
-```
-Run CMake:
-```
 cmake ../etc/SuperBuild -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_PREFIX_PATH=$PWD/install -DCMAKE_BUILD_TYPE=Debug
 ```
 Start the build:
@@ -40,13 +37,10 @@ Clone the repository:
 git clone https://github.com/darbyjohnston/tinygfx.git
 cd tinygfx
 ```
-Create a build directory:
+Create a build directory and run CMake:
 ```
 mkdir build
 cd build
-```
-Run CMake:
-```
 cmake ../etc/SuperBuild -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_PREFIX_PATH=$PWD/install -DCMAKE_BUILD_TYPE=Debug
 ```
 Start the build:
@@ -76,15 +70,11 @@ Clone the repository:
 git clone https://github.com/darbyjohnston/tinygfx.git
 cd tinygfx
 ```
-Create a build directory:
+Create a build directory and run CMake:
 ```
 mkdir build
 cd build
-```
-Run CMake:
-```
 cmake ..\etc\SuperBuild -DCMAKE_INSTALL_PREFIX=%CD%\install -DCMAKE_PREFIX_PATH=%CD%\install -DCMAKE_BUILD_TYPE=Debug
-
 
 ```
 Start the build:
