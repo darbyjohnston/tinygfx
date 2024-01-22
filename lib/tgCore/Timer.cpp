@@ -6,6 +6,8 @@
 
 #include <tgCore/Context.h>
 
+#include <vector>
+
 namespace tg
 {
     namespace core
