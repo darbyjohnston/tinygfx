@@ -1,0 +1,65 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2024 Darby Johnston
+// All rights reserved.
+
+#pragma once
+
+#include <tgCore/Util.h>
+
+#include <memory>
+#include <string>
+
+namespace tg
+{
+    namespace core
+    {
+        class Context;
+    }
+
+    namespace test
+    {
+        //! Base class for tests.
+        class ITest : public std::enable_shared_from_this<ITest>
+        {
+            TG_NON_COPYABLE(ITest);
+
+        protected:
+            ITest(
+                const std::shared_ptr<core::Context>&,
+                const std::string& name);
+
+        public:
+            virtual ~ITest() = 0;
+
+            const std::string& getName() const;
+
+            virtual void run() = 0;
+            
+            virtual bool doTick() const;
+            
+            virtual void tick();
+
+        protected:
+            void _print(const std::string&);
+            void _error(const std::string&);
+
+            std::weak_ptr<core::Context> _context;
+            std::string _name;
+        };
+    }
+}
+
+#define TINYGFX_TEST_ENUM(ENUM) \
+    for (auto i : get##ENUM##Enums()) \
+    { \
+        _print(Format(#ENUM": {0}").arg(getLabel(i))); \
+    } \
+    { \
+        const ENUM v = ENUM::First; \
+        std::stringstream ss; \
+        ss << v; \
+        ENUM v2; \
+        ss >> v2; \
+        TG_ASSERT(v == v2); \
+    }
+

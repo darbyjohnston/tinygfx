@@ -1,0 +1,109 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2024 Darby Johnston
+// All rights reserved.
+
+#pragma once
+
+#include <tgCore/Image.h>
+
+namespace tg
+{
+    namespace gl
+    {
+        //! Get the OpenGL texture format.
+        unsigned int getTextureFormat(core::PixelType);
+
+        //! Get the OpenGL internal texture format.
+        unsigned int getTextureInternalFormat(core::PixelType);
+
+        //! Get the OpenGL texture type.
+        unsigned int getTextureType(core::PixelType);
+
+        //! Texture filtering.
+        enum class TextureFilter
+        {
+            Nearest,
+            Linear,
+
+            Count,
+            First = Nearest
+        };
+        TG_ENUM(TextureFilter);
+
+        //! Texture filters.
+        struct TextureFilters
+        {
+            TextureFilter minify  = TextureFilter::Linear;
+            TextureFilter magnify = TextureFilter::Linear;
+
+            bool operator == (const TextureFilters&) const;
+            bool operator != (const TextureFilters&) const;
+        };
+
+        //! Get the OpenGL texture filter.
+        unsigned int getTextureFilter(TextureFilter);
+
+        //! OpenGL texture options.
+        struct TextureOptions
+        {
+            TextureFilters filters;
+            bool pbo = false;
+
+            bool operator == (const TextureOptions&) const;
+            bool operator != (const TextureOptions&) const;
+        };
+
+        //! OpenGL texture.
+        class Texture : public std::enable_shared_from_this<Texture>
+        {
+            TG_NON_COPYABLE(Texture);
+
+        protected:
+            Texture(
+                const core::ImageInfo&,
+                const TextureOptions&);
+
+        public:
+            ~Texture();
+
+            //! Create a new texture.
+            static std::shared_ptr<Texture> create(
+                const core::ImageInfo&,
+                const TextureOptions& = TextureOptions());
+
+            //! Get the image information.
+            const core::ImageInfo& getInfo() const;
+
+            //! Get the size.
+            const core::Size2I& getSize() const;
+
+            //! Get the width.
+            int getWidth() const;
+
+            //! Get the height.
+            int getHeight() const;
+
+            //! Get the pixel type.
+            core::PixelType getPixelType() const;
+
+            //! Get the OpenGL texture ID.
+            unsigned int getID() const;
+
+            //! \name Copy
+            //! Copy image data to the texture.
+            ///@{
+
+            void copy(const std::shared_ptr<core::Image>&);
+            void copy(const std::shared_ptr<core::Image>&, int x, int y);
+            void copy(const uint8_t*, const core::ImageInfo&);
+
+            ///@}
+
+            //! Bind the texture.
+            void bind();
+
+        private:
+            TG_PRIVATE();
+        };
+    }
+}
