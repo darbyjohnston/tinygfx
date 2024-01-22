@@ -5,20 +5,8 @@ tinygfx
 Small experiments with graphics programming.
 
 
-Examples
-========
-![gol](etc/Images/gol.PNG)
-
-![sol](etc/Images/sol.PNG)
-
-
 Building
 ========
-CMake Build Options
--------------------
-* TINYGFX_ENABLE_COVERAGE - Enable code coverage
-* TINYGFX_BUILD_EXAMPLES - Build examples
-* TINYGFX_BUILD_TESTS - Build tests
 
 Building on Linux
 -----------------
@@ -34,15 +22,15 @@ cd build
 ```
 Run CMake:
 ```
-cmake ..
+cmake ../etc/SuperBuild -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_PREFIX_PATH=$PWD/install -DCMAKE_BUILD_TYPE=Debug
 ```
 Start the build:
 ```
 cmake --build . -j 4 --config Debug
 ```
-Try running the "gol" example:
+Try running the `simple` example:
 ```
-examples/gol/gol
+./tinygfx/src/tinygfx-build/examples/render/simple/simple
 ```
 
 Building on macOS
@@ -59,15 +47,15 @@ cd build
 ```
 Run CMake:
 ```
-cmake ..
+cmake ../etc/SuperBuild -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_PREFIX_PATH=$PWD/install -DCMAKE_BUILD_TYPE=Debug
 ```
 Start the build:
 ```
 cmake --build . -j 4 --config Debug
 ```
-Try running the "gol" example:
+Try running the `simple` example:
 ```
-examples/gol/gol
+./tinygfx/src/tinygfx-build/examples/render/simple/simple
 ```
 
 Notes for building on macOS
@@ -95,13 +83,16 @@ cd build
 ```
 Run CMake:
 ```
-cmake ..
+cmake ..\etc\SuperBuild -DCMAKE_INSTALL_PREFIX=%CD%\install -DCMAKE_PREFIX_PATH=%CD%\install -DCMAKE_BUILD_TYPE=Debug
+
+
 ```
 Start the build:
 ```
 cmake --build . -j 4 --config Debug
 ```
-Try running the "gol" example:
+Try running the `simple` example:
 ```
-examples\gol\Debug\gol
+.\tinygfx\src\tinygfx-build\examples\render\simple\Debug\simple
 ```
+
