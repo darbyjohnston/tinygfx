@@ -13,15 +13,18 @@ namespace tg
         class IWindow;
 
         //! Base user interface application class.
-        class IApp : public base_app::IApp
+        class IApp : public app::IApp
         {
             TG_NON_COPYABLE(IApp);
 
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,
+                std::vector<std::string>& argv,
                 const std::string& name,
-                std::vector<std::string>& args);
+                const std::string& summary,
+                const std::vector<std::shared_ptr<app::ICmdLineArg> >& = {},
+                const std::vector<std::shared_ptr<app::ICmdLineOption> >& = {});
 
             IApp();
 
@@ -34,8 +37,7 @@ namespace tg
             //! Remove a window.
             void removeWindow(const std::shared_ptr<IWindow>&);
 
-            //! Run the application.
-            int run();
+            int run() override;
 
         private:
             TG_PRIVATE();

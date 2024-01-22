@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include <tgBaseApp/IApp.h>
+#include <tgUIApp/IApp.h>
 
 namespace tg
 {
-    namespace tests
+    namespace resource
     {
-        //! Test application.
+        //! Application.
         class App : public app::IApp
         {
             TG_NON_COPYABLE(App);
@@ -30,9 +30,12 @@ namespace tg
                 std::vector<std::string>& argv);
 
             int run() override;
-            
+
         private:
-            TG_PRIVATE();
+            std::string _input;
+            std::string _output;
+            std::string _varName;
+            std::chrono::steady_clock::time_point _startTime;
         };
     }
 }

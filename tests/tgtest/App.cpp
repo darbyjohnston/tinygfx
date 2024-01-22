@@ -16,6 +16,8 @@
 #include <tgCoreTest/BoxTest.h>
 #include <tgCoreTest/ColorTest.h>
 #include <tgCoreTest/ErrorTest.h>
+#include <tgCoreTest/FileIOTest.h>
+#include <tgCoreTest/FileTest.h>
 #include <tgCoreTest/FormatTest.h>
 #include <tgCoreTest/ImageTest.h>
 #include <tgCoreTest/MathTest.h>
@@ -32,11 +34,14 @@
 #include <tgCoreTest/TimerTest.h>
 #include <tgCoreTest/VectorTest.h>
 
+#include <tgBaseApp/CmdLine.h>
+
 #if defined(TINYGFX_API_GL_4_1) || defined(TINYGFX_API_GLES_2)
 #include <tgGL/Init.h>
 #endif // TINYGFX_API_GL_4_1
 
 #include <tgCore/Context.h>
+#include <tgCore/Format.h>
 #include <tgCore/Time.h>
 
 #include <iostream>
@@ -49,16 +54,29 @@ namespace tg
     {
         struct App::Private
         {
+            std::string testName;
             std::vector<std::shared_ptr<test::ITest> > tests;
+            std::chrono::steady_clock::time_point startTime;
         };
         
         void App::_init(
             const std::shared_ptr<Context>& context,
-            const std::string& name,
-            std::vector<std::string>& args)
+            std::vector<std::string>& argv)
         {
-            base_app::IApp::_init(context, name, args);
+            app::IApp::_init(
+                context,
+                argv,
+                "tgtest",
+                "Test application",
+                {
+                    app::CmdLineValueArg<std::string>::create(
+                        _p->testName,
+                        "Test",
+                        "Name of the test to run.",
+                        true)
+                });
             TG_P();
+            p.startTime = std::chrono::steady_clock::now();                
 #if defined(TINYGFX_API_GL_4_1) || defined(TINYGFX_API_GLES_2)
             gl::init(context);
 #endif // TINYGFX_API_GL_4_1
@@ -66,6 +84,8 @@ namespace tg
             p.tests.push_back(core_test::BoxTest::create(context));
             p.tests.push_back(core_test::ColorTest::create(context));
             p.tests.push_back(core_test::ErrorTest::create(context));
+            p.tests.push_back(core_test::FileIOTest::create(context));
+            p.tests.push_back(core_test::FileTest::create(context));
             p.tests.push_back(core_test::FormatTest::create(context));
             p.tests.push_back(core_test::ImageTest::create(context));
             p.tests.push_back(core_test::MathTest::create(context));
@@ -101,49 +121,63 @@ namespace tg
         
         std::shared_ptr<App> App::create(
             const std::shared_ptr<Context>& context,
-            const std::string& name,
-            std::vector<std::string>& args)
+            std::vector<std::string>& argv)
         {
             auto out = std::shared_ptr<App>(new App);
-            out->_init(context, name, args);
+            out->_init(context, argv);
             return out;
         }
         
         int App::run()
         {
             TG_P();
-
-            // Run the tests.
-            for (const auto& test : p.tests)
+            if (0 == _exit)
             {
-                _context->tick();
-                std::cout << "Running test: " << test->getName() << std::endl;
-                test->run();
-            }
-
-            // Tick the tests.
-            bool tickTests = false;
-            do
-            {
-                auto t0 = std::chrono::steady_clock::now();
-                tickTests = false;
+                // Get the tests to run.
+                std::vector<std::shared_ptr<test::ITest> > runTests;
                 for (const auto& test : p.tests)
                 {
-                    _context->tick();
-                    if (test->doTick())
+                    if (p.testName.empty() ||
+                        (!p.testName.empty() && contains(test->getName(), p.testName)))
                     {
-                        tickTests = true;
-                        test->tick();
+                        runTests.push_back(test);
                     }
-                    auto t1 = std::chrono::steady_clock::now();
-                    sleep(std::chrono::milliseconds(5), t0, t1);
-                    t0 = t1;
-                }
-            }
-            while (tickTests);
+                }                
             
-            std::cout << "Finished tests" << std::endl;
-            return 0;
+                // Run the tests.
+                for (const auto& test : runTests)
+                {
+                    _context->tick();
+                    std::cout << "Running test: " << test->getName() << std::endl;
+                    test->run();
+                }
+
+                // Tick the tests.
+                bool tickTests = false;
+                do
+                {
+                    auto t0 = std::chrono::steady_clock::now();
+                    tickTests = false;
+                    for (const auto& test : runTests)
+                    {
+                        _context->tick();
+                        if (test->doTick())
+                        {
+                            tickTests = true;
+                            test->tick();
+                        }
+                        auto t1 = std::chrono::steady_clock::now();
+                        sleep(std::chrono::milliseconds(5), t0, t1);
+                        t0 = t1;
+                    }
+                }
+                while (tickTests);
+                
+                const auto now = std::chrono::steady_clock::now();
+                const std::chrono::duration<float> diff = now - p.startTime;
+                std::cout << Format("Seconds elapsed: {0}").arg(diff.count(), 2) << std::endl;
+            }
+            return _exit;
         }
     }
 }

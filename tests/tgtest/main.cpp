@@ -17,8 +17,8 @@ int main(int argc, char** argv)
     try
     {
         auto context = core::Context::create();
-        auto args = base_app::convert(argc, argv);
-        auto app = App::create(context, "tgtest", args);
+        auto args = app::convert(argc, argv);
+        auto app = App::create(context, args);
         r = app->run();
     }
     catch (const std::exception& e)

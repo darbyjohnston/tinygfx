@@ -1,6 +1,7 @@
 add_subdirectory(tgBaseApp)
 add_subdirectory(tgCore)
 add_subdirectory(tgRender)
+add_subdirectory(tgResourceApp)
 add_subdirectory(tgUIApp)
 if ("${TINYGFX_API}" STREQUAL "GL_4_1" OR
     "${TINYGFX_API}" STREQUAL "GL_4_1_Debug" OR

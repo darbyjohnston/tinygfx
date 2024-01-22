@@ -21,14 +21,13 @@ namespace tg
             
             void App::_init(
                 const std::shared_ptr<Context>& context,
-                const std::string& name,
-                std::vector<std::string>& args)
+                std::vector<std::string>& argv)
             {
-                ui::IApp::_init(context, name, args);
-                TG_P();
-                p.window = Window::create(context, name, Size2I(1280, 720));
-                addWindow(p.window);
-                p.window->show();
+                ui::IApp::_init(
+                    context,
+                    argv,
+                    "simple",
+                    "Simple render example");
             }
 
             App::App() :
@@ -40,12 +39,23 @@ namespace tg
             
             std::shared_ptr<App> App::create(
                 const std::shared_ptr<Context>& context,
-                const std::string& name,
-                std::vector<std::string>& args)
+                std::vector<std::string>& argv)
             {
                 auto out = std::shared_ptr<App>(new App);
-                out->_init(context, name, args);
+                out->_init(context, argv);
                 return out;
+            }
+            
+            int App::run()
+            {
+                TG_P();
+                if (0 == _exit)
+                {
+                    p.window = Window::create(_context, "simple", Size2I(1280, 720));
+                    addWindow(p.window);
+                    p.window->show();
+                }
+                return IApp::run();
             }
         }
     }

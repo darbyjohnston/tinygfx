@@ -20,8 +20,7 @@ namespace tg
             protected:
                 void _init(
                     const std::shared_ptr<core::Context>&,
-                    const std::string& name,
-                    std::vector<std::string>& args);
+                    std::vector<std::string>& argv);
 
                 App();
 
@@ -30,9 +29,10 @@ namespace tg
                 
                 static std::shared_ptr<App> create(
                     const std::shared_ptr<core::Context>&,
-                    const std::string& name,
-                    std::vector<std::string>& args);
+                    std::vector<std::string>& argv);
 
+                int run() override;
+                
             private:
                 TG_PRIVATE();
             };

@@ -7,6 +7,9 @@ set(HEADERS
     Context.h
     ContextInline.h
     Error.h
+    FileIO.h
+    FileIOInline.h
+    File.h
     Format.h
     FormatInline.h
     ISystem.h
@@ -44,6 +47,7 @@ set(SOURCE
     Assert.cpp
     Context.cpp
     Error.cpp
+    FileIO.cpp
     Format.cpp
     ISystem.cpp
     Image.cpp
@@ -59,10 +63,14 @@ set(SOURCE
 if(WIN32)
     list(APPEND SOURCE
         ErrorWin32.cpp
+        FileIOWin32.cpp
+        FileWin32.cpp
         OSWin32.cpp
         TimeWin32.cpp)
 else()
     list(APPEND SOURCE
+        FileIOUnix.cpp
+        FileUnix.cpp
         OSUnix.cpp
         TimeUnix.cpp)
 endif()

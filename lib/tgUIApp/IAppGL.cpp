@@ -34,10 +34,13 @@ namespace tg
         
         void IApp::_init(
             const std::shared_ptr<core::Context>& context,
+            std::vector<std::string>& argv,
             const std::string& name,
-            std::vector<std::string>& args)
+            const std::string& summary,
+            const std::vector<std::shared_ptr<app::ICmdLineArg> >& cmdLineArgs,
+            const std::vector<std::shared_ptr<app::ICmdLineOption> >& cmdLineOptions)
         {
-            base_app::IApp::_init(context, name, args);
+            app::IApp::_init(context, argv, name, summary, cmdLineArgs, cmdLineOptions);
             gl::init(context);
         }
 
@@ -67,41 +70,44 @@ namespace tg
         int IApp::run()
         {
             TG_P();
-            auto t0 = std::chrono::steady_clock::now();                
-            while (!p.windows.empty())
+            if (0 == _exit)
             {
-                glfwPollEvents();
-
-                _context->tick();
-
-                auto i = p.windows.begin();
-                while (i != p.windows.end())
+                auto t0 = std::chrono::steady_clock::now();                
+                while (!p.windows.empty())
                 {
-                    (*i)->tick();
+                    glfwPollEvents();
 
-                    if ((*i)->shouldRedraw())
+                    _context->tick();
+
+                    auto i = p.windows.begin();
+                    while (i != p.windows.end())
                     {
-                        (*i)->draw();
+                        (*i)->tick();
+
+                        if ((*i)->shouldRedraw())
+                        {
+                            (*i)->draw();
+                        }
+
+                        if ((*i)->shouldClose())
+                        {
+                            i = p.windows.erase(i);
+                        }
+                        else
+                        {
+                            ++i;
+                        }
                     }
 
-                    if ((*i)->shouldClose())
-                    {
-                        i = p.windows.erase(i);
-                    }
-                    else
-                    {
-                        ++i;
-                    }
+                    auto t1 = std::chrono::steady_clock::now();
+                    core::sleep(timeout, t0, t1);
+                    t1 = std::chrono::steady_clock::now();
+                    const std::chrono::duration<double> diff = t1 - t0;
+                    //std::cout << "tick: " << diff.count() << std::endl;
+                    t0 = t1;
                 }
-
-                auto t1 = std::chrono::steady_clock::now();
-                core::sleep(timeout, t0, t1);
-                t1 = std::chrono::steady_clock::now();
-                const std::chrono::duration<double> diff = t1 - t0;
-                //std::cout << "tick: " << diff.count() << std::endl;
-                t0 = t1;
             }
-            return 0;
+            return _exit;
         }
     }
 }

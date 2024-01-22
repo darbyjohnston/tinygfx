@@ -1,9 +1,12 @@
 set(HEADERS
-    IApp.h)
+    IApp.h
+    CmdLineInline.h
+    CmdLine.h)
 set(PRIVATE_HEADERS)
 
 set(SOURCE
-    IApp.cpp)
+    IApp.cpp
+    CmdLine.cpp)
 
 add_library(tgBaseApp ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
 target_link_libraries(tgBaseApp tgCore)

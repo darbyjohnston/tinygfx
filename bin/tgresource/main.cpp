@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include "App.h"
+#include <tgResourceApp/App.h>
 
 #include <tgCore/Context.h>
 
@@ -10,7 +10,7 @@
 
 using namespace tg;
 using namespace tg::core;
-using namespace tg::examples::simple;
+using namespace tg::resource;
 
 int main(int argc, char** argv)
 {
