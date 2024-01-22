@@ -4,6 +4,7 @@
 
 #include <tgCore/Init.h>
 
+#include <tgCore/FontSystem.h>
 #include <tgCore/LogSystem.h>
 #include <tgCore/Timer.h>
 
@@ -18,6 +19,10 @@ namespace tg
             if (!context->getSystem<LogSystem>())
             {
                 context->addSystem(LogSystem::create(context));
+            }
+            if (!context->getSystem<FontSystem>())
+            {
+                context->addSystem(FontSystem::create(context));
             }
             if (!context->getSystem<TimerSystem>())
             {

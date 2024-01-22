@@ -4,8 +4,10 @@ set(HEADERS
     ErrorTest.h
     FileIOTest.h
     FileTest.h
+    FontSystemTest.h
     FormatTest.h
     ImageTest.h
+    LRUCacheTest.h
     MathTest.h
     MatrixTest.h
     MemoryTest.h
@@ -27,8 +29,10 @@ set(SOURCE
     ErrorTest.cpp
     FileIOTest.cpp
     FileTest.cpp
+    FontSystemTest.cpp
     FormatTest.cpp
     ImageTest.cpp
+    LRUCacheTest.cpp
     MathTest.cpp
     MatrixTest.cpp
     MemoryTest.cpp

@@ -10,6 +10,8 @@ set(HEADERS
     FileIO.h
     FileIOInline.h
     File.h
+    FontSystem.h
+    FontSystemInline.h
     Format.h
     FormatInline.h
     ISystem.h
@@ -18,6 +20,8 @@ set(HEADERS
     ImageInline.h
     Init.h
     LogSystem.h
+    LRUCache.h
+    LRUCacheInline.h
     Math.h
     MathInline.h
     Matrix.h
@@ -48,6 +52,7 @@ set(SOURCE
     Context.cpp
     Error.cpp
     FileIO.cpp
+    FontSystem.cpp
     Format.cpp
     ISystem.cpp
     Image.cpp
@@ -76,4 +81,5 @@ else()
 endif()
 
 add_library(tgCore ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
+target_link_libraries(tgCore Freetype::Freetype)
 

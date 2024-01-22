@@ -62,12 +62,13 @@ endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-include_directories(lib tests)
+include_directories(lib etc tests)
 
 #-------------------------------------------------------------------------------
 # Dependencies
 
 find_package(Threads REQUIRED)
+find_package(FreeType REQUIRED)
 
 if ("${TINYGFX_API}" STREQUAL "GL_4_1")
     include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GL_4_1/include)

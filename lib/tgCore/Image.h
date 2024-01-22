@@ -18,9 +18,6 @@ namespace tg
 {
     namespace core
     {
-        //! \name Pixel Types
-        ///@{
-
         //! Pixel types.
         enum class PixelType
         {
@@ -57,8 +54,6 @@ namespace tg
         
         //! Get the number of bytes used to store a pixel.
         size_t getByteCount(PixelType);
-
-        ///@}
 
         //! Image information.
         struct ImageInfo

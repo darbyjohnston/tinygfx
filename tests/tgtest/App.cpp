@@ -18,8 +18,10 @@
 #include <tgCoreTest/ErrorTest.h>
 #include <tgCoreTest/FileIOTest.h>
 #include <tgCoreTest/FileTest.h>
+#include <tgCoreTest/FontSystemTest.h>
 #include <tgCoreTest/FormatTest.h>
 #include <tgCoreTest/ImageTest.h>
+#include <tgCoreTest/LRUCacheTest.h>
 #include <tgCoreTest/MathTest.h>
 #include <tgCoreTest/MatrixTest.h>
 #include <tgCoreTest/MemoryTest.h>
@@ -86,8 +88,10 @@ namespace tg
             p.tests.push_back(core_test::ErrorTest::create(context));
             p.tests.push_back(core_test::FileIOTest::create(context));
             p.tests.push_back(core_test::FileTest::create(context));
+            p.tests.push_back(core_test::FontSystemTest::create(context));
             p.tests.push_back(core_test::FormatTest::create(context));
             p.tests.push_back(core_test::ImageTest::create(context));
+            p.tests.push_back(core_test::LRUCacheTest::create(context));
             p.tests.push_back(core_test::MathTest::create(context));
             p.tests.push_back(core_test::MatrixTest::create(context));
             p.tests.push_back(core_test::MemoryTest::create(context));
