@@ -20,7 +20,7 @@ namespace tg
         //! Font information.
         struct FontInfo
         {
-            FontInfo();
+            FontInfo() = default;
             FontInfo(const std::string& family, int size);
 
             std::string family = "NotoSans-Regular";
@@ -42,7 +42,7 @@ namespace tg
         //! Font glyph information.
         struct GlyphInfo
         {
-            GlyphInfo();
+            GlyphInfo() = default;
             GlyphInfo(uint32_t code, const FontInfo&);
 
             uint32_t code     = 0;

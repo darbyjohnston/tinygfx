@@ -13,8 +13,6 @@ namespace tg
         //! Test application.
         class App : public app::IApp
         {
-            TG_NON_COPYABLE(App);
-
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,

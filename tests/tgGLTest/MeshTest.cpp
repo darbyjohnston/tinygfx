@@ -19,7 +19,7 @@ namespace tg
     namespace gl_test
     {
         MeshTest::MeshTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "tg::core_test::MeshTest")
+            ITest(context, "tg::gl_test::MeshTest")
         {}
 
         MeshTest::~MeshTest()

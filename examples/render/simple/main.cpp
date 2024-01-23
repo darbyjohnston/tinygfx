@@ -12,7 +12,7 @@ using namespace tg;
 using namespace tg::core;
 using namespace tg::examples::simple;
 
-int main(int argc, char** argv)
+TG_MAIN()
 {
     int r = 0;
     try

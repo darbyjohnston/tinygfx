@@ -16,7 +16,7 @@ namespace tg
         class Box
         {
         public:
-            Box();
+            Box() = default;
             Box(const Vector<C, T>& min, const Vector<C, T>& max);
             Box(const Vector<C, T>& min, const Size<C, T>& max);
             
@@ -37,7 +37,7 @@ namespace tg
         class Box<2, T>
         {
         public:
-            Box();
+            Box() = default;
             Box(const Vector<2, T>& min, const Vector<2, T>& max);
             Box(const Vector<2, T>& min, const Size<2, T>& max);
             Box(T x, T y, T width, T height);
@@ -64,7 +64,7 @@ namespace tg
         class Box<3, T>
         {
         public:
-            Box();
+            Box() = default;
             Box(const Vector<3, T>& min, const Vector<3, T>& max);
             Box(const Vector<3, T>& min, const Size<3, T>& max);
             Box(T x, T y, T z, T width, T height, T depth);

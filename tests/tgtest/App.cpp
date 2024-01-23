@@ -4,9 +4,13 @@
 
 #include "App.h"
 
+#include <tgBaseAppTest/AppTest.h>
+#include <tgBaseAppTest/CmdLineTest.h>
+
 #if defined(TINYGFX_API_GL_4_1) || defined(TINYGFX_API_GLES_2)
 #include <tgGLTest/MeshTest.h>
 #include <tgGLTest/OffscreenBufferTest.h>
+#include <tgGLTest/TextureAtlasTest.h>
 #include <tgGLTest/TextureTest.h>
 #include <tgGLTest/RenderTest.h>
 #include <tgGLTest/ShaderTest.h>
@@ -109,11 +113,15 @@ namespace tg
 #if defined(TINYGFX_API_GL_4_1) || defined(TINYGFX_API_GLES_2)
             p.tests.push_back(gl_test::MeshTest::create(context));
             p.tests.push_back(gl_test::OffscreenBufferTest::create(context));
+            p.tests.push_back(gl_test::TextureAtlasTest::create(context));
             p.tests.push_back(gl_test::TextureTest::create(context));
             p.tests.push_back(gl_test::RenderTest::create(context));
             p.tests.push_back(gl_test::ShaderTest::create(context));
             p.tests.push_back(gl_test::WindowTest::create(context));
 #endif // TINYGFX_API_GL_4_1
+
+            p.tests.push_back(app_test::AppTest::create(context));
+            p.tests.push_back(app_test::CmdLineTest::create(context));
         }
 
         App::App() :
@@ -152,7 +160,7 @@ namespace tg
                 for (const auto& test : runTests)
                 {
                     _context->tick();
-                    std::cout << "Running test: " << test->getName() << std::endl;
+                    _print(Format("Running test: {0}").arg(test->getName()));
                     test->run();
                 }
 
@@ -179,7 +187,7 @@ namespace tg
                 
                 const auto now = std::chrono::steady_clock::now();
                 const std::chrono::duration<float> diff = now - p.startTime;
-                std::cout << Format("Seconds elapsed: {0}").arg(diff.count(), 2) << std::endl;
+                _print(Format("Seconds elapsed: {0}").arg(diff.count(), 2));
             }
             return _exit;
         }

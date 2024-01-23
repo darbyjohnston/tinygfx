@@ -10,9 +10,6 @@ namespace tg
 {
     namespace core
     {
-        Context::Context()
-        {}
-
         Context::~Context()
         {}
 

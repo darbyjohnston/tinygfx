@@ -17,7 +17,7 @@ namespace tg
     namespace gl_test
     {
         WindowTest::WindowTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "tg::core_test::WindowTest")
+            ITest(context, "tg::gl_test::WindowTest")
         {}
 
         WindowTest::~WindowTest()

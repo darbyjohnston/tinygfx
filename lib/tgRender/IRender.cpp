@@ -13,9 +13,6 @@ namespace tg
             _context = context;
         }
 
-        IRender::IRender()
-        {}
-
         IRender::~IRender()
         {}
     }

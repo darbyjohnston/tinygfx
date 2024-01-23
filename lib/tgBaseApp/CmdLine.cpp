@@ -48,7 +48,7 @@ namespace tg
             }
         }
 
-        std::vector<std::string> CmdLineFlagOption::getHelpText() const
+        std::vector<std::string> CmdLineFlagOption::getHelp() const
         {
             std::vector<std::string> out;
             out.push_back(core::join(_names, ", "));

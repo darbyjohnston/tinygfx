@@ -1,3 +1,4 @@
+add_subdirectory(tgBaseAppTest)
 add_subdirectory(tgCoreTest)
 add_subdirectory(tgTestLib)
 add_subdirectory(tgtest)

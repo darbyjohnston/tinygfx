@@ -11,7 +11,7 @@
 using namespace tg;
 using namespace tg::tests;
 
-int main(int argc, char** argv)
+TG_MAIN()
 {
     int r = 0;
     try

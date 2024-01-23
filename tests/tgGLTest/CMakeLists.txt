@@ -3,6 +3,7 @@ set(HEADERS
     OffscreenBufferTest.h
     RenderTest.h
     ShaderTest.h
+    TextureAtlasTest.h
     TextureTest.h
     WindowTest.h)
 set(PRIVATE_HEADERS)
@@ -12,6 +13,7 @@ set(SOURCE
     OffscreenBufferTest.cpp
     RenderTest.cpp
     ShaderTest.cpp
+    TextureAtlasTest.cpp
     TextureTest.cpp
     WindowTest.cpp)
 

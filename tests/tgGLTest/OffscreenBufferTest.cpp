@@ -18,7 +18,7 @@ namespace tg
     namespace gl_test
     {
         OffscreenBufferTest::OffscreenBufferTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "tg::core_test::OffscreenBufferTest")
+            ITest(context, "tg::gl_test::OffscreenBufferTest")
         {}
 
         OffscreenBufferTest::~OffscreenBufferTest()

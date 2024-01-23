@@ -93,7 +93,7 @@ namespace tg
         }
 
         template<typename T>
-        inline std::vector<std::string> CmdLineValueOption<T>::getHelpText() const
+        inline std::vector<std::string> CmdLineValueOption<T>::getHelp() const
         {
             std::vector<std::string> out;
             out.push_back(core::join(_names, ", ") + " (value)");

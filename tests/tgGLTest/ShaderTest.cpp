@@ -18,7 +18,7 @@ namespace tg
     namespace gl_test
     {
         ShaderTest::ShaderTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "tg::core_test::ShaderTest")
+            ITest(context, "tg::gl_test::ShaderTest")
         {}
 
         ShaderTest::~ShaderTest()

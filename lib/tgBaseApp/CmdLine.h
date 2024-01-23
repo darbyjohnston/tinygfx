@@ -34,8 +34,8 @@ namespace tg
             //! Get the option name that was matched.
             const std::string& getMatchedName() const;
 
-            //! Get the help text.
-            virtual std::vector<std::string> getHelpText() const = 0;
+            //! Get the help.
+            virtual std::vector<std::string> getHelp() const = 0;
 
         protected:
             std::vector<std::string> _names;
@@ -60,7 +60,7 @@ namespace tg
                 const std::string& help);
 
             void parse(std::vector<std::string>& args) override;
-            std::vector<std::string> getHelpText() const override;
+            std::vector<std::string> getHelp() const override;
 
         private:
             bool& _value;
@@ -88,7 +88,7 @@ namespace tg
                 const std::string& possibleValues = std::string());
 
             void parse(std::vector<std::string>& args) override;
-            std::vector<std::string> getHelpText() const override;
+            std::vector<std::string> getHelp() const override;
 
         private:
             T& _value;

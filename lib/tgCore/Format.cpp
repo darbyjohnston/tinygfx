@@ -17,9 +17,7 @@ namespace tg
         {
             struct Match
             {
-                Match()
-                {}
-
+                Match() = default;
                 Match(std::ptrdiff_t pos, std::ptrdiff_t length) :
                     pos(pos),
                     length(length)

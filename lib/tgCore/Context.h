@@ -23,7 +23,7 @@ namespace tg
             TG_NON_COPYABLE(Context);
 
         protected:
-            Context();
+            Context() = default;
 
         public:
             ~Context();

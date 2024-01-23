@@ -43,7 +43,7 @@ namespace tg
         protected:
             void _init(const std::shared_ptr<core::Context>&);
 
-            IRender();
+            IRender() = default;
 
         public:
             virtual ~IRender() = 0;

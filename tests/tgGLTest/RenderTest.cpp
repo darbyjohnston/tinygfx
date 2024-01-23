@@ -18,7 +18,7 @@ namespace tg
     namespace gl_test
     {
         RenderTest::RenderTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "tg::core_test::RenderTest")
+            ITest(context, "tg::gl_test::RenderTest")
         {}
 
         RenderTest::~RenderTest()

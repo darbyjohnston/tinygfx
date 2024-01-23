@@ -218,7 +218,7 @@ namespace tg
             for (const auto& i : p.cmdLineOptions)
             {
                 bool first = true;
-                for (const auto& j : i->getHelpText())
+                for (const auto& j : i->getHelp())
                 {
                     if (first)
                     {

@@ -7,10 +7,6 @@ namespace tg
     namespace core
     {
         template<int C, typename T>
-        inline Box<C, T>::Box()
-        {}
-        
-        template<int C, typename T>
         inline Box<C, T>::Box(const Vector<C, T>& min, const Vector<C, T>& max) :
             _min(min),
             _max(max)
@@ -57,10 +53,6 @@ namespace tg
             return out;
         }
 
-        template<typename T>
-        inline Box<2, T>::Box()
-        {}
-        
         template<typename T>
         inline Box<2, T>::Box(const Vector<2, T>& min, const Vector<2, T>& max) :
             _min(min),
@@ -155,10 +147,6 @@ namespace tg
             return size().h();
         }
 
-        template<typename T>
-        inline Box<3, T>::Box()
-        {}
-        
         template<typename T>
         inline Box<3, T>::Box(const Vector<3, T>& min, const Vector<3, T>& max) :
             _min(min),

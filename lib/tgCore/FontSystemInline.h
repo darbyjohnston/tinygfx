@@ -6,9 +6,6 @@ namespace tg
 {
     namespace core
     {
-        inline FontInfo::FontInfo()
-        {}
-
         inline FontInfo::FontInfo(const std::string& family, int size) :
             family(family),
             size(size)
@@ -28,9 +25,6 @@ namespace tg
         {
             return std::tie(family, size) < std::tie(other.family, other.size);
         }
-
-        inline GlyphInfo::GlyphInfo()
-        {}
 
         inline GlyphInfo::GlyphInfo(uint32_t code, const FontInfo& fontInfo) :
             code(code),

@@ -7,6 +7,7 @@ set(HEADERS
     Shader.h
     System.h
     Texture.h
+    TextureAtlas.h
     Util.h
     Window.h)
 set(PRIVATE_HEADERS
@@ -22,6 +23,7 @@ set(SOURCE
     Shader.cpp
     System.cpp
     Texture.cpp
+    TextureAtlas.cpp
     Util.cpp
     Window.cpp)
 if ("${TINYGFX_API}" STREQUAL "GL_4_1" OR
