@@ -68,6 +68,7 @@ include_directories(lib etc tests)
 # Dependencies
 
 find_package(Threads REQUIRED)
+find_package(ZLIB REQUIRED)
 find_package(FreeType REQUIRED)
 
 if ("${TINYGFX_API}" STREQUAL "GL_4_1")

@@ -81,5 +81,5 @@ else()
 endif()
 
 add_library(tgCore ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(tgCore Freetype::Freetype)
+target_link_libraries(tgCore Freetype::Freetype ZLIB::ZLIB)
 
