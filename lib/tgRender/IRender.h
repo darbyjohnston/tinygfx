@@ -4,11 +4,12 @@
 
 #pragma once
 
-#include <tgCore/Box.h>
-#include <tgCore/Color.h>
+#include <tgRender/ImageOptions.h>
+#include <tgRender/RenderOptions.h>
+
+#include <tgCore/FontSystem.h>
 #include <tgCore/Matrix.h>
 #include <tgCore/Mesh.h>
-#include <tgCore/Util.h>
 #include <tgCore/Vector.h>
 
 #include <memory>
@@ -22,19 +23,6 @@ namespace tg
 
     namespace render
     {
-        //! Render options.
-        struct Options
-        {
-            bool          clear      = true;
-            core::Color4F clearColor = core::Color4F(0.F, 0.F, 0.F, 0.F);
-        };
-
-        //! Line drawing options.
-        struct LineOptions
-        {
-            float width = 1.F;
-        };
-        
         //! Base class for rendering.
         class IRender : public std::enable_shared_from_this<IRender>
         {
@@ -112,6 +100,19 @@ namespace tg
                 const core::TriMesh2F&,
                 const core::Color4F& = core::Color4F(1.F, 1.F, 1.F, 1.F),
                 const core::V2F& pos = core::V2F()) = 0;
+
+            //! Draw text.
+            virtual void drawText(
+                const std::vector<std::shared_ptr<core::Glyph> >&,
+                const core::V2F& position,
+                const core::Color4F& = core::Color4F(1.F, 1.F, 1.F, 1.F)) = 0;
+
+            //! Draw an image.
+            virtual void drawImage(
+                const std::shared_ptr<core::Image>&,
+                const core::Box2F&,
+                const core::Color4F& = core::Color4F(1.F, 1.F, 1.F, 1.F),
+                const ImageOptions& = ImageOptions()) = 0;
 
         protected:
             std::weak_ptr<core::Context> _context;

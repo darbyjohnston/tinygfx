@@ -127,11 +127,8 @@ namespace tg
         //! \name Color Operators
         ///@{
 
-        //! Color comparison.
         template<int C, typename T>
         bool operator == (const Color<C, T>&, const Color<C, T>&);
-        
-        //! Color comparison.
         template<int C, typename T>
         bool operator != (const Color<C, T>&, const Color<C, T>&);
         

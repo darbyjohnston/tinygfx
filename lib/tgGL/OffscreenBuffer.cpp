@@ -13,6 +13,8 @@
 #include <array>
 #include <sstream>
 
+using namespace tg::core;
+
 namespace tg
 {
     namespace gl
@@ -134,7 +136,7 @@ namespace tg
 
         struct OffscreenBuffer::Private
         {
-            core::Size2I size;
+            Size2I size;
             OffscreenBufferOptions options;
             GLuint id = 0;
             GLuint colorID = 0;
@@ -142,7 +144,7 @@ namespace tg
         };
 
         void OffscreenBuffer::_init(
-            const core::Size2I& size,
+            const Size2I& size,
             const OffscreenBufferOptions& options)
         {
             TG_P();
@@ -177,7 +179,7 @@ namespace tg
 #endif // TINYGFX_API_GL_4_1
 
             // Create the color texture.
-            if (p.options.color != core::PixelType::None)
+            if (p.options.color != PixelType::None)
             {
                 glGenTextures(1, &p.colorID);
                 if (!p.colorID)
@@ -311,7 +313,7 @@ namespace tg
         }
 
         std::shared_ptr<OffscreenBuffer> OffscreenBuffer::create(
-            const core::Size2I& size,
+            const Size2I& size,
             const OffscreenBufferOptions& options)
         {
             auto out = std::shared_ptr<OffscreenBuffer>(new OffscreenBuffer);
@@ -319,7 +321,7 @@ namespace tg
             return out;
         }
 
-        const core::Size2I& OffscreenBuffer::getSize() const
+        const Size2I& OffscreenBuffer::getSize() const
         {
             return _p->size;
         }
@@ -356,7 +358,7 @@ namespace tg
 
         bool doCreate(
             const std::shared_ptr<OffscreenBuffer>& offscreenBuffer,
-            const core::Size2I& size,
+            const Size2I& size,
             const OffscreenBufferOptions& options)
         {
             bool out = false;

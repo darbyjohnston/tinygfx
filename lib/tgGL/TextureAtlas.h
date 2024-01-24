@@ -18,7 +18,7 @@ namespace tg
         {
             int w = 0;
             int h = 0;
-            uint8_t textureIndex = 0;
+            size_t textureIndex = 0;
             core::RangeF textureU;
             core::RangeF textureV;
         };

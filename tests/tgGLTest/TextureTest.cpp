@@ -71,7 +71,7 @@ namespace tg
                 for (auto pixelType : getPixelTypeEnums())
                 {
                     dataList.push_back({
-                        ImageInfo(Size2I(1920, 1080), pixelType),
+                        ImageInfo(ImageSize(1920, 1080), pixelType),
                         TextureOptions() });
                 }
                 {
@@ -79,22 +79,23 @@ namespace tg
                     options.filters.minify = TextureFilter::Nearest;
                     options.filters.magnify = TextureFilter::Nearest;
                     dataList.push_back({
-                        ImageInfo(Size2I(1920, 1080), PixelType::RGBA_U8),
+                        ImageInfo(ImageSize(1920, 1080), PixelType::RGBA_U8),
                         options });
                 }
                 {
                     TextureOptions options;
                     options.pbo = true;
                     dataList.push_back({
-                        ImageInfo(Size2I(1920, 1080), PixelType::RGBA_U8),
+                        ImageInfo(ImageSize(1920, 1080), PixelType::RGBA_U8),
                         options });
                 }
                 for (const auto& data : dataList)
                 {
                     try
                     {
-                        _print(Format("Texture: size={0}, pixelType={1}, minify={2}, magnify={3}, pbo={4}").
-                            arg(data.info.size).
+                        _print(Format("Texture: size={0} {1} pixelType={2}, minify={3}, magnify={4}, pbo={5}").
+                            arg(data.info.size.w).
+                            arg(data.info.size.h).
                             arg(data.info.pixelType).
                             arg(data.options.filters.minify).
                             arg(data.options.filters.magnify).
@@ -102,8 +103,8 @@ namespace tg
                         auto texture = Texture::create(data.info, data.options);
                         TG_ASSERT(data.info == texture->getInfo());
                         TG_ASSERT(data.info.size == texture->getSize());
-                        TG_ASSERT(data.info.size.w() == texture->getWidth());
-                        TG_ASSERT(data.info.size.h() == texture->getHeight());
+                        TG_ASSERT(data.info.size.w == texture->getWidth());
+                        TG_ASSERT(data.info.size.h == texture->getHeight());
                         TG_ASSERT(data.info.pixelType == texture->getPixelType());
                         if (data.info.pixelType != PixelType::None)
                         {

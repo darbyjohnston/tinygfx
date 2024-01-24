@@ -8,26 +8,24 @@
 
 namespace tg
 {
-    namespace core_test
+    namespace render_test
     {
-        class ImageTest : public test::ITest
+        class ImageOptionsTest : public test::ITest
         {
         protected:
-            ImageTest(const std::shared_ptr<core::Context>&);
+            ImageOptionsTest(const std::shared_ptr<core::Context>&);
 
         public:
-            virtual ~ImageTest();
+            virtual ~ImageOptionsTest();
 
-            static std::shared_ptr<ImageTest> create(
+            static std::shared_ptr<ImageOptionsTest> create(
                 const std::shared_ptr<core::Context>&);
 
             void run() override;
-            
+
         private:
             void _enums();
-            void _info();
-            void _members();
-            void _functions();
+            void _operators();
         };
     }
 }

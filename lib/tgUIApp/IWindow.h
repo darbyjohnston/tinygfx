@@ -15,6 +15,7 @@ namespace tg
     namespace core
     {
         class Context;
+        class FontSystem;
     }
     
     namespace render
@@ -74,6 +75,7 @@ namespace tg
         protected:
             virtual void _draw(
                 const core::V2F& contentScale,
+                const std::shared_ptr<core::FontSystem>&,
                 const std::shared_ptr<render::IRender>&) = 0;
 
         private:

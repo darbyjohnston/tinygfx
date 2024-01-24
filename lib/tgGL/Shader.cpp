@@ -12,6 +12,8 @@
 
 #include <iostream>
 
+using namespace tg::core;
+
 namespace tg
 {
     namespace gl
@@ -41,19 +43,19 @@ namespace tg
             glGetShaderiv(p.vertex, GL_COMPILE_STATUS, &success);
             if (!success)
             {
-                char infoLog[core::cStringSize];
-                glGetShaderInfoLog(p.vertex, core::cStringSize, NULL, infoLog);
-                auto lines = core::split(
+                char infoLog[cStringSize];
+                glGetShaderInfoLog(p.vertex, cStringSize, NULL, infoLog);
+                auto lines = split(
                     p.vertexSource,
                     { '\n', '\r' },
-                    core::SplitOptions::KeepEmpty);
+                    SplitOptions::KeepEmpty);
                 for (size_t i = 0; i < lines.size(); ++i)
                 {
-                    lines[i].insert(0, core::Format("{0}: ").arg(i));
+                    lines[i].insert(0, Format("{0}: ").arg(i));
                 }
                 lines.push_back(infoLog);
-                //std::cout << core::join(lines, '\n') << std::endl;
-                throw std::runtime_error(core::join(lines, '\n'));
+                //std::cout << join(lines, '\n') << std::endl;
+                throw std::runtime_error(join(lines, '\n'));
             }
 
             p.fragment = glCreateShader(GL_FRAGMENT_SHADER);
@@ -67,19 +69,19 @@ namespace tg
             glGetShaderiv(p.fragment, GL_COMPILE_STATUS, &success);
             if (!success)
             {
-                char infoLog[core::cStringSize];
-                glGetShaderInfoLog(p.fragment, core::cStringSize, NULL, infoLog);
-                auto lines = core::split(
+                char infoLog[cStringSize];
+                glGetShaderInfoLog(p.fragment, cStringSize, NULL, infoLog);
+                auto lines = split(
                     p.fragmentSource,
                     { '\n', '\r' },
-                    core::SplitOptions::KeepEmpty);
+                    SplitOptions::KeepEmpty);
                 for (size_t i = 0; i < lines.size(); ++i)
                 {
-                    lines[i].insert(0, core::Format("{0}: ").arg(i));
+                    lines[i].insert(0, Format("{0}: ").arg(i));
                 }
                 lines.push_back(infoLog);
-                //std::cout << core::join(lines, '\n') << std::endl;
-                throw std::runtime_error(core::join(lines, '\n'));
+                //std::cout << join(lines, '\n') << std::endl;
+                throw std::runtime_error(join(lines, '\n'));
             }
 
             p.program = glCreateProgram();
@@ -89,8 +91,8 @@ namespace tg
             glGetProgramiv(p.program, GL_LINK_STATUS, &success);
             if (!success)
             {
-                char infoLog[core::cStringSize];
-                glGetProgramInfoLog(p.program, core::cStringSize, NULL, infoLog);
+                char infoLog[cStringSize];
+                glGetProgramInfoLog(p.program, cStringSize, NULL, infoLog);
                 throw std::runtime_error(infoLog);
             }
         }
@@ -160,32 +162,32 @@ namespace tg
             glUniform1f(location, value);
         }
 
-        void Shader::setUniform(int location, const core::V2F& value)
+        void Shader::setUniform(int location, const V2F& value)
         {
             glUniform2fv(location, 1, value.data());
         }
 
-        void Shader::setUniform(int location, const core::V3F& value)
+        void Shader::setUniform(int location, const V3F& value)
         {
             glUniform3fv(location, 1, value.data());
         }
 
-        void Shader::setUniform(int location, const core::V4F& value)
+        void Shader::setUniform(int location, const V4F& value)
         {
             glUniform4fv(location, 1, value.data());
         }
 
-        void Shader::setUniform(int location, const core::M33F& value)
+        void Shader::setUniform(int location, const M33F& value)
         {
             glUniformMatrix3fv(location, 1, GL_FALSE, value.data());
         }
 
-        void Shader::setUniform(int location, const core::M44F& value)
+        void Shader::setUniform(int location, const M44F& value)
         {
             glUniformMatrix4fv(location, 1, GL_FALSE, value.data());
         }
 
-        void Shader::setUniform(int location, const core::Color4F& value)
+        void Shader::setUniform(int location, const Color4F& value)
         {
             glUniform4fv(location, 1, value.data());
         }
@@ -205,12 +207,12 @@ namespace tg
             glUniform1fv(location, value.size(), &value[0]);
         }
 
-        void Shader::setUniform(int location, const std::vector<core::V3F>& value)
+        void Shader::setUniform(int location, const std::vector<V3F>& value)
         {
             glUniform3fv(location, value.size(), value[0].data());
         }
 
-        void Shader::setUniform(int location, const std::vector<core::V4F>& value)
+        void Shader::setUniform(int location, const std::vector<V4F>& value)
         {
             glUniform4fv(location, value.size(), value[0].data());
         }
@@ -227,37 +229,37 @@ namespace tg
             setUniform(location, value);
         }
 
-        void Shader::setUniform(const std::string& name, const core::V2F& value)
+        void Shader::setUniform(const std::string& name, const V2F& value)
         {
             const GLint location = glGetUniformLocation(_p->program, name.c_str());
             setUniform(location, value);
         }
 
-        void Shader::setUniform(const std::string& name, const core::V3F& value)
+        void Shader::setUniform(const std::string& name, const V3F& value)
         {
             const GLint location = glGetUniformLocation(_p->program, name.c_str());
             setUniform(location, value);
         }
 
-        void Shader::setUniform(const std::string& name, const core::V4F& value)
+        void Shader::setUniform(const std::string& name, const V4F& value)
         {
             const GLint location = glGetUniformLocation(_p->program, name.c_str());
             setUniform(location, value);
         }
 
-        void Shader::setUniform(const std::string& name, const core::M33F& value)
+        void Shader::setUniform(const std::string& name, const M33F& value)
         {
             const GLint location = glGetUniformLocation(_p->program, name.c_str());
             setUniform(location, value);
         }
 
-        void Shader::setUniform(const std::string& name, const core::M44F& value)
+        void Shader::setUniform(const std::string& name, const M44F& value)
         {
             const GLint location = glGetUniformLocation(_p->program, name.c_str());
             setUniform(location, value);
         }
         
-        void Shader::setUniform(const std::string& name, const core::Color4F& value)
+        void Shader::setUniform(const std::string& name, const Color4F& value)
         {
             const GLint location = glGetUniformLocation(_p->program, name.c_str());
             setUniform(location, value);
@@ -281,13 +283,13 @@ namespace tg
             setUniform(location, value);
         }
 
-        void Shader::setUniform(const std::string& name, const std::vector<core::V3F>& value)
+        void Shader::setUniform(const std::string& name, const std::vector<V3F>& value)
         {
             const GLint location = glGetUniformLocation(_p->program, name.c_str());
             setUniform(location, value);
         }
 
-        void Shader::setUniform(const std::string& name, const std::vector<core::V4F>& value)
+        void Shader::setUniform(const std::string& name, const std::vector<V4F>& value)
         {
             const GLint location = glGetUniformLocation(_p->program, name.c_str());
             setUniform(location, value);

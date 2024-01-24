@@ -127,11 +127,8 @@ namespace tg
         //! \name Box Operators
         ///@{
         
-        //! Box comparison.
         template<int C, typename T>
         bool operator == (const Box<C, T>&, const Box<C, T>&);
-        
-        //! Box comparison.
         template<int C, typename T>
         bool operator != (const Box<C, T>&, const Box<C, T>&);
         

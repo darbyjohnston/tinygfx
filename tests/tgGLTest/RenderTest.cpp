@@ -9,6 +9,8 @@
 #include <tgGL/Window.h>
 
 #include <tgCore/Assert.h>
+#include <tgCore/Context.h>
+#include <tgCore/FontSystem.h>
 
 using namespace tg::core;
 using namespace tg::gl;
@@ -76,6 +78,7 @@ namespace tg
                 Box2I clipRect(0, 0, 50, 50);
                 render->setClipRect(clipRect);
                 TG_ASSERT(clipRect == render->getClipRect());
+                render->setClipRectEnabled(false);
                 
                 M44F transform = perspective(60.F, 1.F, .1F, 10000.F);
                 render->setTransform(transform);
@@ -144,6 +147,57 @@ namespace tg
                     triangle.v[2].c = 1;
                     mesh.triangles.push_back(triangle);
                     render->drawColorMesh(mesh);
+                }
+                
+                std::string text = "Hello world";
+                auto fontSystem = context->getSystem<FontSystem>();
+                FontInfo fontInfo;
+                auto glyphs = fontSystem->getGlyphs(text, fontInfo);
+                render->drawText(glyphs, V2F(100.F, 100.F));
+                
+                std::vector<render::ImageOptions> imageOptionsList;
+                for (auto i : render::getInputVideoLevelsEnums())
+                {
+                    render::ImageOptions imageOptions;
+                    imageOptions.videoLevels = i;
+                    imageOptionsList.push_back(imageOptions);
+                }
+                for (auto i : render::getAlphaBlendEnums())
+                {
+                    render::ImageOptions imageOptions;
+                    imageOptions.alphaBlend = i;
+                    imageOptionsList.push_back(imageOptions);
+                }
+                {
+                    render::ImageOptions imageOptions;
+                    imageOptions.cache = false;
+                    imageOptionsList.push_back(imageOptions);
+                }
+                {
+                    render::ImageOptions imageOptions;
+                    imageOptions.imageFilters.minify = render::ImageFilter::Nearest;
+                    imageOptions.imageFilters.magnify = render::ImageFilter::Nearest;
+                    imageOptionsList.push_back(imageOptions);
+                }
+                for (const auto& imageSize : { ImageSize(64, 64), ImageSize(2048, 2048) })
+                {
+                    for (auto pixelType : getPixelTypeEnums())
+                    {
+                        auto image = Image::create(imageSize, pixelType);
+                        for (const auto& imageOptions : imageOptionsList)
+                        {
+                            try
+                            {
+                                render->drawImage(
+                                    image,
+                                    Box2F(200.F, 200.F, 256.F, 256.F),
+                                    Color4F(1.F, 1.F, 1.F, 1.F),
+                                    imageOptions);
+                            }
+                            catch (const std::exception&)
+                            {}
+                        }
+                    }
                 }
 
                 render->end();

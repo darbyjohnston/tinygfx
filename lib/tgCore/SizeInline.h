@@ -234,6 +234,28 @@ namespace tg
             }
             return out;
         }
+        
+        template<int C, typename T>
+        inline Size<C, T> operator * (const Size<C, T>& a, T b)
+        {
+            Size<C, T> out;
+            for (int i = 0; i < C; ++i)
+            {
+                out[i] = a[i] * b;
+            }
+            return out;
+        }
+        
+        template<int C, typename T>
+        inline Size<C, T> operator / (const Size<C, T>& a, T b)
+        {
+            Size<C, T> out;
+            for (int i = 0; i < C; ++i)
+            {
+                out[i] = a[i] / b;
+            }
+            return out;
+        }
 
         template<int C, typename T>
         inline bool operator == (const Size<C, T>& a, const Size<C, T>& b)

@@ -34,6 +34,7 @@ namespace tg
             protected:
                 void _draw(
                     const core::V2F& contentScale,
+                    const std::shared_ptr<core::FontSystem>&,
                     const std::shared_ptr<render::IRender>&) override;
             };
         }

@@ -6,7 +6,82 @@ namespace tg
 {
     namespace core
     {
-        inline ImageInfo::ImageInfo(const Size2I& size, PixelType pixelType) :
+        constexpr ImageSize::ImageSize(
+            int w,
+            int h,
+            float pixelAspectRatio) :
+            w(w),
+            h(h),
+            pixelAspectRatio(pixelAspectRatio)
+        {}
+
+        constexpr bool ImageSize::isValid() const
+        {
+            return w > 0 && h > 0;
+        }
+
+        constexpr float ImageSize::getAspect() const
+        {
+            return h > 0 ? (w / static_cast<float>(h) * pixelAspectRatio) : 0;
+        }
+
+        constexpr bool ImageSize::operator == (const ImageSize& other) const
+        {
+            return
+                w == other.w &&
+                h == other.h &&
+                pixelAspectRatio == other.pixelAspectRatio;
+        }
+
+        constexpr bool ImageSize::operator != (const ImageSize& other) const
+        {
+            return !(*this == other);
+        }
+
+        inline bool ImageSize::operator < (const ImageSize& other) const
+        {
+            const int widthScaled = static_cast<int>(w * pixelAspectRatio);
+            const int otherWidthScaled = static_cast<int>(other.w * other.pixelAspectRatio);
+            return
+                std::tie(widthScaled, h) <
+                std::tie(otherWidthScaled, other.h);
+        }
+
+        constexpr Mirror::Mirror(bool x, bool y) :
+            x(x),
+            y(y)
+        {}
+
+        constexpr bool Mirror::operator == (const Mirror& other) const
+        {
+            return other.x == x && other.y == y;
+        }
+
+        constexpr bool Mirror::operator != (const Mirror& other) const
+        {
+            return !(other == *this);
+        }
+
+        inline Layout::Layout(const Mirror& mirror, int alignment, Endian endian) :
+            mirror(mirror),
+            alignment(alignment),
+            endian(endian)
+        {}
+
+        constexpr bool Layout::operator == (const Layout & other) const
+        {
+            return
+                other.mirror == mirror &&
+                other.alignment == alignment &&
+                other.endian == endian;
+        }
+
+        constexpr bool Layout::operator != (const Layout & other) const
+        {
+            return !(other == *this);
+        }
+
+        inline ImageInfo::ImageInfo(const ImageSize& size, PixelType pixelType) :
             size(size),
             pixelType(pixelType)
         {}
@@ -18,17 +93,17 @@ namespace tg
 
         inline bool ImageInfo::isValid() const
         {
-            return size[0] > 0 && size[1] > 0 && pixelType != PixelType::None;
-        }
-
-        inline size_t ImageInfo::getByteCount() const
-        {
-            return size.w() * size.h() * core::getByteCount(pixelType);
+            return size.isValid() > 0 && pixelType != PixelType::None;
         }
 
         inline bool ImageInfo::operator == (const ImageInfo& other) const
         {
-            return size == other.size && pixelType == other.pixelType;
+            return
+                size == other.size &&
+                pixelType == other.pixelType &&
+                videoLevels == other.videoLevels &&
+                yuvCoefficients == other.yuvCoefficients &&
+                layout == other.layout;
         }
         
         inline bool ImageInfo::operator != (const ImageInfo& other) const
@@ -41,24 +116,24 @@ namespace tg
             return _info;
         }
 
-        inline const Size2I& Image::getSize() const
+        inline const ImageSize& Image::getSize() const
         {
             return _info.size;
         }
 
         inline int Image::getWidth() const
         {
-            return _info.size[0];
+            return _info.size.w;
         }
 
         inline int Image::getHeight() const
         {
-            return _info.size[1];
+            return _info.size.h;
         }
 
         inline float Image::getAspect() const
         {
-            return aspectRatio(_info.size);
+            return _info.size.getAspect();
         }
 
         inline PixelType Image::getPixelType() const

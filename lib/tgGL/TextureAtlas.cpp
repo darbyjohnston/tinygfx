@@ -71,8 +71,8 @@ namespace tg
                 uint64_t timestamp = 0;
 
                 Box2I box;
-                uint8_t border = 0;
-                uint8_t textureIndex = 0;
+                int border = 0;
+                size_t textureIndex = 0;
                 std::shared_ptr<BoxPackingNode> children[2];
 
                 bool isBranch() const { return children[0].get(); }
@@ -199,7 +199,7 @@ namespace tg
             p.border = border;
             p.timestampManager = TimestampManager::create();
 
-            for (uint8_t i = 0; i < p.textureCount; ++i)
+            for (size_t i = 0; i < p.textureCount; ++i)
             {
                 TextureOptions textureOptions;
                 textureOptions.filters.minify = filter;
@@ -280,8 +280,8 @@ namespace tg
             TextureAtlasItem& out)
         {
             TG_P();
-
-            for (uint8_t i = 0; i < p.textureCount; ++i)
+            
+            for (size_t i = 0; i < p.textureCount; ++i)
             {
                 if (auto node = p.boxPackingNodes[i]->insert(image))
                 {
@@ -300,7 +300,7 @@ namespace tg
 
             // The atlas is full, over-write older data.
             std::vector<std::shared_ptr<BoxPackingNode> > nodes;
-            for (uint8_t i = 0; i < p.textureCount; ++i)
+            for (size_t i = 0; i < p.textureCount; ++i)
             {
                 p.getAllNodes(p.boxPackingNodes[i], nodes);
             }
@@ -323,7 +323,7 @@ namespace tg
                     p.removeFromAtlas(old);
                     if (old->isBranch())
                     {
-                        for (uint8_t i = 0; i < 2; ++i)
+                        for (size_t i = 0; i < 2; ++i)
                         {
                             old->children[i].reset();
                         }
@@ -360,7 +360,7 @@ namespace tg
             float out = 0.F;
             if (p.textureCount && p.textureSize)
             {
-                for (uint8_t i = 0; i < p.textureCount; ++i)
+                for (size_t i = 0; i < p.textureCount; ++i)
                 {
                     size_t used = 0;
                     std::vector<std::shared_ptr<BoxPackingNode> > leafs;

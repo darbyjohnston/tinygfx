@@ -17,6 +17,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace tg::core;
+
 namespace tg
 {
     namespace gl
@@ -55,34 +57,34 @@ namespace tg
 
         struct Window::Private
         {
-            std::weak_ptr<core::Context> context;
+            std::weak_ptr<Context> context;
             GLFWwindow* glfwWindow = nullptr;
             bool gladInit = true;
-            core::Size2I size;
-            core::V2I pos;
-            core::Size2I frameBufferSize;
-            core::V2F contentScale = core::V2F(1.F, 1.F);
+            Size2I size;
+            V2I pos;
+            Size2I frameBufferSize;
+            V2F contentScale = V2F(1.F, 1.F);
             bool fullScreen = false;
-            core::Size2I restoreSize;
+            Size2I restoreSize;
             bool floatOnTop = false;
 
-            std::function<void(const core::Size2I&)> sizeCallback;
-            std::function<void(const core::Size2I&)> frameBufferSizeCallback;
-            std::function<void(const core::V2F&)> contentScaleCallback;
+            std::function<void(const Size2I&)> sizeCallback;
+            std::function<void(const Size2I&)> frameBufferSizeCallback;
+            std::function<void(const V2F&)> contentScaleCallback;
             std::function<void(void)> refreshCallback;
             std::function<void(bool)> cursorEnterCallback;
-            std::function<void(const core::V2F&)> cursorPosCallback;
+            std::function<void(const V2F&)> cursorPosCallback;
             std::function<void(int, int, int)> buttonCallback;
-            std::function<void(const core::V2F&)> scrollCallback;
+            std::function<void(const V2F&)> scrollCallback;
             std::function<void(int, int, int, int)> keyCallback;
             std::function<void(unsigned int)> charCallback;
             std::function<void(int, const char**)> dropCallback;
         };
         
         Window::Window(
-            const std::shared_ptr<core::Context>& context,
+            const std::shared_ptr<Context>& context,
             const std::string& name,
-            const core::Size2I& size,
+            const Size2I& size,
             int options,
             const std::shared_ptr<Window>& share) :
             _p(new Private)
@@ -110,8 +112,8 @@ namespace tg
             glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif // TINYGFX_API_GL_4_1_Debug
             p.glfwWindow = glfwCreateWindow(
-                size[0],
-                size[1],
+                size.w(),
+                size.h(),
                 name.c_str(),
                 nullptr,
                 share ? share->getGLFW() : nullptr);
@@ -157,9 +159,9 @@ namespace tg
         }
 
         std::shared_ptr<Window> Window::create(
-            const std::shared_ptr<core::Context>& context,
+            const std::shared_ptr<Context>& context,
             const std::string& name,
-            const core::Size2I& size,
+            const Size2I& size,
             int options,
             const std::shared_ptr<Window>& share)
         {
@@ -171,22 +173,22 @@ namespace tg
             return _p->glfwWindow;
         }
 
-        const core::Size2I& Window::getSize() const
+        const Size2I& Window::getSize() const
         {
             return _p->size;
         }
 
-        void Window::setSize(const core::Size2I& value)
+        void Window::setSize(const Size2I& value)
         {
             glfwSetWindowSize(_p->glfwWindow, value[0], value[1]);
         }
 
-        const core::Size2I& Window::getFrameBufferSize() const
+        const Size2I& Window::getFrameBufferSize() const
         {
             return _p->frameBufferSize;
         }
 
-        const core::V2F& Window::getContentScale() const
+        const V2F& Window::getContentScale() const
         {
             return _p->contentScale;
         }
@@ -243,11 +245,11 @@ namespace tg
         {
             TG_P();
 
-            core::V2I windowPos;
-            core::Size2I windowSize;
+            V2I windowPos;
+            Size2I windowSize;
             glfwGetWindowPos(p.glfwWindow, &windowPos[0], &windowPos[1]);
             glfwGetWindowSize(_p->glfwWindow, &windowSize[0], &windowSize[1]);
-            const core::Box2I windowBox(windowPos, windowSize);
+            const Box2I windowBox(windowPos, windowSize);
 
             struct MonitorData
             {
@@ -255,17 +257,17 @@ namespace tg
                 int width = 0;
                 int height = 0;
                 int refreshRate = 0;
-                core::Box2I intersect;
+                Box2I intersect;
             };
             std::vector<MonitorData> monitorData;
             int glfwMonitorsCount = 0;
             GLFWmonitor** glfwMonitors = glfwGetMonitors(&glfwMonitorsCount);
             for (int i = 0; i < glfwMonitorsCount; ++i)
             {
-                core::Size2I monitorPos;
+                Size2I monitorPos;
                 glfwGetMonitorPos(glfwMonitors[i], &monitorPos[0], &monitorPos[1]);
                 const GLFWvidmode* glfwVidmode = glfwGetVideoMode(glfwMonitors[i]);
-                const core::Box2I monitorBox(
+                const Box2I monitorBox(
                     monitorPos[0],
                     monitorPos[1],
                     glfwVidmode->width,
@@ -275,7 +277,7 @@ namespace tg
                     glfwVidmode->width,
                     glfwVidmode->height,
                     glfwVidmode->refreshRate,
-                    core::intersect(windowBox, monitorBox)
+                    intersect(windowBox, monitorBox)
                     });
             }
             std::sort(
@@ -283,7 +285,7 @@ namespace tg
                 monitorData.end(),
                 [](const MonitorData& a, const MonitorData& b)
                 {
-                    return core::area(a.intersect) > core::area(b.intersect);
+                    return area(a.intersect) > area(b.intersect);
                 });
 
             return !monitorData.empty() ? monitorData.front().index : -1;
@@ -302,11 +304,11 @@ namespace tg
             p.fullScreen = value;
             if (p.fullScreen)
             {
-                core::V2I windowPos;
-                core::Size2I windowSize;
+                V2I windowPos;
+                Size2I windowSize;
                 glfwGetWindowPos(p.glfwWindow, &windowPos[0], &windowPos[1]);
                 glfwGetWindowSize(_p->glfwWindow, &windowSize[0], &windowSize[1]);
-                const core::Box2I windowBox(windowPos, windowSize);
+                const Box2I windowBox(windowPos, windowSize);
                 p.pos = windowPos;
                 p.restoreSize = windowSize;
 
@@ -362,19 +364,19 @@ namespace tg
         }
 
         void Window::setSizeCallback(
-            const std::function<void(const core::Size2I&)>& value)
+            const std::function<void(const Size2I&)>& value)
         {
             _p->sizeCallback = value;
         }
 
         void Window::setFrameBufferSizeCallback(
-            const std::function<void(const core::Size2I&)>& value)
+            const std::function<void(const Size2I&)>& value)
         {
             _p->frameBufferSizeCallback = value;
         }
 
         void Window::setContentScaleCallback(
-            const std::function<void(const core::V2F&)>& value)
+            const std::function<void(const V2F&)>& value)
         {
             _p->contentScaleCallback = value;
         }
@@ -389,7 +391,7 @@ namespace tg
             _p->cursorEnterCallback = value;
         }
 
-        void Window::setCursorPosCallback(const std::function<void(const core::V2F&)>& value)
+        void Window::setCursorPosCallback(const std::function<void(const V2F&)>& value)
         {
             _p->cursorPosCallback = value;
         }
@@ -399,7 +401,7 @@ namespace tg
             _p->buttonCallback = value;
         }
 
-        void Window::setScrollCallback(const std::function<void(const core::V2F&)>& value)
+        void Window::setScrollCallback(const std::function<void(const V2F&)>& value)
         {
             _p->scrollCallback = value;
         }
@@ -475,7 +477,7 @@ namespace tg
             Window* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
             if (window->_p->cursorPosCallback)
             {
-                window->_p->cursorPosCallback(core::V2F(x, y));
+                window->_p->cursorPosCallback(V2F(x, y));
             }
         }
 
@@ -493,7 +495,7 @@ namespace tg
             Window* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
             if (window->_p->scrollCallback)
             {
-                window->_p->scrollCallback(core::V2F(x, y));
+                window->_p->scrollCallback(V2F(x, y));
             }
         }
 

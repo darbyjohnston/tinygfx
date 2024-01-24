@@ -12,6 +12,8 @@
 
 #include <array>
 
+using namespace tg::core;
+
 namespace tg
 {
     namespace gl
@@ -66,18 +68,18 @@ namespace tg
             return data[static_cast<size_t>(value)];
         }
 
-        std::vector<uint8_t> convert(const core::TriMesh2F& mesh, VBOType type)
+        std::vector<uint8_t> convert(const TriMesh2F& mesh, VBOType type)
         {
             return convert(
                 mesh,
                 type,
-                core::RangeSizeT(0, mesh.triangles.size() > 0 ? (mesh.triangles.size() - 1) : 0));
+                RangeSizeT(0, mesh.triangles.size() > 0 ? (mesh.triangles.size() - 1) : 0));
         }
 
         std::vector<uint8_t> convert(
-            const core::TriMesh2F& mesh,
+            const TriMesh2F& mesh,
             VBOType type,
-            const core::RangeSizeT& range)
+            const RangeSizeT& range)
         {
             const size_t vertexByteCount = getByteCount(type);
             std::vector<uint8_t> out((range.max() - range.min() + 1) * 3 * vertexByteCount);
@@ -87,7 +89,7 @@ namespace tg
             case VBOType::Pos2_F32:
                 for (size_t i = range.min(); i <= range.max(); ++i)
                 {
-                    const core::Vertex2* vertices[] =
+                    const Vertex2* vertices[] =
                     {
                         &mesh.triangles[i].v[0],
                         &mesh.triangles[i].v[1],
@@ -106,7 +108,7 @@ namespace tg
             case VBOType::Pos2_F32_UV_U16:
                 for (size_t i = range.min(); i <= range.max(); ++i)
                 {
-                    const core::Vertex2* vertices[] =
+                    const Vertex2* vertices[] =
                     {
                         &mesh.triangles[i].v[0],
                         &mesh.triangles[i].v[1],
@@ -122,8 +124,8 @@ namespace tg
 
                         const size_t t = vertices[k]->t;
                         uint16_t* pu16 = reinterpret_cast<uint16_t*>(p);
-                        pu16[0] = t ? core::clamp(static_cast<int>(mesh.t[t - 1].x() * 65535.F), 0, 65535) : 0;
-                        pu16[1] = t ? core::clamp(static_cast<int>(mesh.t[t - 1].y() * 65535.F), 0, 65535) : 0;
+                        pu16[0] = t ? clamp(static_cast<int>(mesh.t[t - 1].x() * 65535.F), 0, 65535) : 0;
+                        pu16[1] = t ? clamp(static_cast<int>(mesh.t[t - 1].y() * 65535.F), 0, 65535) : 0;
                         p += 2 * sizeof(uint16_t);
                     }
                 }
@@ -131,7 +133,7 @@ namespace tg
             case VBOType::Pos2_F32_Color_F32:
                 for (size_t i = range.min(); i <= range.max(); ++i)
                 {
-                    const core::Vertex2* vertices[] =
+                    const Vertex2* vertices[] =
                     {
                         &mesh.triangles[i].v[0],
                         &mesh.triangles[i].v[1],
@@ -160,18 +162,18 @@ namespace tg
             return out;
         }
 
-        std::vector<uint8_t> convert(const core::TriMesh3F& mesh, VBOType type)
+        std::vector<uint8_t> convert(const TriMesh3F& mesh, VBOType type)
         {
             return convert(
                 mesh,
                 type,
-                core::RangeSizeT(0, mesh.triangles.size() > 0 ? (mesh.triangles.size() - 1) : 0));
+                RangeSizeT(0, mesh.triangles.size() > 0 ? (mesh.triangles.size() - 1) : 0));
         }
 
         std::vector<uint8_t> convert(
-            const core::TriMesh3F& mesh,
+            const TriMesh3F& mesh,
             VBOType type,
-            const core::RangeSizeT& range)
+            const RangeSizeT& range)
         {
             const size_t vertexByteCount = getByteCount(type);
             std::vector<uint8_t> out((range.max() - range.min() + 1) * 3 * vertexByteCount);
@@ -181,7 +183,7 @@ namespace tg
             case VBOType::Pos3_F32:
                 for (size_t i = range.min(); i <= range.max(); ++i)
                 {
-                    const core::Vertex3* vertices[] =
+                    const Vertex3* vertices[] =
                     {
                         &mesh.triangles[i].v[0],
                         &mesh.triangles[i].v[1],
@@ -201,7 +203,7 @@ namespace tg
             case VBOType::Pos3_F32_UV_U16:
                 for (size_t i = range.min(); i <= range.max(); ++i)
                 {
-                    const core::Vertex3* vertices[] =
+                    const Vertex3* vertices[] =
                     {
                         &mesh.triangles[i].v[0],
                         &mesh.triangles[i].v[1],
@@ -218,8 +220,8 @@ namespace tg
 
                         const size_t t = vertices[k]->t;
                         uint16_t* pu16 = reinterpret_cast<uint16_t*>(p);
-                        pu16[0] = t ? core::clamp(static_cast<int>(mesh.t[t - 1].x() * 65535.F), 0, 65535) : 0;
-                        pu16[1] = t ? core::clamp(static_cast<int>(mesh.t[t - 1].y() * 65535.F), 0, 65535) : 0;
+                        pu16[0] = t ? clamp(static_cast<int>(mesh.t[t - 1].x() * 65535.F), 0, 65535) : 0;
+                        pu16[1] = t ? clamp(static_cast<int>(mesh.t[t - 1].y() * 65535.F), 0, 65535) : 0;
                         p += 2 * sizeof(uint16_t);
                     }
                 }
@@ -227,7 +229,7 @@ namespace tg
             case VBOType::Pos3_F32_UV_U16_Normal_U10:
                 for (size_t i = range.min(); i <= range.max(); ++i)
                 {
-                    const core::Vertex3* vertices[] =
+                    const Vertex3* vertices[] =
                     {
                         &mesh.triangles[i].v[0],
                         &mesh.triangles[i].v[1],
@@ -244,15 +246,15 @@ namespace tg
 
                         const size_t t = vertices[k]->t;
                         uint16_t* pu16 = reinterpret_cast<uint16_t*>(p);
-                        pu16[0] = t ? core::clamp(static_cast<int>(mesh.t[t - 1].x() * 65535.F), 0, 65535) : 0;
-                        pu16[1] = t ? core::clamp(static_cast<int>(mesh.t[t - 1].y() * 65535.F), 0, 65535) : 0;
+                        pu16[0] = t ? clamp(static_cast<int>(mesh.t[t - 1].x() * 65535.F), 0, 65535) : 0;
+                        pu16[1] = t ? clamp(static_cast<int>(mesh.t[t - 1].y() * 65535.F), 0, 65535) : 0;
                         p += 2 * sizeof(uint16_t);
 
                         const size_t n = vertices[k]->n;
                         auto packedNormal = reinterpret_cast<PackedNormal*>(p);
-                        packedNormal->x = n ? core::clamp(static_cast<int>(mesh.n[n - 1].x() * 511.F), -512, 511) : 0;
-                        packedNormal->y = n ? core::clamp(static_cast<int>(mesh.n[n - 1].y() * 511.F), -512, 511) : 0;
-                        packedNormal->z = n ? core::clamp(static_cast<int>(mesh.n[n - 1].z() * 511.F), -512, 511) : 0;
+                        packedNormal->x = n ? clamp(static_cast<int>(mesh.n[n - 1].x() * 511.F), -512, 511) : 0;
+                        packedNormal->y = n ? clamp(static_cast<int>(mesh.n[n - 1].y() * 511.F), -512, 511) : 0;
+                        packedNormal->z = n ? clamp(static_cast<int>(mesh.n[n - 1].z() * 511.F), -512, 511) : 0;
                         p += sizeof(PackedNormal);
                     }
                 }
@@ -260,7 +262,7 @@ namespace tg
             case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
                 for (size_t i = range.min(); i <= range.max(); ++i)
                 {
-                    const core::Vertex3* vertices[] =
+                    const Vertex3* vertices[] =
                     {
                         &mesh.triangles[i].v[0],
                         &mesh.triangles[i].v[1],
@@ -277,23 +279,23 @@ namespace tg
 
                         const size_t t = vertices[k]->t;
                         uint16_t* pu16 = reinterpret_cast<uint16_t*>(p);
-                        pu16[0] = t ? core::clamp(static_cast<int>(mesh.t[t - 1].x() * 65535.F), 0, 65535) : 0;
-                        pu16[1] = t ? core::clamp(static_cast<int>(mesh.t[t - 1].y() * 65535.F), 0, 65535) : 0;
+                        pu16[0] = t ? clamp(static_cast<int>(mesh.t[t - 1].x() * 65535.F), 0, 65535) : 0;
+                        pu16[1] = t ? clamp(static_cast<int>(mesh.t[t - 1].y() * 65535.F), 0, 65535) : 0;
                         p += 2 * sizeof(uint16_t);
 
                         const size_t n = vertices[k]->n;
                         auto packedNormal = reinterpret_cast<PackedNormal*>(p);
-                        packedNormal->x = n ? core::clamp(static_cast<int>(mesh.n[n - 1].x() * 511.F), -512, 511) : 0;
-                        packedNormal->y = n ? core::clamp(static_cast<int>(mesh.n[n - 1].y() * 511.F), -512, 511) : 0;
-                        packedNormal->z = n ? core::clamp(static_cast<int>(mesh.n[n - 1].z() * 511.F), -512, 511) : 0;
+                        packedNormal->x = n ? clamp(static_cast<int>(mesh.n[n - 1].x() * 511.F), -512, 511) : 0;
+                        packedNormal->y = n ? clamp(static_cast<int>(mesh.n[n - 1].y() * 511.F), -512, 511) : 0;
+                        packedNormal->z = n ? clamp(static_cast<int>(mesh.n[n - 1].z() * 511.F), -512, 511) : 0;
                         p += sizeof(PackedNormal);
 
                         const size_t c = vertices[k]->c;
                         auto packedColor = reinterpret_cast<PackedColor*>(p);
-                        packedColor->r = c ? core::clamp(static_cast<int>(mesh.c[c - 1].x() * 255.F), 0, 255) : 255;
-                        packedColor->g = c ? core::clamp(static_cast<int>(mesh.c[c - 1].y() * 255.F), 0, 255) : 255;
-                        packedColor->b = c ? core::clamp(static_cast<int>(mesh.c[c - 1].z() * 255.F), 0, 255) : 255;
-                        packedColor->a = c ? core::clamp(static_cast<int>(mesh.c[c - 1].w() * 255.F), 0, 255) : 255;
+                        packedColor->r = c ? clamp(static_cast<int>(mesh.c[c - 1].x() * 255.F), 0, 255) : 255;
+                        packedColor->g = c ? clamp(static_cast<int>(mesh.c[c - 1].y() * 255.F), 0, 255) : 255;
+                        packedColor->b = c ? clamp(static_cast<int>(mesh.c[c - 1].z() * 255.F), 0, 255) : 255;
+                        packedColor->a = c ? clamp(static_cast<int>(mesh.c[c - 1].w() * 255.F), 0, 255) : 255;
                         p += sizeof(PackedColor);
                     }
                 }
@@ -301,7 +303,7 @@ namespace tg
             case VBOType::Pos3_F32_UV_F32_Normal_F32:
                 for (size_t i = range.min(); i <= range.max(); ++i)
                 {
-                    const core::Vertex3* vertices[] =
+                    const Vertex3* vertices[] =
                     {
                         &mesh.triangles[i].v[0],
                         &mesh.triangles[i].v[1],
@@ -334,7 +336,7 @@ namespace tg
             case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
                 for (size_t i = range.min(); i <= range.max(); ++i)
                 {
-                    const core::Vertex3* vertices[] =
+                    const Vertex3* vertices[] =
                     {
                         &mesh.triangles[i].v[0],
                         &mesh.triangles[i].v[1],

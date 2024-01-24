@@ -15,7 +15,7 @@ namespace tg
         template<int C, typename T>
         inline Box<C, T>::Box(const Vector<C, T>& min, const Size<C, T>& size) :
             _min(min),
-            _max(min + size)
+            _max(min + Vector<C, T>(size))
         {}
         
         template<int C, typename T>
@@ -62,13 +62,13 @@ namespace tg
         template<typename T>
         inline Box<2, T>::Box(const Vector<2, T>& min, const Size<2, T>& size) :
             _min(min),
-            _max(min + size)
+            _max(min + Vector<2, T>(size))
         {}
 
         template<>
         inline Box<2, int>::Box(const Vector<2, int>& min, const Size<2, int>& size) :
             _min(min),
-            _max(min + size - 1)
+            _max(min + Vector<2, int>(size) - 1)
         {}
 
         template<typename T>
@@ -156,7 +156,7 @@ namespace tg
         template<typename T>
         inline Box<3, T>::Box(const Vector<3, T>& min, const Size<3, T>& size) :
             _min(min),
-            _max(min + size)
+            _max(min + Vector<3, T>(size))
         {}
 
         template<typename T>

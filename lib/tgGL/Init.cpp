@@ -12,11 +12,13 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
+using namespace tg::core;
+
 namespace tg
 {
     namespace gl
     {
-        void init(const std::shared_ptr<core::Context>& context)
+        void init(const std::shared_ptr<Context>& context)
         {
             if (!context->getSystem<System>())
             {

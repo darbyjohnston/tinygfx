@@ -33,7 +33,8 @@ namespace tg
             }
             
             void Window::_draw(
-                const core::V2F& contentScale,
+                const V2F& contentScale,
+                const std::shared_ptr<FontSystem>& fontSystem,
                 const std::shared_ptr<render::IRender>& render)
             {
                 render->begin(getFrameBufferSize());
@@ -66,20 +67,16 @@ namespace tg
                 triangle.v[2].c = 1;
                 mesh.triangles.push_back(triangle);
                 render->drawColorMesh(mesh);
-                
-                Box2F box2 = margin(box, -100.F);
-                render::LineOptions lineOptions;
-                lineOptions.width = 10.F * contentScale.x();
-                render->drawLine(
-                    V2F(box2.min().x(), box2.min().y()),
-                    V2F(box2.max().x(), box2.max().y()),
-                    Color4F(1.F, 0.F, 0.F, 1.F),
-                    lineOptions);
-                render->drawLine(
-                    V2F(box2.min().x(), box2.max().y()),
-                    V2F(box2.max().x(), box2.min().y()),
-                    Color4F(1.F, 0.F, 0.F, 1.F),
-                    lineOptions);
+
+                FontInfo fontInfo;
+                fontInfo.size = 100 * contentScale.x();
+                const FontMetrics fontMetrics = fontSystem->getMetrics(fontInfo);
+                std::string text = "Hello world";
+                Size2I textSize = fontSystem->getSize(text, fontInfo);
+                auto glyphs = fontSystem->getGlyphs(text, fontInfo);
+                render->drawText(
+                    glyphs,
+                    center(box) - V2F(textSize.w(), textSize.h()) / 2.F + V2F(0.F, fontMetrics.ascender));
 
                 render->end();
             }

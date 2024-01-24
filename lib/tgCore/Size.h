@@ -85,12 +85,15 @@ namespace tg
         //! \name Size Functions
         ///@{
         
+        //! Get the aspect ratio of the given size.
         template<typename T>
         T aspectRatio(const Size<2, T>&);
         
+        //! Get the area of the given size.
         template<typename T>
         T area(const Size<2, T>&);
         
+        //! Get the volume of the given size.
         template<typename T>
         T volume(const Size<3, T>&);
 
@@ -99,19 +102,17 @@ namespace tg
         //! \name Size Operators
         ///@{
         
-        //! Add a size and scalar.
         template<int C, typename T>
         Size<C, T> operator + (const Size<C, T>&, T);
-        
-        //! Subtract a size and scalar.
         template<int C, typename T>
         Size<C, T> operator - (const Size<C, T>&, T);
-
-        //! Size comparison.
+        template<int C, typename T>
+        Size<C, T> operator * (const Size<C, T>&, T);
+        template<int C, typename T>
+        Size<C, T> operator / (const Size<C, T>&, T);
+        
         template<int C, typename T>
         bool operator == (const Size<C, T>&, const Size<C, T>&);
-        
-        //! Size comparison.
         template<int C, typename T>
         bool operator != (const Size<C, T>&, const Size<C, T>&);
         

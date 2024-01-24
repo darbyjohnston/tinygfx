@@ -6,8 +6,6 @@
 
 #include <tgCore/Size.h>
 
-#include <iostream>
-
 namespace tg
 {
     namespace core
@@ -18,6 +16,7 @@ namespace tg
         {
         public:
             Vector();
+            explicit Vector(const Size<C, T>&);
             
             T operator [] (int) const;
             T& operator [] (int);
@@ -36,6 +35,7 @@ namespace tg
         public:
             Vector();
             Vector(T, T);
+            explicit Vector(const Size<2, T>&);
 
             T operator [] (int) const;
             T& operator [] (int);
@@ -59,6 +59,7 @@ namespace tg
         public:
             Vector();
             Vector(T, T, T);
+            explicit Vector(const Size<3, T>&);
 
             T operator [] (int) const;
             T& operator [] (int);
@@ -136,8 +137,6 @@ namespace tg
 
         template<int C, typename T>
         Vector<C, T> operator + (const Vector<C, T>&, const Vector<C, T>&);
-        template<int C, typename T>
-        Vector<C, T> operator + (const Vector<C, T>&, const Size<C, T>&);
         template<int C, typename T>
         Vector<C, T> operator + (const Vector<C, T>&, T);
         

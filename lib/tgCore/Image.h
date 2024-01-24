@@ -4,12 +4,14 @@
 
 #pragma once
 
+#include <tgCore/Memory.h>
 #include <tgCore/Range.h>
-#include <tgCore/Size.h>
 #include <tgCore/Util.h>
+#include <tgCore/Vector.h>
 
 #include <iostream>
 #include <cstdint>
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -18,6 +20,31 @@ namespace tg
 {
     namespace core
     {
+        //! Image size.
+        class ImageSize
+        {
+        public:
+            ImageSize() = default;
+            constexpr ImageSize(
+                int w,
+                int h,
+                float pixelAspectRatio = 1.F);
+
+            int w = 0;
+            int h = 0;
+            float pixelAspectRatio = 1.F;
+
+            //! Is the size valid?
+            constexpr bool isValid() const;
+
+            //! Get the aspect ratio.
+            constexpr float getAspect() const;
+
+            constexpr bool operator == (const ImageSize&) const;
+            constexpr bool operator != (const ImageSize&) const;
+            bool operator < (const ImageSize&) const;
+        };
+        
         //! Pixel types.
         enum class PixelType
         {
@@ -36,6 +63,7 @@ namespace tg
             LA_F32,
 
             RGB_U8,
+            RGB_U10,
             RGB_U16,
             RGB_U32,
             RGB_F16,
@@ -47,23 +75,96 @@ namespace tg
             RGBA_F16,
             RGBA_F32,
 
+            YUV_420P_U8,
+            YUV_422P_U8,
+            YUV_444P_U8,
+
+            YUV_420P_U16,
+            YUV_422P_U16,
+            YUV_444P_U16,
+
+            ARGB_4444_Premult,
+
             Count,
             First = None
         };
         TG_ENUM(PixelType);
+
+        //! Get the number of channels for the given pixel type.
+        int getChannelCount(PixelType);
+
+        //! Get the bit-depth for the given pixel type.
+        int getBitDepth(PixelType);
         
-        //! Get the number of bytes used to store a pixel.
-        size_t getByteCount(PixelType);
+        //! Video levels.
+        enum class VideoLevels
+        {
+            FullRange,
+            LegalRange,
+
+            Count,
+            First = FullRange
+        };
+        TG_ENUM(VideoLevels);
+
+        //! YUV coefficients.
+        enum class YUVCoefficients
+        {
+            REC709,
+            BT2020,
+
+            Count,
+            First = REC709
+        };
+        TG_ENUM(YUVCoefficients);
+
+        //! Get YUV coefficients.
+        V4F getYUVCoefficients(YUVCoefficients);
+
+        //! Image mirroring.
+        class Mirror
+        {
+        public:
+            Mirror() = default;
+            constexpr Mirror(bool x, bool y);
+
+            bool x = false;
+            bool y = false;
+
+            constexpr bool operator == (const Mirror&) const;
+            constexpr bool operator != (const Mirror&) const;
+        };
+
+        //! Image data layout.
+        class Layout
+        {
+        public:
+            Layout() = default;
+            Layout(
+                const Mirror& mirror,
+                int           alignment = 1,
+                Endian        endian    = getEndian());
+
+            Mirror mirror;
+            int    alignment = 1;
+            Endian endian    = getEndian();
+
+            constexpr bool operator == (const Layout&) const;
+            constexpr bool operator != (const Layout&) const;
+        };
 
         //! Image information.
         struct ImageInfo
         {
             ImageInfo() = default;
-            ImageInfo(const Size2I&, PixelType);
+            ImageInfo(const ImageSize&, PixelType);
             ImageInfo(int w, int h, PixelType);
 
-            Size2I size;
-            PixelType pixelType = PixelType::None;
+            ImageSize       size;
+            PixelType       pixelType        = PixelType::None;
+            VideoLevels     videoLevels      = VideoLevels::FullRange;
+            YUVCoefficients yuvCoefficients  = YUVCoefficients::REC709;
+            Layout          layout;
 
             //! Is the information valid?
             bool isValid() const;
@@ -74,6 +175,9 @@ namespace tg
             bool operator == (const ImageInfo&) const;
             bool operator != (const ImageInfo&) const;
         };
+
+        //! Image tags.
+        typedef std::map<std::string, std::string> Tags;
 
         //! Image.
         class Image : public std::enable_shared_from_this<Image>
@@ -90,7 +194,7 @@ namespace tg
             static std::shared_ptr<Image> create(const ImageInfo&);
 
             //! Create a new image.
-            static std::shared_ptr<Image> create(const Size2I&, PixelType);
+            static std::shared_ptr<Image> create(const ImageSize&, PixelType);
 
             //! Create a new image.
             static std::shared_ptr<Image> create(int w, int h, PixelType);
@@ -99,7 +203,7 @@ namespace tg
             const ImageInfo& getInfo() const;
             
             //! Get the image size.
-            const Size2I& getSize() const;
+            const ImageSize& getSize() const;
 
             //! Get the image width.
             int getWidth() const;
@@ -115,6 +219,12 @@ namespace tg
 
             //! Is the image valid?
             bool isValid() const;
+
+            //! Get the image tags.
+            const Tags& getTags() const;
+
+            //! Set the image tags.
+            void setTags(const Tags&);
 
             //! Get the number of bytes used to store the image data.
             size_t getByteCount() const;

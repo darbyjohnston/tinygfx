@@ -107,6 +107,15 @@ namespace tg
                 TG_ASSERT(4.F == v4.w());
             }
             {
+                const V2F v2(Size2F(1.F, 2.F));
+                TG_ASSERT(1.F == v2.x());
+                TG_ASSERT(2.F == v2.y());
+                const V3F v3(Size3F(1.F, 2.F, 3.F));
+                TG_ASSERT(1.F == v3.x());
+                TG_ASSERT(2.F == v3.y());
+                TG_ASSERT(3.F == v3.z());
+            }
+            {
                 V2I v2;
                 v2.x() = 1;
                 v2.y() = 2;
@@ -163,8 +172,6 @@ namespace tg
         {
             {
                 V2F v = V2F(1.F, 2.F) + V2F(3.F, 4.F);
-                TG_ASSERT(V2F(4.F, 6.F) == v);
-                v = V2F(1.F, 2.F) + Size2F(3.F, 4.F);
                 TG_ASSERT(V2F(4.F, 6.F) == v);
                 v = V2F(1.F, 2.F) + 1.F;
                 TG_ASSERT(V2F(2.F, 3.F) == v);

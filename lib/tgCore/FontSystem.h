@@ -24,7 +24,7 @@ namespace tg
             FontInfo(const std::string& family, int size);
 
             std::string family = "NotoSans-Regular";
-            int         size   = 12;
+            int         size   = 14;
 
             bool operator == (const FontInfo&) const;
             bool operator != (const FontInfo&) const;

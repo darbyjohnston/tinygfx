@@ -13,6 +13,8 @@
 
 #include <iostream>
 
+using namespace tg::core;
+
 namespace tg
 {
     namespace gl
@@ -30,7 +32,7 @@ namespace tg
             bool glfwInit = false;
         };
         
-        System::System(const std::shared_ptr<core::Context>& context) :
+        System::System(const std::shared_ptr<Context>& context) :
             ISystem(context, "tg::gl::System"),
             _p(new Private)
         {
@@ -59,7 +61,7 @@ namespace tg
             }
         }
 
-        std::shared_ptr<System> System::create(const std::shared_ptr<core::Context>& context)
+        std::shared_ptr<System> System::create(const std::shared_ptr<Context>& context)
         {
             return std::shared_ptr<System>(new System(context));
         }

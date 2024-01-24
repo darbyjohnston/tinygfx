@@ -7,6 +7,7 @@
 #include <tgGL/GL.h>
 #include <tgGL/Mesh.h>
 #include <tgGL/Shader.h>
+#include <tgGL/TextureAtlas.h>
 
 #include <map>
 
@@ -18,6 +19,8 @@ namespace tg
         std::string meshFragmentSource();
         std::string colorMeshVertexSource();
         std::string colorMeshFragmentSource();
+        std::string textFragmentSource();
+        std::string imageFragmentSource();
 
         struct Render::Private
         {
@@ -29,6 +32,9 @@ namespace tg
             core::M44F transform;
             
             std::map<std::string, std::shared_ptr<gl::Shader> > shaders;
+            std::shared_ptr<TextureCache> textureCache;
+            std::shared_ptr<gl::TextureAtlas> glyphTextureAtlas;
+            std::map<core::GlyphInfo, gl::TextureAtlasID> glyphIDs;
             std::map<std::string, std::shared_ptr<gl::VBO> > vbos;
             std::map<std::string, std::shared_ptr<gl::VAO> > vaos;
         };

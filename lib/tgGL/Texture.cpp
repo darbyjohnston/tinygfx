@@ -14,6 +14,8 @@
 #include <cstring>
 #include <stdexcept>
 
+using namespace tg::core;
+
 namespace tg
 {
     namespace gl
@@ -23,9 +25,9 @@ namespace tg
             "Nearest",
             "Linear");
 
-        unsigned int getTextureFormat(core::PixelType value)
+        unsigned int getTextureFormat(PixelType value)
         {
-            const std::array<GLenum, static_cast<size_t>(core::PixelType::Count)> data =
+            const std::array<GLenum, static_cast<size_t>(PixelType::Count)> data =
             {
                 GL_NONE,
 
@@ -43,6 +45,7 @@ namespace tg
                 GL_RG,
 
                 GL_RGB,
+                GL_RGBA,
                 GL_RGB,
                 GL_RGB,
                 GL_RGB,
@@ -52,6 +55,94 @@ namespace tg
                 GL_RGBA,
                 GL_RGBA,
                 GL_RGBA,
+                GL_RGBA,
+
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_BGRA
+#elif defined(TINYGFX_API_GLES_2)
+                GL_LUMINANCE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_LUMINANCE_ALPHA,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_RGB,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_RGBA,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_NONE
+#endif // TINYGFX_API_GL_4_1
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        unsigned int getTextureInternalFormat(PixelType type)
+        {
+            const std::array<GLenum, static_cast<size_t>(PixelType::Count)> data =
+            {
+                GL_NONE,
+
+#if defined(TINYGFX_API_GL_4_1)
+                GL_R8,
+                GL_R16,
+                GL_R32I,
+                GL_R16F,
+                GL_R32F,
+
+                GL_RG8,
+                GL_RG16,
+                GL_RG32I,
+                GL_RG16F,
+                GL_RG32F,
+
+                GL_RGB8,
+                GL_RGB10,
+                GL_RGB16,
+                GL_RGB32I,
+                GL_RGB16F,
+                GL_RGB32F,
+
+                GL_RGBA8,
+                GL_RGBA16,
+                GL_RGBA32I,
+                GL_RGBA16F,
+                GL_RGBA32F,
+
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
                 GL_RGBA
 #elif defined(TINYGFX_API_GLES_2)
                 GL_LUMINANCE,
@@ -71,79 +162,30 @@ namespace tg
                 GL_NONE,
                 GL_NONE,
                 GL_NONE,
-
-                GL_RGBA,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE
-#endif // TINYGFX_API_GL_4_1
-            };
-            return data[static_cast<size_t>(value)];
-        }
-
-        unsigned int getTextureInternalFormat(core::PixelType type)
-        {
-            const std::array<GLenum, static_cast<size_t>(core::PixelType::Count)> data =
-            {
-                GL_NONE,
-
-#if defined(TINYGFX_API_GL_4_1)
-                GL_R8,
-                GL_R16,
-                GL_R32I,
-                GL_R16F,
-                GL_R32F,
-
-                GL_RG8,
-                GL_RG16,
-                GL_RG32I,
-                GL_RG16F,
-                GL_RG32F,
-
-                GL_RGB8,
-                GL_RGB16,
-                GL_RGB32I,
-                GL_RGB16F,
-                GL_RGB32F,
-
-                GL_RGBA8,
-                GL_RGBA16,
-                GL_RGBA32I,
-                GL_RGBA16F,
-                GL_RGBA32F
-#elif defined(TINYGFX_API_GLES_2)
-                GL_LUMINANCE,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-
-                GL_LUMINANCE_ALPHA,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-
-                GL_RGB,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
                 GL_NONE,
 
                 GL_RGBA,
                 GL_NONE,
                 GL_NONE,
                 GL_NONE,
+                GL_NONE,
+
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
                 GL_NONE
 #endif // TINYGFX_API_GL_4_1
             };
             return data[static_cast<size_t>(type)];
         }
 
-        unsigned int getTextureType(core::PixelType value)
+        unsigned int getTextureType(PixelType value)
         {
-            const std::array<GLenum, static_cast<size_t>(core::PixelType::Count)> data =
+            const std::array<GLenum, static_cast<size_t>(PixelType::Count)> data =
             {
                 GL_NONE,
 
@@ -155,6 +197,7 @@ namespace tg
                 GL_FLOAT,
 
                 GL_UNSIGNED_BYTE,
+                GL_UNSIGNED_INT_10_10_10_2,
                 GL_UNSIGNED_SHORT,
                 GL_UNSIGNED_INT,
                 GL_HALF_FLOAT,
@@ -170,7 +213,16 @@ namespace tg
                 GL_UNSIGNED_SHORT,
                 GL_UNSIGNED_INT,
                 GL_HALF_FLOAT,
-                GL_FLOAT
+                GL_FLOAT,
+
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_UNSIGNED_SHORT_4_4_4_4_REV
 #elif defined(TINYGFX_API_GLES_2)
                 GL_UNSIGNED_BYTE,
                 GL_NONE,
@@ -189,11 +241,21 @@ namespace tg
                 GL_NONE,
                 GL_NONE,
                 GL_NONE,
+                GL_NONE,
 
                 GL_UNSIGNED_BYTE,
                 GL_NONE,
                 GL_NONE,
                 GL_NONE,
+                GL_NONE,
+
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
                 GL_NONE
 #endif // TINYGFX_API_GL_4_1
             };
@@ -236,12 +298,12 @@ namespace tg
 
         struct Texture::Private
         {
-            core::ImageInfo info;
+            ImageInfo info;
             GLuint pbo = 0;
             GLuint id = 0;
         };
 
-        Texture::Texture(const core::ImageInfo& info, const TextureOptions& options) :
+        Texture::Texture(const ImageInfo& info, const TextureOptions& options) :
             _p(new Private)
         {
             TG_P();
@@ -276,8 +338,8 @@ namespace tg
                 GL_TEXTURE_2D,
                 0,
                 getTextureInternalFormat(p.info.pixelType),
-                p.info.size.w(),
-                p.info.size.h(),
+                p.info.size.w,
+                p.info.size.h,
                 0,
                 getTextureFormat(p.info.pixelType),
                 getTextureType(p.info.pixelType),
@@ -299,32 +361,32 @@ namespace tg
             }
         }
 
-        std::shared_ptr<Texture> Texture::create(const core::ImageInfo& info, const TextureOptions& options)
+        std::shared_ptr<Texture> Texture::create(const ImageInfo& info, const TextureOptions& options)
         {
             return std::shared_ptr<Texture>(new Texture(info, options));
         }
 
-        const core::ImageInfo& Texture::getInfo() const
+        const ImageInfo& Texture::getInfo() const
         {
             return _p->info;
         }
 
-        const core::Size2I& Texture::getSize() const
+        const ImageSize& Texture::getSize() const
         {
             return _p->info.size;
         }
 
         int Texture::getWidth() const
         {
-            return _p->info.size.w();
+            return _p->info.size.w;
         }
 
         int Texture::getHeight() const
         {
-            return _p->info.size.h();
+            return _p->info.size.h;
         }
 
-        core::PixelType Texture::getPixelType() const
+        PixelType Texture::getPixelType() const
         {
             return _p->info.pixelType;
         }
@@ -334,7 +396,7 @@ namespace tg
             return _p->id;
         }
 
-        void Texture::copy(const std::shared_ptr<core::Image>& data)
+        void Texture::copy(const std::shared_ptr<Image>& data)
         {
             TG_P();
 #if defined(TINYGFX_API_GL_4_1)
@@ -350,15 +412,15 @@ namespace tg
                     glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
                     const auto& info = data->getInfo();
                     glBindTexture(GL_TEXTURE_2D, p.id);
-                    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-                    glPixelStorei(GL_UNPACK_SWAP_BYTES, 0);
+                    glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                    glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != getEndian());
                     glTexSubImage2D(
                         GL_TEXTURE_2D,
                         0,
                         0,
                         0,
-                        info.size.w(),
-                        info.size.h(),
+                        info.size.w,
+                        info.size.h,
                         getTextureFormat(info.pixelType),
                         getTextureType(info.pixelType),
                         NULL);
@@ -370,24 +432,24 @@ namespace tg
             {
                 const auto& info = data->getInfo();
                 glBindTexture(GL_TEXTURE_2D, p.id);
-                glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+                glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
 #if defined(TINYGFX_API_GL_4_1)
-                glPixelStorei(GL_UNPACK_SWAP_BYTES, 0);
+                glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != getEndian());
 #endif // TINYGFX_API_GL_4_1
                 glTexSubImage2D(
                     GL_TEXTURE_2D,
                     0,
                     0,
                     0,
-                    info.size.w(),
-                    info.size.h(),
+                    info.size.w,
+                    info.size.h,
                     getTextureFormat(info.pixelType),
                     getTextureType(info.pixelType),
                     data->getData());
             }
         }
 
-        void Texture::copy(const std::shared_ptr<core::Image>& data, int x, int y)
+        void Texture::copy(const std::shared_ptr<Image>& data, int x, int y)
         {
             TG_P();
 #if defined(TINYGFX_API_GL_4_1)
@@ -403,15 +465,15 @@ namespace tg
                     glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
                     const auto& info = data->getInfo();
                     glBindTexture(GL_TEXTURE_2D, p.id);
-                    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-                    glPixelStorei(GL_UNPACK_SWAP_BYTES, 0);
+                    glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                    glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != getEndian());
                     glTexSubImage2D(
                         GL_TEXTURE_2D,
                         0,
                         x,
                         y,
-                        info.size.w(),
-                        info.size.h(),
+                        info.size.w,
+                        info.size.h,
                         getTextureFormat(info.pixelType),
                         getTextureType(info.pixelType),
                         NULL);
@@ -423,24 +485,24 @@ namespace tg
             {
                 const auto& info = data->getInfo();
                 glBindTexture(GL_TEXTURE_2D, p.id);
-                glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+                glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
 #if defined(TINYGFX_API_GL_4_1)
-                glPixelStorei(GL_UNPACK_SWAP_BYTES, 0);
+                glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != getEndian());
 #endif // TINYGFX_API_GL_4_1
                 glTexSubImage2D(
                     GL_TEXTURE_2D,
                     0,
                     x,
                     y,
-                    info.size.w(),
-                    info.size.h(),
+                    info.size.w,
+                    info.size.h,
                     getTextureFormat(info.pixelType),
                     getTextureType(info.pixelType),
                     data->getData());
             }
         }
 
-        void Texture::copy(const uint8_t* data, const core::ImageInfo& info)
+        void Texture::copy(const uint8_t* data, const ImageInfo& info)
         {
             TG_P();
 #if defined(TINYGFX_API_GL_4_1)
@@ -455,15 +517,15 @@ namespace tg
                         info.getByteCount());
                     glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
                     glBindTexture(GL_TEXTURE_2D, p.id);
-                    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-                    glPixelStorei(GL_UNPACK_SWAP_BYTES, 0);
+                    glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                    glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != getEndian());
                     glTexSubImage2D(
                         GL_TEXTURE_2D,
                         0,
                         0,
                         0,
-                        info.size.w(),
-                        info.size.h(),
+                        info.size.w,
+                        info.size.h,
                         getTextureFormat(info.pixelType),
                         getTextureType(info.pixelType),
                         NULL);
@@ -474,17 +536,17 @@ namespace tg
 #endif // TINYGFX_API_GL_4_1
             {
                 glBindTexture(GL_TEXTURE_2D, p.id);
-                glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+                glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
 #if defined(TINYGFX_API_GL_4_1)
-                glPixelStorei(GL_UNPACK_SWAP_BYTES, 0);
+                glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != getEndian());
 #endif // TINYGFX_API_GL_4_1
                 glTexSubImage2D(
                     GL_TEXTURE_2D,
                     0,
                     0,
                     0,
-                    info.size.w(),
-                    info.size.h(),
+                    info.size.w,
+                    info.size.h,
                     getTextureFormat(info.pixelType),
                     getTextureType(info.pixelType),
                     data);

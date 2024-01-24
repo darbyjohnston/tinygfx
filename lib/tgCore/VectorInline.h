@@ -16,6 +16,15 @@ namespace tg
                 _e[i] = T(0);
             }
         }
+        
+        template<int C, typename T>
+        inline Vector<C, T>::Vector(const Size<C, T>& size)
+        {
+            for (int i = 0; i < C; ++i)
+            {
+                _e[i] = size[i];
+            }
+        }
 
         template<int C, typename T>
         inline T Vector<C, T>::operator [] (int i) const
@@ -49,6 +58,11 @@ namespace tg
         template<typename T>
         inline Vector<2, T>::Vector(T x, T y) :
             _e({ x, y })
+        {}
+
+        template<typename T>
+        inline Vector<2, T>::Vector(const Size<2, T>& size) :
+            _e({ size.w(), size.h() })
         {}
 
         template<typename T>
@@ -107,6 +121,11 @@ namespace tg
         template<typename T>
         inline Vector<3, T>::Vector(T x, T y, T z) :
             _e({ x, y, z })
+        {}
+
+        template<typename T>
+        inline Vector<3, T>::Vector(const Size<3, T>& size) :
+            _e({ size.w(), size.h(), size.d() })
         {}
 
         template<typename T>
@@ -299,17 +318,6 @@ namespace tg
 
         template<int C, typename T>
         inline Vector<C, T> operator + (const Vector<C, T>& v0, const Vector<C, T>& v1)
-        {
-            Vector<C, T> out;
-            for (int i = 0; i < C; ++i)
-            {
-                out[i] = v0[i] + v1[i];
-            }
-            return out;
-        }
-
-        template<int C, typename T>
-        inline Vector<C, T> operator + (const Vector<C, T>& v0, const Size<C, T>& v1)
         {
             Vector<C, T> out;
             for (int i = 0; i < C; ++i)

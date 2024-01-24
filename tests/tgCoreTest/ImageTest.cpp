@@ -32,15 +32,14 @@ namespace tg
             _enums();
             _info();
             _members();
+            _functions();
         }
         
         void ImageTest::_enums()
         {
             TINYGFX_TEST_ENUM(PixelType);
-            for (auto i : getPixelTypeEnums())
-            {
-                _print(Format("{0} byte count: {1}").arg(i).arg(getByteCount(i)));
-            }
+            TINYGFX_TEST_ENUM(VideoLevels);
+            TINYGFX_TEST_ENUM(YUVCoefficients);
         }
         
         void ImageTest::_info()
@@ -51,7 +50,7 @@ namespace tg
                 TG_ASSERT(0 == info.getByteCount());
             }
             {
-                const ImageInfo info(Size2I(1920, 1080), PixelType::RGB_U8);
+                const ImageInfo info(ImageSize(1920, 1080), PixelType::RGB_U8);
                 TG_ASSERT(info.isValid());
                 TG_ASSERT(1920 * 1080 * 3 == info.getByteCount());
             }
@@ -64,8 +63,8 @@ namespace tg
                 const ImageInfo a;
                 ImageInfo b;
                 TG_ASSERT(a == b);
-                b.size.w() = 1920;
-                b.size.h() = 1080;
+                b.size.w = 1920;
+                b.size.h = 1080;
                 TG_ASSERT(a != b);                
             }
         }
@@ -77,7 +76,7 @@ namespace tg
                 TG_ASSERT(!image->isValid());
             }
             {
-                auto image = Image::create(Size2I(1920, 1080), PixelType::RGB_U8);
+                auto image = Image::create(ImageSize(1920, 1080), PixelType::RGB_U8);
                 TG_ASSERT(image->isValid());                
             }
             {
@@ -85,13 +84,13 @@ namespace tg
                 TG_ASSERT(image->isValid());
             }
             {
-                const ImageInfo info(Size2I(1920, 1080), PixelType::RGB_U8);
+                const ImageInfo info(ImageSize(1920, 1080), PixelType::RGB_U8);
                 auto image = Image::create(info);
                 image->zero();
                 TG_ASSERT(info == image->getInfo());
                 TG_ASSERT(info.size == image->getSize());
-                TG_ASSERT(info.size.w() == image->getWidth());
-                TG_ASSERT(info.size.h() == image->getHeight());
+                TG_ASSERT(info.size.w == image->getWidth());
+                TG_ASSERT(info.size.h == image->getHeight());
                 const float aspect = image->getAspect();
                 TG_ASSERT(info.pixelType == image->getPixelType());
                 TG_ASSERT(image->isValid());
@@ -99,6 +98,23 @@ namespace tg
                 TG_ASSERT(image->getData());
                 const std::shared_ptr<const Image> image2 = image;
                 TG_ASSERT(image2->getData());
+            }
+        }
+        
+        void ImageTest::_functions()
+        {
+            for (auto i : getPixelTypeEnums())
+            {
+                _print(Format("{0}: channels={1}, bitDepth={2}").
+                    arg(i).
+                    arg(getChannelCount(i)).
+                    arg(getBitDepth(i)));
+            }
+            for (auto i : getYUVCoefficientsEnums())
+            {
+                _print(Format("{0}: {1}").
+                    arg(i).
+                    arg(getYUVCoefficients(i)));
             }
         }
     }

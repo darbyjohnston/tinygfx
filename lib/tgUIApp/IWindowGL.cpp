@@ -16,6 +16,9 @@
 #include <tgCore/Context.h>
 #include <tgCore/Format.h>
 #include <tgCore/LogSystem.h>
+#include <tgCore/FontSystem.h>
+
+using namespace tg::core;
 
 namespace tg
 {
@@ -23,13 +26,14 @@ namespace tg
     {
         struct IWindow::Private
         {
-            std::weak_ptr<core::Context> context;
-            core::Size2I size = core::Size2I(0, 0);
+            std::weak_ptr<Context> context;
+            Size2I size = Size2I(0, 0);
             std::shared_ptr<gl::Window> window;
             bool refresh = true;
             bool redraw = true;
-            core::Size2I bufferSize = core::Size2I(0, 0);
-            core::V2F contentScale = core::V2F(1.F, 1.F);
+            Size2I bufferSize = Size2I(0, 0);
+            V2F contentScale = V2F(1.F, 1.F);
+            std::shared_ptr<FontSystem> fontSystem;
             std::shared_ptr<gl::OffscreenBuffer> buffer;
             std::shared_ptr<gl::Render> render;
 #if defined(TINYGFX_API_GLES_2)
@@ -38,9 +42,9 @@ namespace tg
         };
         
         IWindow::IWindow(
-            const std::shared_ptr<core::Context>& context,
+            const std::shared_ptr<Context>& context,
             const std::string& name,
-            const core::Size2I& size) :
+            const Size2I& size) :
             _p(new Private)
         {
             TG_P();
@@ -50,19 +54,19 @@ namespace tg
 
             p.window = gl::Window::create(context, name, size);
             p.window->setSizeCallback(
-                [this](const core::Size2I& value)
+                [this](const Size2I& value)
                 {
                     _p->size = value;
                     _p->redraw = true;
                 });
             p.window->setFrameBufferSizeCallback(
-                [this](const core::Size2I& value)
+                [this](const Size2I& value)
                 {
                     _p->bufferSize = value;
                     _p->redraw = true;
                 });
             p.window->setContentScaleCallback(
-                [this](const core::V2F& value)
+                [this](const V2F& value)
                 {
                     _p->contentScale = value;
                     _p->redraw = true;
@@ -75,7 +79,7 @@ namespace tg
 
             p.bufferSize = p.window->getFrameBufferSize();
             p.contentScale = p.window->getContentScale();
-
+            p.fontSystem = context->getSystem<FontSystem>();
             p.render = gl::Render::create(context);
         }
 
@@ -101,7 +105,7 @@ namespace tg
         void IWindow::tick()
         {}
 
-        const core::Size2I& IWindow::getSize() const
+        const Size2I& IWindow::getSize() const
         {
             return _p->size;
         }
@@ -121,7 +125,7 @@ namespace tg
             _p->redraw = true;
         }
 
-        const core::Size2I& IWindow::getFrameBufferSize() const
+        const Size2I& IWindow::getFrameBufferSize() const
         {
             return _p->bufferSize;
         }
@@ -142,7 +146,7 @@ namespace tg
             if (p.redraw && p.buffer)
             {
                 gl::OffscreenBufferBinding bufferBinding(p.buffer);
-                _draw(p.contentScale, p.render);
+                _draw(p.contentScale, p.fontSystem, p.render);
             }
 
 #if defined(TINYGFX_API_GL_4_1)
@@ -204,10 +208,10 @@ namespace tg
                 {
                     if (auto context = p.context.lock())
                     {
-                        context->getSystem<core::LogSystem>()->print(
+                        context->getSystem<LogSystem>()->print(
                             "tl::ui_app::Window",
-                            core::Format("Cannot compile shader: {0}").arg(e.what()),
-                            core::LogType::Error);
+                            Format("Cannot compile shader: {0}").arg(e.what()),
+                            LogType::Error);
                     }
                 }
             }
@@ -220,7 +224,7 @@ namespace tg
                 p.shader->bind();
                 p.shader->setUniform(
                     "transform.mvp",
-                    core::ortho(
+                    ortho(
                         0.F,
                         static_cast<float>(p.bufferSize.w()),
                         0.F,
@@ -232,7 +236,7 @@ namespace tg
                 glActiveTexture(static_cast<GLenum>(GL_TEXTURE0));
                 glBindTexture(GL_TEXTURE_2D, p.buffer->getColorID());
 
-                auto mesh = core::mesh(core::Box2I(
+                auto mesh = core::mesh(Box2I(
                     0,
                     0,
                     p.bufferSize.w(),
@@ -240,7 +244,7 @@ namespace tg
                 auto vboData = gl::convert(
                     mesh,
                     gl::VBOType::Pos2_F32_UV_U16,
-                    core::RangeSizeT(0, mesh.triangles.size() - 1));
+                    RangeSizeT(0, mesh.triangles.size() - 1));
                 auto vbo = gl::VBO::create(mesh.triangles.size() * 3, gl::VBOType::Pos2_F32_UV_U16);
                 vbo->copy(vboData);
                 auto vao = gl::VAO::create(gl::VBOType::Pos2_F32_UV_U16, vbo->getID());
