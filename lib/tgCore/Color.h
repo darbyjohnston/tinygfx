@@ -103,6 +103,7 @@ namespace tg
         {
         public:
             Color();
+            Color(T, T, T);
             Color(T, T, T, T);
 
             T operator [] (int) const;

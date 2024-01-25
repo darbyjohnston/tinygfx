@@ -97,14 +97,6 @@ namespace tg
             VideoLevels,
             "FullRange",
             "LegalRange");
-        
-        namespace
-        {
-            size_t getAlignedByteCount(size_t value, size_t alignment)
-            {
-                return (value / alignment * alignment) + (value % alignment != 0 ? alignment : 0);
-            }
-        }
 
         size_t ImageInfo::getByteCount() const
         {

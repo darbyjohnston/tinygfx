@@ -168,7 +168,7 @@ namespace tg
 
             //! Is the information valid?
             bool isValid() const;
-        
+                
             //! Get the number of bytes used to store an image.
             size_t getByteCount() const;
 

@@ -223,6 +223,11 @@ namespace tg
             _e({ r, g, b, a })
         {}
 
+        template<>
+        inline Color<4, float>::Color(float r, float g, float b) :
+            _e({ r, g, b, 1.F })
+        {}
+
         template<typename T>
         inline T Color<4, T>::operator [] (int i) const
         {

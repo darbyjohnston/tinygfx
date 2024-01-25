@@ -14,7 +14,7 @@ namespace tg
 {
     namespace core
     {
-        //! \name Sizes
+        //! \name Memory Sizes
         ///@{
 
         constexpr size_t kilobyte = 1024; //!< The number of bytes in a kilobyte
@@ -24,7 +24,15 @@ namespace tg
 
         ///@}
 
-        //! \name Endian
+        //! \name Memory Functions
+        ///@{
+
+        //! Get the aligned byte count.
+        size_t getAlignedByteCount(size_t, size_t alignment);
+        
+        ///@}
+
+        //! \name Memory Endian
         ///@{
 
         //! Endian type.
@@ -59,7 +67,7 @@ namespace tg
 
         ///@}
 
-        //! \name Bits
+        //! \name Memory Bits
         ///@{
 
         //! Get the given bit.

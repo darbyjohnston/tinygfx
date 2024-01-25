@@ -8,6 +8,11 @@ namespace tg
 {
     namespace core
     {
+        inline size_t getAlignedByteCount(size_t value, size_t alignment)
+        {
+            return (value / alignment * alignment) + (value % alignment != 0 ? alignment : 0);
+        }
+
         inline Endian getEndian()
         {
             const uint32_t tmp = 1;

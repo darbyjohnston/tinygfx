@@ -69,6 +69,7 @@ include_directories(lib etc tests)
 
 find_package(Threads REQUIRED)
 find_package(ZLIB REQUIRED)
+find_package(PNG REQUIRED)
 find_package(FreeType REQUIRED)
 
 if ("${TINYGFX_API}" STREQUAL "GL_4_1")
