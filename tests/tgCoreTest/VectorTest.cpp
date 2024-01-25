@@ -94,49 +94,49 @@ namespace tg
             }
             {
                 const V2I v2(1, 2);
-                TG_ASSERT(1 == v2.x());
-                TG_ASSERT(2 == v2.y());
+                TG_ASSERT(1 == v2.x);
+                TG_ASSERT(2 == v2.y);
                 const V3F v3(1.F, 2.F, 3.F);
-                TG_ASSERT(1.F == v3.x());
-                TG_ASSERT(2.F == v3.y());
-                TG_ASSERT(3.F == v3.z());
+                TG_ASSERT(1.F == v3.x);
+                TG_ASSERT(2.F == v3.y);
+                TG_ASSERT(3.F == v3.z);
                 const V4F v4(1.F, 2.F, 3.F, 4.F);
-                TG_ASSERT(1.F == v4.x());
-                TG_ASSERT(2.F == v4.y());
-                TG_ASSERT(3.F == v4.z());
-                TG_ASSERT(4.F == v4.w());
+                TG_ASSERT(1.F == v4.x);
+                TG_ASSERT(2.F == v4.y);
+                TG_ASSERT(3.F == v4.z);
+                TG_ASSERT(4.F == v4.w);
             }
             {
                 const V2F v2(Size2F(1.F, 2.F));
-                TG_ASSERT(1.F == v2.x());
-                TG_ASSERT(2.F == v2.y());
+                TG_ASSERT(1.F == v2.x);
+                TG_ASSERT(2.F == v2.y);
                 const V3F v3(Size3F(1.F, 2.F, 3.F));
-                TG_ASSERT(1.F == v3.x());
-                TG_ASSERT(2.F == v3.y());
-                TG_ASSERT(3.F == v3.z());
+                TG_ASSERT(1.F == v3.x);
+                TG_ASSERT(2.F == v3.y);
+                TG_ASSERT(3.F == v3.z);
             }
             {
                 V2I v2;
-                v2.x() = 1;
-                v2.y() = 2;
-                TG_ASSERT(1 == v2.x());
-                TG_ASSERT(2 == v2.y());
+                v2.x = 1;
+                v2.y = 2;
+                TG_ASSERT(1 == v2.x);
+                TG_ASSERT(2 == v2.y);
                 V3F v3;
-                v3.x() = 1.F;
-                v3.y() = 2.F;
-                v3.z() = 3.F;
-                TG_ASSERT(1.F == v3.x());
-                TG_ASSERT(2.F == v3.y());
-                TG_ASSERT(3.F == v3.z());
+                v3.x = 1.F;
+                v3.y = 2.F;
+                v3.z = 3.F;
+                TG_ASSERT(1.F == v3.x);
+                TG_ASSERT(2.F == v3.y);
+                TG_ASSERT(3.F == v3.z);
                 V4F v4;
-                v4.x() = 1.F;
-                v4.y() = 2.F;
-                v4.z() = 3.F;
-                v4.w() = 4.F;
-                TG_ASSERT(1.F == v4.x());
-                TG_ASSERT(2.F == v4.y());
-                TG_ASSERT(3.F == v4.z());
-                TG_ASSERT(4.F == v4.w());
+                v4.x = 1.F;
+                v4.y = 2.F;
+                v4.z = 3.F;
+                v4.w = 4.F;
+                TG_ASSERT(1.F == v4.x);
+                TG_ASSERT(2.F == v4.y);
+                TG_ASSERT(3.F == v4.z);
+                TG_ASSERT(4.F == v4.w);
             }
         }
 

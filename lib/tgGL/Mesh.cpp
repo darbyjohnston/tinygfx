@@ -99,8 +99,8 @@ namespace tg
                     {
                         const size_t v = vertices[k]->v;
                         float* pf = reinterpret_cast<float*>(p);
-                        pf[0] = v ? mesh.v[v - 1].x() : 0.F;
-                        pf[1] = v ? mesh.v[v - 1].y() : 0.F;
+                        pf[0] = v ? mesh.v[v - 1].x : 0.F;
+                        pf[1] = v ? mesh.v[v - 1].y : 0.F;
                         p += 2 * sizeof(float);
                     }
                 }
@@ -118,14 +118,14 @@ namespace tg
                     {
                         const size_t v = vertices[k]->v;
                         float* pf = reinterpret_cast<float*>(p);
-                        pf[0] = v ? mesh.v[v - 1].x() : 0.F;
-                        pf[1] = v ? mesh.v[v - 1].y() : 0.F;
+                        pf[0] = v ? mesh.v[v - 1].x : 0.F;
+                        pf[1] = v ? mesh.v[v - 1].y : 0.F;
                         p += 2 * sizeof(float);
 
                         const size_t t = vertices[k]->t;
                         uint16_t* pu16 = reinterpret_cast<uint16_t*>(p);
-                        pu16[0] = t ? clamp(static_cast<int>(mesh.t[t - 1].x() * 65535.F), 0, 65535) : 0;
-                        pu16[1] = t ? clamp(static_cast<int>(mesh.t[t - 1].y() * 65535.F), 0, 65535) : 0;
+                        pu16[0] = t ? clamp(static_cast<int>(mesh.t[t - 1].x * 65535.F), 0, 65535) : 0;
+                        pu16[1] = t ? clamp(static_cast<int>(mesh.t[t - 1].y * 65535.F), 0, 65535) : 0;
                         p += 2 * sizeof(uint16_t);
                     }
                 }
@@ -143,16 +143,16 @@ namespace tg
                     {
                         const size_t v = vertices[k]->v;
                         float* pf = reinterpret_cast<float*>(p);
-                        pf[0] = v ? mesh.v[v - 1].x() : 0.F;
-                        pf[1] = v ? mesh.v[v - 1].y() : 0.F;
+                        pf[0] = v ? mesh.v[v - 1].x : 0.F;
+                        pf[1] = v ? mesh.v[v - 1].y : 0.F;
                         p += 2 * sizeof(float);
 
                         const size_t c = vertices[k]->c;
                         pf = reinterpret_cast<float*>(p);
-                        pf[0] = c ? mesh.c[c - 1].x() : 1.F;
-                        pf[1] = c ? mesh.c[c - 1].y() : 1.F;
-                        pf[2] = c ? mesh.c[c - 1].z() : 1.F;
-                        pf[3] = c ? mesh.c[c - 1].w() : 1.F;
+                        pf[0] = c ? mesh.c[c - 1].x : 1.F;
+                        pf[1] = c ? mesh.c[c - 1].y : 1.F;
+                        pf[2] = c ? mesh.c[c - 1].z : 1.F;
+                        pf[3] = c ? mesh.c[c - 1].w : 1.F;
                         p += 4 * sizeof(float);
                     }
                 }
@@ -193,9 +193,9 @@ namespace tg
                     {
                         const size_t v = vertices[k]->v;
                         float* pf = reinterpret_cast<float*>(p);
-                        pf[0] = v ? mesh.v[v - 1].x() : 0.F;
-                        pf[1] = v ? mesh.v[v - 1].y() : 0.F;
-                        pf[2] = v ? mesh.v[v - 1].z() : 0.F;
+                        pf[0] = v ? mesh.v[v - 1].x : 0.F;
+                        pf[1] = v ? mesh.v[v - 1].y : 0.F;
+                        pf[2] = v ? mesh.v[v - 1].z : 0.F;
                         p += 3 * sizeof(float);
                     }
                 }
@@ -213,15 +213,15 @@ namespace tg
                     {
                         const size_t v = vertices[k]->v;
                         float* pf = reinterpret_cast<float*>(p);
-                        pf[0] = v ? mesh.v[v - 1].x() : 0.F;
-                        pf[1] = v ? mesh.v[v - 1].y() : 0.F;
-                        pf[2] = v ? mesh.v[v - 1].z() : 0.F;
+                        pf[0] = v ? mesh.v[v - 1].x : 0.F;
+                        pf[1] = v ? mesh.v[v - 1].y : 0.F;
+                        pf[2] = v ? mesh.v[v - 1].z : 0.F;
                         p += 3 * sizeof(float);
 
                         const size_t t = vertices[k]->t;
                         uint16_t* pu16 = reinterpret_cast<uint16_t*>(p);
-                        pu16[0] = t ? clamp(static_cast<int>(mesh.t[t - 1].x() * 65535.F), 0, 65535) : 0;
-                        pu16[1] = t ? clamp(static_cast<int>(mesh.t[t - 1].y() * 65535.F), 0, 65535) : 0;
+                        pu16[0] = t ? clamp(static_cast<int>(mesh.t[t - 1].x * 65535.F), 0, 65535) : 0;
+                        pu16[1] = t ? clamp(static_cast<int>(mesh.t[t - 1].y * 65535.F), 0, 65535) : 0;
                         p += 2 * sizeof(uint16_t);
                     }
                 }
@@ -239,22 +239,22 @@ namespace tg
                     {
                         const size_t v = vertices[k]->v;
                         float* pf = reinterpret_cast<float*>(p);
-                        pf[0] = v ? mesh.v[v - 1].x() : 0.F;
-                        pf[1] = v ? mesh.v[v - 1].y() : 0.F;
-                        pf[2] = v ? mesh.v[v - 1].z() : 0.F;
+                        pf[0] = v ? mesh.v[v - 1].x : 0.F;
+                        pf[1] = v ? mesh.v[v - 1].y : 0.F;
+                        pf[2] = v ? mesh.v[v - 1].z : 0.F;
                         p += 3 * sizeof(float);
 
                         const size_t t = vertices[k]->t;
                         uint16_t* pu16 = reinterpret_cast<uint16_t*>(p);
-                        pu16[0] = t ? clamp(static_cast<int>(mesh.t[t - 1].x() * 65535.F), 0, 65535) : 0;
-                        pu16[1] = t ? clamp(static_cast<int>(mesh.t[t - 1].y() * 65535.F), 0, 65535) : 0;
+                        pu16[0] = t ? clamp(static_cast<int>(mesh.t[t - 1].x * 65535.F), 0, 65535) : 0;
+                        pu16[1] = t ? clamp(static_cast<int>(mesh.t[t - 1].y * 65535.F), 0, 65535) : 0;
                         p += 2 * sizeof(uint16_t);
 
                         const size_t n = vertices[k]->n;
                         auto packedNormal = reinterpret_cast<PackedNormal*>(p);
-                        packedNormal->x = n ? clamp(static_cast<int>(mesh.n[n - 1].x() * 511.F), -512, 511) : 0;
-                        packedNormal->y = n ? clamp(static_cast<int>(mesh.n[n - 1].y() * 511.F), -512, 511) : 0;
-                        packedNormal->z = n ? clamp(static_cast<int>(mesh.n[n - 1].z() * 511.F), -512, 511) : 0;
+                        packedNormal->x = n ? clamp(static_cast<int>(mesh.n[n - 1].x * 511.F), -512, 511) : 0;
+                        packedNormal->y = n ? clamp(static_cast<int>(mesh.n[n - 1].y * 511.F), -512, 511) : 0;
+                        packedNormal->z = n ? clamp(static_cast<int>(mesh.n[n - 1].z * 511.F), -512, 511) : 0;
                         p += sizeof(PackedNormal);
                     }
                 }
@@ -272,30 +272,30 @@ namespace tg
                     {
                         const size_t v = vertices[k]->v;
                         float* pf = reinterpret_cast<float*>(p);
-                        pf[0] = v ? mesh.v[v - 1].x() : 0.F;
-                        pf[1] = v ? mesh.v[v - 1].y() : 0.F;
-                        pf[2] = v ? mesh.v[v - 1].z() : 0.F;
+                        pf[0] = v ? mesh.v[v - 1].x : 0.F;
+                        pf[1] = v ? mesh.v[v - 1].y : 0.F;
+                        pf[2] = v ? mesh.v[v - 1].z : 0.F;
                         p += 3 * sizeof(float);
 
                         const size_t t = vertices[k]->t;
                         uint16_t* pu16 = reinterpret_cast<uint16_t*>(p);
-                        pu16[0] = t ? clamp(static_cast<int>(mesh.t[t - 1].x() * 65535.F), 0, 65535) : 0;
-                        pu16[1] = t ? clamp(static_cast<int>(mesh.t[t - 1].y() * 65535.F), 0, 65535) : 0;
+                        pu16[0] = t ? clamp(static_cast<int>(mesh.t[t - 1].x * 65535.F), 0, 65535) : 0;
+                        pu16[1] = t ? clamp(static_cast<int>(mesh.t[t - 1].y * 65535.F), 0, 65535) : 0;
                         p += 2 * sizeof(uint16_t);
 
                         const size_t n = vertices[k]->n;
                         auto packedNormal = reinterpret_cast<PackedNormal*>(p);
-                        packedNormal->x = n ? clamp(static_cast<int>(mesh.n[n - 1].x() * 511.F), -512, 511) : 0;
-                        packedNormal->y = n ? clamp(static_cast<int>(mesh.n[n - 1].y() * 511.F), -512, 511) : 0;
-                        packedNormal->z = n ? clamp(static_cast<int>(mesh.n[n - 1].z() * 511.F), -512, 511) : 0;
+                        packedNormal->x = n ? clamp(static_cast<int>(mesh.n[n - 1].x * 511.F), -512, 511) : 0;
+                        packedNormal->y = n ? clamp(static_cast<int>(mesh.n[n - 1].y * 511.F), -512, 511) : 0;
+                        packedNormal->z = n ? clamp(static_cast<int>(mesh.n[n - 1].z * 511.F), -512, 511) : 0;
                         p += sizeof(PackedNormal);
 
                         const size_t c = vertices[k]->c;
                         auto packedColor = reinterpret_cast<PackedColor*>(p);
-                        packedColor->r = c ? clamp(static_cast<int>(mesh.c[c - 1].x() * 255.F), 0, 255) : 255;
-                        packedColor->g = c ? clamp(static_cast<int>(mesh.c[c - 1].y() * 255.F), 0, 255) : 255;
-                        packedColor->b = c ? clamp(static_cast<int>(mesh.c[c - 1].z() * 255.F), 0, 255) : 255;
-                        packedColor->a = c ? clamp(static_cast<int>(mesh.c[c - 1].w() * 255.F), 0, 255) : 255;
+                        packedColor->r = c ? clamp(static_cast<int>(mesh.c[c - 1].x * 255.F), 0, 255) : 255;
+                        packedColor->g = c ? clamp(static_cast<int>(mesh.c[c - 1].y * 255.F), 0, 255) : 255;
+                        packedColor->b = c ? clamp(static_cast<int>(mesh.c[c - 1].z * 255.F), 0, 255) : 255;
+                        packedColor->a = c ? clamp(static_cast<int>(mesh.c[c - 1].w * 255.F), 0, 255) : 255;
                         p += sizeof(PackedColor);
                     }
                 }
@@ -313,22 +313,22 @@ namespace tg
                     {
                         const size_t v = vertices[k]->v;
                         float* pf = reinterpret_cast<float*>(p);
-                        pf[0] = v ? mesh.v[v - 1].x() : 0.F;
-                        pf[1] = v ? mesh.v[v - 1].y() : 0.F;
-                        pf[2] = v ? mesh.v[v - 1].z() : 0.F;
+                        pf[0] = v ? mesh.v[v - 1].x : 0.F;
+                        pf[1] = v ? mesh.v[v - 1].y : 0.F;
+                        pf[2] = v ? mesh.v[v - 1].z : 0.F;
                         p += 3 * sizeof(float);
 
                         const size_t t = vertices[k]->t;
                         pf = reinterpret_cast<float*>(p);
-                        pf[0] = t ? mesh.t[t - 1].x() : 0.F;
-                        pf[1] = t ? mesh.t[t - 1].y() : 0.F;
+                        pf[0] = t ? mesh.t[t - 1].x : 0.F;
+                        pf[1] = t ? mesh.t[t - 1].y : 0.F;
                         p += 2 * sizeof(float);
 
                         const size_t n = vertices[k]->n;
                         pf = reinterpret_cast<float*>(p);
-                        pf[0] = n ? mesh.n[n - 1].x() : 0.F;
-                        pf[1] = n ? mesh.n[n - 1].y() : 0.F;
-                        pf[2] = n ? mesh.n[n - 1].z() : 0.F;
+                        pf[0] = n ? mesh.n[n - 1].x : 0.F;
+                        pf[1] = n ? mesh.n[n - 1].y : 0.F;
+                        pf[2] = n ? mesh.n[n - 1].z : 0.F;
                         p += 3 * sizeof(float);
                     }
                 }
@@ -346,30 +346,30 @@ namespace tg
                     {
                         const size_t v = vertices[k]->v;
                         float* pf = reinterpret_cast<float*>(p);
-                        pf[0] = v ? mesh.v[v - 1].x() : 0.F;
-                        pf[1] = v ? mesh.v[v - 1].y() : 0.F;
-                        pf[2] = v ? mesh.v[v - 1].z() : 0.F;
+                        pf[0] = v ? mesh.v[v - 1].x : 0.F;
+                        pf[1] = v ? mesh.v[v - 1].y : 0.F;
+                        pf[2] = v ? mesh.v[v - 1].z : 0.F;
                         p += 3 * sizeof(float);
 
                         const size_t t = vertices[k]->t;
                         pf = reinterpret_cast<float*>(p);
-                        pf[0] = t ? mesh.t[t - 1].x() : 0.F;
-                        pf[1] = t ? mesh.t[t - 1].y() : 0.F;
+                        pf[0] = t ? mesh.t[t - 1].x : 0.F;
+                        pf[1] = t ? mesh.t[t - 1].y : 0.F;
                         p += 2 * sizeof(float);
 
                         const size_t n = vertices[k]->n;
                         pf = reinterpret_cast<float*>(p);
-                        pf[0] = n ? mesh.n[n - 1].x() : 0.F;
-                        pf[1] = n ? mesh.n[n - 1].y() : 0.F;
-                        pf[2] = n ? mesh.n[n - 1].z() : 0.F;
+                        pf[0] = n ? mesh.n[n - 1].x : 0.F;
+                        pf[1] = n ? mesh.n[n - 1].y : 0.F;
+                        pf[2] = n ? mesh.n[n - 1].z : 0.F;
                         p += 3 * sizeof(float);
 
                         const size_t c = vertices[k]->c;
                         pf = reinterpret_cast<float*>(p);
-                        pf[0] = c ? mesh.c[c - 1].x() : 1.F;
-                        pf[1] = c ? mesh.c[c - 1].y() : 1.F;
-                        pf[2] = c ? mesh.c[c - 1].z() : 1.F;
-                        pf[3] = c ? mesh.c[c - 1].w() : 1.F;
+                        pf[0] = c ? mesh.c[c - 1].x : 1.F;
+                        pf[1] = c ? mesh.c[c - 1].y : 1.F;
+                        pf[2] = c ? mesh.c[c - 1].z : 1.F;
+                        pf[3] = c ? mesh.c[c - 1].w : 1.F;
                         p += 4 * sizeof(float);
                     }
                 }

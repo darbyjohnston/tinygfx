@@ -6,47 +6,6 @@ namespace tg
 {
     namespace core
     {
-        constexpr ImageSize::ImageSize(
-            int w,
-            int h,
-            float pixelAspectRatio) :
-            w(w),
-            h(h),
-            pixelAspectRatio(pixelAspectRatio)
-        {}
-
-        constexpr bool ImageSize::isValid() const
-        {
-            return w > 0 && h > 0;
-        }
-
-        constexpr float ImageSize::getAspect() const
-        {
-            return h > 0 ? (w / static_cast<float>(h) * pixelAspectRatio) : 0;
-        }
-
-        constexpr bool ImageSize::operator == (const ImageSize& other) const
-        {
-            return
-                w == other.w &&
-                h == other.h &&
-                pixelAspectRatio == other.pixelAspectRatio;
-        }
-
-        constexpr bool ImageSize::operator != (const ImageSize& other) const
-        {
-            return !(*this == other);
-        }
-
-        inline bool ImageSize::operator < (const ImageSize& other) const
-        {
-            const int widthScaled = static_cast<int>(w * pixelAspectRatio);
-            const int otherWidthScaled = static_cast<int>(other.w * other.pixelAspectRatio);
-            return
-                std::tie(widthScaled, h) <
-                std::tie(otherWidthScaled, other.h);
-        }
-
         constexpr Mirror::Mirror(bool x, bool y) :
             x(x),
             y(y)
@@ -81,7 +40,7 @@ namespace tg
             return !(other == *this);
         }
 
-        inline ImageInfo::ImageInfo(const ImageSize& size, PixelType pixelType) :
+        inline ImageInfo::ImageInfo(const Size2I& size, PixelType pixelType) :
             size(size),
             pixelType(pixelType)
         {}
@@ -96,11 +55,17 @@ namespace tg
             return size.isValid() > 0 && pixelType != PixelType::None;
         }
 
+        inline float ImageInfo::getAspect() const
+        {
+            return size.h > 0 ? (size.w / static_cast<float>(size.h) * pixelAspectRatio) : 0;
+        }
+        
         inline bool ImageInfo::operator == (const ImageInfo& other) const
         {
             return
                 size == other.size &&
                 pixelType == other.pixelType &&
+                pixelAspectRatio == other.pixelAspectRatio &&
                 videoLevels == other.videoLevels &&
                 yuvCoefficients == other.yuvCoefficients &&
                 layout == other.layout;
@@ -116,7 +81,7 @@ namespace tg
             return _info;
         }
 
-        inline const ImageSize& Image::getSize() const
+        inline const Size2I& Image::getSize() const
         {
             return _info.size;
         }
@@ -133,7 +98,7 @@ namespace tg
 
         inline float Image::getAspect() const
         {
-            return _info.size.getAspect();
+            return _info.getAspect();
         }
 
         inline PixelType Image::getPixelType() const

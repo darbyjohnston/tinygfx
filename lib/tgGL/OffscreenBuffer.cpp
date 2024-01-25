@@ -198,8 +198,8 @@ namespace tg
                         target,
                         static_cast<GLsizei>(samples),
                         getTextureInternalFormat(p.options.color),
-                        p.size.w(),
-                        p.size.h(),
+                        p.size.w,
+                        p.size.h,
                         false);
                     break;
 #endif // TINYGFX_API_GL_4_1
@@ -212,8 +212,8 @@ namespace tg
                         target,
                         0,
                         getTextureInternalFormat(p.options.color),
-                        p.size.w(),
-                        p.size.h(),
+                        p.size.w,
+                        p.size.h,
                         0,
                         getTextureFormat(p.options.color),
                         getTextureType(p.options.color),
@@ -237,14 +237,14 @@ namespace tg
                     GL_RENDERBUFFER,
                     static_cast<GLsizei>(samples),
                     getBufferInternalFormat(p.options.depth, p.options.stencil),
-                    p.size.w(),
-                    p.size.h());
+                    p.size.w,
+                    p.size.h);
 #elif defined(TINYGFX_API_GLES_2)
                 glRenderbufferStorage(
                     GL_RENDERBUFFER,
                     getBufferInternalFormat(p.options.depth, p.options.stencil),
-                    p.size.w(),
-                    p.size.h());
+                    p.size.w,
+                    p.size.h);
 #endif // TINYGFX_API_GL_4_1
                 glBindRenderbuffer(GL_RENDERBUFFER, 0);
             }
@@ -328,12 +328,12 @@ namespace tg
 
         int OffscreenBuffer::getWidth() const
         {
-            return _p->size.w();
+            return _p->size.w;
         }
 
         int OffscreenBuffer::getHeight() const
         {
-            return _p->size.h();
+            return _p->size.h;
         }
 
         const OffscreenBufferOptions& OffscreenBuffer::getOptions() const

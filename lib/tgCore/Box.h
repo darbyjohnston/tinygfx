@@ -20,16 +20,10 @@ namespace tg
             Box(const Vector<C, T>& min, const Vector<C, T>& max);
             Box(const Vector<C, T>& min, const Size<C, T>& max);
             
-            const Vector<C, T>& min() const;
-            const Vector<C, T>& max() const;
-            Vector<C, T>& min();
-            Vector<C, T>& max();
+            Vector<C, T> min;
+            Vector<C, T> max;
             
             Size<C, T> size() const;
-        
-        private:
-            Vector<C, T> _min;
-            Vector<C, T> _max;
         };
 
         // Two-dimensional box.
@@ -42,10 +36,8 @@ namespace tg
             Box(const Vector<2, T>& min, const Size<2, T>& max);
             Box(T x, T y, T width, T height);
             
-            const Vector<2, T>& min() const;
-            const Vector<2, T>& max() const;
-            Vector<2, T>& min();
-            Vector<2, T>& max();
+            Vector<2, T> min;
+            Vector<2, T> max;
             
             T x() const;
             T y() const;
@@ -53,10 +45,6 @@ namespace tg
             Size<2, T> size() const;
             T w() const;
             T h() const;
-        
-        private:
-            Vector<2, T> _min;
-            Vector<2, T> _max;
         };
 
         // Three-dimensional box.
@@ -68,11 +56,10 @@ namespace tg
             Box(const Vector<3, T>& min, const Vector<3, T>& max);
             Box(const Vector<3, T>& min, const Size<3, T>& max);
             Box(T x, T y, T z, T width, T height, T depth);
+            Box(const Box<3, T>&);
             
-            const Vector<3, T>& min() const;
-            const Vector<3, T>& max() const;
-            Vector<3, T>& min();
-            Vector<3, T>& max();
+            Vector<3, T> min;
+            Vector<3, T> max;
             
             T x() const;
             T y() const;
@@ -82,10 +69,6 @@ namespace tg
             T w() const;
             T h() const;
             T d() const;
-        
-        private:
-            Vector<3, T> _min;
-            Vector<3, T> _max;
         };
 
         //! \name Box Functions

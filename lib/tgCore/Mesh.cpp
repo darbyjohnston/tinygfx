@@ -12,12 +12,12 @@ namespace tg
         {
             TriMesh2F out;
 
-            const auto& min = box.min();
-            const auto& max = box.max();
-            out.v.push_back(V2F(min.x(), min.y()));
-            out.v.push_back(V2F(max.x() + 1, min.y()));
-            out.v.push_back(V2F(max.x() + 1, max.y() + 1));
-            out.v.push_back(V2F(min.x(), max.y() + 1));
+            const auto& min = box.min;
+            const auto& max = box.max;
+            out.v.push_back(V2F(min.x, min.y));
+            out.v.push_back(V2F(max.x + 1, min.y));
+            out.v.push_back(V2F(max.x + 1, max.y + 1));
+            out.v.push_back(V2F(min.x, max.y + 1));
             out.t.push_back(V2F(0.F, flipV ? 1.F : 0.F));
             out.t.push_back(V2F(1.F, flipV ? 1.F : 0.F));
             out.t.push_back(V2F(1.F, flipV ? 0.F : 1.F));
@@ -46,12 +46,12 @@ namespace tg
         {
             TriMesh2F out;
 
-            const auto& min = box.min();
-            const auto& max = box.max();
-            out.v.push_back(V2F(min.x(), min.y()));
-            out.v.push_back(V2F(max.x(), min.y()));
-            out.v.push_back(V2F(max.x(), max.y()));
-            out.v.push_back(V2F(min.x(), max.y()));
+            const auto& min = box.min;
+            const auto& max = box.max;
+            out.v.push_back(V2F(min.x, min.y));
+            out.v.push_back(V2F(max.x, min.y));
+            out.v.push_back(V2F(max.x, max.y));
+            out.v.push_back(V2F(min.x, max.y));
             out.t.push_back(V2F(0.F, flipV ? 1.F : 0.F));
             out.t.push_back(V2F(1.F, flipV ? 1.F : 0.F));
             out.t.push_back(V2F(1.F, flipV ? 0.F : 1.F));

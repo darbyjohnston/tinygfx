@@ -22,8 +22,8 @@ namespace tg
         inline float edge(const V2F& p, const V2F& v0, const V2F& v1)
         {
             return
-                (p.x() - v0.x()) * (v1.y() - v0.y()) -
-                (p.y() - v0.y()) * (v1.x() - v0.x());
+                (p.x - v0.x) * (v1.y - v0.y) -
+                (p.y - v0.y) * (v1.x - v0.x);
         }
     }
 }

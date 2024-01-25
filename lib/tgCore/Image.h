@@ -20,31 +20,6 @@ namespace tg
 {
     namespace core
     {
-        //! Image size.
-        class ImageSize
-        {
-        public:
-            ImageSize() = default;
-            constexpr ImageSize(
-                int w,
-                int h,
-                float pixelAspectRatio = 1.F);
-
-            int w = 0;
-            int h = 0;
-            float pixelAspectRatio = 1.F;
-
-            //! Is the size valid?
-            constexpr bool isValid() const;
-
-            //! Get the aspect ratio.
-            constexpr float getAspect() const;
-
-            constexpr bool operator == (const ImageSize&) const;
-            constexpr bool operator != (const ImageSize&) const;
-            bool operator < (const ImageSize&) const;
-        };
-        
         //! Pixel types.
         enum class PixelType
         {
@@ -157,11 +132,12 @@ namespace tg
         struct ImageInfo
         {
             ImageInfo() = default;
-            ImageInfo(const ImageSize&, PixelType);
+            ImageInfo(const Size2I&, PixelType);
             ImageInfo(int w, int h, PixelType);
 
-            ImageSize       size;
+            Size2I          size;
             PixelType       pixelType        = PixelType::None;
+            float           pixelAspectRatio = 1.F;
             VideoLevels     videoLevels      = VideoLevels::FullRange;
             YUVCoefficients yuvCoefficients  = YUVCoefficients::REC709;
             Layout          layout;
@@ -169,6 +145,9 @@ namespace tg
             //! Is the information valid?
             bool isValid() const;
                 
+            //! Get the aspect ratio.
+            float getAspect() const;
+
             //! Get the number of bytes used to store an image.
             size_t getByteCount() const;
 
@@ -194,7 +173,7 @@ namespace tg
             static std::shared_ptr<Image> create(const ImageInfo&);
 
             //! Create a new image.
-            static std::shared_ptr<Image> create(const ImageSize&, PixelType);
+            static std::shared_ptr<Image> create(const Size2I&, PixelType);
 
             //! Create a new image.
             static std::shared_ptr<Image> create(int w, int h, PixelType);
@@ -203,7 +182,7 @@ namespace tg
             const ImageInfo& getInfo() const;
             
             //! Get the image size.
-            const ImageSize& getSize() const;
+            const Size2I& getSize() const;
 
             //! Get the image width.
             int getWidth() const;

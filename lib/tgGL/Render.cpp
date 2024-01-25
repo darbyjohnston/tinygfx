@@ -108,15 +108,15 @@ namespace tg
             p.vbos["image"] = VBO::create(2 * 3, VBOType::Pos2_F32_UV_U16);
             p.vaos["image"] = VAO::create(p.vbos["image"]->getType(), p.vbos["image"]->getID());
 
-            setViewport(Box2I(0, 0, size.w(), size.h()));
+            setViewport(Box2I(0, 0, size.w, size.h));
             if (options.clear)
             {
                 clearViewport(options.clearColor);
             }
             setTransform(ortho(
                 0.F,
-                static_cast<float>(size.w()),
-                static_cast<float>(size.h()),
+                static_cast<float>(size.w),
+                static_cast<float>(size.h),
                 0.F,
                 -1.F,
                 1.F));
@@ -146,14 +146,14 @@ namespace tg
             p.viewport = value;
             glViewport(
                 value.x(),
-                p.size.h() - value.h() - value.y(),
+                p.size.h - value.h() - value.y(),
                 value.w(),
                 value.h());
         }
 
         void Render::clearViewport(const Color4F& value)
         {
-            glClearColor(value.r(), value.g(), value.b(), value.a());
+            glClearColor(value.r, value.g, value.b, value.a);
             glClear(GL_COLOR_BUFFER_BIT);
         }
 
@@ -189,7 +189,7 @@ namespace tg
             {
                 glScissor(
                     value.x(),
-                    p.size.h() - value.h() - value.y(),
+                    p.size.h - value.h() - value.y(),
                     value.w(),
                     value.h());
             }
@@ -243,7 +243,7 @@ namespace tg
             {
                 auto infoTmp = ImageInfo(info.size, PixelType::L_U8);
                 out.push_back(Texture::create(infoTmp, options));
-                infoTmp = ImageInfo(ImageSize(info.size.w / 2, info.size.h / 2), PixelType::L_U8);
+                infoTmp = ImageInfo(info.size.w / 2, info.size.h / 2, PixelType::L_U8);
                 out.push_back(Texture::create(infoTmp, options));
                 out.push_back(Texture::create(infoTmp, options));
                 break;
@@ -252,7 +252,7 @@ namespace tg
             {
                 auto infoTmp = ImageInfo(info.size, PixelType::L_U8);
                 out.push_back(Texture::create(infoTmp, options));
-                infoTmp = ImageInfo(ImageSize(info.size.w / 2, info.size.h), PixelType::L_U8);
+                infoTmp = ImageInfo(info.size.w / 2, info.size.h, PixelType::L_U8);
                 out.push_back(Texture::create(infoTmp, options));
                 out.push_back(Texture::create(infoTmp, options));
                 break;
@@ -270,7 +270,7 @@ namespace tg
             {
                 auto infoTmp = ImageInfo(info.size, PixelType::L_U16);
                 out.push_back(Texture::create(infoTmp, options));
-                infoTmp = ImageInfo(ImageSize(info.size.w / 2, info.size.h / 2), PixelType::L_U16);
+                infoTmp = ImageInfo(info.size.w / 2, info.size.h / 2, PixelType::L_U16);
                 out.push_back(Texture::create(infoTmp, options));
                 out.push_back(Texture::create(infoTmp, options));
                 break;
@@ -279,7 +279,7 @@ namespace tg
             {
                 auto infoTmp = ImageInfo(info.size, PixelType::L_U16);
                 out.push_back(Texture::create(infoTmp, options));
-                infoTmp = ImageInfo(ImageSize(info.size.w / 2, info.size.h), PixelType::L_U16);
+                infoTmp = ImageInfo(info.size.w / 2, info.size.h, PixelType::L_U16);
                 out.push_back(Texture::create(infoTmp, options));
                 out.push_back(Texture::create(infoTmp, options));
                 break;

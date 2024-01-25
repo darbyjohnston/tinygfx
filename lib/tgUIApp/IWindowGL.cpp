@@ -112,12 +112,12 @@ namespace tg
 
         int IWindow::getWidth() const
         {
-            return _p->size.w();
+            return _p->size.w;
         }
 
         int IWindow::getHeight() const
         {
-            return _p->size.h();
+            return _p->size.h;
         }
 
         void IWindow::redraw()
@@ -158,12 +158,12 @@ namespace tg
                 glBlitFramebuffer(
                     0,
                     0,
-                    p.bufferSize.w(),
-                    p.bufferSize.h(),
+                    p.bufferSize.w,
+                    p.bufferSize.h,
                     0,
                     0,
-                    p.bufferSize.w(),
-                    p.bufferSize.h(),
+                    p.bufferSize.w,
+                    p.bufferSize.h,
                     GL_COLOR_BUFFER_BIT,
                     GL_LINEAR);
             }
@@ -226,9 +226,9 @@ namespace tg
                     "transform.mvp",
                     ortho(
                         0.F,
-                        static_cast<float>(p.bufferSize.w()),
+                        static_cast<float>(p.bufferSize.w),
                         0.F,
-                        static_cast<float>(p.bufferSize.h()),
+                        static_cast<float>(p.bufferSize.h),
                         -1.F,
                         1.F));
                 p.shader->setUniform("textureSampler", 0);
@@ -239,8 +239,8 @@ namespace tg
                 auto mesh = core::mesh(Box2I(
                     0,
                     0,
-                    p.bufferSize.w(),
-                    p.bufferSize.h()));
+                    p.bufferSize.w,
+                    p.bufferSize.h));
                 auto vboData = gl::convert(
                     mesh,
                     gl::VBOType::Pos2_F32_UV_U16,

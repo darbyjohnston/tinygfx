@@ -161,7 +161,7 @@ namespace tg
             return std::shared_ptr<Image>(new Image(info));
         }
 
-        std::shared_ptr<Image> Image::create(const ImageSize& size, PixelType pixelType)
+        std::shared_ptr<Image> Image::create(const Size2I& size, PixelType pixelType)
         {
             return std::shared_ptr<Image>(new Image(ImageInfo(size, pixelType)));
         }

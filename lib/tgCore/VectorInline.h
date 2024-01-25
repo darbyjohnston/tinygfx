@@ -52,18 +52,31 @@ namespace tg
 
         template<typename T>
         inline Vector<2, T>::Vector() :
+            x(_e[0]),
+            y(_e[1]),
             _e({ T(0), T(0) })
         {}
 
         template<typename T>
         inline Vector<2, T>::Vector(T x, T y) :
+            x(_e[0]),
+            y(_e[1]),
             _e({ x, y })
         {}
 
         template<typename T>
         inline Vector<2, T>::Vector(const Size<2, T>& size) :
-            _e({ size.w(), size.h() })
+            x(_e[0]),
+            y(_e[1]),
+            _e({ size.w, size.h })
         {}
+
+        template<typename T>
+        inline Vector<2, T>::Vector(const Vector<2, T>& v) :
+            x(_e[0]),
+            y(_e[1]),
+            _e(v._e)
+        {}        
 
         template<typename T>
         inline T Vector<2, T>::operator [] (int i) const
@@ -88,45 +101,45 @@ namespace tg
         {
             return _e.data();
         }
-
+            
         template<typename T>
-        inline T Vector<2, T>::x() const
+        inline Vector<2, T>& Vector<2, T>::operator = (const Vector<2, T>& v)
         {
-            return _e[0];
-        }
-
-        template<typename T>
-        inline T Vector<2, T>::y() const
-        {
-            return _e[1];
-        }
-
-        template<typename T>
-        inline T& Vector<2, T>::x()
-        {
-            return _e[0];
-        }
-
-        template<typename T>
-        inline T& Vector<2, T>::y()
-        {
-            return _e[1];
+            _e = v._e;
+            return *this;
         }
 
         template<typename T>
         inline Vector<3, T>::Vector() :
+            x(_e[0]),
+            y(_e[1]),
+            z(_e[2]),
             _e({ T(0), T(0), T(0) })
         {}
 
         template<typename T>
         inline Vector<3, T>::Vector(T x, T y, T z) :
+            x(_e[0]),
+            y(_e[1]),
+            z(_e[2]),
             _e({ x, y, z })
         {}
 
         template<typename T>
         inline Vector<3, T>::Vector(const Size<3, T>& size) :
-            _e({ size.w(), size.h(), size.d() })
+            x(_e[0]),
+            y(_e[1]),
+            z(_e[2]),
+            _e({ size.w, size.h, size.d })
         {}
+
+        template<typename T>
+        inline Vector<3, T>::Vector(const Vector<3, T>& v) :
+            x(_e[0]),
+            y(_e[1]),
+            z(_e[2]),
+            _e(v._e)
+        {}        
 
         template<typename T>
         inline T Vector<3, T>::operator [] (int i) const
@@ -151,52 +164,40 @@ namespace tg
         {
             return _e.data();
         }
-
+            
         template<typename T>
-        inline T Vector<3, T>::x() const
+        inline Vector<3, T>& Vector<3, T>::operator = (const Vector<3, T>& v)
         {
-            return _e[0];
-        }
-
-        template<typename T>
-        inline T Vector<3, T>::y() const
-        {
-            return _e[1];
-        }
-
-        template<typename T>
-        inline T Vector<3, T>::z() const
-        {
-            return _e[2];
-        }
-
-        template<typename T>
-        inline T& Vector<3, T>::x()
-        {
-            return _e[0];
-        }
-
-        template<typename T>
-        inline T& Vector<3, T>::y()
-        {
-            return _e[1];
-        }
-
-        template<typename T>
-        inline T& Vector<3, T>::z()
-        {
-            return _e[2];
+            _e = v._e;
+            return *this;
         }
 
         template<typename T>
         inline Vector<4, T>::Vector() :
+            x(_e[0]),
+            y(_e[1]),
+            z(_e[2]),
+            w(_e[3]),
             _e({ T(0), T(0), T(0), T(0) })
         {}
 
         template<typename T>
         inline Vector<4, T>::Vector(T x, T y, T z, T w) :
+            x(_e[0]),
+            y(_e[1]),
+            z(_e[2]),
+            w(_e[3]),
             _e({ x, y, z, w })
         {}
+
+        template<typename T>
+        inline Vector<4, T>::Vector(const Vector<4, T>& v) :
+            x(_e[0]),
+            y(_e[1]),
+            z(_e[2]),
+            w(_e[3]),
+            _e(v._e)
+        {}        
 
         template<typename T>
         inline T Vector<4, T>::operator [] (int i) const
@@ -221,53 +222,12 @@ namespace tg
         {
             return _e.data();
         }
-
+            
         template<typename T>
-        inline T Vector<4, T>::x() const
+        inline Vector<4, T>& Vector<4, T>::operator = (const Vector<4, T>& v)
         {
-            return _e[0];
-        }
-
-        template<typename T>
-        inline T Vector<4, T>::y() const
-        {
-            return _e[1];
-        }
-
-        template<typename T>
-        inline T Vector<4, T>::z() const
-        {
-            return _e[2];
-        }
-
-        template<typename T>
-        inline T Vector<4, T>::w() const
-        {
-            return _e[3];
-        }
-
-        template<typename T>
-        inline T& Vector<4, T>::x()
-        {
-            return _e[0];
-        }
-
-        template<typename T>
-        inline T& Vector<4, T>::y()
-        {
-            return _e[1];
-        }
-
-        template<typename T>
-        inline T& Vector<4, T>::z()
-        {
-            return _e[2];
-        }
-
-        template<typename T>
-        inline T& Vector<4, T>::w()
-        {
-            return _e[3];
+            _e = v._e;
+            return *this;
         }
 
         template<int C, typename T>

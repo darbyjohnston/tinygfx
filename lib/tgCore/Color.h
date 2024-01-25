@@ -34,7 +34,8 @@ namespace tg
         {
         public:
             Color();
-            Color(T);
+            explicit Color(T);
+            Color(const Color<1, T>&);
 
             T operator [] (int) const;
             T& operator [] (int);
@@ -42,8 +43,9 @@ namespace tg
             const T* data() const;
             T* data();
             
-            T l() const;
-            T& l();
+            T& l;
+
+            Color<1, T>& operator = (const Color<1, T>&);
 
         private:
             std::array<T, 1> _e;
@@ -55,7 +57,9 @@ namespace tg
         {
         public:
             Color();
+            explicit Color(T);
             Color(T, T);
+            Color(const Color<2, T>&);
 
             T operator [] (int) const;
             T& operator [] (int);
@@ -63,10 +67,10 @@ namespace tg
             const T* data() const;
             T* data();
             
-            T l() const;
-            T a() const;
-            T& l();
-            T& a();
+            T& l;
+            T& a;
+
+            Color<2, T>& operator = (const Color<2, T>&);
 
         private:
             std::array<T, 2> _e;
@@ -79,6 +83,7 @@ namespace tg
         public:
             Color();
             Color(T, T, T);
+            Color(const Color<3, T>&);
 
             T operator [] (int) const;
             T& operator [] (int);
@@ -86,12 +91,11 @@ namespace tg
             const T* data() const;
             T* data();
             
-            T r() const;
-            T g() const;
-            T b() const;
-            T& r();            
-            T& g();
-            T& b();
+            T& r;
+            T& g;
+            T& b;
+
+            Color<3, T>& operator = (const Color<3, T>&);
 
         private:
             std::array<T, 3> _e;
@@ -105,6 +109,7 @@ namespace tg
             Color();
             Color(T, T, T);
             Color(T, T, T, T);
+            Color(const Color<4, T>&);
 
             T operator [] (int) const;
             T& operator [] (int);
@@ -112,14 +117,12 @@ namespace tg
             const T* data() const;
             T* data();
             
-            T r() const;            
-            T g() const;            
-            T b() const;            
-            T a() const;
-            T& r();
-            T& g();
-            T& b();
-            T& a();
+            T& r;
+            T& g;
+            T& b;
+            T& a;
+
+            Color<4, T>& operator = (const Color<4, T>&);
 
         private:
             std::array<T, 4> _e;

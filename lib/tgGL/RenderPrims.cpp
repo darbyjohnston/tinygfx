@@ -88,7 +88,7 @@ namespace tg
                 p.shaders["mesh"]->bind();
                 const auto transform =
                     p.transform *
-                    translate(V3F(pos.x(), pos.y(), 0.F));
+                    translate(V3F(pos.x, pos.y, 0.F));
                 p.shaders["mesh"]->setUniform("transform.mvp", transform);
                 p.shaders["mesh"]->setUniform("color", color);
 
@@ -128,7 +128,7 @@ namespace tg
                 p.shaders["colorMesh"]->bind();
                 const auto transform =
                     p.transform *
-                    translate(V3F(pos.x(), pos.y(), 0.F));
+                    translate(V3F(pos.x, pos.y, 0.F));
                 p.shaders["colorMesh"]->setUniform("transform.mvp", transform);
                 p.shaders["colorMesh"]->setUniform("color", color);
 
@@ -218,17 +218,17 @@ namespace tg
 
                         const V2I& offset = glyph->offset;
                         const Box2I box(
-                            pos.x() + x + offset.x(),
-                            pos.y() - offset.y(),
+                            pos.x + x + offset.x,
+                            pos.y - offset.y,
                             glyph->image->getWidth(),
                             glyph->image->getHeight());
-                        const auto& min = box.min();
-                        const auto& max = box.max();
+                        const auto& min = box.min;
+                        const auto& max = box.max;
 
-                        mesh.v.push_back(V2F(min.x(), min.y()));
-                        mesh.v.push_back(V2F(max.x() + 1, min.y()));
-                        mesh.v.push_back(V2F(max.x() + 1, max.y() + 1));
-                        mesh.v.push_back(V2F(min.x(), max.y() + 1));
+                        mesh.v.push_back(V2F(min.x, min.y));
+                        mesh.v.push_back(V2F(max.x + 1, min.y));
+                        mesh.v.push_back(V2F(max.x + 1, max.y + 1));
+                        mesh.v.push_back(V2F(min.x, max.y + 1));
                         mesh.t.push_back(V2F(item.textureU.min(), item.textureV.min()));
                         mesh.t.push_back(V2F(item.textureU.max(), item.textureV.min()));
                         mesh.t.push_back(V2F(item.textureU.max(), item.textureV.max()));

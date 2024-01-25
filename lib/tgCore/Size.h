@@ -37,6 +37,7 @@ namespace tg
         public:
             Size();
             Size(T, T);
+            Size(const Size<2, T>&);
 
             T operator [] (int) const;
             T& operator [] (int);
@@ -44,12 +45,12 @@ namespace tg
             const T* data() const;
             T* data();
             
-            T w() const;
-            T h() const;
-            T& w();
-            T& h();
+            T& w;
+            T& h;
 
             bool isValid() const;
+
+            Size<2, T>& operator = (const Size<2, T>&);
 
         private:
             std::array<T, 2> _e;
@@ -62,6 +63,7 @@ namespace tg
         public:
             Size();
             Size(T, T, T);
+            Size(const Size<3, T>&);
 
             T operator [] (int) const;
             T& operator [] (int);
@@ -69,14 +71,13 @@ namespace tg
             const T* data() const;
             T* data();
             
-            T w() const;
-            T h() const;
-            T d() const;
-            T& w();
-            T& h();
-            T& d();
+            T& w;
+            T& h;
+            T& d;
 
             bool isValid() const;
+
+            Size<3, T>& operator = (const Size<3, T>&);
 
         private:
             std::array<T, 3> _e;

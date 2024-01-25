@@ -132,8 +132,8 @@ namespace tg
             _sizeHint = Size2I();
             if (p.iconImage)
             {
-                _sizeHint.w() = p.iconImage->getWidth();
-                _sizeHint.h() = p.iconImage->getHeight();
+                _sizeHint.w = p.iconImage->getWidth();
+                _sizeHint.h = p.iconImage->getHeight();
             }
         }
 
@@ -155,7 +155,7 @@ namespace tg
             const Box2I g = margin(_geometry, -p.size.margin);
             if (p.iconImage)
             {
-                const ImageSize& iconSize = p.iconImage->getSize();
+                const Size2I& iconSize = p.iconImage->getSize();
                 event.render->drawImage(
                     p.iconImage,
                     Box2F(

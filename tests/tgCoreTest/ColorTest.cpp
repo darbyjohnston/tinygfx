@@ -63,14 +63,14 @@ namespace tg
             {
                 const Color1F c;
                 TG_ASSERT(c[0] == 0.F);
-                TG_ASSERT(c.l() == 0.F);
+                TG_ASSERT(c.l == 0.F);
                 TG_ASSERT(c.data());
             }
             {
                 Color1F c;
                 c[0] = .1F;
                 TG_ASSERT(c[0] == .1F);
-                c.l() = .2F;
+                c.l = .2F;
                 TG_ASSERT(c[0] == .2F);
                 TG_ASSERT(c.data());
             }
@@ -78,8 +78,8 @@ namespace tg
                 const Color2F c;
                 TG_ASSERT(c[0] == 0.F);
                 TG_ASSERT(c[1] == 0.F);
-                TG_ASSERT(c.l() == 0.F);
-                TG_ASSERT(c.a() == 0.F);
+                TG_ASSERT(c.l == 0.F);
+                TG_ASSERT(c.a == 0.F);
                 TG_ASSERT(c.data());
             }
             {
@@ -88,8 +88,8 @@ namespace tg
                 c[1] = .2F;
                 TG_ASSERT(c[0] == .1F);
                 TG_ASSERT(c[1] == .2F);
-                c.l() = .2F;
-                c.a() = .3F;
+                c.l = .2F;
+                c.a = .3F;
                 TG_ASSERT(c[0] == .2F);
                 TG_ASSERT(c[1] == .3F);
                 TG_ASSERT(c.data());
@@ -99,9 +99,9 @@ namespace tg
                 TG_ASSERT(c[0] == 0.F);
                 TG_ASSERT(c[1] == 0.F);
                 TG_ASSERT(c[2] == 0.F);
-                TG_ASSERT(c.r() == 0.F);
-                TG_ASSERT(c.g() == 0.F);
-                TG_ASSERT(c.b() == 0.F);
+                TG_ASSERT(c.r == 0.F);
+                TG_ASSERT(c.g == 0.F);
+                TG_ASSERT(c.b == 0.F);
                 TG_ASSERT(c.data());
             }
             {
@@ -112,9 +112,9 @@ namespace tg
                 TG_ASSERT(c[0] == .1F);
                 TG_ASSERT(c[1] == .2F);
                 TG_ASSERT(c[2] == .3F);
-                c.r() = .2F;
-                c.g() = .3F;
-                c.b() = .4F;
+                c.r = .2F;
+                c.g = .3F;
+                c.b = .4F;
                 TG_ASSERT(c[0] == .2F);
                 TG_ASSERT(c[1] == .3F);
                 TG_ASSERT(c[2] == .4F);
@@ -126,10 +126,10 @@ namespace tg
                 TG_ASSERT(c[1] == 0.F);
                 TG_ASSERT(c[2] == 0.F);
                 TG_ASSERT(c[3] == 0.F);
-                TG_ASSERT(c.r() == 0.F);
-                TG_ASSERT(c.g() == 0.F);
-                TG_ASSERT(c.b() == 0.F);
-                TG_ASSERT(c.a() == 0.F);
+                TG_ASSERT(c.r == 0.F);
+                TG_ASSERT(c.g == 0.F);
+                TG_ASSERT(c.b == 0.F);
+                TG_ASSERT(c.a == 0.F);
                 TG_ASSERT(c.data());
             }
             {
@@ -142,10 +142,10 @@ namespace tg
                 TG_ASSERT(c[1] == .2F);
                 TG_ASSERT(c[2] == .3F);
                 TG_ASSERT(c[3] == .4F);
-                c.r() = .2F;
-                c.g() = .3F;
-                c.b() = .4F;
-                c.a() = .5F;
+                c.r = .2F;
+                c.g = .3F;
+                c.b = .4F;
+                c.a = .5F;
                 TG_ASSERT(c[0] == .2F);
                 TG_ASSERT(c[1] == .3F);
                 TG_ASSERT(c[2] == .4F);

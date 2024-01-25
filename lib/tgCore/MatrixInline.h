@@ -143,10 +143,10 @@ namespace tg
         constexpr Matrix<4, 4, T> translate(const Vector<3, T>& value)
         {
             return Matrix<4, 4, T>(
-                T(1),      T(0),      T(0),      T(0),
-                T(0),      T(1),      T(0),      T(0),
-                T(0),      T(0),      T(1),      T(0),
-                value.x(), value.y(), value.z(), T(1));
+                T(1),    T(0),    T(0),    T(0),
+                T(0),    T(1),    T(0),    T(0),
+                T(0),    T(0),    T(1),    T(0),
+                value.x, value.y, value.z, T(1));
         }
 
         template<typename T>
@@ -189,10 +189,10 @@ namespace tg
         constexpr Matrix<4, 4, T> scale(const Vector<3, T>& value)
         {
             return Matrix<4, 4, T>(
-                value.x(), T(0),      T(0),      T(0),
-                T(0),      value.y(), T(0),      T(0),
-                T(0),      T(0),      value.z(), T(0),
-                T(0),      T(0),      T(0),      T(1));
+                value.x, T(0),    T(0),    T(0),
+                T(0),    value.y, T(0),    T(0),
+                T(0),    T(0),    value.z, T(0),
+                T(0),    T(0),    T(0),    T(1));
         }
 
         template<typename T>

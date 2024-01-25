@@ -169,8 +169,8 @@ namespace tg
                 event.render->drawImage(
                     p.dndCursor,
                     Box2F(
-                        p.cursorPos.x() - p.dndCursorHotspot.x(),
-                        p.cursorPos.y() - p.dndCursorHotspot.y(),
+                        p.cursorPos.x - p.dndCursorHotspot.x,
+                        p.cursorPos.y - p.dndCursorHotspot.y,
                         p.dndCursor->getWidth(),
                         p.dndCursor->getHeight()),
                     Color4F(1.F, 1.F, 1.F));

@@ -141,11 +141,11 @@ namespace tg
             p.size.sizeInit = false;
             p.size.textInit = false;
 
-            _sizeHint.w() =
-                p.size.textSize.w() +
+            _sizeHint.w =
+                p.size.textSize.w +
                 p.size.margin * 2;
-            _sizeHint.h() =
-                p.size.textSize.h() +
+            _sizeHint.h =
+                p.size.textSize.h +
                 p.size.margin * 2;
         }
 
@@ -184,14 +184,14 @@ namespace tg
                     p.draw.glyphs.push_back(event.fontSystem->getGlyphs(line, p.size.fontInfo));
                 }
             }
-            V2I pos = g.min();
+            V2I pos = g.min;
             for (const auto& glyphs : p.draw.glyphs)
             {
                 event.render->drawText(
                     glyphs,
-                    V2F(pos.x(), pos.y() + p.size.fontMetrics.ascender),
+                    V2F(pos.x, pos.y + p.size.fontMetrics.ascender),
                     event.style->getColorRole(p.textRole));
-                pos.y() += p.size.fontMetrics.lineHeight;
+                pos.y += p.size.fontMetrics.lineHeight;
             }
         }
         

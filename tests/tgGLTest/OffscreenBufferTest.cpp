@@ -124,8 +124,8 @@ namespace tg
                             arg(options.sampling));
                         auto offscreen = OffscreenBuffer::create(size, options);
                         TG_ASSERT(size == offscreen->getSize());
-                        TG_ASSERT(size.w() == offscreen->getWidth());
-                        TG_ASSERT(size.h() == offscreen->getHeight());
+                        TG_ASSERT(size.w == offscreen->getWidth());
+                        TG_ASSERT(size.h == offscreen->getHeight());
                         TG_ASSERT(options == offscreen->getOptions());
                         TG_ASSERT(offscreen->getID());
                         if (options.color != PixelType::None)

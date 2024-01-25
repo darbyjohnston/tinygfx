@@ -50,7 +50,7 @@ namespace tg
                 TG_ASSERT(0 == info.getByteCount());
             }
             {
-                const ImageInfo info(ImageSize(1920, 1080), PixelType::RGB_U8);
+                const ImageInfo info(Size2I(1920, 1080), PixelType::RGB_U8);
                 TG_ASSERT(info.isValid());
                 TG_ASSERT(1920 * 1080 * 3 == info.getByteCount());
             }
@@ -76,7 +76,7 @@ namespace tg
                 TG_ASSERT(!image->isValid());
             }
             {
-                auto image = Image::create(ImageSize(1920, 1080), PixelType::RGB_U8);
+                auto image = Image::create(Size2I(1920, 1080), PixelType::RGB_U8);
                 TG_ASSERT(image->isValid());                
             }
             {
@@ -84,7 +84,7 @@ namespace tg
                 TG_ASSERT(image->isValid());
             }
             {
-                const ImageInfo info(ImageSize(1920, 1080), PixelType::RGB_U8);
+                const ImageInfo info(Size2I(1920, 1080), PixelType::RGB_U8);
                 auto image = Image::create(info);
                 image->zero();
                 TG_ASSERT(info == image->getInfo());

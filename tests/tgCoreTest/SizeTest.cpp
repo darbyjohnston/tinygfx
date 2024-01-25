@@ -55,8 +55,8 @@ namespace tg
                 const Size2I s;
                 TG_ASSERT(0 == s[0]);
                 TG_ASSERT(0 == s[1]);
-                TG_ASSERT(0 == s.w());
-                TG_ASSERT(0 == s.h());
+                TG_ASSERT(0 == s.w);
+                TG_ASSERT(0 == s.h);
                 TG_ASSERT(s.data());
                 TG_ASSERT(!s.isValid());
             }
@@ -68,8 +68,8 @@ namespace tg
                 TG_ASSERT(2 == s[1]);
                 TG_ASSERT(s.data());
                 TG_ASSERT(s.isValid());
-                s.w() = 3;
-                s.h() = 4;
+                s.w = 3;
+                s.h = 4;
                 TG_ASSERT(3 == s[0]);
                 TG_ASSERT(4 == s[1]);
             }
@@ -78,9 +78,9 @@ namespace tg
                 TG_ASSERT(0.F == s[0]);
                 TG_ASSERT(0.F == s[1]);
                 TG_ASSERT(0.F == s[2]);
-                TG_ASSERT(0.F == s.w());
-                TG_ASSERT(0.F == s.h());
-                TG_ASSERT(0.F == s.d());
+                TG_ASSERT(0.F == s.w);
+                TG_ASSERT(0.F == s.h);
+                TG_ASSERT(0.F == s.d);
                 TG_ASSERT(s.data());
                 TG_ASSERT(!s.isValid());
             }
@@ -94,9 +94,9 @@ namespace tg
                 TG_ASSERT(3.F == s[2]);
                 TG_ASSERT(s.data());
                 TG_ASSERT(s.isValid());
-                s.w() = 4.F;
-                s.h() = 5.F;
-                s.d() = 6.F;
+                s.w = 4.F;
+                s.h = 5.F;
+                s.d = 6.F;
                 TG_ASSERT(4.F == s[0]);
                 TG_ASSERT(5.F == s[1]);
                 TG_ASSERT(6.F == s[2]);

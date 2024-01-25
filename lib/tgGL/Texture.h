@@ -75,7 +75,7 @@ namespace tg
             const core::ImageInfo& getInfo() const;
 
             //! Get the size.
-            const core::ImageSize& getSize() const;
+            const core::Size2I& getSize() const;
 
             //! Get the width.
             int getWidth() const;

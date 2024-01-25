@@ -56,8 +56,8 @@ namespace tg
                         const float cos = cosf(deg2rad(a));
                         const float sin = sinf(deg2rad(a));
                         out.v.push_back(V2F(
-                            c[j].x() + cos * r,
-                            c[j].y() + sin * r));
+                            c[j].x + cos * r,
+                            c[j].y + sin * r));
                     }
                     for (size_t k = 0; k < resolution - 1; ++k)
                     {
@@ -110,14 +110,14 @@ namespace tg
             for (int i = 0; i < 360; i += inc)
             {
                 const size_t size = out.v.size();
-                out.v.push_back(V2F(pos.x(), pos.y()));
+                out.v.push_back(V2F(pos.x, pos.y));
                 out.v.push_back(V2F(
-                    pos.x() + cos(deg2rad(i)) * radius,
-                    pos.y() + sin(deg2rad(i)) * radius));
+                    pos.x + cos(deg2rad(i)) * radius,
+                    pos.y + sin(deg2rad(i)) * radius));
                 const int d = std::min(i + inc, 360);
                 out.v.push_back(V2F(
-                    pos.x() + cos(deg2rad(d)) * radius,
-                    pos.y() + sin(deg2rad(d)) * radius));
+                    pos.x + cos(deg2rad(d)) * radius,
+                    pos.y + sin(deg2rad(d)) * radius));
                 out.triangles.push_back({ size + 1, size + 2, size + 3 });
             }
 
@@ -178,11 +178,11 @@ namespace tg
                         const float cos = cosf(deg2rad(a));
                         const float sin = sinf(deg2rad(a));
                         out.v.push_back(V2F(
-                            c[j].x() + cos * r,
-                            c[j].y() + sin * r));
+                            c[j].x + cos * r,
+                            c[j].y + sin * r));
                         out.v.push_back(V2F(
-                            c[j].x() + cos * (r - width),
-                            c[j].y() + sin * (r - width)));
+                            c[j].x + cos * (r - width),
+                            c[j].y + sin * (r - width)));
                     }
                     for (size_t k = 0; k < resolution - 1; ++k)
                     {
@@ -248,8 +248,8 @@ namespace tg
                     const float cos = cosf(deg2rad(a));
                     const float sin = sinf(deg2rad(a));
                     out.v.push_back(V2F(
-                        c[j].x() + cos * r,
-                        c[j].y() + sin * r));
+                        c[j].x + cos * r,
+                        c[j].y + sin * r));
                 }
                 for (size_t k = 0; k < resolution - 1; ++k)
                 {
@@ -355,26 +355,26 @@ namespace tg
 
             // X points.
             std::vector<int> xs;
-            int x = box.min().x();
-            for (; x < box.max().x(); x += checkerSize.w())
+            int x = box.min.x;
+            for (; x < box.max.x; x += checkerSize.w)
             {
                 xs.push_back(x);
             }
-            if (x >= box.max().x())
+            if (x >= box.max.x)
             {
-                xs.push_back(box.max().x());
+                xs.push_back(box.max.x);
             }
 
             // Y points.
             std::vector<int> ys;
-            int y = box.min().y();
-            for (; y < box.max().y(); y += checkerSize.h())
+            int y = box.min.y;
+            for (; y < box.max.y; y += checkerSize.h)
             {
                 ys.push_back(y);
             }
-            if (y >= box.max().y())
+            if (y >= box.max.y)
             {
-                ys.push_back(box.max().y());
+                ys.push_back(box.max.y);
             }
 
             if (!xs.empty() && !ys.empty())
@@ -389,8 +389,8 @@ namespace tg
                 }
 
                 // Colors.
-                out.c.push_back(V4F(color0.r(), color0.g(), color0.b(), color0.a()));
-                out.c.push_back(V4F(color1.r(), color1.g(), color1.b(), color1.a()));
+                out.c.push_back(V4F(color0.r, color0.g, color0.b, color0.a));
+                out.c.push_back(V4F(color1.r, color1.g, color1.b, color1.a));
 
                 // Triangles.
                 for (int j = 0; j < ys.size() - 1; ++j)

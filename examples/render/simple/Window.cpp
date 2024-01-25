@@ -40,43 +40,18 @@ namespace tg
                 render->begin(getFrameBufferSize());
 
                 const Box2F box(0, 0, getWidth(), getHeight());
-                const auto& min = box.min();
-                const auto& max = box.max();
-                TriMesh2F mesh;
-                mesh.v.push_back(V2F(min.x(), min.y()));
-                mesh.v.push_back(V2F(max.x(), min.y()));
-                mesh.v.push_back(V2F(max.x(), max.y()));
-                mesh.v.push_back(V2F(min.x(), max.y()));
-                mesh.c.push_back(V4F(0.F, 0.F, 0.F, 1.F));
-                mesh.c.push_back(V4F(0.F, 0.F, 0.F, 1.F));
-                mesh.c.push_back(V4F(1.F, 1.F, 1.F, 1.F));
-                mesh.c.push_back(V4F(1.F, 1.F, 1.F, 1.F));
-                Triangle2 triangle;
-                triangle.v[0].v = 1;
-                triangle.v[1].v = 2;
-                triangle.v[2].v = 3;
-                triangle.v[0].c = 1;
-                triangle.v[1].c = 2;
-                triangle.v[2].c = 3;
-                mesh.triangles.push_back(triangle);
-                triangle.v[0].v = 3;
-                triangle.v[1].v = 4;
-                triangle.v[2].v = 1;
-                triangle.v[0].c = 3;
-                triangle.v[1].c = 4;
-                triangle.v[2].c = 1;
-                mesh.triangles.push_back(triangle);
-                render->drawColorMesh(mesh);
-
+                render->drawRect(box, Color4F(1.F, 1.F, 1.F));
+                    
                 FontInfo fontInfo;
-                fontInfo.size = 100 * contentScale.x();
+                fontInfo.size = 100 * contentScale.x;
                 const FontMetrics fontMetrics = fontSystem->getMetrics(fontInfo);
-                std::string text = "Hello world";
-                Size2I textSize = fontSystem->getSize(text, fontInfo);
-                auto glyphs = fontSystem->getGlyphs(text, fontInfo);
+                const std::string text = "Hello world";
+                const Size2I textSize = fontSystem->getSize(text, fontInfo);
+                const auto glyphs = fontSystem->getGlyphs(text, fontInfo);
                 render->drawText(
                     glyphs,
-                    center(box) - V2F(textSize.w(), textSize.h()) / 2.F + V2F(0.F, fontMetrics.ascender));
+                    center(box) - V2F(textSize.w, textSize.h) / 2.F + V2F(0.F, fontMetrics.ascender),
+                    Color4F(0.F, 0.F, 0.F));
 
                 render->end();
             }

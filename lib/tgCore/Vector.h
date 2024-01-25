@@ -36,6 +36,7 @@ namespace tg
             Vector();
             Vector(T, T);
             explicit Vector(const Size<2, T>&);
+            Vector(const Vector<2, T>&);
 
             T operator [] (int) const;
             T& operator [] (int);
@@ -43,10 +44,10 @@ namespace tg
             const T* data() const;
             T* data();
 
-            T x() const;
-            T y() const;
-            T& x();
-            T& y();
+            T& x;
+            T& y;
+            
+            Vector<2, T>& operator = (const Vector<2, T>&);
 
         private:
             std::array<T, 2> _e;
@@ -60,6 +61,7 @@ namespace tg
             Vector();
             Vector(T, T, T);
             explicit Vector(const Size<3, T>&);
+            Vector(const Vector<3, T>&);
 
             T operator [] (int) const;
             T& operator [] (int);
@@ -67,12 +69,11 @@ namespace tg
             const T* data() const;
             T* data();
 
-            T x() const;
-            T y() const;
-            T z() const;
-            T& x();
-            T& y();
-            T& z();
+            T& x;
+            T& y;
+            T& z;
+
+            Vector<3, T>& operator = (const Vector<3, T>&);
 
         private:
             std::array<T, 3> _e;
@@ -85,6 +86,7 @@ namespace tg
         public:
             Vector();
             Vector(T, T, T, T = T(0));
+            Vector(const Vector<4, T>&);
 
             T operator [] (int) const;
             T& operator [] (int);
@@ -92,14 +94,12 @@ namespace tg
             const T* data() const;
             T* data();
 
-            T x() const;
-            T y() const;
-            T z() const;
-            T w() const;
-            T& x();
-            T& y();
-            T& z();
-            T& w();
+            T& x;
+            T& y;
+            T& z;
+            T& w;
+
+            Vector<4, T>& operator = (const Vector<4, T>&);
 
         private:
             std::array<T, 4> _e;

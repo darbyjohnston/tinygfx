@@ -67,10 +67,10 @@ namespace tg
                 TriMesh3F out;
                 V3F min(0.F, 0.F, 0.F);
                 V3F max(1.F, 1.F, 0.F);
-                out.v.push_back(V3F(min.x(), min.y(), 0.F));
-                out.v.push_back(V3F(max.x(), min.y(), 0.F));
-                out.v.push_back(V3F(max.x(), max.y(), 0.F));
-                out.v.push_back(V3F(min.x(), max.y(), 0.F));
+                out.v.push_back(V3F(min.x, min.y, 0.F));
+                out.v.push_back(V3F(max.x, min.y, 0.F));
+                out.v.push_back(V3F(max.x, max.y, 0.F));
+                out.v.push_back(V3F(min.x, max.y, 0.F));
                 out.t.push_back(V2F(0.F, 0.F));
                 out.t.push_back(V2F(1.F, 0.F));
                 out.t.push_back(V2F(1.F, 1.F));

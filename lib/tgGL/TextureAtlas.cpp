@@ -119,7 +119,7 @@ namespace tg
                         image->getWidth(),
                         image->getHeight()) + border * 2;
                     const Size2I boxSize = box.size();
-                    if (dataSize.w() > boxSize.w() || dataSize.h() > boxSize.h())
+                    if (dataSize.w > boxSize.w || dataSize.h > boxSize.h)
                     {
                         return nullptr;
                     }
@@ -129,29 +129,29 @@ namespace tg
                     }
                     children[0] = create(border, timestampManager);
                     children[1] = create(border, timestampManager);
-                    const int dw = boxSize.w() - dataSize.w();
-                    const int dh = boxSize.h() - dataSize.h();
+                    const int dw = boxSize.w - dataSize.w;
+                    const int dh = boxSize.h - dataSize.h;
                     if (dw > dh)
                     {
-                        children[0]->box.min().x() = box.min().x();
-                        children[0]->box.min().y() = box.min().y();
-                        children[0]->box.max().x() = box.min().x() + dataSize.w() - 1;
-                        children[0]->box.max().y() = box.max().y();
-                        children[1]->box.min().x() = box.min().x() + dataSize.w();
-                        children[1]->box.min().y() = box.min().y();
-                        children[1]->box.max().x() = box.max().x();
-                        children[1]->box.max().y() = box.max().y();
+                        children[0]->box.min.x = box.min.x;
+                        children[0]->box.min.y = box.min.y;
+                        children[0]->box.max.x = box.min.x + dataSize.w - 1;
+                        children[0]->box.max.y = box.max.y;
+                        children[1]->box.min.x = box.min.x + dataSize.w;
+                        children[1]->box.min.y = box.min.y;
+                        children[1]->box.max.x = box.max.x;
+                        children[1]->box.max.y = box.max.y;
                     }
                     else
                     {
-                        children[0]->box.min().x() = box.min().x();
-                        children[0]->box.min().y() = box.min().y();
-                        children[0]->box.max().x() = box.max().x();
-                        children[0]->box.max().y() = box.min().y() + dataSize.h() - 1;
-                        children[1]->box.min().x() = box.min().x();
-                        children[1]->box.min().y() = box.min().y() + dataSize.h();
-                        children[1]->box.max().x() = box.max().x();
-                        children[1]->box.max().y() = box.max().y();
+                        children[0]->box.min.x = box.min.x;
+                        children[0]->box.min.y = box.min.y;
+                        children[0]->box.max.x = box.max.x;
+                        children[0]->box.max.y = box.min.y + dataSize.h - 1;
+                        children[1]->box.min.x = box.min.x;
+                        children[1]->box.min.y = box.min.y + dataSize.h;
+                        children[1]->box.max.x = box.max.x;
+                        children[1]->box.max.y = box.max.y;
                     }
                     children[0]->textureIndex = textureIndex;
                     children[1]->textureIndex = textureIndex;
@@ -208,10 +208,10 @@ namespace tg
                 p.textures.push_back(texture);
 
                 auto node = BoxPackingNode::create(border, p.timestampManager);
-                node->box.min().x() = 0;
-                node->box.min().y() = 0;
-                node->box.max().x() = textureSize - 1;
-                node->box.max().y() = textureSize - 1;
+                node->box.min.x = 0;
+                node->box.min.y = 0;
+                node->box.max.x = textureSize - 1;
+                node->box.max.y = textureSize - 1;
                 node->textureIndex = i;
                 p.boxPackingNodes.push_back(node);
             }
@@ -290,8 +290,8 @@ namespace tg
                     node->id = p.id;
                     p.textures[node->textureIndex]->copy(
                         image,
-                        node->box.min().x() + p.border,
-                        node->box.min().y() + p.border);
+                        node->box.min.x + p.border,
+                        node->box.min.y + p.border);
                     p.cache[node->id] = node;
                     p.toTextureAtlasItem(node, out);
                     return node->id;
@@ -317,7 +317,7 @@ namespace tg
             for (auto node : nodes)
             {
                 const Size2I nodeSize = node->box.size();
-                if (dataSize.w() <= nodeSize.w() && dataSize.h() <= nodeSize.h())
+                if (dataSize.w <= nodeSize.w && dataSize.h <= nodeSize.h)
                 {
                     auto old = node;
                     p.removeFromAtlas(old);
@@ -342,8 +342,8 @@ namespace tg
 
                         p.textures[node2->textureIndex]->copy(
                             image,
-                            node2->box.min().x() + p.border,
-                            node2->box.min().y() + p.border);
+                            node2->box.min.x + p.border,
+                            node2->box.min.y + p.border);
                         p.cache[node2->id] = node2;
                         p.toTextureAtlasItem(node2, out);
 
@@ -416,11 +416,11 @@ namespace tg
             out.h = node->box.h();
             out.textureIndex = node->textureIndex;
             out.textureU = RangeF(
-                (node->box.min().x() + static_cast<float>(border)) / static_cast<float>(textureSize),
-                (node->box.max().x() - static_cast<float>(border) + 1.F) / static_cast<float>(textureSize));
+                (node->box.min.x + static_cast<float>(border)) / static_cast<float>(textureSize),
+                (node->box.max.x - static_cast<float>(border) + 1.F) / static_cast<float>(textureSize));
             out.textureV = RangeF(
-                (node->box.min().y() + static_cast<float>(border)) / static_cast<float>(textureSize),
-                (node->box.max().y() - static_cast<float>(border) + 1.F) / static_cast<float>(textureSize));
+                (node->box.min.y + static_cast<float>(border)) / static_cast<float>(textureSize),
+                (node->box.max.y - static_cast<float>(border) + 1.F) / static_cast<float>(textureSize));
         }
 
         void TextureAtlas::Private::removeFromAtlas(const std::shared_ptr<BoxPackingNode>& node)

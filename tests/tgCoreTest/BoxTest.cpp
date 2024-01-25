@@ -40,15 +40,15 @@ namespace tg
         {
             {
                 const Box<1, int> b;
-                TG_ASSERT(0 == b.min()[0]);
-                TG_ASSERT(0 == b.max()[0]);
+                TG_ASSERT(0 == b.min[0]);
+                TG_ASSERT(0 == b.max[0]);
             }
             {
                 Box<1, int> b;
-                b.min()[0] = 1;
-                b.max()[0] = 2;
-                TG_ASSERT(1 == b.min()[0]);
-                TG_ASSERT(2 == b.max()[0]);
+                b.min[0] = 1;
+                b.max[0] = 2;
+                TG_ASSERT(1 == b.min[0]);
+                TG_ASSERT(2 == b.max[0]);
             }
             {
                 Vector<1, int> min;
@@ -56,8 +56,8 @@ namespace tg
                 Vector<1, int> max;
                 max[0] = 2;
                 Box<1, int> b(min, max);
-                TG_ASSERT(1 == b.min()[0]);
-                TG_ASSERT(2 == b.max()[0]);
+                TG_ASSERT(1 == b.min[0]);
+                TG_ASSERT(2 == b.max[0]);
             }
             {
                 Vector<1, int> min;
@@ -65,21 +65,21 @@ namespace tg
                 Size<1, int> size;
                 size[0] = 2;
                 Box<1, int> b(min, size);
-                TG_ASSERT(1 == b.min()[0]);
-                TG_ASSERT(3 == b.max()[0]);
+                TG_ASSERT(1 == b.min[0]);
+                TG_ASSERT(3 == b.max[0]);
                 TG_ASSERT(size == b.size());
             }
             {
                 const Box2I b;
-                TG_ASSERT(V2I() == b.min());
-                TG_ASSERT(V2I() == b.max());
+                TG_ASSERT(V2I() == b.min);
+                TG_ASSERT(V2I() == b.max);
             }
             {
                 Box2I b;
-                b.min() = V2I(1, 2);
-                b.max() = V2I(3, 4);
-                TG_ASSERT(V2I(1, 2) == b.min());
-                TG_ASSERT(V2I(3, 4) == b.max());
+                b.min = V2I(1, 2);
+                b.max = V2I(3, 4);
+                TG_ASSERT(V2I(1, 2) == b.min);
+                TG_ASSERT(V2I(3, 4) == b.max);
                 TG_ASSERT(1 == b.x());
                 TG_ASSERT(2 == b.y());
                 TG_ASSERT(3 == b.w());
@@ -87,32 +87,32 @@ namespace tg
             }
             {
                 const Box2I b(V2I(1, 2), V2I(3, 4));
-                TG_ASSERT(V2I(1, 2) == b.min());
-                TG_ASSERT(V2I(3, 4) == b.max());
+                TG_ASSERT(V2I(1, 2) == b.min);
+                TG_ASSERT(V2I(3, 4) == b.max);
             }
             {
                 const Box2I b(V2I(1, 2), Size2I(3, 2));
-                TG_ASSERT(V2I(1, 2) == b.min());
-                TG_ASSERT(V2I(3, 3) == b.max());
+                TG_ASSERT(V2I(1, 2) == b.min);
+                TG_ASSERT(V2I(3, 3) == b.max);
                 TG_ASSERT(Size2I(3, 2) == b.size());
             }
             {
                 const Box2F b(V2F(1.F, 2.F), Size2F(3.F, 2.F));
-                TG_ASSERT(V2F(1.F, 2.F) == b.min());
-                TG_ASSERT(V2F(4.F, 4.F) == b.max());
+                TG_ASSERT(V2F(1.F, 2.F) == b.min);
+                TG_ASSERT(V2F(4.F, 4.F) == b.max);
                 TG_ASSERT(Size2F(3.F, 2.F) == b.size());
             }
             {
                 const Box3F b;
-                TG_ASSERT(V3F() == b.min());
-                TG_ASSERT(V3F() == b.max());
+                TG_ASSERT(V3F() == b.min);
+                TG_ASSERT(V3F() == b.max);
             }
             {
                 Box3F b;
-                b.min() = V3F(1.F, 2.F, 3.F);
-                b.max() = V3F(4.F, 5.F, 6.F);
-                TG_ASSERT(V3F(1.F, 2.F, 3.F) == b.min());
-                TG_ASSERT(V3F(4.F, 5.F, 6.F) == b.max());
+                b.min = V3F(1.F, 2.F, 3.F);
+                b.max = V3F(4.F, 5.F, 6.F);
+                TG_ASSERT(V3F(1.F, 2.F, 3.F) == b.min);
+                TG_ASSERT(V3F(4.F, 5.F, 6.F) == b.max);
                 TG_ASSERT(1.F == b.x());
                 TG_ASSERT(2.F == b.y());
                 TG_ASSERT(3.F == b.z());
@@ -122,13 +122,13 @@ namespace tg
             }
             {
                 const Box3F b(V3F(1.F, 2.F, 3.F), V3F(4.F, 5.F, 6.F));
-                TG_ASSERT(V3F(1.F, 2.F, 3.F) == b.min());
-                TG_ASSERT(V3F(4.F, 5.F, 6.F) == b.max());
+                TG_ASSERT(V3F(1.F, 2.F, 3.F) == b.min);
+                TG_ASSERT(V3F(4.F, 5.F, 6.F) == b.max);
             }
             {
                 const Box3F b(V3F(1.F, 2.F, 3.F), Size3F(4.F, 5.F, 6.F));
-                TG_ASSERT(V3F(1.F, 2.F, 3.F) == b.min());
-                TG_ASSERT(V3F(5.F, 7.F, 9.F) == b.max());
+                TG_ASSERT(V3F(1.F, 2.F, 3.F) == b.min);
+                TG_ASSERT(V3F(5.F, 7.F, 9.F) == b.max);
                 TG_ASSERT(Size3F(4.F, 5.F, 6.F) == b.size());
             }
         }

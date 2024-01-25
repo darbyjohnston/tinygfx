@@ -112,8 +112,8 @@ namespace tg
             glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif // TINYGFX_API_GL_4_1_Debug
             p.glfwWindow = glfwCreateWindow(
-                size.w(),
-                size.h(),
+                size.w,
+                size.h,
                 name.c_str(),
                 nullptr,
                 share ? share->getGLFW() : nullptr);

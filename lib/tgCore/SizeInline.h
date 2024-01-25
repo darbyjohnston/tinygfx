@@ -52,12 +52,23 @@ namespace tg
 
         template<typename T>
         inline Size<2, T>::Size() :
+            w(_e[0]),
+            h(_e[1]),
             _e({ T(0), T(0) })
         {}
 
         template<typename T>
         inline Size<2, T>::Size(T w, T h) :
+            w(_e[0]),
+            h(_e[1]),
             _e({ w, h })
+        {}
+
+        template<typename T>
+        inline Size<2, T>::Size(const Size<2, T>& v) :
+            w(_e[0]),
+            h(_e[1]),
+            _e(v._e)
         {}
 
         template<typename T>
@@ -85,43 +96,40 @@ namespace tg
         }
 
         template<typename T>
-        inline T Size<2, T>::w() const
-        {
-            return _e[0];
-        }
-
-        template<typename T>
-        inline T Size<2, T>::h() const
-        {
-            return _e[1];
-        }
-
-        template<typename T>
-        inline T& Size<2, T>::w()
-        {
-            return _e[0];
-        }
-
-        template<typename T>
-        inline T& Size<2, T>::h()
-        {
-            return _e[1];
-        }
-
-        template<typename T>
         inline bool Size<2, T>::isValid() const
         {
             return _e[0] > 0 && _e[1] > 0;
         }
 
         template<typename T>
+        inline Size<2, T>& Size<2, T>::operator = (const Size<2, T>& v)
+        {
+            _e = v._e;
+            return *this;
+        }
+
+        template<typename T>
         inline Size<3, T>::Size() :
+            w(_e[0]),
+            h(_e[1]),
+            d(_e[2]),
             _e({ T(0), T(0), T(0) })
         {}
 
         template<typename T>
         inline Size<3, T>::Size(T w, T h, T d) :
+            w(_e[0]),
+            h(_e[1]),
+            d(_e[2]),
             _e({ w, h, d })
+        {}
+
+        template<typename T>
+        inline Size<3, T>::Size(const Size<3, T>& v) :
+            w(_e[0]),
+            h(_e[1]),
+            d(_e[2]),
+            _e(v._e)
         {}
 
         template<typename T>
@@ -147,42 +155,6 @@ namespace tg
         {
             return _e.data();
         }
-
-        template<typename T>
-        inline T Size<3, T>::w() const
-        {
-            return _e[0];
-        }
-
-        template<typename T>
-        inline T Size<3, T>::h() const
-        {
-            return _e[1];
-        }
-
-        template<typename T>
-        inline T Size<3, T>::d() const
-        {
-            return _e[2];
-        }
-
-        template<typename T>
-        inline T& Size<3, T>::w()
-        {
-            return _e[0];
-        }
-
-        template<typename T>
-        inline T& Size<3, T>::h()
-        {
-            return _e[1];
-        }
-
-        template<typename T>
-        inline T& Size<3, T>::d()
-        {
-            return _e[2];
-        }
         
         template<typename T>
         inline bool Size<3, T>::isValid() const
@@ -191,26 +163,33 @@ namespace tg
         }
 
         template<typename T>
+        inline Size<3, T>& Size<3, T>::operator = (const Size<3, T>& v)
+        {
+            _e = v._e;
+            return *this;
+        }
+
+        template<typename T>
         inline T aspectRatio(const Size<2, T>& a)
         {
-            return a.h() > T(0) ? (a.w() / a.h()) : T(0);
+            return a.h > T(0) ? (a.w / a.h) : T(0);
         }
 
         inline float aspectRatio(const Size<2, int>& a)
         {
-            return a.h() > 0 ? (a.w() / static_cast<float>(a.h())) : 0.F;
+            return a.h > 0 ? (a.w / static_cast<float>(a.h)) : 0.F;
         }
         
         template<typename T>
         inline T area(const Size<2, T>& a)
         {
-            return a.w() * a.h();
+            return a.w * a.h;
         }
         
         template<typename T>
         inline T volume(const Size<3, T>& a)
         {
-            return a.w() * a.h() * a.d();
+            return a.w * a.h * a.d;
         }
 
         template<int C, typename T>

@@ -371,7 +371,7 @@ namespace tg
             return _p->info;
         }
 
-        const ImageSize& Texture::getSize() const
+        const Size2I& Texture::getSize() const
         {
             return _p->info.size;
         }

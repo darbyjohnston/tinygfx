@@ -96,19 +96,19 @@ namespace tg
                 auto render = Render::create(context);
                 render->begin(size);
                 
-                Box2F box(0, 0, size.w(), size.h());
+                Box2F box(0, 0, size.w, size.h);
                 render->drawRect(box, Color4F(1.F, 0.F, 0.F, 1.F));
 
-                auto min = box.min();
-                auto max = box.max();
+                const auto& min = box.min;
+                const auto& max = box.max;
                 render->drawLine(min, max, Color4F(0.F, 1.F, 0.F, 1.F));
 
                 {
                     core::TriMesh2F mesh;
-                    mesh.v.push_back(core::V2F(min.x(), min.y()));
-                    mesh.v.push_back(core::V2F(max.x(), min.y()));
-                    mesh.v.push_back(core::V2F(max.x(), max.y()));
-                    mesh.v.push_back(core::V2F(min.x(), max.y()));
+                    mesh.v.push_back(core::V2F(min.x, min.y));
+                    mesh.v.push_back(core::V2F(max.x, min.y));
+                    mesh.v.push_back(core::V2F(max.x, max.y));
+                    mesh.v.push_back(core::V2F(min.x, max.y));
                     core::Triangle2 triangle;
                     triangle.v[0].v = 1;
                     triangle.v[1].v = 2;
@@ -123,10 +123,10 @@ namespace tg
                 
                 {
                     core::TriMesh2F mesh;
-                    mesh.v.push_back(core::V2F(min.x(), min.y()));
-                    mesh.v.push_back(core::V2F(max.x(), min.y()));
-                    mesh.v.push_back(core::V2F(max.x(), max.y()));
-                    mesh.v.push_back(core::V2F(min.x(), max.y()));
+                    mesh.v.push_back(core::V2F(min.x, min.y));
+                    mesh.v.push_back(core::V2F(max.x, min.y));
+                    mesh.v.push_back(core::V2F(max.x, max.y));
+                    mesh.v.push_back(core::V2F(min.x, max.y));
                     mesh.c.push_back(core::V4F(0.F, 0.F, 0.F, 1.F));
                     mesh.c.push_back(core::V4F(0.F, 0.F, 0.F, 1.F));
                     mesh.c.push_back(core::V4F(1.F, 1.F, 1.F, 1.F));
@@ -179,7 +179,7 @@ namespace tg
                     imageOptions.imageFilters.magnify = render::ImageFilter::Nearest;
                     imageOptionsList.push_back(imageOptions);
                 }
-                for (const auto& imageSize : { ImageSize(64, 64), ImageSize(2048, 2048) })
+                for (const auto& imageSize : { Size2I(64, 64), Size2I(2048, 2048) })
                 {
                     for (auto pixelType : getPixelTypeEnums())
                     {

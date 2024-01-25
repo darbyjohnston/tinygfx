@@ -345,7 +345,7 @@ namespace tg
                 }
 
                 const int h = i->second->size->metrics.height / 64;
-                pos.y() = h;
+                pos.y = h;
                 auto textLine = utf32.end();
                 int textLineX = 0;
                 int32_t rsbDeltaPrev = 0;
@@ -358,8 +358,8 @@ namespace tg
                         if (glyph)
                         {
                             box = Box2I(
-                                pos.x(),
-                                pos.y() - h,
+                                pos.x,
+                                pos.y - h,
                                 glyph->advance,
                                 h);
                         }
@@ -388,29 +388,29 @@ namespace tg
 
                     if (isNewline(*j))
                     {
-                        size.w() = std::max(size.w(), pos.x());
-                        pos.x() = 0;
-                        pos.y() += h;
+                        size.w = std::max(size.w, pos.x);
+                        pos.x = 0;
+                        pos.y += h;
                         rsbDeltaPrev = 0;
                     }
                     else if (
                         maxLineWidth > 0 &&
-                        pos.x() > 0 &&
-                        pos.x() + (!isSpace(*j) ? x : 0) >= maxLineWidth)
+                        pos.x > 0 &&
+                        pos.x + (!isSpace(*j) ? x : 0) >= maxLineWidth)
                     {
                         if (textLine != utf32.end())
                         {
                             j = textLine;
                             textLine = utf32.end();
-                            size.w() = std::max(size.w(), textLineX);
-                            pos.x() = 0;
-                            pos.y() += h;
+                            size.w = std::max(size.w, textLineX);
+                            pos.x = 0;
+                            pos.y += h;
                         }
                         else
                         {
-                            size.w() = std::max(size.w(), pos.x());
-                            pos.x() = x;
-                            pos.y() += h;
+                            size.w = std::max(size.w, pos.x);
+                            pos.x = x;
+                            pos.y += h;
                         }
                         rsbDeltaPrev = 0;
                     }
@@ -419,13 +419,13 @@ namespace tg
                         if (isSpace(*j) && j != utf32.begin())
                         {
                             textLine = j;
-                            textLineX = pos.x();
+                            textLineX = pos.x;
                         }
-                        pos.x() += x;
+                        pos.x += x;
                     }
                 }
-                size.w() = std::max(size.w(), pos.x());
-                size.h() = pos.y();
+                size.w = std::max(size.w, pos.x);
+                size.h = pos.y;
             }
         }
     }

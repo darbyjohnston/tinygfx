@@ -79,25 +79,25 @@ namespace tg
             Size2I sizeHint = p.label->getSizeHint();
             std::list<Box2I> boxes;
             boxes.push_back(Box2I(
-                p.pos.x() + p.size.handle,
-                p.pos.y() + p.size.handle,
-                sizeHint.w(),
-                sizeHint.h()));
+                p.pos.x + p.size.handle,
+                p.pos.y + p.size.handle,
+                sizeHint.w,
+                sizeHint.h));
             boxes.push_back(Box2I(
-                p.pos.x() - p.size.handle - sizeHint.w(),
-                p.pos.y() + p.size.handle,
-                sizeHint.w(),
-                sizeHint.h()));
+                p.pos.x - p.size.handle - sizeHint.w,
+                p.pos.y + p.size.handle,
+                sizeHint.w,
+                sizeHint.h));
             boxes.push_back(Box2I(
-                p.pos.x() + p.size.handle,
-                p.pos.y() - p.size.handle - sizeHint.h(),
-                sizeHint.w(),
-                sizeHint.h()));
+                p.pos.x + p.size.handle,
+                p.pos.y - p.size.handle - sizeHint.h,
+                sizeHint.w,
+                sizeHint.h));
             boxes.push_back(Box2I(
-                p.pos.x() - p.size.handle - sizeHint.w(),
-                p.pos.y() - p.size.handle - sizeHint.h(),
-                sizeHint.w(),
-                sizeHint.h()));
+                p.pos.x - p.size.handle - sizeHint.w,
+                p.pos.y - p.size.handle - sizeHint.h,
+                sizeHint.w,
+                sizeHint.h));
             struct Intersect
             {
                 Box2I original;
@@ -147,8 +147,8 @@ namespace tg
             //    Color4F(0.F, 0.F, 0.F, .2F));
             const Box2I g = p.label->getGeometry();
             const Box2I g2(
-                g.min().x() - p.size.shadow,
-                g.min().y(),
+                g.min.x - p.size.shadow,
+                g.min.y,
                 g.w() + p.size.shadow * 2,
                 g.h() + p.size.shadow);
             event.render->drawColorMesh(
