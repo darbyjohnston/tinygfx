@@ -92,7 +92,7 @@ namespace tg
             
             int App::run()
             {
-                return _exit;
+                return getExit();
             }
         }
                 

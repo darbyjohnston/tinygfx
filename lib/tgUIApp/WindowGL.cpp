@@ -95,6 +95,14 @@ namespace tg
             p.buffer.reset();
             p.window->doneCurrent();
         }
+        
+        std::shared_ptr<Window> Window::create(
+            const std::shared_ptr<Context>& context,
+            const std::string& name,
+            const Size2I& size)
+        {
+            return std::shared_ptr<Window>(new Window(context, name, size));
+        }
 
         const Size2I& Window::getFrameBufferSize() const
         {

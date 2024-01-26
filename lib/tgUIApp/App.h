@@ -13,10 +13,8 @@ namespace tg
         class Window;
 
         //! Base user interface application class.
-        class IApp : public app::IApp
+        class App : public app::IApp
         {
-            TG_NON_COPYABLE(IApp);
-
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,
@@ -26,10 +24,19 @@ namespace tg
                 const std::vector<std::shared_ptr<app::ICmdLineArg> >& = {},
                 const std::vector<std::shared_ptr<app::ICmdLineOption> >& = {});
 
-            IApp();
+            App();
 
         public:
-            virtual ~IApp() = 0;
+            virtual ~App();
+
+            //! Create a new application.
+            static std::shared_ptr<App> create(
+                const std::shared_ptr<core::Context>&,
+                std::vector<std::string>& argv,
+                const std::string& name,
+                const std::string& summary,
+                const std::vector<std::shared_ptr<app::ICmdLineArg> >& = {},
+                const std::vector<std::shared_ptr<app::ICmdLineOption> >& = {});
 
             //! Add a window.
             void addWindow(const std::shared_ptr<Window>&);

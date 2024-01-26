@@ -63,6 +63,9 @@ namespace tg
         public:
             virtual ~IApp() = 0;
 
+            //! Get the exit code.
+            int getExit() const;
+
             //! Run the application.
             virtual int run() = 0;
 
@@ -71,7 +74,6 @@ namespace tg
             void _printError(const std::string&);
 
             std::shared_ptr<core::Context> _context;
-            int _exit = 0;
         
         private:
             int _parseCmdLine();

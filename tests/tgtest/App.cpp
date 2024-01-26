@@ -147,7 +147,8 @@ namespace tg
         int App::run()
         {
             TG_P();
-            if (0 == _exit)
+            const int exit = getExit();
+            if (0 == exit)
             {
                 // Get the tests to run.
                 std::vector<std::shared_ptr<test::ITest> > runTests;
@@ -193,7 +194,7 @@ namespace tg
                 const std::chrono::duration<float> diff = now - p.startTime;
                 _print(Format("Seconds elapsed: {0}").arg(diff.count(), 2));
             }
-            return _exit;
+            return exit;
         }
     }
 }

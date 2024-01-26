@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUIApp/IApp.h>
+#include <tgUIApp/App.h>
 
 #include <tgUIApp/Window.h>
 
@@ -32,7 +32,7 @@ namespace tg
             const std::chrono::milliseconds timeout(5);
         }
         
-        struct IApp::Private
+        struct App::Private
         {
             std::shared_ptr<FontSystem> fontSystem;
             std::shared_ptr<ui::Style> style;
@@ -40,7 +40,7 @@ namespace tg
             std::list<std::shared_ptr<Window> > windows;
         };
         
-        void IApp::_init(
+        void App::_init(
             const std::shared_ptr<Context>& context,
             std::vector<std::string>& argv,
             const std::string& name,
@@ -56,20 +56,33 @@ namespace tg
             p.iconLibrary = ui::IconLibrary::create(context);
         }
 
-        IApp::IApp() :
+        App::App() :
             _p(new Private)
         {}
 
-        IApp::~IApp()
+        App::~App()
         {}
+
+        std::shared_ptr<App> App::create(
+            const std::shared_ptr<Context>& context,
+            std::vector<std::string>& argv,
+            const std::string& name,
+            const std::string& summary,
+            const std::vector<std::shared_ptr<app::ICmdLineArg> >& cmdLineArgs,
+            const std::vector<std::shared_ptr<app::ICmdLineOption> >& cmdLineOptions)
+        {
+            auto out = std::shared_ptr<App>(new App);
+            out->_init(context, argv, name, summary, cmdLineArgs, cmdLineOptions);
+            return out;
+        }
         
-        void IApp::addWindow(const std::shared_ptr<Window>& window)
+        void App::addWindow(const std::shared_ptr<Window>& window)
         {
             TG_P();
             p.windows.push_back(window);
         }
 
-        void IApp::removeWindow(const std::shared_ptr<Window>& window)
+        void App::removeWindow(const std::shared_ptr<Window>& window)
         {
             TG_P();
             const auto i = std::find(p.windows.begin(), p.windows.end(), window);
@@ -79,10 +92,11 @@ namespace tg
             }
         }
         
-        int IApp::run()
+        int App::run()
         {
             TG_P();
-            if (0 == _exit)
+            const int exit = getExit();
+            if (0 == exit)
             {
                 auto t0 = std::chrono::steady_clock::now();                
                 while (!p.windows.empty())
@@ -118,7 +132,7 @@ namespace tg
                     t0 = t1;
                 }
             }
-            return _exit;
+            return exit;
         }
     }
 }

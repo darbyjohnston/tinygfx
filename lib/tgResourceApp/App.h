@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <tgUIApp/IApp.h>
+#include <tgBaseApp/IApp.h>
 
 namespace tg
 {

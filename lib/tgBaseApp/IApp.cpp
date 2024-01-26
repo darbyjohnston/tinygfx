@@ -47,6 +47,7 @@ namespace tg
             std::vector<std::shared_ptr<ICmdLineArg> > cmdLineArgs;
             std::vector<std::shared_ptr<ICmdLineOption> > cmdLineOptions;
             std::shared_ptr<core::ListObserver<core::LogItem> > logObserver;
+            int exit = 0;
         };
         
         void IApp::_init(
@@ -79,7 +80,7 @@ namespace tg
                 p.options.help,
                 { "-help", "-h", "--help", "--h" },
                 "Show this message."));
-            _exit = _parseCmdLine();
+            p.exit = _parseCmdLine();
 
             auto logSystem = context->getSystem<core::LogSystem>();            
             p.logObserver = core::ListObserver<core::LogItem>::create(
@@ -111,6 +112,11 @@ namespace tg
             auto logSystem = _context->getSystem<core::LogSystem>();
             logSystem->print(p.name, "Exiting...");
             _print(logSystem->getLogItems());
+        }
+        
+        int IApp::getExit() const
+        {
+            return _p->exit;
         }
 
         void IApp::_print(const std::string& value)

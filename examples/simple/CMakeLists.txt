@@ -1,12 +1,9 @@
 set(HEADERS
-    App.h
-    Window.h)
+    simple.h)
 set(PRIVATE_HEADERS)
 
 set(SOURCE
-    App.cpp
-    Window.cpp
-    main.cpp)
+    simple.cpp)
 
 add_executable(simple ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
 target_link_libraries(simple tgUIApp)

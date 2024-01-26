@@ -58,7 +58,8 @@ namespace tg
         
         int App::run()
         {
-            if (0 == _exit)
+            const int exit = getExit();
+            if (0 == exit)
             {
                 _startTime = std::chrono::steady_clock::now();
 
@@ -86,7 +87,7 @@ namespace tg
                 const std::chrono::duration<float> diff = now - _startTime;
                 _print(Format("Seconds elapsed: {0}").arg(diff.count(), 2));
             }
-            return _exit;
+            return exit;
         }
     }
 }

@@ -1,5 +1,5 @@
 set(HEADERS
-    IApp.h
+    App.h
     Window.h)
 set(PRIVATE_HEADERS)
 
@@ -8,7 +8,7 @@ if ("${TINYGFX_API}" STREQUAL "GL_4_1" OR
     "${TINYGFX_API}" STREQUAL "GL_4_1_Debug" OR
     "${TINYGFX_API}" STREQUAL "GLES_2")
     list(APPEND SOURCE
-        IAppGL.cpp
+        AppGL.cpp
         WindowGL.cpp)
 endif()
 
