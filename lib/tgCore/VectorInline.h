@@ -52,30 +52,30 @@ namespace tg
 
         template<typename T>
         inline Vector<2, T>::Vector() :
+            _e({ T(0), T(0) }),
             x(_e[0]),
-            y(_e[1]),
-            _e({ T(0), T(0) })
+            y(_e[1])
         {}
 
         template<typename T>
         inline Vector<2, T>::Vector(T x, T y) :
+            _e({ x, y }),
             x(_e[0]),
-            y(_e[1]),
-            _e({ x, y })
+            y(_e[1])
         {}
 
         template<typename T>
         inline Vector<2, T>::Vector(const Size<2, T>& size) :
+            _e({ size.w, size.h }),
             x(_e[0]),
-            y(_e[1]),
-            _e({ size.w, size.h })
+            y(_e[1])
         {}
 
         template<typename T>
         inline Vector<2, T>::Vector(const Vector<2, T>& v) :
+            _e(v._e),
             x(_e[0]),
-            y(_e[1]),
-            _e(v._e)
+            y(_e[1])
         {}        
 
         template<typename T>
@@ -111,34 +111,34 @@ namespace tg
 
         template<typename T>
         inline Vector<3, T>::Vector() :
+            _e({ T(0), T(0), T(0) }),
             x(_e[0]),
             y(_e[1]),
-            z(_e[2]),
-            _e({ T(0), T(0), T(0) })
+            z(_e[2])
         {}
 
         template<typename T>
         inline Vector<3, T>::Vector(T x, T y, T z) :
+            _e({ x, y, z }),
             x(_e[0]),
             y(_e[1]),
-            z(_e[2]),
-            _e({ x, y, z })
+            z(_e[2])
         {}
 
         template<typename T>
         inline Vector<3, T>::Vector(const Size<3, T>& size) :
+            _e({ size.w, size.h, size.d }),
             x(_e[0]),
             y(_e[1]),
-            z(_e[2]),
-            _e({ size.w, size.h, size.d })
+            z(_e[2])
         {}
 
         template<typename T>
         inline Vector<3, T>::Vector(const Vector<3, T>& v) :
+            _e(v._e),
             x(_e[0]),
             y(_e[1]),
-            z(_e[2]),
-            _e(v._e)
+            z(_e[2])
         {}        
 
         template<typename T>
@@ -174,29 +174,29 @@ namespace tg
 
         template<typename T>
         inline Vector<4, T>::Vector() :
+            _e({ T(0), T(0), T(0), T(0) }),
             x(_e[0]),
             y(_e[1]),
             z(_e[2]),
-            w(_e[3]),
-            _e({ T(0), T(0), T(0), T(0) })
+            w(_e[3])
         {}
 
         template<typename T>
         inline Vector<4, T>::Vector(T x, T y, T z, T w) :
+            _e({ x, y, z, w }),
             x(_e[0]),
             y(_e[1]),
             z(_e[2]),
-            w(_e[3]),
-            _e({ x, y, z, w })
+            w(_e[3])
         {}
 
         template<typename T>
         inline Vector<4, T>::Vector(const Vector<4, T>& v) :
+            _e(v._e),
             x(_e[0]),
             y(_e[1]),
             z(_e[2]),
-            w(_e[3]),
-            _e(v._e)
+            w(_e[3])
         {}        
 
         template<typename T>

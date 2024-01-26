@@ -41,20 +41,20 @@ namespace tg
 
         template<typename T>
         inline Color<1, T>::Color() :
-            l(_e[0]),
-            _e({ 0 })
+            _e({ 0 }),
+            l(_e[0])
         {}
 
         template<typename T>
         inline Color<1, T>::Color(T l) :
-            l(_e[0]),
-            _e({ l })
+            _e({ l }),
+            l(_e[0])
         {}
 
         template<typename T>
         inline Color<1, T>::Color(const Color<1, T>& v) :
-            l(_e[0]),
-            _e(v._e)
+            _e(v._e),
+            l(_e[0])
         {}
 
         template<typename T>
@@ -90,30 +90,30 @@ namespace tg
 
         template<typename T>
         inline Color<2, T>::Color() :
+            _e({ 0, 0 }),
             l(_e[0]),
-            a(_e[1]),
-            _e({ 0, 0 })
+            a(_e[1])
         {}
 
         template<typename T>
         inline Color<2, T>::Color(T l, T a) :
+            _e({ l, a }),
             l(_e[0]),
-            a(_e[1]),
-            _e({ l, a })
+            a(_e[1])
         {}
 
         template<>
         inline Color<2, float>::Color(float l) :
+            _e({ l, a }),
             l(_e[0]),
-            a(_e[1]),
-            _e({ l, a })
+            a(_e[1])
         {}
 
         template<typename T>
         inline Color<2, T>::Color(const Color<2, T>& v) :
+            _e(v._e),
             l(_e[0]),
-            a(_e[1]),
-            _e(v._e)
+            a(_e[1])
         {}
 
         template<typename T>
@@ -149,26 +149,26 @@ namespace tg
 
         template<typename T>
         inline Color<3, T>::Color() :
+            _e({ 0, 0, 0 }),
             r(_e[0]),
             g(_e[1]),
-            b(_e[2]),
-            _e({ 0, 0, 0 })
+            b(_e[2])
         {}
 
         template<typename T>
         inline Color<3, T>::Color(T r, T g, T b) :
+            _e({ r, g, b }),
             r(_e[0]),
             g(_e[1]),
-            b(_e[2]),
-            _e({ r, g, b })
+            b(_e[2])
         {}
 
         template<typename T>
         inline Color<3, T>::Color(const Color<3, T>& v) :
+            _e(v._e),
             r(_e[0]),
             g(_e[1]),
-            b(_e[2]),
-            _e(v._e)
+            b(_e[2])
         {}
 
         template<typename T>
@@ -204,38 +204,38 @@ namespace tg
 
         template<typename T>
         inline Color<4, T>::Color() :
+            _e({ 0, 0, 0, 0 }),
             r(_e[0]),
             g(_e[1]),
             b(_e[2]),
-            a(_e[3]),
-            _e({ 0, 0, 0, 0 })
+            a(_e[3])
         {}
 
         template<typename T>
         inline Color<4, T>::Color(T r, T g, T b, T a) :
+            _e({ r, g, b, a }),
             r(_e[0]),
             g(_e[1]),
             b(_e[2]),
-            a(_e[3]),
-            _e({ r, g, b, a })
+            a(_e[3])
         {}
 
         template<>
         inline Color<4, float>::Color(float r, float g, float b) :
+            _e({ r, g, b, 1.F }),
             r(_e[0]),
             g(_e[1]),
             b(_e[2]),
-            a(_e[3]),
-            _e({ r, g, b, 1.F })
+            a(_e[3])
         {}
 
         template<typename T>
         inline Color<4, T>::Color(const Color<4, T>& v) :
+            _e(v._e),
             r(_e[0]),
             g(_e[1]),
             b(_e[2]),
-            a(_e[3]),
-            _e(v._e)
+            a(_e[3])
         {}
 
         template<typename T>

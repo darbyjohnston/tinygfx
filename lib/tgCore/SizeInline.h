@@ -52,23 +52,23 @@ namespace tg
 
         template<typename T>
         inline Size<2, T>::Size() :
+            _e({ T(0), T(0) }),
             w(_e[0]),
-            h(_e[1]),
-            _e({ T(0), T(0) })
+            h(_e[1])
         {}
 
         template<typename T>
         inline Size<2, T>::Size(T w, T h) :
+            _e({ w, h }),
             w(_e[0]),
-            h(_e[1]),
-            _e({ w, h })
+            h(_e[1])
         {}
 
         template<typename T>
         inline Size<2, T>::Size(const Size<2, T>& v) :
+            _e(v._e),
             w(_e[0]),
-            h(_e[1]),
-            _e(v._e)
+            h(_e[1])
         {}
 
         template<typename T>
@@ -110,26 +110,26 @@ namespace tg
 
         template<typename T>
         inline Size<3, T>::Size() :
+            _e({ T(0), T(0), T(0) }),
             w(_e[0]),
             h(_e[1]),
-            d(_e[2]),
-            _e({ T(0), T(0), T(0) })
+            d(_e[2])
         {}
 
         template<typename T>
         inline Size<3, T>::Size(T w, T h, T d) :
+            _e({ w, h, d }),
             w(_e[0]),
             h(_e[1]),
-            d(_e[2]),
-            _e({ w, h, d })
+            d(_e[2])
         {}
 
         template<typename T>
         inline Size<3, T>::Size(const Size<3, T>& v) :
+            _e(v._e),
             w(_e[0]),
             h(_e[1]),
-            d(_e[2]),
-            _e(v._e)
+            d(_e[2])
         {}
 
         template<typename T>
