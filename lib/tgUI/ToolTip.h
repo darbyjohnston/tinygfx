@@ -13,8 +13,6 @@ namespace tg
         //! Tool tip.
         class ToolTip : public IPopup
         {
-            TG_NON_COPYABLE(ToolTip);
-
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,

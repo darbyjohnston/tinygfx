@@ -109,8 +109,7 @@ namespace tg
             TG_NON_COPYABLE(Style);
 
         protected:
-            void _init(
-                const std::shared_ptr<core::Context>&);
+            void _init(const std::shared_ptr<core::Context>&);
 
             Style();
 

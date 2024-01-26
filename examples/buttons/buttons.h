@@ -6,10 +6,20 @@
 
 #include <tgUIApp/Window.h>
 
+#include <tgUI/RowLayout.h>
+
 using namespace tg;
 
 class Window : public ui::Window
 {
+protected:
+    void _init(
+        const std::shared_ptr<core::Context>&,
+        const std::string& name,
+        const core::Size2I&);
+
+    Window();
+
 public:
     virtual ~Window();
     
@@ -18,6 +28,10 @@ public:
         const std::string& name,
         const core::Size2I&);
 
-    void drawEvent(const core::Box2I&, const ui::DrawEvent&) override;
+    void setGeometry(const core::Box2I&) override;
+    void sizeHintEvent(const ui::SizeHintEvent&) override;
+
+private:
+    std::shared_ptr<ui::VerticalLayout> _layout;
 };
 

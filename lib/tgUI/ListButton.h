@@ -4,49 +4,47 @@
 
 #pragma once
 
-#include <tgUI/IWidget.h>
+#include <tgUI/IButton.h>
 
 namespace tg
 {
     namespace ui
     {
-        //! Icon widget.
-        class Icon : public IWidget
+        //! List button.
+        class ListButton : public IButton
         {
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
-            Icon();
+            ListButton();
 
         public:
-            virtual ~Icon();
+            virtual ~ListButton();
 
             //! Create a new widget.
-            static std::shared_ptr<Icon> create(
+            static std::shared_ptr<ListButton> create(
                 const std::shared_ptr<core::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Create a new widget.
-            static std::shared_ptr<Icon> create(
-                const std::string& icon,
+            static std::shared_ptr<ListButton> create(
                 const std::shared_ptr<core::Context>&,
+                const std::string&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Set the icon.
-            void setIcon(const std::string&);
+            //! Set the label margin role.
+            void setLabelMarginRole(SizeRole);
 
-            //! Set the margin role.
-            void setMarginRole(SizeRole);
+            void setText(const std::string&) override;
+            void setFontRole(FontRole) override;
 
-            void tickEvent(
-                bool,
-                bool,
-                const TickEvent&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void clipEvent(const core::Box2I&, bool) override;
             void drawEvent(const core::Box2I&, const DrawEvent&) override;
+            void keyPressEvent(KeyEvent&) override;
+            void keyReleaseEvent(KeyEvent&) override;
 
         private:
             TG_PRIVATE();

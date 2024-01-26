@@ -15,8 +15,6 @@ namespace tg
         //! Base class for windows.
         class IWindow : public IWidget
         {
-            TG_NON_COPYABLE(IWindow);
-
         protected:
             IWindow();
 

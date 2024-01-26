@@ -2,11 +2,36 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include "simple.h"
+#include "buttons.h"
 
 #include <tgUIApp/App.h>
 
+#include <tgUI/PushButton.h>
+
+#include <tgCore/Format.h>
+
 using namespace tg::core;
+
+void Window::_init(
+    const std::shared_ptr<Context>& context,
+    const std::string& name,
+    const Size2I& size)
+{
+    ui::Window::_init(context, name, size);
+        
+    _layout = ui::VerticalLayout::create(context, shared_from_this());
+    
+    for (size_t i = 0; i < 10; ++i)
+    {
+        auto pushButton = ui::PushButton::create(
+            context,
+            Format("Push Button {0}").arg(i),
+            _layout);
+    }
+}
+
+Window::Window()
+{}
 
 Window::~Window()
 {}
@@ -21,23 +46,16 @@ std::shared_ptr<Window> Window::create(
     return out;
 }
 
-void Window::drawEvent(const Box2I& drawRect, const ui::DrawEvent& event)
+void Window::setGeometry(const Box2I& value)
 {
-    ui::Window::drawEvent(drawRect, event);
-    
-    const Box2F box(0, 0, _geometry.w(), _geometry.h());
-    event.render->drawRect(box, Color4F(1.F, 1.F, 1.F));
+    ui::Window::setGeometry(value);
+    _layout->setGeometry(value);
+}
 
-    FontInfo fontInfo;
-    fontInfo.size = 100 * event.displayScale;
-    const FontMetrics fontMetrics = event.fontSystem->getMetrics(fontInfo);
-    const std::string text = "Hello world";
-    const Size2I textSize = event.fontSystem->getSize(text, fontInfo);
-    const auto glyphs = event.fontSystem->getGlyphs(text, fontInfo);
-    event.render->drawText(
-        glyphs,
-        center(box) - V2F(textSize.w, textSize.h) / 2.F + V2F(0.F, fontMetrics.ascender),
-        Color4F(0.F, 0.F, 0.F));
+void Window::sizeHintEvent(const ui::SizeHintEvent& event)
+{
+    ui::Window::sizeHintEvent(event);
+    _sizeHint = _layout->getSizeHint();
 }
 
 TG_MAIN()

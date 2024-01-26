@@ -13,8 +13,6 @@ namespace tg
         //! Base class for popups.
         class IPopup : public IWidget
         {
-            TG_NON_COPYABLE(IPopup);
-
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,

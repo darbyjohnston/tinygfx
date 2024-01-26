@@ -14,10 +14,12 @@ namespace tg
         class Window : public IWindow
         {
         protected:
-            Window(
+            void _init(
                 const std::shared_ptr<core::Context>&,
                 const std::string& name,
                 const core::Size2I&);
+
+            Window();
 
         public:
             virtual ~Window();

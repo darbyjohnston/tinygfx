@@ -15,8 +15,6 @@ namespace tg
         //! \todo Add text wrapping.
         class Label : public IWidget
         {
-            TG_NON_COPYABLE(Label);
-
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,
