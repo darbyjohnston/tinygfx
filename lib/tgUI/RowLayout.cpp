@@ -100,6 +100,7 @@ namespace tg
                             ++expanding;
                         }
                         break;
+                    default: break;
                     }
                     lastVisibleChild = child;
                 }
@@ -138,6 +139,7 @@ namespace tg
                             }
                         }
                         break;
+                    default: break;
                     }
                     child->setGeometry(Box2I(pos, size));
                     switch (p.orientation)
@@ -170,6 +172,7 @@ namespace tg
                             }
                         }
                         break;
+                    default: break;
                     }
                     ++count;
                 }
@@ -221,6 +224,7 @@ namespace tg
                             ++visible;
                         }
                         break;
+                    default: break;
                     }
                 }
             }

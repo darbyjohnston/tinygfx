@@ -13,7 +13,7 @@ namespace tg
         {
             for (int i = 0; i < C; ++i)
             {
-                _e[i] = T(0);
+                e[i] = T(0);
             }
         }
         
@@ -22,211 +22,211 @@ namespace tg
         {
             for (int i = 0; i < C; ++i)
             {
-                _e[i] = size[i];
+                e[i] = size[i];
             }
         }
 
         template<int C, typename T>
         inline T Vector<C, T>::operator [] (int i) const
         {
-            return _e[i];
+            return e[i];
         }
 
         template<int C, typename T>
         inline T& Vector<C, T>::operator [] (int i)
         {
-            return _e[i];
+            return e[i];
         }
 
         template<int C, typename T>
         inline const T* Vector<C, T>::data() const
         {
-            return _e.data();
+            return e.data();
         }
 
         template<int C, typename T>
         inline T* Vector<C, T>::data()
         {
-            return _e.data();
+            return e.data();
         }
 
         template<typename T>
         inline Vector<2, T>::Vector() :
-            _e({ T(0), T(0) }),
-            x(_e[0]),
-            y(_e[1])
+            e({ T(0), T(0) }),
+            x(e[0]),
+            y(e[1])
         {}
 
         template<typename T>
         inline Vector<2, T>::Vector(T x, T y) :
-            _e({ x, y }),
-            x(_e[0]),
-            y(_e[1])
+            e({ x, y }),
+            x(e[0]),
+            y(e[1])
         {}
 
         template<typename T>
         inline Vector<2, T>::Vector(const Size<2, T>& size) :
-            _e({ size.w, size.h }),
-            x(_e[0]),
-            y(_e[1])
+            e({ size.w, size.h }),
+            x(e[0]),
+            y(e[1])
         {}
 
         template<typename T>
         inline Vector<2, T>::Vector(const Vector<2, T>& v) :
-            _e(v._e),
-            x(_e[0]),
-            y(_e[1])
+            e(v.e),
+            x(e[0]),
+            y(e[1])
         {}        
 
         template<typename T>
         inline T Vector<2, T>::operator [] (int i) const
         {
-            return _e[i];
+            return e[i];
         }
 
         template<typename T>
         inline T& Vector<2, T>::operator [] (int i)
         {
-            return _e[i];
+            return e[i];
         }
 
         template<typename T>
         inline const T* Vector<2, T>::data() const
         {
-            return _e.data();
+            return e.data();
         }
 
         template<typename T>
         inline T* Vector<2, T>::data()
         {
-            return _e.data();
+            return e.data();
         }
             
         template<typename T>
         inline Vector<2, T>& Vector<2, T>::operator = (const Vector<2, T>& v)
         {
-            _e = v._e;
+            e = v.e;
             return *this;
         }
 
         template<typename T>
         inline Vector<3, T>::Vector() :
-            _e({ T(0), T(0), T(0) }),
-            x(_e[0]),
-            y(_e[1]),
-            z(_e[2])
+            e({ T(0), T(0), T(0) }),
+            x(e[0]),
+            y(e[1]),
+            z(e[2])
         {}
 
         template<typename T>
         inline Vector<3, T>::Vector(T x, T y, T z) :
-            _e({ x, y, z }),
-            x(_e[0]),
-            y(_e[1]),
-            z(_e[2])
+            e({ x, y, z }),
+            x(e[0]),
+            y(e[1]),
+            z(e[2])
         {}
 
         template<typename T>
         inline Vector<3, T>::Vector(const Size<3, T>& size) :
-            _e({ size.w, size.h, size.d }),
-            x(_e[0]),
-            y(_e[1]),
-            z(_e[2])
+            e({ size.w, size.h, size.d }),
+            x(e[0]),
+            y(e[1]),
+            z(e[2])
         {}
 
         template<typename T>
         inline Vector<3, T>::Vector(const Vector<3, T>& v) :
-            _e(v._e),
-            x(_e[0]),
-            y(_e[1]),
-            z(_e[2])
+            e(v.e),
+            x(e[0]),
+            y(e[1]),
+            z(e[2])
         {}        
 
         template<typename T>
         inline T Vector<3, T>::operator [] (int i) const
         {
-            return _e[i];
+            return e[i];
         }
 
         template<typename T>
         inline T& Vector<3, T>::operator [] (int i)
         {
-            return _e[i];
+            return e[i];
         }
 
         template<typename T>
         inline const T* Vector<3, T>::data() const
         {
-            return _e.data();
+            return e.data();
         }
 
         template<typename T>
         inline T* Vector<3, T>::data()
         {
-            return _e.data();
+            return e.data();
         }
             
         template<typename T>
         inline Vector<3, T>& Vector<3, T>::operator = (const Vector<3, T>& v)
         {
-            _e = v._e;
+            e = v.e;
             return *this;
         }
 
         template<typename T>
         inline Vector<4, T>::Vector() :
-            _e({ T(0), T(0), T(0), T(0) }),
-            x(_e[0]),
-            y(_e[1]),
-            z(_e[2]),
-            w(_e[3])
+            e({ T(0), T(0), T(0), T(0) }),
+            x(e[0]),
+            y(e[1]),
+            z(e[2]),
+            w(e[3])
         {}
 
         template<typename T>
         inline Vector<4, T>::Vector(T x, T y, T z, T w) :
-            _e({ x, y, z, w }),
-            x(_e[0]),
-            y(_e[1]),
-            z(_e[2]),
-            w(_e[3])
+            e({ x, y, z, w }),
+            x(e[0]),
+            y(e[1]),
+            z(e[2]),
+            w(e[3])
         {}
 
         template<typename T>
         inline Vector<4, T>::Vector(const Vector<4, T>& v) :
-            _e(v._e),
-            x(_e[0]),
-            y(_e[1]),
-            z(_e[2]),
-            w(_e[3])
+            e(v.e),
+            x(e[0]),
+            y(e[1]),
+            z(e[2]),
+            w(e[3])
         {}        
 
         template<typename T>
         inline T Vector<4, T>::operator [] (int i) const
         {
-            return _e[i];
+            return e[i];
         }
 
         template<typename T>
         inline T& Vector<4, T>::operator [] (int i)
         {
-            return _e[i];
+            return e[i];
         }
 
         template<typename T>
         inline const T* Vector<4, T>::data() const
         {
-            return _e.data();
+            return e.data();
         }
 
         template<typename T>
         inline T* Vector<4, T>::data()
         {
-            return _e.data();
+            return e.data();
         }
             
         template<typename T>
         inline Vector<4, T>& Vector<4, T>::operator = (const Vector<4, T>& v)
         {
-            _e = v._e;
+            e = v.e;
             return *this;
         }
 

@@ -40,6 +40,7 @@ namespace tg
                 case HAlign::Right:
                     pos.x = box.x() + box.w() - sizeHint.w;
                     break;
+                default: break;
                 }
                 size.x = sizeHint.w;
                 break;
@@ -47,6 +48,7 @@ namespace tg
                 pos.x = box.x();
                 size.x = box.w();
                 break;
+            default: break;
             }
 
             switch (vStretch)
@@ -63,6 +65,7 @@ namespace tg
                 case VAlign::Bottom:
                     pos.y = box.y() + box.w() - sizeHint.h;
                     break;
+                default: break;
                 }
                 size.y = sizeHint.h;
                 break;
@@ -70,6 +73,7 @@ namespace tg
                 pos.y = box.y();
                 size.y = box.h();
                 break;
+            default: break;
             }
 
             return Box2I(pos.x, pos.y, size.x, size.y);

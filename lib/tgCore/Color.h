@@ -24,8 +24,7 @@ namespace tg
             const T* data() const;
             T* data();
 
-        private:
-            std::array<T, C> _e;
+            std::array<T, C> e;
         };
 
         //! Luminance color.
@@ -43,12 +42,10 @@ namespace tg
             const T* data() const;
             T* data();
             
+            std::array<T, 1> e;
             T& l;
 
             Color<1, T>& operator = (const Color<1, T>&);
-
-        private:
-            std::array<T, 1> _e;
         };
 
         //! Luminance and alpha color.
@@ -67,13 +64,11 @@ namespace tg
             const T* data() const;
             T* data();
             
+            std::array<T, 2> e;
             T& l;
             T& a;
 
             Color<2, T>& operator = (const Color<2, T>&);
-
-        private:
-            std::array<T, 2> _e;
         };
 
         //! RGB color.
@@ -91,14 +86,12 @@ namespace tg
             const T* data() const;
             T* data();
             
+            std::array<T, 3> e;
             T& r;
             T& g;
             T& b;
 
             Color<3, T>& operator = (const Color<3, T>&);
-
-        private:
-            std::array<T, 3> _e;
         };
 
         //! RGBA color.
@@ -117,15 +110,13 @@ namespace tg
             const T* data() const;
             T* data();
             
+            std::array<T, 4> e;
             T& r;
             T& g;
             T& b;
             T& a;
 
             Color<4, T>& operator = (const Color<4, T>&);
-
-        private:
-            std::array<T, 4> _e;
         };
 
         //! \name Color Operators

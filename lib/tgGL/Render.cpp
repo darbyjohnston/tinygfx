@@ -226,6 +226,7 @@ namespace tg
             case render::ImageFilter::Linear:
                 options.filters.minify = TextureFilter::Linear;
                 break;
+            default: break;
             }
             switch (imageFilters.magnify)
             {
@@ -235,6 +236,7 @@ namespace tg
             case render::ImageFilter::Linear:
                 options.filters.magnify = TextureFilter::Linear;
                 break;
+            default: break;
             }
             options.pbo = info.size.w >= pboSizeMin || info.size.h >= pboSizeMin;
             switch (info.pixelType)

@@ -59,7 +59,6 @@ namespace tg
             triangle.v[1].v = 2;
             triangle.v[2].v = 3;
             mesh.triangles.push_back(triangle);
-            triangle;
             triangle.v[0].v = 3;
             triangle.v[1].v = 4;
             triangle.v[2].v = 1;

@@ -24,8 +24,7 @@ namespace tg
             const T* data() const;
             T* data();
 
-        private:
-            std::array<T, C> _e;
+            std::array<T, C> e;
         };
 
         //! Two-dimensional vector.
@@ -44,13 +43,11 @@ namespace tg
             const T* data() const;
             T* data();
 
+            std::array<T, 2> e;
             T& x;
             T& y;
             
             Vector<2, T>& operator = (const Vector<2, T>&);
-
-        private:
-            std::array<T, 2> _e;
         };
 
         //! Three-dimensional vector.
@@ -69,14 +66,12 @@ namespace tg
             const T* data() const;
             T* data();
 
+            std::array<T, 3> e;
             T& x;
             T& y;
             T& z;
 
             Vector<3, T>& operator = (const Vector<3, T>&);
-
-        private:
-            std::array<T, 3> _e;
         };
 
         //! Four-dimensional vector.
@@ -94,15 +89,13 @@ namespace tg
             const T* data() const;
             T* data();
 
+            std::array<T, 4> e;
             T& x;
             T& y;
             T& z;
             T& w;
 
             Vector<4, T>& operator = (const Vector<4, T>&);
-
-        private:
-            std::array<T, 4> _e;
         };
 
         //! \name Vector Functions

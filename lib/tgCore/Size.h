@@ -26,8 +26,7 @@ namespace tg
             
             bool isValid() const;
 
-        private:
-            std::array<T, C> _e;
+            std::array<T, C> e;
         };
 
         //! Two-dimensional size.
@@ -45,15 +44,13 @@ namespace tg
             const T* data() const;
             T* data();
             
+            std::array<T, 2> e;
             T& w;
             T& h;
 
             bool isValid() const;
 
             Size<2, T>& operator = (const Size<2, T>&);
-
-        private:
-            std::array<T, 2> _e;
         };
 
         //! Three-dimensional size.
@@ -71,6 +68,7 @@ namespace tg
             const T* data() const;
             T* data();
             
+            std::array<T, 3> e;
             T& w;
             T& h;
             T& d;
@@ -78,9 +76,6 @@ namespace tg
             bool isValid() const;
 
             Size<3, T>& operator = (const Size<3, T>&);
-
-        private:
-            std::array<T, 3> _e;
         };
 
         //! \name Size Functions
