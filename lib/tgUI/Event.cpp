@@ -20,34 +20,36 @@ namespace tg
         {}
 
         TickEvent::TickEvent(
+            const std::shared_ptr<FontSystem>&  fontSystem,
             const std::shared_ptr<Style>&       style,
-            const std::shared_ptr<IconLibrary>& iconLibrary,
-            const std::shared_ptr<FontSystem>&  fontSystem) :
+            const std::shared_ptr<IconLibrary>& iconLibrary) :
+            fontSystem(fontSystem),
             style(style),
-            iconLibrary(iconLibrary),
-            fontSystem(fontSystem)
+            iconLibrary(iconLibrary)
         {}
 
         SizeHintEvent::SizeHintEvent(
-            const std::shared_ptr<Style>&       style,
-            const std::shared_ptr<IconLibrary>& iconLibrary,
             const std::shared_ptr<FontSystem>&  fontSystem,
-            float                               displayScale) :
-            style(style),
-            iconLibrary(iconLibrary),
+            float                               displayScale,
+            const std::shared_ptr<Style>&       style,
+            const std::shared_ptr<IconLibrary>& iconLibrary) :
             fontSystem(fontSystem),
-            displayScale(displayScale)
+            displayScale(displayScale),
+            style(style),
+            iconLibrary(iconLibrary)
         {}
 
         DrawEvent::DrawEvent(
+            const std::shared_ptr<FontSystem>&      fontSystem,
+            float                                   displayScale,
             const std::shared_ptr<Style>&           style,
             const std::shared_ptr<IconLibrary>&     iconLibrary,
-            const std::shared_ptr<render::IRender>& render,
-            const std::shared_ptr<FontSystem>&      fontSystem) :
+            const std::shared_ptr<render::IRender>& render) :
+            fontSystem(fontSystem),
+            displayScale(displayScale),
             style(style),
             iconLibrary(iconLibrary),
-            render(render),
-            fontSystem(fontSystem)
+            render(render)
         {}
 
         DragAndDropData::~DragAndDropData()

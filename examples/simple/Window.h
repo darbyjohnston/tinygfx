@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <tgUIApp/IWindow.h>
+#include <tgUIApp/Window.h>
 
 namespace tg
 {
@@ -13,7 +13,7 @@ namespace tg
         namespace simple
         {
             //! Window.
-            class Window : public ui::IWindow
+            class Window : public ui::Window
             {
                 TG_NON_COPYABLE(Window);
 
@@ -31,11 +31,7 @@ namespace tg
                     const std::string& name,
                     const core::Size2I&);
 
-            protected:
-                void _draw(
-                    const core::V2F& contentScale,
-                    const std::shared_ptr<core::FontSystem>&,
-                    const std::shared_ptr<render::IRender>&) override;
+                void drawEvent(const core::Box2I&, const ui::DrawEvent&) override;
             };
         }
     }

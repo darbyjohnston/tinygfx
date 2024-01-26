@@ -18,7 +18,7 @@ namespace tg
                 const std::shared_ptr<Context>& context,
                 const std::string& name,
                 const Size2I& size) :
-                IWindow(context, name, size)
+                ui::Window(context, name, size)
             {}
 
             Window::~Window()
@@ -32,28 +32,23 @@ namespace tg
                 return std::shared_ptr<Window>(new Window(context, name, size));
             }
             
-            void Window::_draw(
-                const V2F& contentScale,
-                const std::shared_ptr<FontSystem>& fontSystem,
-                const std::shared_ptr<render::IRender>& render)
+            void Window::drawEvent(const Box2I& drawRect, const ui::DrawEvent& event)
             {
-                render->begin(getFrameBufferSize());
+                ui::Window::drawEvent(drawRect, event);
+                
+                const Box2F box(0, 0, _geometry.w(), _geometry.h());
+                event.render->drawRect(box, Color4F(1.F, 1.F, 1.F));
 
-                const Box2F box(0, 0, getWidth(), getHeight());
-                render->drawRect(box, Color4F(1.F, 1.F, 1.F));
-                    
                 FontInfo fontInfo;
-                fontInfo.size = 100 * contentScale.x;
-                const FontMetrics fontMetrics = fontSystem->getMetrics(fontInfo);
+                fontInfo.size = 100 * event.displayScale;
+                const FontMetrics fontMetrics = event.fontSystem->getMetrics(fontInfo);
                 const std::string text = "Hello world";
-                const Size2I textSize = fontSystem->getSize(text, fontInfo);
-                const auto glyphs = fontSystem->getGlyphs(text, fontInfo);
-                render->drawText(
+                const Size2I textSize = event.fontSystem->getSize(text, fontInfo);
+                const auto glyphs = event.fontSystem->getGlyphs(text, fontInfo);
+                event.render->drawText(
                     glyphs,
                     center(box) - V2F(textSize.w, textSize.h) / 2.F + V2F(0.F, fontMetrics.ascender),
                     Color4F(0.F, 0.F, 0.F));
-
-                render->end();
             }
         }
     }

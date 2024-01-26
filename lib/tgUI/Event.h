@@ -31,13 +31,13 @@ namespace tg
         {
             TickEvent() = default;
             TickEvent(
-                const std::shared_ptr<Style>&            style,
-                const std::shared_ptr<IconLibrary>&      iconLibrary,
-                const std::shared_ptr<core::FontSystem>& fontSystem);
+                const std::shared_ptr<core::FontSystem>&,
+                const std::shared_ptr<Style>&,
+                const std::shared_ptr<IconLibrary>&);
 
+            std::shared_ptr<core::FontSystem> fontSystem;
             std::shared_ptr<Style>            style;
             std::shared_ptr<IconLibrary>      iconLibrary;
-            std::shared_ptr<core::FontSystem> fontSystem;
         };
 
         //! Size hint event.
@@ -45,15 +45,15 @@ namespace tg
         {
             SizeHintEvent() = default;
             SizeHintEvent(
-                const std::shared_ptr<Style>&            style,
-                const std::shared_ptr<IconLibrary>&      iconLibrary,
-                const std::shared_ptr<core::FontSystem>& fontSystem,
-                float                                    displayScale);
+                const std::shared_ptr<core::FontSystem>&,
+                float displayScale,
+                const std::shared_ptr<Style>&,
+                const std::shared_ptr<IconLibrary>&);
 
-            std::shared_ptr<Style>            style;
-            std::shared_ptr<IconLibrary>      iconLibrary;
             std::shared_ptr<core::FontSystem> fontSystem;
             float                             displayScale = 1.F;
+            std::shared_ptr<Style>            style;
+            std::shared_ptr<IconLibrary>      iconLibrary;
         };
 
         //! Draw event.
@@ -61,15 +61,17 @@ namespace tg
         {
             DrawEvent() = default;
             DrawEvent(
-                const std::shared_ptr<Style>&            style,
-                const std::shared_ptr<IconLibrary>&      iconLibrary,
-                const std::shared_ptr<render::IRender>&  render,
-                const std::shared_ptr<core::FontSystem>& fontSystem);
+                const std::shared_ptr<core::FontSystem>&,
+                float displayScale,
+                const std::shared_ptr<Style>&,
+                const std::shared_ptr<IconLibrary>&,
+                const std::shared_ptr<render::IRender>&);
 
+            std::shared_ptr<core::FontSystem> fontSystem;
+            float                             displayScale = 1.F;
             std::shared_ptr<Style>            style;
             std::shared_ptr<IconLibrary>      iconLibrary;
             std::shared_ptr<render::IRender>  render;
-            std::shared_ptr<core::FontSystem> fontSystem;
         };
 
         //! Drag and drop data.

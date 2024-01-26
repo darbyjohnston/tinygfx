@@ -4,9 +4,12 @@
 
 #include <tgUIApp/IApp.h>
 
-#include <tgUIApp/IWindow.h>
+#include <tgUIApp/Window.h>
 
 #include <tgGL/Init.h>
+
+#include <tgUI/IconLibrary.h>
+#include <tgUI/Style.h>
 
 #include <tgCore/Context.h>
 #include <tgCore/Time.h>
@@ -17,6 +20,8 @@
 #include <algorithm>
 #include <iostream>
 #include <list>
+
+using namespace tg::core;
 
 namespace tg
 {
@@ -29,11 +34,14 @@ namespace tg
         
         struct IApp::Private
         {
-            std::list<std::shared_ptr<IWindow> > windows;
+            std::shared_ptr<FontSystem> fontSystem;
+            std::shared_ptr<ui::Style> style;
+            std::shared_ptr<ui::IconLibrary> iconLibrary;
+            std::list<std::shared_ptr<Window> > windows;
         };
         
         void IApp::_init(
-            const std::shared_ptr<core::Context>& context,
+            const std::shared_ptr<Context>& context,
             std::vector<std::string>& argv,
             const std::string& name,
             const std::string& summary,
@@ -41,7 +49,11 @@ namespace tg
             const std::vector<std::shared_ptr<app::ICmdLineOption> >& cmdLineOptions)
         {
             app::IApp::_init(context, argv, name, summary, cmdLineArgs, cmdLineOptions);
+            TG_P();
             gl::init(context);
+            p.fontSystem = context->getSystem<FontSystem>();
+            p.style = ui::Style::create(context);
+            p.iconLibrary = ui::IconLibrary::create(context);
         }
 
         IApp::IApp() :
@@ -51,13 +63,13 @@ namespace tg
         IApp::~IApp()
         {}
         
-        void IApp::addWindow(const std::shared_ptr<IWindow>& window)
+        void IApp::addWindow(const std::shared_ptr<Window>& window)
         {
             TG_P();
             p.windows.push_back(window);
         }
 
-        void IApp::removeWindow(const std::shared_ptr<IWindow>& window)
+        void IApp::removeWindow(const std::shared_ptr<Window>& window)
         {
             TG_P();
             const auto i = std::find(p.windows.begin(), p.windows.end(), window);
@@ -82,12 +94,11 @@ namespace tg
                     auto i = p.windows.begin();
                     while (i != p.windows.end())
                     {
-                        (*i)->tick();
-
-                        if ((*i)->shouldRedraw())
-                        {
-                            (*i)->draw();
-                        }
+                        ui::TickEvent tickEvent(
+                            p.fontSystem,
+                            p.style,
+                            p.iconLibrary);
+                        (*i)->tickEvent(true, true, tickEvent);
 
                         if ((*i)->shouldClose())
                         {
@@ -100,7 +111,7 @@ namespace tg
                     }
 
                     auto t1 = std::chrono::steady_clock::now();
-                    core::sleep(timeout, t0, t1);
+                    sleep(timeout, t0, t1);
                     t1 = std::chrono::steady_clock::now();
                     const std::chrono::duration<double> diff = t1 - t0;
                     //std::cout << "tick: " << diff.count() << std::endl;

@@ -1,6 +1,6 @@
 set(HEADERS
     IApp.h
-    IWindow.h)
+    Window.h)
 set(PRIVATE_HEADERS)
 
 set(SOURCE)
@@ -9,7 +9,7 @@ if ("${TINYGFX_API}" STREQUAL "GL_4_1" OR
     "${TINYGFX_API}" STREQUAL "GLES_2")
     list(APPEND SOURCE
         IAppGL.cpp
-        IWindowGL.cpp)
+        WindowGL.cpp)
 endif()
 
 set(LIBRARIES)
@@ -18,7 +18,7 @@ if ("${TINYGFX_API}" STREQUAL "GL_4_1" OR
     "${TINYGFX_API}" STREQUAL "GLES_2")
     list(APPEND LIBRARIES tgGL)
 endif()
-list(APPEND LIBRARIES tgRender tgBaseApp)
+list(APPEND LIBRARIES tgUI tgBaseApp)
 
 add_library(tgUIApp ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
 target_link_libraries(tgUIApp ${LIBRARIES})

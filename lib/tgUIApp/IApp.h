@@ -10,7 +10,7 @@ namespace tg
 {
     namespace ui
     {
-        class IWindow;
+        class Window;
 
         //! Base user interface application class.
         class IApp : public app::IApp
@@ -32,10 +32,10 @@ namespace tg
             virtual ~IApp() = 0;
 
             //! Add a window.
-            void addWindow(const std::shared_ptr<IWindow>&);
+            void addWindow(const std::shared_ptr<Window>&);
 
             //! Remove a window.
-            void removeWindow(const std::shared_ptr<IWindow>&);
+            void removeWindow(const std::shared_ptr<Window>&);
 
             int run() override;
 
