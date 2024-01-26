@@ -95,17 +95,17 @@ namespace tg
 
                 if (!p.vbos["mesh"] || (p.vbos["mesh"] && p.vbos["mesh"]->getSize() < size * 3))
                 {
-                    p.vbos["mesh"] = gl::VBO::create(size * 3, gl::VBOType::Pos2_F32);
+                    p.vbos["mesh"] = VBO::create(size * 3, VBOType::Pos2_F32);
                     p.vaos["mesh"].reset();
                 }
                 if (p.vbos["mesh"])
                 {
-                    p.vbos["mesh"]->copy(convert(mesh, gl::VBOType::Pos2_F32));
+                    p.vbos["mesh"]->copy(convert(mesh, VBOType::Pos2_F32));
                 }
 
                 if (!p.vaos["mesh"] && p.vbos["mesh"])
                 {
-                    p.vaos["mesh"] = gl::VAO::create(p.vbos["mesh"]->getType(), p.vbos["mesh"]->getID());
+                    p.vaos["mesh"] = VAO::create(p.vbos["mesh"]->getType(), p.vbos["mesh"]->getID());
                 }
                 if (p.vaos["mesh"] && p.vbos["mesh"])
                 {
@@ -135,17 +135,17 @@ namespace tg
 
                 if (!p.vbos["colorMesh"] || (p.vbos["colorMesh"] && p.vbos["colorMesh"]->getSize() < size * 3))
                 {
-                    p.vbos["colorMesh"] = gl::VBO::create(size * 3, gl::VBOType::Pos2_F32_Color_F32);
+                    p.vbos["colorMesh"] = VBO::create(size * 3, VBOType::Pos2_F32_Color_F32);
                     p.vaos["colorMesh"].reset();
                 }
                 if (p.vbos["colorMesh"])
                 {
-                    p.vbos["colorMesh"]->copy(convert(mesh, gl::VBOType::Pos2_F32_Color_F32));
+                    p.vbos["colorMesh"]->copy(convert(mesh, VBOType::Pos2_F32_Color_F32));
                 }
 
                 if (!p.vaos["colorMesh"] && p.vbos["colorMesh"])
                 {
-                    p.vaos["colorMesh"] = gl::VAO::create(p.vbos["colorMesh"]->getType(), p.vbos["colorMesh"]->getID());
+                    p.vaos["colorMesh"] = VAO::create(p.vbos["colorMesh"]->getType(), p.vbos["colorMesh"]->getID());
                 }
                 if (p.vaos["colorMesh"] && p.vbos["colorMesh"])
                 {
@@ -193,13 +193,13 @@ namespace tg
 
                     if (glyph->image && glyph->image->isValid())
                     {
-                        gl::TextureAtlasID id = 0;
+                        TextureAtlasID id = 0;
                         const auto i = p.glyphIDs.find(glyph->info);
                         if (i != p.glyphIDs.end())
                         {
                             id = i->second;
                         }
-                        gl::TextureAtlasItem item;
+                        TextureAtlasItem item;
                         if (!p.glyphTextureAtlas->getItem(id, item))
                         {
                             id = p.glyphTextureAtlas->addItem(glyph->image, item);
@@ -267,7 +267,7 @@ namespace tg
             TG_P();
 
             const auto& info = image->getInfo();
-            std::vector<std::shared_ptr<gl::Texture> > textures;
+            std::vector<std::shared_ptr<Texture> > textures;
             if (!imageOptions.cache)
             {
                 textures = _getTextures(info, imageOptions.imageFilters);
@@ -348,7 +348,7 @@ namespace tg
             {
                 if (!p.vbos["text"] || (p.vbos["text"] && p.vbos["text"]->getSize() < size * 3))
                 {
-                    p.vbos["text"] = gl::VBO::create(size * 3, gl::VBOType::Pos2_F32_UV_U16);
+                    p.vbos["text"] = VBO::create(size * 3, VBOType::Pos2_F32_UV_U16);
                     p.vaos["text"].reset();
                 }
                 if (p.vbos["text"])
@@ -357,7 +357,7 @@ namespace tg
                 }
                 if (!p.vaos["text"] && p.vbos["text"])
                 {
-                    p.vaos["text"] = gl::VAO::create(p.vbos["text"]->getType(), p.vbos["text"]->getID());
+                    p.vaos["text"] = VAO::create(p.vbos["text"]->getType(), p.vbos["text"]->getID());
                 }
                 if (p.vaos["text"] && p.vbos["text"])
                 {

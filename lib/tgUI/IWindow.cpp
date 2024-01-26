@@ -44,7 +44,9 @@ namespace tg
 
         IWindow::IWindow() :
             _p(new Private)
-        {}
+        {
+            setBackgroundRole(ColorRole::Window);
+        }
 
         IWindow::~IWindow()
         {}

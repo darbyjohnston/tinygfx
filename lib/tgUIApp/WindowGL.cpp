@@ -383,7 +383,8 @@ namespace tg
                     !isVisible(false));
             }
             
-            if (p.refresh || _hasDrawUpdate(shared_from_this()))
+            const bool drawUpdate = _hasDrawUpdate(shared_from_this());
+            if (p.refresh || drawUpdate)
             {
                 p.window->makeCurrent();
 
@@ -394,7 +395,7 @@ namespace tg
                     p.buffer = gl::OffscreenBuffer::create(p.bufferSize, bufferOptions);
                 }
 
-                if (_updates & Update::Draw && p.buffer)
+                if (p.buffer && drawUpdate)
                 {
                     gl::OffscreenBufferBinding bufferBinding(p.buffer);
                     p.render->begin(p.bufferSize);

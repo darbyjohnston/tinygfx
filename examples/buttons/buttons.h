@@ -10,7 +10,7 @@
 
 using namespace tg;
 
-class Window : public ui::Window
+class MainWindow : public ui::Window
 {
 protected:
     void _init(
@@ -18,12 +18,12 @@ protected:
         const std::string& name,
         const core::Size2I&);
 
-    Window();
+    MainWindow() = default;
 
 public:
-    virtual ~Window();
+    virtual ~MainWindow();
     
-    static std::shared_ptr<Window> create(
+    static std::shared_ptr<MainWindow> create(
         const std::shared_ptr<core::Context>&,
         const std::string& name,
         const core::Size2I&);

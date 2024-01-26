@@ -7,37 +7,37 @@
 #include <tgUIApp/App.h>
 
 using namespace tg::core;
+using namespace tg::ui;
 
-Window::~Window()
+MainWindow::~MainWindow()
 {}
 
-std::shared_ptr<Window> Window::create(
+std::shared_ptr<MainWindow> MainWindow::create(
     const std::shared_ptr<Context>& context,
     const std::string& name,
     const Size2I& size)
 {
-    auto out = std::shared_ptr<Window>(new Window);
+    auto out = std::shared_ptr<MainWindow>(new MainWindow);
     out->_init(context, name, size);
     return out;
 }
 
-void Window::drawEvent(const Box2I& drawRect, const ui::DrawEvent& event)
+void MainWindow::drawEvent(const Box2I& drawRect, const DrawEvent& event)
 {
-    ui::Window::drawEvent(drawRect, event);
-    
-    const Box2F box(0, 0, _geometry.w(), _geometry.h());
-    event.render->drawRect(box, Color4F(1.F, 1.F, 1.F));
+    Window::drawEvent(drawRect, event);
 
-    FontInfo fontInfo;
-    fontInfo.size = 100 * event.displayScale;
-    const FontMetrics fontMetrics = event.fontSystem->getMetrics(fontInfo);
+    const Box2F box(0, 0, _geometry.w(), _geometry.h());
+
     const std::string text = "Hello world";
+    FontInfo fontInfo;
+    fontInfo.size = _geometry.h() / 6.F * event.displayScale;
     const Size2I textSize = event.fontSystem->getSize(text, fontInfo);
-    const auto glyphs = event.fontSystem->getGlyphs(text, fontInfo);
+    const auto textGlyphs = event.fontSystem->getGlyphs(text, fontInfo);
+    const FontMetrics fontMetrics = event.fontSystem->getMetrics(fontInfo);
     event.render->drawText(
-        glyphs,
+        textGlyphs,
         center(box) - V2F(textSize.w, textSize.h) / 2.F + V2F(0.F, fontMetrics.ascender),
-        Color4F(0.F, 0.F, 0.F));
+        Color4F(1.F, 1.F, 1.F));
 }
 
 TG_MAIN()
@@ -47,10 +47,10 @@ TG_MAIN()
     {
         auto context = Context::create();
         auto args = app::convert(argc, argv);
-        auto app = ui::App::create(context, args, "simple", "Simple example");
+        auto app = App::create(context, args, "simple", "Simple example");
         if (0 == app->getExit())
         {
-            auto window = Window::create(context, "simple", Size2I(1280, 720));
+            auto window = MainWindow::create(context, "simple", Size2I(1280, 720));
             app->addWindow(window);
             window->show();
         }

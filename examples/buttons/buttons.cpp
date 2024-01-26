@@ -11,50 +11,51 @@
 #include <tgCore/Format.h>
 
 using namespace tg::core;
+using namespace tg::ui;
 
-void Window::_init(
+void MainWindow::_init(
     const std::shared_ptr<Context>& context,
     const std::string& name,
     const Size2I& size)
 {
-    ui::Window::_init(context, name, size);
+    Window::_init(context, name, size);
         
-    _layout = ui::VerticalLayout::create(context, shared_from_this());
+    _layout = VerticalLayout::create(context, shared_from_this());
+    _layout->setMarginRole(SizeRole::Margin);
     
-    for (size_t i = 0; i < 10; ++i)
-    {
-        auto pushButton = ui::PushButton::create(
-            context,
-            Format("Push Button {0}").arg(i),
-            _layout);
-    }
+    auto pushButton = PushButton::create(
+        context,
+        "Push Button",
+        _layout);
+    pushButton = PushButton::create(
+        context,
+        "Disabled Push Button",
+        _layout);
+    pushButton->setEnabled(false);
 }
 
-Window::Window()
+MainWindow::~MainWindow()
 {}
 
-Window::~Window()
-{}
-
-std::shared_ptr<Window> Window::create(
+std::shared_ptr<MainWindow> MainWindow::create(
     const std::shared_ptr<Context>& context,
     const std::string& name,
     const Size2I& size)
 {
-    auto out = std::shared_ptr<Window>(new Window);
+    auto out = std::shared_ptr<MainWindow>(new MainWindow);
     out->_init(context, name, size);
     return out;
 }
 
-void Window::setGeometry(const Box2I& value)
+void MainWindow::setGeometry(const Box2I& value)
 {
-    ui::Window::setGeometry(value);
+    Window::setGeometry(value);
     _layout->setGeometry(value);
 }
 
-void Window::sizeHintEvent(const ui::SizeHintEvent& event)
+void MainWindow::sizeHintEvent(const SizeHintEvent& event)
 {
-    ui::Window::sizeHintEvent(event);
+    Window::sizeHintEvent(event);
     _sizeHint = _layout->getSizeHint();
 }
 
@@ -65,10 +66,10 @@ TG_MAIN()
     {
         auto context = Context::create();
         auto args = app::convert(argc, argv);
-        auto app = ui::App::create(context, args, "simple", "Simple example");
+        auto app = App::create(context, args, "simple", "Simple example");
         if (0 == app->getExit())
         {
-            auto window = Window::create(context, "simple", Size2I(1280, 720));
+            auto window = MainWindow::create(context, "simple", Size2I(1280, 720));
             app->addWindow(window);
             window->show();
         }

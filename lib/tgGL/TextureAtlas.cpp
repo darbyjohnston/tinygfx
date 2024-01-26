@@ -262,17 +262,18 @@ namespace tg
             return out;
         }
 
-        bool TextureAtlas::getItem(TextureAtlasID id, TextureAtlasItem& out)
+        bool TextureAtlas::getItem(TextureAtlasID id, TextureAtlasItem& item)
         {
             TG_P();
+            bool out = false;
             const auto& i = p.cache.find(id);
             if (i != p.cache.end())
             {
-                p.toTextureAtlasItem(i->second, out);
+                p.toTextureAtlasItem(i->second, item);
                 i->second->timestamp = p.timestampManager->getNext();
-                return true;
+                out = true;
             }
-            return false;
+            return out;
         }
 
         TextureAtlasID TextureAtlas::addItem(
@@ -335,10 +336,12 @@ namespace tg
                         p.id = p.id + 1;
                         node2->id = p.id;
 
-                        //! \todo Do we need to zero out the old data?
-                        //auto zero = Image::create(ImageInfo(data->size() + p.border * 2, p.textureType));
-                        //zero->zero();
-                        //p.textures[node2->texture]->copy(zero, node2->box.min);
+                        auto zero = Image::create(node2->box.size() + p.border * 2, p.textureType);
+                        zero->zero();
+                        p.textures[node2->textureIndex]->copy(
+                            zero,
+                            node2->box.min.x,
+                            node2->box.min.y);
 
                         p.textures[node2->textureIndex]->copy(
                             image,
