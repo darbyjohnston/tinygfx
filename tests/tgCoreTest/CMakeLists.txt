@@ -1,4 +1,5 @@
 set(HEADERS
+    BoxPackTest.h
     BoxTest.h
     ColorTest.h
     ErrorTest.h
@@ -24,6 +25,7 @@ set(HEADERS
 set(PRIVATE_HEADERS)
 
 set(SOURCE
+    BoxPackTest.cpp
     BoxTest.cpp
     ColorTest.cpp
     ErrorTest.cpp

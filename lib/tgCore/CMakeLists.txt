@@ -2,6 +2,7 @@ set(HEADERS
     Assert.h
     Box.h
     BoxInline.h
+    BoxPack.h
     Color.h
     ColorInline.h
     Context.h
@@ -49,6 +50,7 @@ set(HEADERS
 set(HEADERS_PRIVATE)
 set(SOURCE
     Assert.cpp
+    BoxPack.cpp
     Context.cpp
     Error.cpp
     FileIO.cpp
@@ -82,4 +84,14 @@ endif()
 
 add_library(tgCore ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
 target_link_libraries(tgCore Freetype::Freetype ZLIB::ZLIB)
+set_target_properties(tgCore PROPERTIES FOLDER lib)
+set_target_properties(tgCore PROPERTIES PUBLIC_HEADER "${HEADERS}")
+
+install(TARGETS tgCore
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
+    PUBLIC_HEADER DESTINATION include/tinygfx/tgCore)
+
+
 

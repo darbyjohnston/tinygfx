@@ -417,6 +417,12 @@ namespace tg
                 p.memoryEnd = p.memoryStart + p.size;
                 p.memoryP = p.memoryStart;
             }
+
+            // Seek to the end when appending.
+            if (FileMode::Append == mode)
+            {
+                seek(p.size);
+            }
         }
 
         bool FileIO::_close(std::string* error)

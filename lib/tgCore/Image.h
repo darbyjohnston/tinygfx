@@ -219,6 +219,7 @@ namespace tg
 
         private:
             ImageInfo _info;
+            size_t _byteCount = 0;
             std::vector<uint8_t> _data;
         };
     }

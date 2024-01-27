@@ -45,10 +45,8 @@ namespace tg
             std::string format(const TextureAtlasItem& item)
             {
                 return Format(
-                    "Item: w={0}, h={1}, textureIndex={2}, textureU={3}-{4}, textureV={5}-{6}").
-                    arg(item.w).
-                    arg(item.h).
-                    arg(item.textureIndex).
+                    "Item: size={0}, textureU={1}-{2}, textureV={3}-{4}").
+                    arg(item.size).
                     arg(item.textureU.min()).
                     arg(item.textureU.max()).
                     arg(item.textureV.min()).
@@ -63,22 +61,20 @@ namespace tg
                 auto window = createWindow(context);
                 
                 auto atlas = TextureAtlas::create(
-                    1,
                     1024,
                     PixelType::L_U8,
                     TextureFilter::Linear,
                     0);
-                TG_ASSERT(1 == atlas->getTextureCount());
                 TG_ASSERT(1024 == atlas->getTextureSize());
                 TG_ASSERT(PixelType::L_U8 == atlas->getTextureType());
-                TG_ASSERT(!atlas->getTextures().empty());
+                TG_ASSERT(atlas->getTexture());
                 
                 for (size_t i = 0; i < 10; ++i)
                 {
                     auto image = Image::create(512, 512, PixelType::L_U8);
                     TextureAtlasItem item;
-                    TextureAtlasID id = atlas->addItem(image, item);
-                    TG_ASSERT(atlas->getItem(id, item));
+                    TG_ASSERT(atlas->addItem(image, item));
+                    TG_ASSERT(atlas->getItem(item.id, item));
                     _print(format(item));
                     _print(Format("Percentage: {0}").arg(atlas->getPercentageUsed()));
                 }

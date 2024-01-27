@@ -197,13 +197,13 @@ namespace tg
                 GL_FLOAT,
 
                 GL_UNSIGNED_BYTE,
-                GL_UNSIGNED_INT_10_10_10_2,
                 GL_UNSIGNED_SHORT,
                 GL_UNSIGNED_INT,
                 GL_HALF_FLOAT,
                 GL_FLOAT,
 
                 GL_UNSIGNED_BYTE,
+                GL_UNSIGNED_INT_10_10_10_2,
                 GL_UNSIGNED_SHORT,
                 GL_UNSIGNED_INT,
                 GL_HALF_FLOAT,

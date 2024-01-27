@@ -34,7 +34,7 @@ namespace tg
             std::map<std::string, std::shared_ptr<gl::Shader> > shaders;
             std::shared_ptr<TextureCache> textureCache;
             std::shared_ptr<gl::TextureAtlas> glyphTextureAtlas;
-            std::map<core::GlyphInfo, gl::TextureAtlasID> glyphIDs;
+            std::map<core::GlyphInfo, core::BoxPackID> glyphIDs;
             std::map<std::string, std::shared_ptr<gl::VBO> > vbos;
             std::map<std::string, std::shared_ptr<gl::VAO> > vaos;
         };

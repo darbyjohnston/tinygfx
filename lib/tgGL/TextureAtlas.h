@@ -6,6 +6,7 @@
 
 #include <tgGL/Texture.h>
 
+#include <tgCore/BoxPack.h>
 #include <tgCore/Image.h>
 #include <tgCore/Range.h>
 
@@ -16,15 +17,11 @@ namespace tg
         //! Texture atlas item.
         struct TextureAtlasItem
         {
-            int w = 0;
-            int h = 0;
-            size_t textureIndex = 0;
+            core::BoxPackID id = core::boxPackIDInvalid;
+            core::Size2I size;
             core::RangeF textureU;
             core::RangeF textureV;
         };
-
-        //! Texture atlas item ID.
-        typedef uint64_t TextureAtlasID;
 
         //! OpenGL texture atlas.
         class TextureAtlas : public std::enable_shared_from_this<TextureAtlas>
@@ -33,7 +30,6 @@ namespace tg
 
         protected:
             void _init(
-                size_t textureCount,
                 int textureSize,
                 core::PixelType textureType,
                 TextureFilter filter,
@@ -46,26 +42,28 @@ namespace tg
 
             //! Create a new texture atlas.
             static std::shared_ptr<TextureAtlas> create(
-                size_t textureCount,
                 int textureSize,
                 core::PixelType textureType,
                 TextureFilter filter = TextureFilter::Linear,
                 int border = 1);
 
-            size_t getTextureCount() const;
             int getTextureSize() const;
             core::PixelType getTextureType() const;
-            std::vector<unsigned int> getTextures() const;
+            unsigned int getTexture() const;
 
-            bool getItem(TextureAtlasID, TextureAtlasItem&);
+            bool getItem(core::BoxPackID, TextureAtlasItem&);
 
-            TextureAtlasID addItem(
+            bool addItem(
                 const std::shared_ptr<core::Image>&,
                 TextureAtlasItem&);
 
             float getPercentageUsed() const;
 
         private:
+            void _toTextureAtlasItem(
+                const std::shared_ptr<core::BoxPackNode>&,
+                TextureAtlasItem&);
+
             TG_PRIVATE();
         };
     }

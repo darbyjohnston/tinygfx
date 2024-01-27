@@ -19,6 +19,7 @@
 
 #include <tgRenderTest/ImageOptionsTest.h>
 
+#include <tgCoreTest/BoxPackTest.h>
 #include <tgCoreTest/BoxTest.h>
 #include <tgCoreTest/ColorTest.h>
 #include <tgCoreTest/ErrorTest.h>
@@ -89,6 +90,7 @@ namespace tg
             gl::init(context);
 #endif // TINYGFX_API_GL_4_1
 
+            p.tests.push_back(core_test::BoxPackTest::create(context));
             p.tests.push_back(core_test::BoxTest::create(context));
             p.tests.push_back(core_test::ColorTest::create(context));
             p.tests.push_back(core_test::ErrorTest::create(context));

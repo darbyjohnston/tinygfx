@@ -169,9 +169,7 @@ namespace tg
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE0));
-            uint8_t textureIndex = 0;
-            const auto textures = p.glyphTextureAtlas->getTextures();
-            glBindTexture(GL_TEXTURE_2D, textures[textureIndex]);
+            glBindTexture(GL_TEXTURE_2D, p.glyphTextureAtlas->getTexture());
 
             int x = 0;
             int32_t rsbDeltaPrev = 0;
@@ -193,26 +191,18 @@ namespace tg
 
                     if (glyph->image && glyph->image->isValid())
                     {
-                        TextureAtlasID id = 0;
+                        BoxPackID id = boxPackIDInvalid;
                         const auto i = p.glyphIDs.find(glyph->info);
                         if (i != p.glyphIDs.end())
                         {
                             id = i->second;
                         }
                         TextureAtlasItem item;
-                        if (!p.glyphTextureAtlas->getItem(id, item))
+                        if (boxPackIDInvalid == id ||
+                            !p.glyphTextureAtlas->getItem(id, item))
                         {
-                            id = p.glyphTextureAtlas->addItem(glyph->image, item);
-                            p.glyphIDs[glyph->info] = id;
-                        }
-                        if (item.textureIndex != textureIndex)
-                        {
-                            textureIndex = item.textureIndex;
-                            glBindTexture(GL_TEXTURE_2D, textures[textureIndex]);
-
-                            _drawTextMesh(mesh);
-                            mesh = TriMesh2F();
-                            meshIndex = 0;
+                            p.glyphTextureAtlas->addItem(glyph->image, item);
+                            p.glyphIDs[glyph->info] = item.id;
                         }
 
                         const V2I& offset = glyph->offset;

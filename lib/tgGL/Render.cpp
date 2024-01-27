@@ -29,7 +29,6 @@ namespace tg
             }
 
             p.glyphTextureAtlas = TextureAtlas::create(
-                1,
                 4096,
                 PixelType::L_U8,
                 TextureFilter::Linear);

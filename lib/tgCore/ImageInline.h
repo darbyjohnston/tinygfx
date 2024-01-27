@@ -52,7 +52,7 @@ namespace tg
 
         inline bool ImageInfo::isValid() const
         {
-            return size.isValid() > 0 && pixelType != PixelType::None;
+            return size.isValid() && pixelType != PixelType::None;
         }
 
         inline float ImageInfo::getAspect() const
@@ -113,7 +113,7 @@ namespace tg
 
         inline size_t Image::getByteCount() const
         {
-            return _info.getByteCount();
+            return _byteCount;
         }
 
         inline const uint8_t* Image::getData() const

@@ -149,8 +149,8 @@ namespace tg
         Image::Image(const ImageInfo& info) :
             _info(info)
         {
-            const size_t byteCount = info.getByteCount();
-            _data.reserve(byteCount);
+            _byteCount = info.getByteCount();
+            _data.reserve(_byteCount);
         }
 
         Image::~Image()
@@ -173,7 +173,7 @@ namespace tg
         
         void Image::zero()
         {
-            memset(_data.data(), 0, _data.size());
+            memset(_data.data(), 0, _byteCount);
         }
     }
 }
