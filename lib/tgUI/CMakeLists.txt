@@ -1,8 +1,10 @@
 set(HEADERS
     ButtonGroup.h
+    CheckBox.h
     DrawUtil.h
     Event.h
     GridLayout.h
+    GroupBox.h
     IButton.h
     IClipboard.h
     Icon.h
@@ -16,6 +18,10 @@ set(HEADERS
     ListButton.h
     PushButton.h
     RowLayout.h
+    ScrollArea.h
+    ScrollBar.h
+    ScrollWidget.h
+    Spacer.h
     StackLayout.h
     Style.h
     StyleInline.h
@@ -26,9 +32,11 @@ set(PRIVATE_HEADERS)
 
 set(SOURCE
     ButtonGroup.cpp
+    CheckBox.cpp
     DrawUtil.cpp
     Event.cpp
     GridLayout.cpp
+    GroupBox.cpp
     IButton.cpp
     IClipboard.cpp
     Icon.cpp
@@ -41,6 +49,10 @@ set(SOURCE
     ListButton.cpp
     PushButton.cpp
     RowLayout.cpp
+    ScrollArea.cpp
+    ScrollBar.cpp
+    ScrollWidget.cpp
+    Spacer.cpp
     StackLayout.cpp
     Style.cpp
     ToolButton.cpp

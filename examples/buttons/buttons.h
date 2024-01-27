@@ -6,7 +6,8 @@
 
 #include <tgUIApp/Window.h>
 
-#include <tgUI/RowLayout.h>
+#include <tgUI/ButtonGroup.h>
+#include <tgUI/ScrollWidget.h>
 
 using namespace tg;
 
@@ -32,6 +33,8 @@ public:
     void sizeHintEvent(const ui::SizeHintEvent&) override;
 
 private:
-    std::shared_ptr<ui::VerticalLayout> _layout;
+    std::shared_ptr<ui::ButtonGroup> _listButtonGroup;
+    std::shared_ptr<ui::ButtonGroup> _toolButtonGroup;
+    std::shared_ptr<ui::ScrollWidget> _scrollWidget;
 };
 

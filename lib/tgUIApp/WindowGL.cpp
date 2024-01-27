@@ -399,6 +399,7 @@ namespace tg
                 {
                     gl::OffscreenBufferBinding bufferBinding(p.buffer);
                     p.render->begin(p.bufferSize);
+                    p.render->setClipRectEnabled(true);
                     DrawEvent drawEvent(
                         event.fontSystem,
                         _p->contentScale.x,
@@ -409,6 +410,7 @@ namespace tg
                         shared_from_this(),
                         Box2I(V2I(), p.bufferSize),
                         drawEvent);
+                    p.render->setClipRectEnabled(false);
                     p.render->end();
                 }
 

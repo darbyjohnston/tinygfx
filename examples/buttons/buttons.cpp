@@ -6,7 +6,12 @@
 
 #include <tgUIApp/App.h>
 
+#include <tgUI/CheckBox.h>
+#include <tgUI/GroupBox.h>
 #include <tgUI/PushButton.h>
+#include <tgUI/ListButton.h>
+#include <tgUI/RowLayout.h>
+#include <tgUI/ToolButton.h>
 
 #include <tgCore/Format.h>
 
@@ -19,19 +24,84 @@ void MainWindow::_init(
     const Size2I& size)
 {
     Window::_init(context, name, size);
-        
-    _layout = VerticalLayout::create(context, shared_from_this());
-    _layout->setMarginRole(SizeRole::Margin);
     
+    // Create the layout and scroll widget.
+    auto layout = VerticalLayout::create(context);
+    layout->setMarginRole(SizeRole::Margin);
+    _scrollWidget = ScrollWidget::create(
+        context,
+        ScrollType::Both,
+        shared_from_this());
+    _scrollWidget->setWidget(layout);
+    
+    // Create push buttons.
+    auto groupBox = GroupBox::create(context, "Push Buttons", layout);
+    auto hLayout = HorizontalLayout::create(context, groupBox);
     auto pushButton = PushButton::create(
         context,
-        "Push Button",
-        _layout);
+        "Push",
+        hLayout);
     pushButton = PushButton::create(
         context,
-        "Disabled Push Button",
-        _layout);
+        "Disabled",
+        hLayout);
     pushButton->setEnabled(false);
+
+    // Create list buttons.
+    groupBox = GroupBox::create(context, "List Buttons", layout);
+    auto vLayout = VerticalLayout::create(context, groupBox);
+    vLayout->setSpacingRole(SizeRole::None);
+    _listButtonGroup = ButtonGroup::create(context, ButtonGroupType::Toggle);
+    for (size_t i = 0; i < 3; ++i)
+    {
+        auto listButton = ListButton::create(
+            context,
+            Format("List {0}").arg(i),
+            vLayout);
+        listButton->setCheckable(true);
+        _listButtonGroup->addButton(listButton);
+    }
+    auto listButton = ListButton::create(
+        context,
+        "Disabled",
+        vLayout);
+    listButton->setEnabled(false);
+    _listButtonGroup->addButton(listButton);
+    
+    // Create tool buttons.
+    groupBox = GroupBox::create(context, "Tool Buttons", layout);
+    hLayout = HorizontalLayout::create(context, groupBox);
+    hLayout->setSpacingRole(SizeRole::None);
+    _toolButtonGroup = ButtonGroup::create(context, ButtonGroupType::Radio);
+    for (size_t i = 0; i < 3; ++i)
+    {
+        auto toolButton = ToolButton::create(
+            context,
+            Format("Tool {0}").arg(i),
+            hLayout);
+        toolButton->setCheckable(true);
+        toolButton->setChecked(0 == i);
+        _toolButtonGroup->addButton(toolButton);
+    }
+    auto toolButton = ToolButton::create(
+        context,
+        "Disabled",
+        hLayout);
+    toolButton->setEnabled(false);
+    _toolButtonGroup->addButton(toolButton);
+    
+    // Create check boxes.
+    groupBox = GroupBox::create(context, "Check Boxes", layout);
+    vLayout = VerticalLayout::create(context, groupBox);
+    auto checkBox = CheckBox::create(
+        context,
+        "Check",
+        vLayout);
+    checkBox = CheckBox::create(
+        context,
+        "Disabled",
+        vLayout);
+    checkBox->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -50,13 +120,13 @@ std::shared_ptr<MainWindow> MainWindow::create(
 void MainWindow::setGeometry(const Box2I& value)
 {
     Window::setGeometry(value);
-    _layout->setGeometry(value);
+    _scrollWidget->setGeometry(value);
 }
 
 void MainWindow::sizeHintEvent(const SizeHintEvent& event)
 {
     Window::sizeHintEvent(event);
-    _sizeHint = _layout->getSizeHint();
+    _sizeHint = _scrollWidget->getSizeHint();
 }
 
 TG_MAIN()
@@ -66,10 +136,10 @@ TG_MAIN()
     {
         auto context = Context::create();
         auto args = app::convert(argc, argv);
-        auto app = App::create(context, args, "simple", "Simple example");
+        auto app = App::create(context, args, "buttons", "Buttons example");
         if (0 == app->getExit())
         {
-            auto window = MainWindow::create(context, "simple", Size2I(1280, 720));
+            auto window = MainWindow::create(context, "buttons", Size2I(1280, 720));
             app->addWindow(window);
             window->show();
         }

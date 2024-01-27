@@ -70,7 +70,7 @@ namespace tg
             const size_t index = p.buttons.size();
             p.buttons.push_back(button);
             button->setClickedCallback(
-                [this, index]()
+                [this, index]
                 {
                     if (_p->clickedCallback)
                     {
