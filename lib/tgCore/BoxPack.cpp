@@ -48,8 +48,8 @@ namespace tg
             {
                 if (id == node->id)
                 {
+                    node->timestamp = _timestamp++;
                     out = node;
-                    out->timestamp = _timestamp++;
                     break;
                 }
             }
@@ -69,10 +69,7 @@ namespace tg
                     [](const std::shared_ptr<BoxPackNode>& a,
                         const std::shared_ptr<BoxPackNode>& b)
                     {
-                        //return a->timestamp < b->timestamp;
-                        const int aArea = area(a->box.size());
-                        const int bArea = area(b->box.size());
-                        return std::tie(aArea, a->timestamp) < std::tie(bArea, b->timestamp);
+                        return a->timestamp < b->timestamp;
                     });
                 const Size2I sizeAndBorder = size + _border * 2;
                 for (auto node : nodes)
@@ -115,6 +112,7 @@ namespace tg
             std::shared_ptr<BoxPackNode> out;
             if (node->isBranch())
             {
+                node->timestamp = _timestamp++;
                 out = _insert(node->children[0], size);
                 if (!out)
                 {
