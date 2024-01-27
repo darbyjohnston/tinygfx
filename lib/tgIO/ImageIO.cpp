@@ -30,11 +30,45 @@ namespace tg
 
         IImageWriter::~IImageWriter()
         {}
+
+        IImagePlugin::IImagePlugin(const std::string& name) :
+            _name(name)
+        {}
+
+        IImagePlugin::~IImagePlugin()
+        {}
+            
+        const std::string& IImagePlugin::getName() const
+        {
+            return _name;
+        }
+            
+        std::shared_ptr<IImageReader> IImagePlugin::read(
+            const std::string&,
+            const Options&)
+        {
+            return nullptr;
+        }
         
+        std::shared_ptr<IImageReader> IImagePlugin::read(
+            const std::string&,
+            const core::FileMemoryRead&,
+            const Options&)
+        {
+            return nullptr;
+        }
+
+        std::shared_ptr<IImageWriter> IImagePlugin::write(
+            const std::string&,
+            const Options&)
+        {
+            return nullptr;
+        }
+
         ImageIO::ImageIO(const std::shared_ptr<Context>& context) :
             ISystem(context, "tg::io::ImageIO")
         {
-            _plugins.push_back(std::shared_ptr<IImageIOPlugin>(new png::ImageIOPlugin));
+            _plugins.push_back(std::shared_ptr<IImagePlugin>(new png::ImagePlugin));
         }
 
         ImageIO::~ImageIO()

@@ -48,22 +48,22 @@ namespace tg
             virtual ~IImageWriter() = 0;
             
             //! Write the image.
-            virtual void write(const std::shared_ptr<core::Image>&);
+            virtual void write(const std::shared_ptr<core::Image>&) = 0;
 
         protected:
             std::string _fileName;
         };
         
         //! Base class for image I/O plugins.
-        class IImageIOPlugin : std::enable_shared_from_this<IImageIOPlugin>
+        class IImagePlugin : std::enable_shared_from_this<IImagePlugin>
         {
-            TG_NON_COPYABLE(IImageIOPlugin);
+            TG_NON_COPYABLE(IImagePlugin);
 
         protected:
-            IImageIOPlugin(const std::string& name);
+            IImagePlugin(const std::string& name);
 
         public:
-            virtual ~IImageIOPlugin() = 0;
+            virtual ~IImagePlugin() = 0;
             
             const std::string& getName() const;
             
@@ -79,13 +79,14 @@ namespace tg
             virtual std::shared_ptr<IImageWriter> write(
                 const std::string& fileName,
                 const Options&);
+                
+        private:
+            std::string _name;
         };
         
         //! Image I/O system.
         class ImageIO : public core::ISystem
         {
-            TG_NON_COPYABLE(ImageIO);
-
         protected:
             ImageIO(const std::shared_ptr<core::Context>&);
 
@@ -112,7 +113,7 @@ namespace tg
                 const Options& = Options());
 
         private:
-            std::list<std::shared_ptr<IImageIOPlugin> > _plugins;
+            std::list<std::shared_ptr<IImagePlugin> > _plugins;
         };
     }
 }

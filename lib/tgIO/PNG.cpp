@@ -12,14 +12,14 @@ namespace tg
     {
         namespace png
         {
-            ImageIOPlugin::ImageIOPlugin() :
-                IImageIOPlugin("PNG")
+            ImagePlugin::ImagePlugin() :
+                IImagePlugin("PNG")
             {}
 
-            ImageIOPlugin::~ImageIOPlugin()
+            ImagePlugin::~ImagePlugin()
             {}
 
-            std::shared_ptr<IImageReader> ImageIOPlugin::read(
+            std::shared_ptr<IImageReader> ImagePlugin::read(
                 const std::string& fileName,
                 const Options& options)
             {
@@ -27,7 +27,7 @@ namespace tg
                     new ImageReader(fileName, nullptr, options));
             }
 
-            std::shared_ptr<IImageReader> ImageIOPlugin::read(
+            std::shared_ptr<IImageReader> ImagePlugin::read(
                 const std::string& fileName,
                 const FileMemoryRead& memory,
                 const Options& options)
@@ -36,7 +36,7 @@ namespace tg
                     new ImageReader(fileName, &memory, options));
             }
 
-            std::shared_ptr<IImageWriter> ImageIOPlugin::write(
+            std::shared_ptr<IImageWriter> ImagePlugin::write(
                 const std::string& fileName,
                 const Options& options)
             {

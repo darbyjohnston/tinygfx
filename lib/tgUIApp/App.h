@@ -10,6 +10,8 @@ namespace tg
 {
     namespace ui
     {
+        class IWidget;
+        class TickEvent;
         class Window;
 
         //! Base user interface application class.
@@ -47,6 +49,12 @@ namespace tg
             int run() override;
 
         private:
+            void _tickRecursive(
+                const std::shared_ptr<IWidget>&,
+                bool visible,
+                bool enabled,
+                const TickEvent&);
+
             TG_PRIVATE();
         };
     }

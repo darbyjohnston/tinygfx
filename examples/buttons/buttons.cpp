@@ -73,14 +73,18 @@ void MainWindow::_init(
     hLayout = HorizontalLayout::create(context, groupBox);
     hLayout->setSpacingRole(SizeRole::None);
     _toolButtonGroup = ButtonGroup::create(context, ButtonGroupType::Radio);
+    const std::vector<std::string> toolIcons =
+    {
+        "PlaybackReverse",
+        "PlaybackStop",
+        "PlaybackForward"
+    };
     for (size_t i = 0; i < 3; ++i)
     {
-        auto toolButton = ToolButton::create(
-            context,
-            Format("Tool {0}").arg(i),
-            hLayout);
+        auto toolButton = ToolButton::create(context, hLayout);
         toolButton->setCheckable(true);
         toolButton->setChecked(0 == i);
+        toolButton->setIcon(toolIcons[i]);
         _toolButtonGroup->addButton(toolButton);
     }
     auto toolButton = ToolButton::create(

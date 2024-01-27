@@ -65,12 +65,12 @@ namespace tg
             };
             
             //! PNG image I/O plugin.
-            class ImageIOPlugin : public IImageIOPlugin
+            class ImagePlugin : public IImagePlugin
             {
             public:
-                ImageIOPlugin();
+                ImagePlugin();
 
-                virtual ~ImageIOPlugin();
+                virtual ~ImagePlugin();
                 
                 std::shared_ptr<IImageReader> read(
                     const std::string& fileName,

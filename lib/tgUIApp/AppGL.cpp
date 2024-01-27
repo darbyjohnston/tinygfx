@@ -9,6 +9,7 @@
 #include <tgGL/Init.h>
 
 #include <tgUI/IconLibrary.h>
+#include <tgUI/Init.h>
 #include <tgUI/Style.h>
 
 #include <tgCore/Context.h>
@@ -35,8 +36,8 @@ namespace tg
         struct App::Private
         {
             std::shared_ptr<FontSystem> fontSystem;
-            std::shared_ptr<ui::Style> style;
-            std::shared_ptr<ui::IconLibrary> iconLibrary;
+            std::shared_ptr<Style> style;
+            std::shared_ptr<IconLibrary> iconLibrary;
             std::list<std::shared_ptr<Window> > windows;
         };
         
@@ -50,10 +51,11 @@ namespace tg
         {
             app::IApp::_init(context, argv, name, summary, cmdLineArgs, cmdLineOptions);
             TG_P();
+            ui::init(context);
             gl::init(context);
             p.fontSystem = context->getSystem<FontSystem>();
-            p.style = ui::Style::create(context);
-            p.iconLibrary = ui::IconLibrary::create(context);
+            p.style = Style::create(context);
+            p.iconLibrary = IconLibrary::create(context);
         }
 
         App::App() :
@@ -108,11 +110,15 @@ namespace tg
                     auto i = p.windows.begin();
                     while (i != p.windows.end())
                     {
-                        ui::TickEvent tickEvent(
+                        TickEvent tickEvent(
                             p.fontSystem,
                             p.style,
                             p.iconLibrary);
-                        (*i)->tickEvent(true, true, tickEvent);
+                        _tickRecursive(
+                            *i,
+                            (*i)->isVisible(false),
+                            (*i)->isEnabled(false),
+                            tickEvent);
 
                         if ((*i)->shouldClose())
                         {
@@ -133,6 +139,26 @@ namespace tg
                 }
             }
             return exit;
+        }
+
+        void App::_tickRecursive(
+            const std::shared_ptr<IWidget>&widget,
+            bool visible,
+            bool enabled,
+            const TickEvent& event)
+        {
+            TG_P();
+            const bool parentsVisible = visible && widget->isVisible(false);
+            const bool parentsEnabled = enabled && widget->isEnabled(false);
+            for (const auto& child : widget->getChildren())
+            {
+                _tickRecursive(
+                    child,
+                    parentsVisible,
+                    parentsEnabled,
+                    event);
+            }
+            widget->tickEvent(visible, enabled, event);
         }
     }
 }

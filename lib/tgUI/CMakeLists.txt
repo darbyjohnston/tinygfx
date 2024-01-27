@@ -7,12 +7,13 @@ set(HEADERS
     GroupBox.h
     IButton.h
     IClipboard.h
-    Icon.h
-    IconLibrary.h
     IPopup.h
     IWidget.h
     IWidgetInline.h
     IWindow.h
+    Icon.h
+    IconLibrary.h
+    Init.h
     Label.h
     LayoutUtil.h
     ListButton.h
@@ -39,11 +40,12 @@ set(SOURCE
     GroupBox.cpp
     IButton.cpp
     IClipboard.cpp
-    Icon.cpp
-    IconLibrary.cpp
     IPopup.cpp
     IWidget.cpp
     IWindow.cpp
+    Icon.cpp
+    IconLibrary.cpp
+    Init.cpp
     Label.cpp
     LayoutUtil.cpp
     ListButton.cpp
@@ -60,7 +62,7 @@ set(SOURCE
     WidgetOptions.cpp)
 
 add_library(tgUI ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
-target_link_libraries(tgUI tgRender)
+target_link_libraries(tgUI tgIO tgRender)
 set_target_properties(tgUI PROPERTIES FOLDER lib)
 set_target_properties(tgUI PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
