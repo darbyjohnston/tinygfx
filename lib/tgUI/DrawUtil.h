@@ -12,6 +12,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Drawing
+        ///@{
+        
         //! Create a mesh for drawing a rectangle.
         core::TriMesh2F rect(
             const core::Box2I&,
@@ -44,5 +47,7 @@ namespace tg
             const core::Color4F& color0,
             const core::Color4F& color1,
             const core::Size2I& checkerSize);
+        
+        ///@}
     }
 }

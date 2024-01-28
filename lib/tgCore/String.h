@@ -11,11 +11,11 @@ namespace tg
 {
     namespace core
     {
+        //! \name Strings
+        ///@{
+        
         //! Arbitrary C string size.
         constexpr size_t cStringSize = 4096;
-
-        //! \name Splitting and Joining
-        ///@{
 
         //! String split options.
         enum class SplitOptions
@@ -42,11 +42,6 @@ namespace tg
         //! Join a list of strings.
         std::string join(const std::vector<std::string>&, const std::string& delimeter);
 
-        ///@}
-
-        //! \name Formatting
-        ///@{
-
         //! Convert to upper case.
         std::string toUpper(const std::string&);
 
@@ -58,11 +53,6 @@ namespace tg
 
         //! Elide a string.
         std::string elide(const std::string&, size_t = 32);
-
-        ///@}
-
-        //! \name Comparison
-        ///@{
 
         enum class Compare
         {
@@ -81,11 +71,6 @@ namespace tg
             const std::string&,
             const std::string& substr,
             Compare = Compare::CaseSensitive);
-
-        ///@}
-
-        //! \name Conversion
-        ///@{
 
         //! Convert a regular string to a wide string.
         std::wstring toWide(const std::string&);

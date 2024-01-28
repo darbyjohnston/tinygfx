@@ -11,7 +11,10 @@ namespace tg
 {
     namespace core
     {
-        //! Size.
+        //! \name Sizes
+        ///@{
+        
+        //! Base class for sizes.
         template<int C, typename T>
         class Size
         {
@@ -78,9 +81,10 @@ namespace tg
             Size<3, T>& operator = (const Size<3, T>&);
         };
 
-        //! \name Size Functions
-        ///@{
-        
+        typedef Size<2, int> Size2I;
+        typedef Size<2, float> Size2F;
+        typedef Size<3, float> Size3F;
+
         //! Get the aspect ratio of the given size.
         template<typename T>
         T aspectRatio(const Size<2, T>&);
@@ -92,11 +96,6 @@ namespace tg
         //! Get the volume of the given size.
         template<typename T>
         T volume(const Size<3, T>&);
-
-        ///@}
-
-        //! \name Size Operators
-        ///@{
         
         template<int C, typename T>
         Size<C, T> operator + (const Size<C, T>&, T);
@@ -112,23 +111,8 @@ namespace tg
         template<int C, typename T>
         bool operator != (const Size<C, T>&, const Size<C, T>&);
         
-        ///@}
-
-        //! \name Size Types
-        ///@{
-
-        typedef Size<2, int> Size2I;
-        typedef Size<2, float> Size2F;
-        typedef Size<3, float> Size3F;
-        
-        ///@}
-
-        //! \name Size Serialize
-        ///@{
-
         template<int C, typename T>
         std::ostream& operator << (std::ostream&, const Size<C, T>&);
-
         template<int C, typename T>
         std::istream& operator >> (std::istream&, Size<C, T>&);
 

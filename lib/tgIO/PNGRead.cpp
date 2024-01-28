@@ -23,7 +23,7 @@ namespace tg
                 void memoryRead(png_structp png_ptr, png_bytep outBytes, png_size_t byteCountToRead)
                 {
                     png_voidp io_ptr = png_get_io_ptr(png_ptr);
-                    FileMemoryRead* memory = static_cast<FileMemoryRead*>(io_ptr);
+                    InMemoryFile* memory = static_cast<InMemoryFile*>(io_ptr);
                     if (byteCountToRead > memory->size)
                     {
                         png_error(png_ptr, "Cannot read");
@@ -35,7 +35,7 @@ namespace tg
 
                 bool open(
                     FILE* f,
-                    FileMemoryRead* memory,
+                    InMemoryFile* memory,
                     png_structp png,
                     png_infop* pngInfo,
                     png_infop* pngInfoEnd,
@@ -154,7 +154,7 @@ namespace tg
 
             ImageReader::ImageReader(
                 const std::string& fileName,
-                const FileMemoryRead* memory,
+                const InMemoryFile* memory,
                 const Options& options) :
                 IImageReader(fileName, memory, options)
             {

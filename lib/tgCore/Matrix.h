@@ -10,7 +10,10 @@ namespace tg
 {
     namespace core
     {
-        //! Matrix.
+        //! \name Matrices
+        ///@{
+        
+        //! Base class for matrices.
         template<int R, int C, typename T>
         class Matrix
         {
@@ -70,8 +73,8 @@ namespace tg
             std::array<T, 16> _e;
         };
 
-        //! \name Matrix Functions
-        ///@{
+        typedef Matrix<3, 3, float> M33F;
+        typedef Matrix<4, 4, float> M44F;
 
         //! Create a translation matrix.
         template<typename T>
@@ -101,48 +104,24 @@ namespace tg
         template<typename T>
         constexpr Matrix<4, 4, T> perspective(T fov, T aspect, T nearClip, T farClip);
 
-        ///@}
-
-        //! \name Matrix Operators
-        ///@{
-
         template<typename T>
         Matrix<3, 3, T> operator * (const Matrix<3, 3, T>&, const Matrix<3, 3, T>&);
-
         template<typename T>
         Vector<2, T> operator * (const Matrix<3, 3, T>&, const Vector<2, T>&);
-
         template<typename T>
         Matrix<4, 4, T> operator * (const Matrix<4, 4, T>&, const Matrix<4, 4, T>&);
-
         template<typename T>
         Vector<3, T> operator * (const Matrix<4, 4, T>&, const Vector<3, T>&);
-
         template<typename T>
         Vector<4, T> operator * (const Matrix<4, 4, T>&, const Vector<4, T>&);
         
         template<int R, int C, typename T>
-        bool operator == (const Matrix<R, C, T>&, const Matrix<R, C, T>&);
-        
+        bool operator == (const Matrix<R, C, T>&, const Matrix<R, C, T>&);        
         template<int R, int C, typename T>
         bool operator != (const Matrix<R, C, T>&, const Matrix<R, C, T>&);
 
-        ///@}
-
-        //! \name Matrix Types
-        ///@{
-        
-        typedef Matrix<3, 3, float> M33F;
-        typedef Matrix<4, 4, float> M44F;
-        
-        ///@}
-
-        //! \name Matrix Serialize
-        ///@{
-
         template<int R, int C, typename T>
         std::ostream& operator << (std::ostream&, const Matrix<R, C, T>&);
-
         template<int R, int C, typename T>
         std::istream& operator >> (std::istream&, Matrix<R, C, T>&);
 

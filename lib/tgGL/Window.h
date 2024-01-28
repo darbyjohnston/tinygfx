@@ -21,6 +21,9 @@ namespace tg
 
     namespace gl
     {
+        //! \name Windows
+        ///@{
+        
         //! OpenGL window options.
         enum class WindowOptions
         {
@@ -156,6 +159,8 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }
 

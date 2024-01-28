@@ -13,6 +13,9 @@ namespace tg
 {
     namespace gl
     {
+        //! \name Utility
+        ///@{
+        
         //! Set whether an OpenGL capability is enabled and restore it to the
         //! previous value when finished.
         class SetAndRestore
@@ -28,5 +31,7 @@ namespace tg
 
         //! Get an OpenGL error label.
         std::string getErrorLabel(unsigned int);
+        
+        ///@}
     }
 }

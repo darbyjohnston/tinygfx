@@ -266,7 +266,7 @@ namespace tg
                                                 arg(dpi);
                                             auto reader = context->getSystem<io::ImageIO>()->read(
                                                 name,
-                                                FileMemoryRead(j->second.data(), j->second.size()));
+                                                InMemoryFile(j->second.data(), j->second.size()));
                                             if (reader)
                                             {
                                                 image = reader->read();

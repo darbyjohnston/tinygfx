@@ -16,6 +16,9 @@ namespace tg
     
     namespace ui
     {
+        //! \name Numeric Widgets
+        ///@{
+
         //! Floating point value model.
         class FloatModel : public std::enable_shared_from_this<FloatModel>
         {
@@ -116,5 +119,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

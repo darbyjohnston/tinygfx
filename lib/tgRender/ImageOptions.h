@@ -14,6 +14,9 @@ namespace tg
 {
     namespace render
     {
+        //! \name Image Options
+        ///@{
+
         //! Input video levels.
         enum class InputVideoLevels
         {
@@ -73,6 +76,8 @@ namespace tg
             bool operator == (const ImageOptions&) const;
             bool operator != (const ImageOptions&) const;
         };
+        
+        ///@}
     }
 }
 

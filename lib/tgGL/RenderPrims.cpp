@@ -191,14 +191,14 @@ namespace tg
 
                     if (glyph->image && glyph->image->isValid())
                     {
-                        BoxPackID id = boxPackIDInvalid;
+                        BoxPackID id = boxPackInvalidID;
                         const auto i = p.glyphIDs.find(glyph->info);
                         if (i != p.glyphIDs.end())
                         {
                             id = i->second;
                         }
                         TextureAtlasItem item;
-                        if (boxPackIDInvalid == id ||
+                        if (boxPackInvalidID == id ||
                             !p.glyphTextureAtlas->getItem(id, item))
                         {
                             p.glyphTextureAtlas->addItem(glyph->image, item);

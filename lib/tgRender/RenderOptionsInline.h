@@ -6,7 +6,7 @@ namespace tg
 {
     namespace render
     {
-        inline bool Options::operator == (const Options& other) const
+        inline bool RenderOptions::operator == (const RenderOptions& other) const
         {
             return
                 clear == other.clear &&
@@ -14,7 +14,7 @@ namespace tg
                 textureCacheByteCount == other.textureCacheByteCount;
         }
 
-        inline bool Options::operator != (const Options& other) const
+        inline bool RenderOptions::operator != (const RenderOptions& other) const
         {
             return !(*this == other);
         }

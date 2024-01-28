@@ -6,19 +6,19 @@ namespace tg
 {
     namespace core
     {
-        inline FileMemoryRead::FileMemoryRead(const uint8_t* p, size_t size) :
+        inline InMemoryFile::InMemoryFile(const uint8_t* p, size_t size) :
             p(p),
             size(size)
         {}
 
-        inline bool FileMemoryRead::operator == (const FileMemoryRead& other) const
+        inline bool InMemoryFile::operator == (const InMemoryFile& other) const
         {
             return
                 p == other.p &&
                 size == other.size;
         }
 
-        inline bool FileMemoryRead::operator != (const FileMemoryRead& other) const
+        inline bool InMemoryFile::operator != (const InMemoryFile& other) const
         {
             return !(*this == other);
         }

@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Layouts
+        ///@{
+        
         //! Group box.
         class GroupBox : public IWidget
         {
@@ -48,5 +51,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

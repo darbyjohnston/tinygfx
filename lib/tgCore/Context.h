@@ -17,7 +17,8 @@ namespace tg
     {
         class ISystem;
 
-        //! Context.
+        //! The context provides centralized access to systems and other
+        //! resources.
         class Context : public std::enable_shared_from_this<Context>
         {
             TG_NON_COPYABLE(Context);

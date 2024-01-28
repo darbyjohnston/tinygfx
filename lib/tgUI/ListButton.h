@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Buttons
+        ///@{
+        
         //! List button.
         class ListButton : public IButton
         {
@@ -49,5 +52,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

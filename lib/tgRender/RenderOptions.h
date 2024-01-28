@@ -11,8 +11,11 @@ namespace tg
 {
     namespace render
     {
+        //! \name Rendering Options
+        ///@{
+
         //! Render options.
-        struct Options
+        struct RenderOptions
         {
             //! Clear the canvas before rendering.
             bool clear = true;
@@ -23,8 +26,8 @@ namespace tg
             //! Texture cache byte count.
             size_t textureCacheByteCount = core::gigabyte / 4;
 
-            bool operator == (const Options&) const;
-            bool operator != (const Options&) const;
+            bool operator == (const RenderOptions&) const;
+            bool operator != (const RenderOptions&) const;
         };
 
         //! Line drawing options.
@@ -35,6 +38,8 @@ namespace tg
             bool operator == (const LineOptions&) const;
             bool operator != (const LineOptions&) const;
         };
+        
+        ///@}
     }
 }
 

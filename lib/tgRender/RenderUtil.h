@@ -14,6 +14,9 @@ namespace tg
     namespace render
     {
         class IRender;
+
+        //! \name Rendering Utilities
+        ///@{
         
         //! Set and restore the render size.
         class RenderSizeState
@@ -76,5 +79,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

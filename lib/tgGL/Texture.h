@@ -10,6 +10,9 @@ namespace tg
 {
     namespace gl
     {
+        //! \name Textures
+        ///@{
+        
         //! Get the OpenGL texture format.
         unsigned int getTextureFormat(core::PixelType);
 
@@ -40,10 +43,10 @@ namespace tg
             bool operator != (const TextureFilters&) const;
         };
 
-        //! Get the OpenGL texture filter.
+        //! Get the texture filter.
         unsigned int getTextureFilter(TextureFilter);
 
-        //! OpenGL texture options.
+        //! Texture options.
         struct TextureOptions
         {
             TextureFilters filters;
@@ -53,7 +56,7 @@ namespace tg
             bool operator != (const TextureOptions&) const;
         };
 
-        //! OpenGL texture.
+        //! Texture.
         class Texture : public std::enable_shared_from_this<Texture>
         {
             TG_NON_COPYABLE(Texture);
@@ -105,5 +108,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

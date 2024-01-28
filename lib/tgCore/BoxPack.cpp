@@ -17,7 +17,7 @@ namespace tg
         
         bool BoxPackNode::isOccupied() const
         {
-            return id != boxPackIDInvalid;
+            return id != boxPackInvalidID;
         }
 
         std::shared_ptr<BoxPack> BoxPack::create(const Size2I& size, int border)
@@ -78,7 +78,7 @@ namespace tg
                     if (sizeAndBorder.w <= nodeSize.w &&
                         sizeAndBorder.h <= nodeSize.h)
                     {
-                        node->id = boxPackIDInvalid;
+                        node->id = boxPackInvalidID;
                         node->timestamp = 0;
                         node->children[0].reset();
                         node->children[1].reset();

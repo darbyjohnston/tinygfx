@@ -15,13 +15,14 @@ namespace tg
 {
     namespace core
     {
-        class BoxPackFactory;
+        //! \name Box Packing
+        ///@{
 
         //! Box packing ID.
         typedef int64_t BoxPackID;
 
         //! Invalid box packing ID.
-        constexpr BoxPackID boxPackIDInvalid = -1;
+        constexpr BoxPackID boxPackInvalidID = -1;
 
         //! Box packing timestamp.
         typedef uint64_t BoxPackTimestamp;
@@ -33,7 +34,7 @@ namespace tg
         struct BoxPackNode
         {
             Box2I box;
-            BoxPackID id = boxPackIDInvalid;
+            BoxPackID id = boxPackInvalidID;
             BoxPackTimestamp timestamp = 0;
             std::array<std::shared_ptr<BoxPackNode>, 2> children;
 
@@ -41,7 +42,7 @@ namespace tg
             bool isOccupied() const;
         };
 
-        //! Box packing.
+        //! Pack boxes together.
         class BoxPack : public std::enable_shared_from_this<BoxPack>
         {
             TG_NON_COPYABLE(BoxPack);
@@ -74,5 +75,7 @@ namespace tg
             BoxPackID _id = 0;
             BoxPackTimestamp _timestamp = 0;
         };
+
+        ///@}
     }
 }

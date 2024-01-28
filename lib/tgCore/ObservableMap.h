@@ -16,6 +16,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name Observables
+        ///@{
+        
         template<typename T, typename U>
         class IObservableMap;
 
@@ -49,7 +52,7 @@ namespace tg
             std::weak_ptr<IObservableMap<T, U> > _value;
         };
 
-        //! Base class for an observable map.
+        //! Base class for observable maps.
         template<typename T, typename U>
         class IObservableMap
         {
@@ -124,6 +127,8 @@ namespace tg
         private:
             std::map<T, U> _value;
         };
+        
+        ///@}
     }
 }
 

@@ -11,6 +11,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Numeric Widgets
+        ///@{
+
         //! Floating point value slider.
         class FloatSlider : public IWidget
         {
@@ -76,5 +79,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

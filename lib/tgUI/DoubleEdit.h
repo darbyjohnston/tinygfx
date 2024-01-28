@@ -11,7 +11,10 @@ namespace tg
 {
     namespace ui
     {
-        //! Double precision floating point number editor.
+        //! \name Numeric Widgets
+        ///@{
+        
+        //! Double precision floating point value editor.
         class DoubleEdit : public IWidget
         {
         protected:
@@ -71,5 +74,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

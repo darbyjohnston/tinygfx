@@ -11,7 +11,10 @@ namespace tg
 {
     namespace ui
     {
-        //! Floating point number editor.
+        //! \name Numeric Widgets
+        ///@{
+        
+        //! Floating point value editor.
         class FloatEdit : public IWidget
         {
         protected:
@@ -71,5 +74,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

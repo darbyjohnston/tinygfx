@@ -10,7 +10,10 @@ namespace tg
 {
     namespace core
     {
-        //! Vector.
+        //! \name Vectors
+        ///@{
+        
+        //! Base class for vectors.
         template<int C, typename T>
         class Vector
         {
@@ -98,9 +101,11 @@ namespace tg
             Vector<4, T>& operator = (const Vector<4, T>&);
         };
 
-        //! \name Vector Functions
-        ///@{
-        
+        typedef Vector<2, int> V2I;
+        typedef Vector<2, float> V2F;
+        typedef Vector<3, float> V3F;
+        typedef Vector<4, float> V4F;
+                
         //! Get the length of a vector.
         template<int C, typename T>
         T length(const Vector<C, T>&);
@@ -123,11 +128,6 @@ namespace tg
         template<typename T>
         Vector<2, T> perpCCW(const Vector<2, T>&);
         
-        ///@}
-
-        //! \name Vector Operators
-        ///@{
-
         template<int C, typename T>
         Vector<C, T> operator + (const Vector<C, T>&, const Vector<C, T>&);
         template<int C, typename T>
@@ -148,24 +148,8 @@ namespace tg
         template<int C, typename T>
         bool operator != (const Vector<C, T>&, const Vector<C, T>&);
         
-        ///@}
-
-        //! \name Vector Types
-        ///@{
-
-        typedef Vector<2, int> V2I;
-        typedef Vector<2, float> V2F;
-        typedef Vector<3, float> V3F;
-        typedef Vector<4, float> V4F;
-        
-        ///@}
-
-        //! \name Vector Serialize
-        ///@{
-
         template<int C, typename T>
         std::ostream& operator << (std::ostream&, const Vector<C, T>&);
-
         template<int C, typename T>
         std::istream& operator >> (std::istream&, Vector<C, T>&);
 

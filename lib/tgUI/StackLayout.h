@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Layouts
+        ///@{
+        
         //! Stack layout.
         class StackLayout : public IWidget
         {
@@ -53,5 +56,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

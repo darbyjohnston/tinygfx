@@ -16,6 +16,9 @@ namespace tg
     
     namespace ui
     {
+        //! \name Numeric Widgets
+        ///@{
+        
         //! Integer value model.
         class IntModel : public std::enable_shared_from_this<IntModel>
         {
@@ -116,5 +119,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }

@@ -8,11 +8,16 @@ namespace tg
 {
     namespace core
     {
+        //! \name Observables
+        ///@{
+        
         //! Observer actions.
         enum class ObserverAction
         {
             Trigger,
             Suppress
         };
+        
+        ///@}
     }
 }

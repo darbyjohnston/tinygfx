@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Layouts
+        ///@{
+        
         //! Row layout.
         class RowLayout : public IWidget
         {
@@ -84,5 +87,7 @@ namespace tg
                 const std::shared_ptr<core::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };
+        
+        ///@}
     }
 }

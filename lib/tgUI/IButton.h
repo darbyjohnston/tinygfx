@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Buttons
+        ///@{
+        
         //! Base class for buttons.
         class IButton : public IWidget
         {
@@ -101,5 +104,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

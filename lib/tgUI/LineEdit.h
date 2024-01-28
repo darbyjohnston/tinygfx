@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Text Widgets
+        ///@{
+        
         //! Text line edit.
         //! 
         //! \todo Scroll the view with the cursor.
@@ -80,5 +83,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

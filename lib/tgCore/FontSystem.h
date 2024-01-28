@@ -14,8 +14,8 @@ namespace tg
     {
         class Context;
 
-        //! Get font data.
-        std::vector<uint8_t> getFontData(const std::string&);
+        //! \name Fonts
+        ///@{
 
         //! Font information.
         struct FontInfo
@@ -64,6 +64,9 @@ namespace tg
             int32_t                rsbDelta = 0;
         };
 
+        //! Get font data.
+        std::vector<uint8_t> getFontData(const std::string&);
+        
         //! Font system.
         //!
         //! \todo Add text elide functionality.
@@ -129,6 +132,8 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }
 

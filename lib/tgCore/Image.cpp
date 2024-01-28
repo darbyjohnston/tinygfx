@@ -170,6 +170,11 @@ namespace tg
         {
             return std::shared_ptr<Image>(new Image(ImageInfo(w, h, pixelType)));
         }
+
+        void Image::setTags(const ImageTags& tags)
+        {
+            _tags = tags;
+        }
         
         void Image::zero()
         {

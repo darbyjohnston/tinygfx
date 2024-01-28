@@ -11,6 +11,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name String Formatting
+        ///@{
+        
         //! String formatting.
         //!
         //! Example:
@@ -57,9 +60,6 @@ namespace tg
             std::string _text;
             std::string _error;
         };
-
-        //! \name Format Serialize
-        ///@{
         
         std::ostream& operator << (std::ostream&, const Format&);
         

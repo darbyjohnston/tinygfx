@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Clipboard
+        ///@{
+        
         //! Base class for clipboards.
         class IClipboard : public std::enable_shared_from_this<IClipboard>
         {
@@ -33,5 +36,7 @@ namespace tg
         private:
             std::weak_ptr<core::Context> _context;
         };
+        
+        ///@}
     }
 }

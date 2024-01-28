@@ -14,16 +14,19 @@ namespace tg
 {
     namespace gl
     {
+        //! \name Texture Atlas
+        ///@{
+        
         //! Texture atlas item.
         struct TextureAtlasItem
         {
-            core::BoxPackID id = core::boxPackIDInvalid;
+            core::BoxPackID id = core::boxPackInvalidID;
             core::Size2I size;
             core::RangeF textureU;
             core::RangeF textureV;
         };
 
-        //! OpenGL texture atlas.
+        //! Texture atlas.
         class TextureAtlas : public std::enable_shared_from_this<TextureAtlas>
         {
             TG_NON_COPYABLE(TextureAtlas);
@@ -66,5 +69,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

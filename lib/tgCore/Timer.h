@@ -12,6 +12,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name Timers
+        ///@{
+        
         //! Timer.
         class Timer : public std::enable_shared_from_this<Timer>
         {
@@ -82,5 +85,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

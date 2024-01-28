@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Layouts
+        ///@{
+        
         //! Scroll type.
         enum class ScrollType
         {
@@ -65,5 +68,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

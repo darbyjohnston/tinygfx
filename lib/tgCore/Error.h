@@ -10,16 +10,21 @@ namespace tg
 {
     namespace core
     {
-#if defined(_WINDOWS)
-        //! Get an error string from a Windows system call.
-        std::string getLastError();
-#endif // _WINDOWS
-
+        //! \name Errors
+        ///@{
+        
         //! Parse error.
         class ParseError : public std::invalid_argument
         {
         public:
             ParseError();
         };
+        
+#if defined(_WINDOWS)
+        //! Get an error string from a Windows system call.
+        std::string getLastError();
+#endif // _WINDOWS
+
+        ///@}
     }
 }

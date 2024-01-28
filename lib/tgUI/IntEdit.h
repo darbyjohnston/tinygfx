@@ -11,7 +11,10 @@ namespace tg
 {
     namespace ui
     {
-        //! Integer number editor.
+        //! \name Numeric Widgets
+        ///@{
+
+        //! Integer value editor.
         class IntEdit : public IWidget
         {
         protected:
@@ -68,5 +71,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

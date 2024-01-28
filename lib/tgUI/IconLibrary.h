@@ -13,6 +13,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Icons
+        ///@{
+        
         //! Icon library.
         class IconLibrary : public std::enable_shared_from_this<IconLibrary>
         {
@@ -41,6 +44,8 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }
 

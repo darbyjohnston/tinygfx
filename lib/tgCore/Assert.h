@@ -9,8 +9,13 @@ namespace tg
 {
     namespace core
     {
+        //! \name Assert
+        ///@{
+        
         //! Assert (for convenience use the TG_ASSERT macro).
         void _assert(const char* file, int line);
+
+        ///@}
     }
 }
 

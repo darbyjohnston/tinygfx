@@ -52,7 +52,7 @@ namespace tg
 
         void Render::begin(
             const Size2I& size,
-            const render::Options& options)
+            const render::RenderOptions& options)
         {
             TG_P();
 

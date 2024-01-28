@@ -12,9 +12,19 @@ namespace tg
 {
     namespace io
     {
+        Options merge(const Options& a, const Options& b)
+        {
+            Options out = b;
+            for (const auto& i : a)
+            {
+                out[i.first] = i.second;
+            }
+            return out;
+        }
+        
         IImageReader::IImageReader(
             const std::string& fileName,
-            const core::FileMemoryRead*,
+            const InMemoryFile*,
             const Options&) :
             _fileName(fileName)
         {}
@@ -52,7 +62,7 @@ namespace tg
         
         std::shared_ptr<IImageReader> IImagePlugin::read(
             const std::string&,
-            const core::FileMemoryRead&,
+            const InMemoryFile&,
             const Options&)
         {
             return nullptr;
@@ -88,7 +98,7 @@ namespace tg
 
         std::shared_ptr<IImageReader> ImageIO::read(
             const std::string& fileName,
-            const FileMemoryRead& memory,
+            const InMemoryFile& memory,
             const Options& options)
         {
             return _plugins.front()->read(fileName, memory, options);

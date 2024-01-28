@@ -14,6 +14,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name Triangle Meshes
+        ///@{
+
         //! Two-dimensional vertex.
         struct Vertex2
         {
@@ -70,13 +73,8 @@ namespace tg
             std::vector<Triangle3> triangles;
         };
 
-        //! \name Triangle Mesh Types
-        ///@{
-
         typedef TriangleMesh2<float> TriMesh2F;
         typedef TriangleMesh3<float> TriMesh3F;
-
-        ///@}
 
         //! Edge function.
         float edge(const V2F& p, const V2F& v0, const V2F& v1);
@@ -85,7 +83,9 @@ namespace tg
         TriMesh2F mesh(const Box2I&, bool flipV = false);
 
         //! Create a mesh from a box.
-        TriMesh2F mesh(const Box2F&, bool flipV = false);        
+        TriMesh2F mesh(const Box2F&, bool flipV = false);
+        
+        ///@}
     }
 }
 

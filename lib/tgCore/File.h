@@ -10,6 +10,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name Files
+        ///@{
+
         //! Does a file exist?
         bool fileExists(const std::string&);
 
@@ -30,5 +33,7 @@ namespace tg
 
         //! Create a temporary directory.
         std::string createTempDir();
+        
+        ///@}
     }
 }

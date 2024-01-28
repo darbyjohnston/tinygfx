@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <tgIO/Options.h>
-
 #include <tgCore/FileIO.h>
 #include <tgCore/ISystem.h>
 #include <tgCore/Image.h>
@@ -16,13 +14,22 @@ namespace tg
 {
     namespace io
     {
+        //! \name Image I/O
+        ///@{
+
+        //! Image I/O options.
+        typedef std::map<std::string, std::string> Options;
+
+        //! Merge image I/O options.
+        Options merge(const Options&, const Options&);
+        
         //! Base class for image readers.
         class IImageReader
         {
         public:
             IImageReader(
                 const std::string& fileName,
-                const core::FileMemoryRead*,
+                const core::InMemoryFile*,
                 const Options&);
             
             virtual ~IImageReader() = 0;
@@ -73,7 +80,7 @@ namespace tg
             
             virtual std::shared_ptr<IImageReader> read(
                 const std::string& fileName,
-                const core::FileMemoryRead&,
+                const core::InMemoryFile&,
                 const Options&);
 
             virtual std::shared_ptr<IImageWriter> write(
@@ -104,7 +111,7 @@ namespace tg
             //! Get an image reader.
             std::shared_ptr<IImageReader> read(
                 const std::string&,
-                const core::FileMemoryRead&,
+                const core::InMemoryFile&,
                 const Options& = Options());
             
             //! Get an image writer.
@@ -115,6 +122,8 @@ namespace tg
         private:
             std::list<std::shared_ptr<IImagePlugin> > _plugins;
         };
+        
+        ///@}
     }
 }
 

@@ -126,7 +126,7 @@ namespace tg
             float area = 0.F;
             for (const auto node : p.boxPack->getNodes())
             {
-                if (node->id != boxPackIDInvalid)
+                if (node->id != boxPackInvalidID)
                 {
                     area += core::area(node->box.size());
                 }

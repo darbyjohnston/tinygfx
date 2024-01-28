@@ -21,9 +21,10 @@ namespace tg
         class Context;
     }
 
+    //! Rendering
     namespace render
     {
-        //! Base class for rendering.
+        //! Base class for renderers.
         class IRender : public std::enable_shared_from_this<IRender>
         {
             TG_NON_COPYABLE(IRender);
@@ -39,7 +40,7 @@ namespace tg
             //! Begin a render.
             virtual void begin(
                 const core::Size2I&,
-                const Options& = Options()) = 0;
+                const RenderOptions& = RenderOptions()) = 0;
 
             //! Finish a render.
             virtual void end() = 0;

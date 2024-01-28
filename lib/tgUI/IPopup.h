@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Popup Widgets
+        ///@{
+        
         //! Base class for popups.
         class IPopup : public IWidget
         {
@@ -30,5 +33,7 @@ namespace tg
             void keyPressEvent(KeyEvent&) override;
             void keyReleaseEvent(KeyEvent&) override;
         };
+        
+        ///@}
     }
 }

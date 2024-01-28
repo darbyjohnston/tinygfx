@@ -11,7 +11,7 @@ namespace tg
 {
     namespace core
     {
-        //! \name Information
+        //! \name Operating System
         ///@{
 
         //! Operating system information.
@@ -25,11 +25,6 @@ namespace tg
 
         //! Get operating system information.
         SystemInfo getSystemInfo();
-
-        ///@}
-
-        //! \name Environment Variables
-        ///@{
 
         //! Environment variable list separators.
         const std::vector<char> envListSeparators = { ':', ';' };

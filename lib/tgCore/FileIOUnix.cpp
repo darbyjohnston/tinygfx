@@ -132,7 +132,7 @@ namespace tg
         
         std::shared_ptr<FileIO> FileIO::create(
             const std::string& fileName,
-            const FileMemoryRead& memory)
+            const InMemoryFile& memory)
         {
             auto out = std::shared_ptr<FileIO>(new FileIO);
             out->_p->fileName = fileName;

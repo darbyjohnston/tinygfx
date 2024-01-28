@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Text Widgets
+        ///@{
+        
         //! Text label.
         //! 
         //! \todo Add text wrapping.
@@ -57,5 +60,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

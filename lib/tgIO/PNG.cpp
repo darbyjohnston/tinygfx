@@ -29,7 +29,7 @@ namespace tg
 
             std::shared_ptr<IImageReader> ImagePlugin::read(
                 const std::string& fileName,
-                const FileMemoryRead& memory,
+                const InMemoryFile& memory,
                 const Options& options)
             {
                 return std::shared_ptr<ImageReader>(

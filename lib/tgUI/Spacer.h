@@ -10,7 +10,10 @@ namespace tg
 {
     namespace ui
     {
-        //! Spacer.
+        //! \name Layouts
+        ///@{
+        
+        //! Spacer widget.
         class Spacer : public IWidget
         {
         protected:
@@ -38,5 +41,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

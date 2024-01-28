@@ -6,28 +6,31 @@ namespace tg
 {
     namespace core
     {
-        constexpr Mirror::Mirror(bool x, bool y) :
+        constexpr ImageMirror::ImageMirror(bool x, bool y) :
             x(x),
             y(y)
         {}
 
-        constexpr bool Mirror::operator == (const Mirror& other) const
+        constexpr bool ImageMirror::operator == (const ImageMirror& other) const
         {
             return other.x == x && other.y == y;
         }
 
-        constexpr bool Mirror::operator != (const Mirror& other) const
+        constexpr bool ImageMirror::operator != (const ImageMirror& other) const
         {
             return !(other == *this);
         }
 
-        inline Layout::Layout(const Mirror& mirror, int alignment, Endian endian) :
+        inline ImageLayout::ImageLayout(
+            const ImageMirror& mirror,
+            int alignment,
+            Endian endian) :
             mirror(mirror),
             alignment(alignment),
             endian(endian)
         {}
 
-        constexpr bool Layout::operator == (const Layout & other) const
+        constexpr bool ImageLayout::operator == (const ImageLayout & other) const
         {
             return
                 other.mirror == mirror &&
@@ -35,7 +38,7 @@ namespace tg
                 other.endian == endian;
         }
 
-        constexpr bool Layout::operator != (const Layout & other) const
+        constexpr bool ImageLayout::operator != (const ImageLayout & other) const
         {
             return !(other == *this);
         }
@@ -109,6 +112,11 @@ namespace tg
         inline bool Image::isValid() const
         {
             return _info.isValid();
+        }
+
+        inline const ImageTags& Image::getTags() const
+        {
+            return _tags;
         }
 
         inline size_t Image::getByteCount() const

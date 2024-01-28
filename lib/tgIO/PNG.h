@@ -14,6 +14,9 @@ namespace tg
     {
         namespace png
         {
+            //! \name PNG
+            ///@{
+
             //! PNG error.
             struct ErrorStruct
             {
@@ -26,7 +29,7 @@ namespace tg
             public:
                 ImageReader(
                     const std::string& fileName,
-                    const core::FileMemoryRead*,
+                    const core::InMemoryFile*,
                     const Options&);
                 
                 virtual ~ImageReader();
@@ -35,14 +38,14 @@ namespace tg
                 std::shared_ptr<core::Image> read() override;
 
             private:
-                png_structp          _png = nullptr;
-                png_infop            _pngInfo = nullptr;
-                png_infop            _pngInfoEnd = nullptr;
-                FILE*                _f = nullptr;
-                core::FileMemoryRead _memory;
-                ErrorStruct          _error;
-                size_t               _scanlineSize = 0;
-                core::ImageInfo      _info;
+                png_structp        _png = nullptr;
+                png_infop          _pngInfo = nullptr;
+                png_infop          _pngInfoEnd = nullptr;
+                FILE*              _f = nullptr;
+                core::InMemoryFile _memory;
+                ErrorStruct        _error;
+                size_t             _scanlineSize = 0;
+                core::ImageInfo    _info;
             };
 
             //! PNG image writer.
@@ -77,19 +80,26 @@ namespace tg
                     const Options&) override;
                 std::shared_ptr<IImageReader> read(
                     const std::string& fileName,
-                    const core::FileMemoryRead&,
+                    const core::InMemoryFile&,
                     const Options&) override;
                 std::shared_ptr<IImageWriter> write(
                     const std::string& fileName,
                     const Options&) override;
             };
+            
+            ///@}
         }
     }
 }
+
+//! \name PNG
+///@{
 
 extern "C"
 {
     void pngErrorFunc(png_structp, png_const_charp);
     void pngWarningFunc(png_structp, png_const_charp);
 }
-        
+
+///@}
+

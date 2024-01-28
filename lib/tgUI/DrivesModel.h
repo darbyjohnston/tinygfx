@@ -17,6 +17,9 @@ namespace tg
 
     namespace ui
     {
+        //! \name File Browser
+        ///@{
+        
         //! File system drives model.
         class DrivesModel : public std::enable_shared_from_this<DrivesModel>
         {
@@ -40,5 +43,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

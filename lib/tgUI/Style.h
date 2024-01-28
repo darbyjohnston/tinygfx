@@ -13,6 +13,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Style
+        ///@{
+        
         //! Size roles.
         enum class SizeRole
         {
@@ -157,6 +160,8 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }
 

@@ -17,7 +17,10 @@ namespace tg
 {
     namespace gl
     {
-        //! OpenGL shader.
+        //! \name Shaders
+        ///@{
+        
+        //! Shader.
         class Shader : public std::enable_shared_from_this<Shader>
         {
             TG_NON_COPYABLE(Shader);
@@ -86,5 +89,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

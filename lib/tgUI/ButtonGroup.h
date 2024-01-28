@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Buttons
+        ///@{
+        
         //! Button group type.
         enum class ButtonGroupType
         {
@@ -58,5 +61,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

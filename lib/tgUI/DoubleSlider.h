@@ -11,7 +11,10 @@ namespace tg
 {
     namespace ui
     {
-        //! Double precision floating point slider.
+        //! \name Numeric Widgets
+        ///@{
+        
+        //! Double precision floating point value slider.
         class DoubleSlider : public IWidget
         {
         protected:
@@ -76,5 +79,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

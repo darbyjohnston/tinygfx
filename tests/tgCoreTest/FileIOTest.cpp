@@ -95,7 +95,7 @@ namespace tg
                     TG_ASSERT(fileIO->isEOF());
                     fileIO.reset();
 
-                    FileMemoryRead memoryRead((uint8_t*)contents.data(), contents.size());
+                    InMemoryFile memoryRead((uint8_t*)contents.data(), contents.size());
                     fileIO = FileIO::create(fileName, memoryRead);
                     std::string contents2;
                     while (!fileIO->isEOF())
@@ -294,10 +294,10 @@ namespace tg
         {
             {
                 std::string contents = "Hello world";
-                FileMemoryRead a((uint8_t*)contents.data(), contents.size());
-                FileMemoryRead b((uint8_t*)contents.data(), contents.size());
+                InMemoryFile a((uint8_t*)contents.data(), contents.size());
+                InMemoryFile b((uint8_t*)contents.data(), contents.size());
                 TG_ASSERT(a == b);
-                b = FileMemoryRead();
+                b = InMemoryFile();
                 TG_ASSERT(a != b);
             }
         }

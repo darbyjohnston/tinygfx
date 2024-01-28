@@ -20,6 +20,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name Images
+        ///@{
+
         //! Pixel types.
         enum class PixelType
         {
@@ -70,7 +73,7 @@ namespace tg
 
         //! Get the bit-depth for the given pixel type.
         int getBitDepth(PixelType);
-        
+
         //! Video levels.
         enum class VideoLevels
         {
@@ -97,35 +100,35 @@ namespace tg
         V4F getYUVCoefficients(YUVCoefficients);
 
         //! Image mirroring.
-        class Mirror
+        class ImageMirror
         {
         public:
-            Mirror() = default;
-            constexpr Mirror(bool x, bool y);
+            ImageMirror() = default;
+            constexpr ImageMirror(bool x, bool y);
 
             bool x = false;
             bool y = false;
 
-            constexpr bool operator == (const Mirror&) const;
-            constexpr bool operator != (const Mirror&) const;
+            constexpr bool operator == (const ImageMirror&) const;
+            constexpr bool operator != (const ImageMirror&) const;
         };
 
         //! Image data layout.
-        class Layout
+        class ImageLayout
         {
         public:
-            Layout() = default;
-            Layout(
-                const Mirror& mirror,
-                int           alignment = 1,
-                Endian        endian    = getEndian());
+            ImageLayout() = default;
+            ImageLayout(
+                const ImageMirror& mirror,
+                int                alignment = 1,
+                Endian             endian    = getEndian());
 
-            Mirror mirror;
-            int    alignment = 1;
-            Endian endian    = getEndian();
+            ImageMirror mirror;
+            int         alignment = 1;
+            Endian      endian    = getEndian();
 
-            constexpr bool operator == (const Layout&) const;
-            constexpr bool operator != (const Layout&) const;
+            constexpr bool operator == (const ImageLayout&) const;
+            constexpr bool operator != (const ImageLayout&) const;
         };
 
         //! Image information.
@@ -140,7 +143,7 @@ namespace tg
             float           pixelAspectRatio = 1.F;
             VideoLevels     videoLevels      = VideoLevels::FullRange;
             YUVCoefficients yuvCoefficients  = YUVCoefficients::REC709;
-            Layout          layout;
+            ImageLayout     layout;
 
             //! Is the information valid?
             bool isValid() const;
@@ -156,7 +159,7 @@ namespace tg
         };
 
         //! Image tags.
-        typedef std::map<std::string, std::string> Tags;
+        typedef std::map<std::string, std::string> ImageTags;
 
         //! Image.
         class Image : public std::enable_shared_from_this<Image>
@@ -200,10 +203,10 @@ namespace tg
             bool isValid() const;
 
             //! Get the image tags.
-            const Tags& getTags() const;
+            const ImageTags& getTags() const;
 
             //! Set the image tags.
-            void setTags(const Tags&);
+            void setTags(const ImageTags&);
 
             //! Get the number of bytes used to store the image data.
             size_t getByteCount() const;
@@ -219,9 +222,12 @@ namespace tg
 
         private:
             ImageInfo _info;
+            ImageTags _tags;
             size_t _byteCount = 0;
             std::vector<uint8_t> _data;
         };
+
+        ///@}
     }
 }
 

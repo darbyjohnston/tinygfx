@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Layouts
+        ///@{
+        
         //! Scroll bar.
         class ScrollBar : public IWidget
         {
@@ -58,5 +61,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

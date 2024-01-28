@@ -11,6 +11,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name Colors
+        ///@{
+
         //! Color.
         template<int C, typename T>
         class Color
@@ -27,7 +30,7 @@ namespace tg
             std::array<T, C> e;
         };
 
-        //! Luminance color.
+        //! One channel color (luminance).
         template<typename T>
         class Color<1, T>
         {
@@ -48,7 +51,7 @@ namespace tg
             Color<1, T>& operator = (const Color<1, T>&);
         };
 
-        //! Luminance and alpha color.
+        //! Two channel color (luminance and alpha).
         template<typename T>
         class Color<2, T>
         {
@@ -71,7 +74,7 @@ namespace tg
             Color<2, T>& operator = (const Color<2, T>&);
         };
 
-        //! RGB color.
+        //! Three channel color (RGB).
         template<typename T>
         class Color<3, T>
         {
@@ -94,7 +97,7 @@ namespace tg
             Color<3, T>& operator = (const Color<3, T>&);
         };
 
-        //! RGBA color.
+        //! Four channel color (RGBA).
         template<typename T>
         class Color<4, T>
         {
@@ -119,32 +122,18 @@ namespace tg
             Color<4, T>& operator = (const Color<4, T>&);
         };
 
-        //! \name Color Operators
-        ///@{
+        typedef Color<1, float> Color1F;
+        typedef Color<2, float> Color2F;
+        typedef Color<3, float> Color3F;
+        typedef Color<4, float> Color4F;
 
         template<int C, typename T>
         bool operator == (const Color<C, T>&, const Color<C, T>&);
         template<int C, typename T>
         bool operator != (const Color<C, T>&, const Color<C, T>&);
-        
-        ///@}
-
-        //! \name Color Types
-        ///@{
-
-        typedef Color<1, float> Color1F;
-        typedef Color<2, float> Color2F;
-        typedef Color<3, float> Color3F;
-        typedef Color<4, float> Color4F;
-        
-        ///@}
-
-        //! \name Color Serialize
-        ///@{
-
+                
         template<int C, typename T>
         std::ostream& operator << (std::ostream&, const Color<C, T>&);
-
         template<int C, typename T>
         std::istream& operator >> (std::istream&, Color<C, T>&);
 

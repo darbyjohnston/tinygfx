@@ -11,6 +11,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Numeric Widgets
+        ///@{
+        
         //! Integer value slider.
         class IntSlider : public IWidget
         {
@@ -76,5 +79,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

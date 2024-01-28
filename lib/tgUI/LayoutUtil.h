@@ -12,6 +12,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Layouts
+        ///@{
+        
         //! Align within the given box.
         core::Box2I align(
             const core::Box2I&  box,
@@ -26,5 +29,7 @@ namespace tg
 
         //! Get a format string for the given number.
         std::string format(float, int precision);
+        
+        ///@}
     }
 }

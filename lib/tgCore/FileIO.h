@@ -13,6 +13,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name File I/O
+        ///@{
+        
         //! File I/O modes.
         enum class FileMode
         {
@@ -37,21 +40,21 @@ namespace tg
         };
         TG_ENUM(FileRead);
 
-        //! Read files from memory.
-        struct FileMemoryRead
+        //! In-memory file.
+        struct InMemoryFile
         {
-            FileMemoryRead() = default;
-            FileMemoryRead(const uint8_t*, size_t size);
+            InMemoryFile() = default;
+            InMemoryFile(const uint8_t*, size_t size);
 
             const uint8_t* p = nullptr;
             size_t size = 0;
 
-            bool operator == (const FileMemoryRead&) const;
-            bool operator != (const FileMemoryRead&) const;
+            bool operator == (const InMemoryFile&) const;
+            bool operator != (const InMemoryFile&) const;
         };
 
         //! File I/O.
-        class FileIO
+        class FileIO : public std::enable_shared_from_this<FileIO>
         {
             TG_NON_COPYABLE(FileIO);
 
@@ -70,7 +73,7 @@ namespace tg
             //! Create a read-only file I/O object from memory.
             static std::shared_ptr<FileIO> create(
                 const std::string& fileName,
-                const FileMemoryRead&);
+                const InMemoryFile&);
 
             //! Create a read-write temporary file I/O object.
             static std::shared_ptr<FileIO> createTemp();
@@ -196,6 +199,8 @@ namespace tg
 
         //! Truncate a file.
         void truncateFile(const std::string& fileName, size_t);
+        
+        ///@}
     }
 }
 

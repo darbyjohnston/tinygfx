@@ -18,6 +18,9 @@ namespace tg
 
     namespace ui
     {
+        //! \name File Browser
+        ///@{
+        
         //! Recent files model.
         class RecentFilesModel : public std::enable_shared_from_this<RecentFilesModel>
         {
@@ -59,5 +62,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

@@ -15,6 +15,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name Observables
+        ///@{
+
         template<typename T>
         class IObservableValue;
 
@@ -49,7 +52,7 @@ namespace tg
             std::weak_ptr<IObservableValue<T> > _value;
         };
 
-        //! Base class for an observable value.
+        //! Base class for observable values.
         template<typename T>
         class IObservableValue
         {
@@ -99,6 +102,8 @@ namespace tg
         private:
             T _value = T();
         };
+        
+        ///@}
     }
 }
 

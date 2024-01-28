@@ -44,7 +44,7 @@ namespace tg
         //! Convert command line arguments.
         std::vector<std::string> convert(int argc, wchar_t* argv[]);
 
-        //! Base application class.
+        //! Base class for applications.
         class IApp : public std::enable_shared_from_this<IApp>
         {
             TG_NON_COPYABLE(IApp);

@@ -16,6 +16,9 @@ namespace tg
     
     namespace ui
     {
+        //! \name Numeric Widgets
+        ///@{
+        
         //! Double precision floating point value model.
         class DoubleModel : public std::enable_shared_from_this<DoubleModel>
         {
@@ -116,5 +119,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

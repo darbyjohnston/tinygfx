@@ -10,6 +10,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name Math
+        ///@{
+
         //! Approximate value of PI.
         constexpr float pi = 3.14159265359F;
 
@@ -42,6 +45,8 @@ namespace tg
 
         //! Fuzzy float comparison.
         bool fuzzyCompare(float a, float b, float e = .1e-6F);
+        
+        ///@}
     }
 }
 

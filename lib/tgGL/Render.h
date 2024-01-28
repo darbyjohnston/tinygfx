@@ -14,12 +14,15 @@ namespace tg
     {
         class Texture;
 
+        //! \name Renderer
+        ///@{
+
         //! Texture cache.
         typedef core::LRUCache<
             std::shared_ptr<core::Image>,
             std::vector<std::shared_ptr<Texture> > > TextureCache;
         
-        //! OpenGL rendering.
+        //! OpenGL renderer.
         class Render : public render::IRender
         {
             TG_NON_COPYABLE(Render);
@@ -44,7 +47,7 @@ namespace tg
 
             void begin(
                 const core::Size2I&,
-                const render::Options& = render::Options()) override;
+                const render::RenderOptions& = render::RenderOptions()) override;
             void end() override;
             core::Size2I getRenderSize() const override;
             void setRenderSize(const core::Size2I&) override;
@@ -101,6 +104,8 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }
 

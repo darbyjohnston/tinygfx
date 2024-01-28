@@ -17,6 +17,9 @@ namespace tg
     {
         class IWidget;
 
+        //! \name Events
+        ///@{
+        
         //! Child event.
         struct ChildEvent
         {
@@ -300,6 +303,8 @@ namespace tg
             std::shared_ptr<DragAndDropData> data;
             bool                             accept = false;
         };
+        
+        ///@}
     }
 }
 

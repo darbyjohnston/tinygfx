@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Text Widgets
+        ///@{
+        
         //! Tool tip.
         class ToolTip : public IPopup
         {
@@ -41,5 +44,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

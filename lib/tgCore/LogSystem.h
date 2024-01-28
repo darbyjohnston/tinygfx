@@ -13,6 +13,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name Log System
+        ///@{
+        
         //! Log types.
         enum class LogType
         {
@@ -32,10 +35,10 @@ namespace tg
             bool operator == (const LogItem&) const;
             bool operator != (const LogItem&) const;
         };
-        
+
         //! Convert a log item to a string.
         std::string toString(const LogItem&);
-
+        
         //! Log system.
         class LogSystem : public ISystem
         {
@@ -66,5 +69,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }

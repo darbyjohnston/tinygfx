@@ -25,7 +25,7 @@ namespace tg
         struct Render::Private
         {
             core::Size2I size;
-            render::Options options;
+            render::RenderOptions options;
             core::Box2I viewport;
             bool clipRectEnabled = false;
             core::Box2I clipRect;

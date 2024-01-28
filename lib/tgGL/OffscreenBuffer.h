@@ -12,6 +12,9 @@ namespace tg
 {
     namespace gl
     {
+        //! \name Offscreen Buffers
+        ///@{
+        
         //! Default offscreen buffer color type.
 #if defined(TINYGFX_API_GL_4_1)
         const core::PixelType offscreenColorDefault = core::PixelType::RGBA_F32;
@@ -139,5 +142,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

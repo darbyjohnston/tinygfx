@@ -14,7 +14,7 @@ namespace tg
         class TickEvent;
         class Window;
 
-        //! Base user interface application class.
+        //! Base class for user interface applications.
         class App : public app::IApp
         {
         protected:

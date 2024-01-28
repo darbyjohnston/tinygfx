@@ -10,6 +10,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name Ranges
+        ///@{
+        
         //! Numeric range.
         template<typename T>
         class Range
@@ -30,8 +33,10 @@ namespace tg
             T _max;
         };
 
-        //! \name Range Functions
-        ///@{
+        typedef Range<int> RangeI;
+        typedef Range<std::size_t> RangeSizeT;
+        typedef Range<float> RangeF;
+        typedef Range<double> RangeD;
 
         //! Does the range contain the given number?
         template<typename T>
@@ -48,16 +53,6 @@ namespace tg
         //! Expand the range to include the given range.
         template<typename T>
         Range<T> expand(const Range<T>&, const Range<T>&);
-
-        ///@}
-
-        //! \name Range Types
-        ///@{
-
-        typedef Range<int> RangeI;
-        typedef Range<std::size_t> RangeSizeT;
-        typedef Range<float> RangeF;
-        typedef Range<double> RangeD;
 
         ///@}
 

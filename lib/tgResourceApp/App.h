@@ -8,9 +8,10 @@
 
 namespace tg
 {
+    //! Resource application
     namespace resource
     {
-        //! Application.
+        //! Resource application.
         class App : public app::IApp
         {
             TG_NON_COPYABLE(App);

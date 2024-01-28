@@ -14,6 +14,9 @@ namespace tg
         class FloatModel;
         class IntModel;
 
+        //! \name Buttons
+        ///@{
+
         //! Button for incrementing a value.
         class IncButton : public IButton
         {
@@ -158,5 +161,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Icons
+        ///@{
+        
         //! Icon widget.
         class Icon : public IWidget
         {
@@ -51,5 +54,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }

@@ -1,14 +1,12 @@
 set(HEADERS
     ImageIO.h
-    Init.h
-    Options.h)
+    Init.h)
 set(PRIVATE_HEADERS
     PNG.h)
 
 set(SOURCE
     ImageIO.cpp
     Init.cpp
-    Options.cpp
     PNG.cpp
     PNGRead.cpp
     PNGWrite.cpp)

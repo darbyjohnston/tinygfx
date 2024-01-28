@@ -13,6 +13,9 @@ namespace tg
 {
     namespace core
     {
+        //! \name Time
+        ///@{
+
         //! Sleep for a given time.
         void sleep(const std::chrono::microseconds&);
 
@@ -24,6 +27,8 @@ namespace tg
 
         //! Convert a floating point rate to a rational.
         std::pair<int, int> toRational(double);
+        
+        ///@}
     }
 }
 

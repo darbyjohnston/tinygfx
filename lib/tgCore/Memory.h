@@ -14,7 +14,7 @@ namespace tg
 {
     namespace core
     {
-        //! \name Memory Sizes
+        //! \name Memory
         ///@{
 
         constexpr size_t kilobyte = 1024; //!< The number of bytes in a kilobyte
@@ -22,19 +22,9 @@ namespace tg
         constexpr size_t gigabyte = megabyte * 1024; //!< The number of bytes in a gigabyte
         constexpr size_t terabyte = gigabyte * 1024; //!< The number of bytes in a terabyte
 
-        ///@}
-
-        //! \name Memory Functions
-        ///@{
-
         //! Get the aligned byte count.
         size_t getAlignedByteCount(size_t, size_t alignment);
         
-        ///@}
-
-        //! \name Memory Endian
-        ///@{
-
         //! Endian type.
         enum class Endian
         {
@@ -64,11 +54,6 @@ namespace tg
             void*       out,
             size_t      size,
             size_t      wordSize);
-
-        ///@}
-
-        //! \name Memory Bits
-        ///@{
 
         //! Get the given bit.
         bool getBit(unsigned int, int bit);

@@ -13,14 +13,11 @@
 
 namespace tg
 {
-    namespace geom
-    {
-        struct TriMesh2;
-        struct TriMesh3;
-    }
-
     namespace gl
-    {
+    {        
+        //! \name Meshes
+        ///@{
+
         //! Vertex buffer object types.
         enum class VBOType
         {
@@ -61,7 +58,7 @@ namespace tg
             VBOType,
             const core::RangeSizeT&);
 
-        //! OpenGL vertex buffer object.
+        //! Vertex buffer object.
         class VBO : public std::enable_shared_from_this<VBO>
         {
             TG_NON_COPYABLE(VBO);
@@ -97,7 +94,7 @@ namespace tg
             TG_PRIVATE();
         };
 
-        //! OpenGL vertex array object.
+        //! Vertex array object.
         class VAO : public std::enable_shared_from_this<VAO>
         {
             TG_NON_COPYABLE(VAO);
@@ -123,5 +120,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+        
+        ///@}
     }
 }
