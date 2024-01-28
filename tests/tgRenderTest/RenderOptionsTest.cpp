@@ -2,9 +2,9 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgRenderTest/ImageOptionsTest.h>
+#include <tgRenderTest/RenderOptionsTest.h>
 
-#include <tgRender/ImageOptions.h>
+#include <tgRender/RenderOptions.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -16,33 +16,33 @@ namespace tg
 {
     namespace render_test
     {
-        ImageOptionsTest::ImageOptionsTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "tg::render_test::ImageOptionsTest")
+        RenderOptionsTest::RenderOptionsTest(const std::shared_ptr<Context>& context) :
+            ITest(context, "tg::render_test::RenderOptionsTest")
         {}
 
-        ImageOptionsTest::~ImageOptionsTest()
+        RenderOptionsTest::~RenderOptionsTest()
         {}
 
-        std::shared_ptr<ImageOptionsTest> ImageOptionsTest::create(
+        std::shared_ptr<RenderOptionsTest> RenderOptionsTest::create(
             const std::shared_ptr<Context>& context)
         {
-            return std::shared_ptr<ImageOptionsTest>(new ImageOptionsTest(context));
+            return std::shared_ptr<RenderOptionsTest>(new RenderOptionsTest(context));
         }
         
-        void ImageOptionsTest::run()
+        void RenderOptionsTest::run()
         {
             _enums();
             _operators();
         }
         
-        void ImageOptionsTest::_enums()
+        void RenderOptionsTest::_enums()
         {
             TINYGFX_TEST_ENUM(InputVideoLevels);
             TINYGFX_TEST_ENUM(AlphaBlend);
             TINYGFX_TEST_ENUM(ImageFilter);
         }
         
-        void ImageOptionsTest::_operators()
+        void RenderOptionsTest::_operators()
         {
             {
                 const ImageFilters a;

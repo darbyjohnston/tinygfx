@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgRender/ImageOptions.h>
+#include <tgRender/RenderOptions.h>
 
 #include <tgCore/Error.h>
 #include <tgCore/String.h>

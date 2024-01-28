@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <tgRender/ImageOptions.h>
 #include <tgRender/RenderOptions.h>
 
 #include <tgCore/FontSystem.h>

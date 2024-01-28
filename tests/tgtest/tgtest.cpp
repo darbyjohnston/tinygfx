@@ -17,7 +17,7 @@
 #include <tgGLTest/WindowTest.h>
 #endif // TINYGFX_API_GL_4_1
 
-#include <tgRenderTest/ImageOptionsTest.h>
+#include <tgRenderTest/RenderOptionsTest.h>
 
 #include <tgCoreTest/BoxPackTest.h>
 #include <tgCoreTest/BoxTest.h>
@@ -119,7 +119,7 @@ namespace tg
             p.tests.push_back(core_test::TimerTest::create(context));
             p.tests.push_back(core_test::VectorTest::create(context));
 
-            p.tests.push_back(render_test::ImageOptionsTest::create(context));
+            p.tests.push_back(render_test::RenderOptionsTest::create(context));
 
 #if defined(TINYGFX_API_GL_4_1) || defined(TINYGFX_API_GLES_2)
             p.tests.push_back(gl_test::MeshTest::create(context));

@@ -1,7 +1,5 @@
 set(HEADERS
     IRender.h
-    ImageOptions.h
-    ImageOptionsInline.h
     RenderOptions.h
     RenderOptionsInline.h
     RenderUtil.h)
@@ -9,7 +7,7 @@ set(PRIVATE_HEADERS)
 
 set(SOURCE
     IRender.cpp
-    ImageOptions.cpp
+    RenderOptions.cpp
     RenderUtil.cpp)
 
 add_library(tgRender ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})

@@ -10,15 +10,15 @@ namespace tg
 {
     namespace render_test
     {
-        class ImageOptionsTest : public test::ITest
+        class RenderOptionsTest : public test::ITest
         {
         protected:
-            ImageOptionsTest(const std::shared_ptr<core::Context>&);
+            RenderOptionsTest(const std::shared_ptr<core::Context>&);
 
         public:
-            virtual ~ImageOptionsTest();
+            virtual ~RenderOptionsTest();
 
-            static std::shared_ptr<ImageOptionsTest> create(
+            static std::shared_ptr<RenderOptionsTest> create(
                 const std::shared_ptr<core::Context>&);
 
             void run() override;

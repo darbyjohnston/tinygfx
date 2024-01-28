@@ -1,9 +1,9 @@
 set(HEADERS
-    ImageOptionsTest.h)
+    RenderOptionsTest.h)
 set(PRIVATE_HEADERS)
 
 set(SOURCE
-    ImageOptionsTest.cpp)
+    RenderOptionsTest.cpp)
 
 add_library(tgRenderTest ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
 target_link_libraries(tgRenderTest tgRender tgTestLib)
