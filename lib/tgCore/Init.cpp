@@ -5,6 +5,7 @@
 #include <tgCore/Init.h>
 
 #include <tgCore/FontSystem.h>
+#include <tgCore/ImageIO.h>
 #include <tgCore/LogSystem.h>
 #include <tgCore/Timer.h>
 
@@ -23,6 +24,10 @@ namespace tg
             if (!context->getSystem<FontSystem>())
             {
                 context->addSystem(FontSystem::create(context));
+            }
+            if (!context->getSystem<ImageIO>())
+            {
+                context->addSystem(ImageIO::create(context));
             }
             if (!context->getSystem<TimerSystem>())
             {

@@ -2,17 +2,15 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgIO/ImageIO.h>
+#include <tgCore/ImageIO.h>
 
-#include <tgIO/PNG.h>
+#include <tgCore/PNG.h>
 
 #include <algorithm>
 
-using namespace tg::core;
-
 namespace tg
 {
-    namespace io
+    namespace core
     {
         Options merge(const Options& a, const Options& b)
         {

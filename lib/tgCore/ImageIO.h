@@ -12,7 +12,7 @@
 
 namespace tg
 {
-    namespace io
+    namespace core
     {
         //! \name Image I/O
         ///@{

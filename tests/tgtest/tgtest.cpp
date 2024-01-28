@@ -19,9 +19,6 @@
 
 #include <tgRenderTest/ImageOptionsTest.h>
 
-#include <tgIOTest/ImageIOTest.h>
-#include <tgIOTest/PNGTest.h>
-
 #include <tgCoreTest/BoxPackTest.h>
 #include <tgCoreTest/BoxTest.h>
 #include <tgCoreTest/ColorTest.h>
@@ -30,6 +27,7 @@
 #include <tgCoreTest/FileTest.h>
 #include <tgCoreTest/FontSystemTest.h>
 #include <tgCoreTest/FormatTest.h>
+#include <tgCoreTest/ImageIOTest.h>
 #include <tgCoreTest/ImageTest.h>
 #include <tgCoreTest/LRUCacheTest.h>
 #include <tgCoreTest/MathTest.h>
@@ -38,6 +36,7 @@
 #include <tgCoreTest/MeshTest.h>
 #include <tgCoreTest/OSTest.h>
 #include <tgCoreTest/ObservableTest.h>
+#include <tgCoreTest/PNGTest.h>
 #include <tgCoreTest/RangeTest.h>
 #include <tgCoreTest/SizeTest.h>
 #include <tgCoreTest/StringTest.h>
@@ -51,8 +50,6 @@
 #if defined(TINYGFX_API_GL_4_1) || defined(TINYGFX_API_GLES_2)
 #include <tgGL/Init.h>
 #endif // TINYGFX_API_GL_4_1
-
-#include <tgIO/Init.h>
 
 #include <tgCore/Context.h>
 #include <tgCore/Format.h>
@@ -92,7 +89,6 @@ namespace tg
                 });
             TG_P();
             p.startTime = std::chrono::steady_clock::now();                
-            io::init(context);
 #if defined(TINYGFX_API_GL_4_1) || defined(TINYGFX_API_GLES_2)
             gl::init(context);
 #endif // TINYGFX_API_GL_4_1
@@ -105,6 +101,7 @@ namespace tg
             p.tests.push_back(core_test::FileTest::create(context));
             p.tests.push_back(core_test::FontSystemTest::create(context));
             p.tests.push_back(core_test::FormatTest::create(context));
+            p.tests.push_back(core_test::ImageIOTest::create(context));
             p.tests.push_back(core_test::ImageTest::create(context));
             p.tests.push_back(core_test::LRUCacheTest::create(context));
             p.tests.push_back(core_test::MathTest::create(context));
@@ -113,6 +110,7 @@ namespace tg
             p.tests.push_back(core_test::MeshTest::create(context));
             p.tests.push_back(core_test::OSTest::create(context));
             p.tests.push_back(core_test::ObservableTest::create(context));
+            p.tests.push_back(core_test::PNGTest::create(context));
             p.tests.push_back(core_test::RangeTest::create(context));
             p.tests.push_back(core_test::SizeTest::create(context));
             p.tests.push_back(core_test::StringTest::create(context));
@@ -120,9 +118,6 @@ namespace tg
             p.tests.push_back(core_test::TimeTest::create(context));
             p.tests.push_back(core_test::TimerTest::create(context));
             p.tests.push_back(core_test::VectorTest::create(context));
-
-            p.tests.push_back(io_test::ImageIOTest::create(context));
-            p.tests.push_back(io_test::PNGTest::create(context));
 
             p.tests.push_back(render_test::ImageOptionsTest::create(context));
 

@@ -4,8 +4,6 @@
 
 #include <tgUI/Init.h>
 
-#include <tgIO/Init.h>
-
 #include <tgCore/Context.h>
 
 using namespace tg::core;
@@ -16,7 +14,6 @@ namespace tg
     {
         void init(const std::shared_ptr<Context>& context)
         {
-            io::init(context);
         }
     }
 }

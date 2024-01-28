@@ -7,6 +7,7 @@ set(HEADERS
     FileTest.h
     FontSystemTest.h
     FormatTest.h
+    ImageIOTest.h
     ImageTest.h
     LRUCacheTest.h
     MathTest.h
@@ -15,6 +16,7 @@ set(HEADERS
     MeshTest.h
     OSTest.h
     ObservableTest.h
+    PNGTest.h
     RangeTest.h
     SizeTest.h
     StringTest.h
@@ -33,6 +35,7 @@ set(SOURCE
     FileTest.cpp
     FontSystemTest.cpp
     FormatTest.cpp
+    ImageIOTest.cpp
     ImageTest.cpp
     LRUCacheTest.cpp
     MathTest.cpp
@@ -41,6 +44,7 @@ set(SOURCE
     MeshTest.cpp
     OSTest.cpp
     ObservableTest.cpp
+    PNGTest.cpp
     RangeTest.cpp
     SizeTest.cpp
     StringTest.cpp

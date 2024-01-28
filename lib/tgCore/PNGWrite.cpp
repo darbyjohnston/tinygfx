@@ -2,18 +2,16 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgIO/PNG.h>
+#include <tgCore/PNG.h>
 
 #include <tgCore/Error.h>
 #include <tgCore/Format.h>
 #include <tgCore/Memory.h>
 #include <tgCore/String.h>
 
-using namespace tg::core;
-
 namespace tg
 {
-    namespace io
+    namespace core
     {
         namespace png
         {

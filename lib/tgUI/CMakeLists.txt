@@ -90,7 +90,7 @@ set(SOURCE
     WidgetOptions.cpp)
 
 add_library(tgUI ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
-target_link_libraries(tgUI tgIO tgRender)
+target_link_libraries(tgUI tgRender)
 set_target_properties(tgUI PROPERTIES FOLDER lib)
 set_target_properties(tgUI PROPERTIES PUBLIC_HEADER "${HEADERS}")
 

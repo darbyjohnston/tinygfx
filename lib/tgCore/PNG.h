@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include <tgIO/ImageIO.h>
+#include <tgCore/ImageIO.h>
 
 #include <png.h>
 
 namespace tg
 {
-    namespace io
+    namespace core
     {
         namespace png
         {

@@ -4,7 +4,7 @@
 
 #include <tgUI/IconLibrary.h>
 
-#include <tgIO/ImageIO.h>
+#include <tgCore/ImageIO.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -264,7 +264,7 @@ namespace tg
                                             const std::string name = Format("{0}_{1}.png").
                                                 arg(request->name).
                                                 arg(dpi);
-                                            auto reader = context->getSystem<io::ImageIO>()->read(
+                                            auto reader = context->getSystem<ImageIO>()->read(
                                                 name,
                                                 InMemoryFile(j->second.data(), j->second.size()));
                                             if (reader)

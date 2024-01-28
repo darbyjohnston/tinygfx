@@ -2,23 +2,21 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgIOTest/ImageIOTest.h>
-
-#include <tgIO/ImageIO.h>
+#include <tgCoreTest/ImageIOTest.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Context.h>
 #include <tgCore/Format.h>
+#include <tgCore/ImageIO.h>
 
 using namespace tg::core;
-using namespace tg::io;
 
 namespace tg
 {
-    namespace io_test
+    namespace core_test
     {
         ImageIOTest::ImageIOTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "tg::io_test::ImageIOTest")
+            ITest(context, "tg::core_test::ImageIOTest")
         {}
 
         ImageIOTest::~ImageIOTest()

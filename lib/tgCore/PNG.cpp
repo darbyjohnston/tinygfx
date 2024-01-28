@@ -2,15 +2,13 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgIO/PNG.h>
+#include <tgCore/PNG.h>
 
 #include <filesystem>
 
-using namespace tg::core;
-
 namespace tg
 {
-    namespace io
+    namespace core
     {
         namespace png
         {
@@ -85,14 +83,14 @@ extern "C"
 {
     void pngErrorFunc(png_structp in, png_const_charp msg)
     {
-        auto error = reinterpret_cast<tg::io::png::ErrorStruct*>(png_get_error_ptr(in));
+        auto error = reinterpret_cast<tg::core::png::ErrorStruct*>(png_get_error_ptr(in));
         error->message = msg;
         longjmp(png_jmpbuf(in), 1);
     }
 
     void pngWarningFunc(png_structp in, png_const_charp msg)
     {
-        auto error = reinterpret_cast<tg::io::png::ErrorStruct*>(png_get_error_ptr(in));
+        auto error = reinterpret_cast<tg::core::png::ErrorStruct*>(png_get_error_ptr(in));
         error->message = msg;
     }
 }

@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgIO/PNG.h>
+#include <tgCore/PNG.h>
 
 #include <tgCore/Memory.h>
 #include <tgCore/Format.h>
@@ -10,11 +10,9 @@
 
 #include <cstring>
 
-using namespace tg::core;
-
 namespace tg
 {
-    namespace io
+    namespace core
     {
         namespace png
         {

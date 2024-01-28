@@ -8,20 +8,24 @@
 
 namespace tg
 {
-    namespace io_test
+    namespace core_test
     {
-        class PNGTest : public test::ITest
+        class ImageIOTest : public test::ITest
         {
         protected:
-            PNGTest(const std::shared_ptr<core::Context>&);
+            ImageIOTest(const std::shared_ptr<core::Context>&);
 
         public:
-            virtual ~PNGTest();
+            virtual ~ImageIOTest();
 
-            static std::shared_ptr<PNGTest> create(
+            static std::shared_ptr<ImageIOTest> create(
                 const std::shared_ptr<core::Context>&);
 
             void run() override;
+            
+        private:
+            void _members();
+            void _functions();
         };
     }
 }

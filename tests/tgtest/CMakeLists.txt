@@ -6,7 +6,6 @@ set(LIBRARIES
     tgBaseAppTest
     tgBaseApp
     tgCoreTest
-    tgIOTest
     tgRenderTest)
 if ("${TINYGFX_API}" STREQUAL "GL_4_1" OR
     "${TINYGFX_API}" STREQUAL "GL_4_1_Debug" OR

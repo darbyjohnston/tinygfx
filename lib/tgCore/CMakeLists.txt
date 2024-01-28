@@ -17,6 +17,7 @@ set(HEADERS
     FormatInline.h
     ISystem.h
     ISystemInline.h
+    ImageIO.h
     Image.h
     ImageInline.h
     Init.h
@@ -47,7 +48,8 @@ set(HEADERS
     Timer.h
     Vector.h
     VectorInline.h)
-set(HEADERS_PRIVATE)
+set(HEADERS_PRIVATE
+    PNG.h)
 set(SOURCE
     Assert.cpp
     BoxPack.cpp
@@ -57,12 +59,16 @@ set(SOURCE
     FontSystem.cpp
     Format.cpp
     ISystem.cpp
+    ImageIO.cpp
     Image.cpp
     Init.cpp
     LogSystem.cpp
     Math.cpp
     Memory.cpp
     Mesh.cpp
+    PNG.cpp
+    PNGRead.cpp
+    PNGWrite.cpp
     OS.cpp
     String.cpp
     Time.cpp
@@ -83,7 +89,7 @@ else()
 endif()
 
 add_library(tgCore ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(tgCore Freetype::Freetype ZLIB::ZLIB)
+target_link_libraries(tgCore Freetype::Freetype PNG ZLIB::ZLIB)
 set_target_properties(tgCore PROPERTIES FOLDER lib)
 set_target_properties(tgCore PROPERTIES PUBLIC_HEADER "${HEADERS}")
 

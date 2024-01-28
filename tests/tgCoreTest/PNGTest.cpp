@@ -2,24 +2,22 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgIOTest/PNGTest.h>
-
-#include <tgIO/PNG.h>
+#include <tgCoreTest/PNGTest.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Context.h>
 #include <tgCore/FileIO.h>
 #include <tgCore/Format.h>
+#include <tgCore/ImageIO.h>
 
 using namespace tg::core;
-using namespace tg::io;
 
 namespace tg
 {
-    namespace io_test
+    namespace core_test
     {
         PNGTest::PNGTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "tg::io_test::PNGTest")
+            ITest(context, "tg::core_test::PNGTest")
         {}
 
         PNGTest::~PNGTest()
