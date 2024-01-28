@@ -41,6 +41,11 @@ void MainWindow::_init(
         context,
         "Push",
         hLayout);
+    pushButton->setClickedCallback(
+        []
+        {
+            std::cout << "Push" << std::endl;
+        });
     pushButton = PushButton::create(
         context,
         "Disabled",
@@ -52,6 +57,11 @@ void MainWindow::_init(
     auto vLayout = VerticalLayout::create(context, groupBox);
     vLayout->setSpacingRole(SizeRole::None);
     _listButtonGroup = ButtonGroup::create(context, ButtonGroupType::Toggle);
+    _listButtonGroup->setCheckedCallback(
+        [](int index, bool value)
+        {
+            std::cout << Format("List {0}: {1}").arg(index).arg(value) << std::endl;
+        });
     for (size_t i = 0; i < 3; ++i)
     {
         auto listButton = ListButton::create(
@@ -73,6 +83,11 @@ void MainWindow::_init(
     hLayout = HorizontalLayout::create(context, groupBox);
     hLayout->setSpacingRole(SizeRole::None);
     _toolButtonGroup = ButtonGroup::create(context, ButtonGroupType::Radio);
+    _toolButtonGroup->setCheckedCallback(
+        [](int index, bool value)
+        {
+            std::cout << Format("Tool {0}").arg(index) << std::endl;
+        });
     const std::vector<std::string> toolIcons =
     {
         "PlaybackReverse",
@@ -101,6 +116,11 @@ void MainWindow::_init(
         context,
         "Check",
         vLayout);
+    checkBox->setCheckedCallback(
+        [](bool value)
+        {
+            std::cout << Format("Check: {0}").arg(value) << std::endl;
+        });
     checkBox = CheckBox::create(
         context,
         "Disabled",

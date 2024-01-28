@@ -12,6 +12,8 @@
 #include <tgUI/IntEditSlider.h>
 #include <tgUI/RowLayout.h>
 
+#include <tgCore/Format.h>
+
 using namespace tg::core;
 using namespace tg::ui;
 
@@ -35,28 +37,73 @@ void MainWindow::_init(
     auto groupBox = GroupBox::create(context, "Integer Sliders", layout);
     auto vLayout = VerticalLayout::create(context, groupBox);
     auto intEditSlider = IntEditSlider::create(context, nullptr, vLayout);
+    intEditSlider->setCallback(
+        [](int value)
+        {
+            std::cout << Format("Int: {0}").arg(value) << std::endl;
+        });
     intEditSlider = IntEditSlider::create(context, nullptr, vLayout);
     intEditSlider->setRange(RangeI(100, 200));
+    intEditSlider->setCallback(
+        [](int value)
+        {
+            std::cout << Format("Int: {0}").arg(value) << std::endl;
+        });
     intEditSlider = IntEditSlider::create(context, nullptr, vLayout);
     intEditSlider->setRange(RangeI(-100, 100));
-    
+    intEditSlider->setCallback(
+        [](int value)
+        {
+            std::cout << Format("Int: {0}").arg(value) << std::endl;
+        });
+
     // Create float sliders.
     groupBox = GroupBox::create(context, "Float Sliders", layout);
     vLayout = VerticalLayout::create(context, groupBox);
     auto floatEditSlider = FloatEditSlider::create(context, nullptr, vLayout);
+    floatEditSlider->setCallback(
+        [](float value)
+        {
+            std::cout << Format("Float: {0}").arg(value) << std::endl;
+        });
     floatEditSlider = FloatEditSlider::create(context, nullptr, vLayout);
     floatEditSlider->setRange(RangeF(100.F, 200.F));
+    floatEditSlider->setCallback(
+        [](float value)
+        {
+            std::cout << Format("Float: {0}").arg(value) << std::endl;
+        });
     floatEditSlider = FloatEditSlider::create(context, nullptr, vLayout);
     floatEditSlider->setRange(RangeF(-100.F, 100.F));
-    
+    floatEditSlider->setCallback(
+        [](float value)
+        {
+            std::cout << Format("Float: {0}").arg(value) << std::endl;
+        });
+
     // Create double sliders.
     groupBox = GroupBox::create(context, "Double Sliders", layout);
     vLayout = VerticalLayout::create(context, groupBox);
     auto doubleEditSlider = DoubleEditSlider::create(context, nullptr, vLayout);
+    doubleEditSlider->setCallback(
+        [](double value)
+        {
+            std::cout << Format("Double: {0}").arg(value) << std::endl;
+        });
     doubleEditSlider = DoubleEditSlider::create(context, nullptr, vLayout);
     doubleEditSlider->setRange(RangeD(100.0, 200.0));
+    doubleEditSlider->setCallback(
+        [](double value)
+        {
+            std::cout << Format("Double: {0}").arg(value) << std::endl;
+        });
     doubleEditSlider = DoubleEditSlider::create(context, nullptr, vLayout);
     doubleEditSlider->setRange(RangeD(-100.0, 100.0));
+    doubleEditSlider->setCallback(
+        [](double value)
+        {
+            std::cout << Format("Double: {0}").arg(value) << std::endl;
+        });
 }
 
 MainWindow::~MainWindow()
