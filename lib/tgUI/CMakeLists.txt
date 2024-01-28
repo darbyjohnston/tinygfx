@@ -1,21 +1,35 @@
 set(HEADERS
     ButtonGroup.h
     CheckBox.h
+    DoubleEdit.h
+    DoubleEditSlider.h
+    DoubleModel.h
+    DoubleSlider.h
     DrawUtil.h
     Event.h
     GridLayout.h
     GroupBox.h
+    FloatEdit.h
+    FloatEditSlider.h
+    FloatModel.h
+    FloatSlider.h
     IButton.h
     IClipboard.h
     IPopup.h
     IWidget.h
     IWidgetInline.h
     IWindow.h
+    IncButtons.h
+    IntEdit.h
+    IntEditSlider.h
+    IntModel.h
+    IntSlider.h
     Icon.h
     IconLibrary.h
     Init.h
     Label.h
     LayoutUtil.h
+    LineEdit.h
     ListButton.h
     PushButton.h
     RowLayout.h
@@ -34,8 +48,16 @@ set(PRIVATE_HEADERS)
 set(SOURCE
     ButtonGroup.cpp
     CheckBox.cpp
+    DoubleEdit.cpp
+    DoubleEditSlider.cpp
+    DoubleModel.cpp
+    DoubleSlider.cpp
     DrawUtil.cpp
     Event.cpp
+    FloatEdit.cpp
+    FloatEditSlider.cpp
+    FloatModel.cpp
+    FloatSlider.cpp
     GridLayout.cpp
     GroupBox.cpp
     IButton.cpp
@@ -43,11 +65,17 @@ set(SOURCE
     IPopup.cpp
     IWidget.cpp
     IWindow.cpp
+    IncButtons.cpp
+    IntEdit.cpp
+    IntEditSlider.cpp
+    IntModel.cpp
+    IntSlider.cpp
     Icon.cpp
     IconLibrary.cpp
     Init.cpp
     Label.cpp
     LayoutUtil.cpp
+    LineEdit.cpp
     ListButton.cpp
     PushButton.cpp
     RowLayout.cpp

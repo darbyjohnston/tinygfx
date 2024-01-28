@@ -144,7 +144,7 @@ namespace tg
         {
             std::map<FontRole, FontInfo> out;
             out[FontRole::Label] = FontInfo("NotoSans-Regular", 12 * 1);
-            out[FontRole::Mono] = FontInfo("NotoMono-Regular", 12 * 1);
+            out[FontRole::Mono] = FontInfo("NotoSansMono-Regular", 12 * 1);
             out[FontRole::Title] = FontInfo("NotoSans-Regular", 16 * 1);
             return out;
         }

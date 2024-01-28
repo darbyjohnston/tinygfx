@@ -3,12 +3,14 @@ set(HEADERS
     ImageOptions.h
     ImageOptionsInline.h
     RenderOptions.h
-    RenderOptionsInline.h)
+    RenderOptionsInline.h
+    RenderUtil.h)
 set(PRIVATE_HEADERS)
 
 set(SOURCE
     IRender.cpp
-    ImageOptions.cpp)
+    ImageOptions.cpp
+    RenderUtil.cpp)
 
 add_library(tgRender ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
 target_link_libraries(tgRender tgCore)
