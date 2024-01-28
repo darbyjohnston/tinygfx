@@ -1,6 +1,7 @@
 set(HEADERS
     ButtonGroup.h
     CheckBox.h
+    ComboBox.h
     DoubleEdit.h
     DoubleEditSlider.h
     DoubleModel.h
@@ -15,6 +16,7 @@ set(HEADERS
     FloatSlider.h
     IButton.h
     IClipboard.h
+    IMenuPopup.h
     IPopup.h
     IWidget.h
     IWidgetInline.h
@@ -48,6 +50,7 @@ set(PRIVATE_HEADERS)
 set(SOURCE
     ButtonGroup.cpp
     CheckBox.cpp
+    ComboBox.cpp
     DoubleEdit.cpp
     DoubleEditSlider.cpp
     DoubleModel.cpp
@@ -62,6 +65,7 @@ set(SOURCE
     GroupBox.cpp
     IButton.cpp
     IClipboard.cpp
+    IMenuPopup.cpp
     IPopup.cpp
     IWidget.cpp
     IWindow.cpp
