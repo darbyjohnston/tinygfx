@@ -54,6 +54,7 @@ namespace tg
             public:
                 ImageWriter(
                     const std::string& fileName,
+                    const core::ImageInfo&,
                     const Options&);
 
                 virtual ~ImageWriter();
@@ -74,17 +75,25 @@ namespace tg
                 ImagePlugin();
 
                 virtual ~ImagePlugin();
-                
+
+                bool canRead(
+                    const std::string& fileName,
+                    const Options& = Options());
                 std::shared_ptr<IImageReader> read(
                     const std::string& fileName,
-                    const Options&) override;
+                    const Options& = Options()) override;
                 std::shared_ptr<IImageReader> read(
                     const std::string& fileName,
                     const core::InMemoryFile&,
-                    const Options&) override;
+                    const Options& = Options()) override;
+                bool canWrite(
+                    const std::string& fileName,
+                    const core::ImageInfo&,
+                    const Options& = Options());
                 std::shared_ptr<IImageWriter> write(
                     const std::string& fileName,
-                    const Options&) override;
+                    const core::ImageInfo&,
+                    const Options& = Options()) override;
             };
             
             ///@}

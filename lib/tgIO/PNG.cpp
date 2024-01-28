@@ -4,6 +4,8 @@
 
 #include <tgIO/PNG.h>
 
+#include <filesystem>
+
 using namespace tg::core;
 
 namespace tg
@@ -18,6 +20,16 @@ namespace tg
 
             ImagePlugin::~ImagePlugin()
             {}
+            
+            bool ImagePlugin::canRead(
+                const std::string& fileName,
+                const Options&)
+            {
+                return compare(
+                    std::filesystem::path(fileName).extension(),
+                    ".png",
+                    Compare::CaseInsensitive);
+            }
 
             std::shared_ptr<IImageReader> ImagePlugin::read(
                 const std::string& fileName,
@@ -36,12 +48,34 @@ namespace tg
                     new ImageReader(fileName, &memory, options));
             }
 
+            bool ImagePlugin::canWrite(
+                const std::string& fileName,
+                const ImageInfo& info,
+                const Options&)
+            {
+                return compare(
+                    std::filesystem::path(fileName).extension(),
+                    ".png",
+                    Compare::CaseInsensitive) &&
+                    (
+                        info.pixelType == PixelType::L_U8 ||
+                        info.pixelType == PixelType::L_U16 ||
+                        info.pixelType == PixelType::LA_U8 ||
+                        info.pixelType == PixelType::LA_U16 ||
+                        info.pixelType == PixelType::RGB_U8 ||
+                        info.pixelType == PixelType::RGB_U16 ||
+                        info.pixelType == PixelType::RGBA_U8 ||
+                        info.pixelType == PixelType::RGBA_U16
+                    );
+            }
+
             std::shared_ptr<IImageWriter> ImagePlugin::write(
                 const std::string& fileName,
+                const core::ImageInfo& info,
                 const Options& options)
             {
                 return std::shared_ptr<ImageWriter>(
-                    new ImageWriter(fileName, options));
+                    new ImageWriter(fileName, info, options));
             }
         }
     }

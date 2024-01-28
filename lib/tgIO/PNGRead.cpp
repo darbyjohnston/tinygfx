@@ -62,6 +62,7 @@ namespace tg
                     }
 
                     uint8_t tmp[8];
+                    memset(tmp, 0, 8);
                     if (memory->p)
                     {
                         if (memory->size < 8)
@@ -74,7 +75,8 @@ namespace tg
                     }
                     else
                     {
-                        if (fread(tmp, 8, 1, f) != 1)
+                        size_t r = fread(tmp, 8, 1, f);
+                        if (r != 1)
                         {
                             return false;
                         }
@@ -158,7 +160,6 @@ namespace tg
                 const Options& options) :
                 IImageReader(fileName, memory, options)
             {
-                
                 _png = png_create_read_struct(
                     PNG_LIBPNG_VER_STRING,
                     &_error,

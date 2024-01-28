@@ -6,6 +6,8 @@
 
 #include <tgIO/PNG.h>
 
+#include <algorithm>
+
 using namespace tg::core;
 
 namespace tg
@@ -53,6 +55,13 @@ namespace tg
             return _name;
         }
             
+        bool IImagePlugin::canRead(
+            const std::string&,
+            const Options&)
+        {
+            return false;
+        }
+            
         std::shared_ptr<IImageReader> IImagePlugin::read(
             const std::string&,
             const Options&)
@@ -67,9 +76,18 @@ namespace tg
         {
             return nullptr;
         }
+            
+        bool IImagePlugin::canWrite(
+            const std::string&,
+            const ImageInfo&,
+            const Options&)
+        {
+            return false;
+        }
 
         std::shared_ptr<IImageWriter> IImagePlugin::write(
             const std::string&,
+            const ImageInfo&,
             const Options&)
         {
             return nullptr;
@@ -78,7 +96,7 @@ namespace tg
         ImageIO::ImageIO(const std::shared_ptr<Context>& context) :
             ISystem(context, "tg::io::ImageIO")
         {
-            _plugins.push_back(std::shared_ptr<IImagePlugin>(new png::ImagePlugin));
+            _plugins.push_front(std::shared_ptr<IImagePlugin>(new png::ImagePlugin));
         }
 
         ImageIO::~ImageIO()
@@ -88,12 +106,31 @@ namespace tg
         {
             return std::shared_ptr<ImageIO>(new ImageIO(context));
         }
+        
+        const std::list<std::shared_ptr<IImagePlugin> >& ImageIO::getPlugins() const
+        {
+            return _plugins;
+        }
+
+        void ImageIO::addPlugin(const std::shared_ptr<IImagePlugin>& plugin)
+        {
+            _plugins.push_front(plugin);
+        }
 
         std::shared_ptr<IImageReader> ImageIO::read(
             const std::string& fileName,
             const Options& options)
         {
-            return _plugins.front()->read(fileName, options);
+            std::shared_ptr<IImageReader> out;
+            for (const auto& plugin : _plugins)
+            {
+                if (plugin->canRead(fileName, options))
+                {
+                    out = plugin->read(fileName, options);
+                    break;
+                }
+            }
+            return out;
         }
 
         std::shared_ptr<IImageReader> ImageIO::read(
@@ -101,14 +138,33 @@ namespace tg
             const InMemoryFile& memory,
             const Options& options)
         {
-            return _plugins.front()->read(fileName, memory, options);
+            std::shared_ptr<IImageReader> out;
+            for (const auto& plugin : _plugins)
+            {
+                if (plugin->canRead(fileName, options))
+                {
+                    out = plugin->read(fileName, memory, options);
+                    break;
+                }
+            }
+            return out;
         }
         
         std::shared_ptr<IImageWriter> ImageIO::write(
             const std::string& fileName,
+            const core::ImageInfo& info,
             const Options& options)
         {
-            return _plugins.front()->write(fileName, options);
+            std::shared_ptr<IImageWriter> out;
+            for (const auto& plugin : _plugins)
+            {
+                if (plugin->canWrite(fileName, info, options))
+                {
+                    out = plugin->write(fileName, info, options);
+                    break;
+                }
+            }
+            return out;
         }
     }
 }

@@ -74,18 +74,28 @@ namespace tg
             
             const std::string& getName() const;
             
+            virtual bool canRead(
+                const std::string& fileName,
+                const Options& = Options());
+
             virtual std::shared_ptr<IImageReader> read(
                 const std::string& fileName,
-                const Options&);
+                const Options& = Options());
             
             virtual std::shared_ptr<IImageReader> read(
                 const std::string& fileName,
                 const core::InMemoryFile&,
-                const Options&);
+                const Options& = Options());
+
+            virtual bool canWrite(
+                const std::string& fileName,
+                const core::ImageInfo&,
+                const Options& = Options());
 
             virtual std::shared_ptr<IImageWriter> write(
                 const std::string& fileName,
-                const Options&);
+                const core::ImageInfo&,
+                const Options& = Options());
                 
         private:
             std::string _name;
@@ -103,20 +113,27 @@ namespace tg
             //! Create a new system.
             static std::shared_ptr<ImageIO> create(const std::shared_ptr<core::Context>&);
 
+            //! Get the plugins.
+            const std::list<std::shared_ptr<IImagePlugin> >& getPlugins() const;
+            
+            //! Add a plugin.
+            void addPlugin(const std::shared_ptr<IImagePlugin>&);
+            
             //! Get an image reader.
             std::shared_ptr<IImageReader> read(
-                const std::string&,
+                const std::string& fileName,
                 const Options& = Options());
 
             //! Get an image reader.
             std::shared_ptr<IImageReader> read(
-                const std::string&,
+                const std::string& fileName,
                 const core::InMemoryFile&,
                 const Options& = Options());
             
             //! Get an image writer.
             std::shared_ptr<IImageWriter> write(
-                const std::string&,
+                const std::string& fileName,
+                const core::ImageInfo&,
                 const Options& = Options());
 
         private:

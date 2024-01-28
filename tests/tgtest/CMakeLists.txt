@@ -1,12 +1,13 @@
-set(HEADERS App.h)
+set(HEADERS tgtest.h)
 
-set(SOURCE App.cpp main.cpp)
+set(SOURCE tgtest.cpp)
 
 set(LIBRARIES
-    tgCoreTest
-    tgRenderTest
     tgBaseAppTest
-    tgBaseApp)
+    tgBaseApp
+    tgCoreTest
+    tgIOTest
+    tgRenderTest)
 if ("${TINYGFX_API}" STREQUAL "GL_4_1" OR
     "${TINYGFX_API}" STREQUAL "GL_4_1_Debug" OR
     "${TINYGFX_API}" STREQUAL "GLES_2")

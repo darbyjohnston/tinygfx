@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include "App.h"
+#include "tgtest.h"
 
 #include <tgBaseAppTest/AppTest.h>
 #include <tgBaseAppTest/CmdLineTest.h>
@@ -18,6 +18,9 @@
 #endif // TINYGFX_API_GL_4_1
 
 #include <tgRenderTest/ImageOptionsTest.h>
+
+#include <tgIOTest/ImageIOTest.h>
+#include <tgIOTest/PNGTest.h>
 
 #include <tgCoreTest/BoxPackTest.h>
 #include <tgCoreTest/BoxTest.h>
@@ -49,12 +52,15 @@
 #include <tgGL/Init.h>
 #endif // TINYGFX_API_GL_4_1
 
+#include <tgIO/Init.h>
+
 #include <tgCore/Context.h>
 #include <tgCore/Format.h>
 #include <tgCore/Time.h>
 
 #include <iostream>
 
+using namespace tg;
 using namespace tg::core;
 
 namespace tg
@@ -86,6 +92,7 @@ namespace tg
                 });
             TG_P();
             p.startTime = std::chrono::steady_clock::now();                
+            io::init(context);
 #if defined(TINYGFX_API_GL_4_1) || defined(TINYGFX_API_GLES_2)
             gl::init(context);
 #endif // TINYGFX_API_GL_4_1
@@ -113,6 +120,9 @@ namespace tg
             p.tests.push_back(core_test::TimeTest::create(context));
             p.tests.push_back(core_test::TimerTest::create(context));
             p.tests.push_back(core_test::VectorTest::create(context));
+
+            p.tests.push_back(io_test::ImageIOTest::create(context));
+            p.tests.push_back(io_test::PNGTest::create(context));
 
             p.tests.push_back(render_test::ImageOptionsTest::create(context));
 
@@ -199,5 +209,22 @@ namespace tg
             return exit;
         }
     }
+}
+
+TG_MAIN()
+{
+    int r = 0;
+    try
+    {
+        auto context = Context::create();
+        auto args = app::convert(argc, argv);
+        auto app = tests::App::create(context, args);
+        r = app->run();
+    }
+    catch (const std::exception& e)
+    {
+        std::cout << "ERROR: " << e.what() << std::endl;
+    }
+    return r;
 }
 

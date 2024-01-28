@@ -55,7 +55,7 @@ namespace tg
                     case PixelType::RGBA_U16:
                         colorType = PNG_COLOR_TYPE_RGB_ALPHA;
                         break;
-                    default: break;
+                    default: return false;
                     }
 
                     const int bitDepth = getBitDepth(info.pixelType);
@@ -98,6 +98,7 @@ namespace tg
 
             ImageWriter::ImageWriter(
                 const std::string& fileName,
+                const core::ImageInfo&,
                 const Options& options) :
                 IImageWriter(fileName, options)
             {
@@ -114,7 +115,6 @@ namespace tg
 #if defined(_WINDOWS)
                 if (_wfopen_s(&_f, toWide(fileName).c_str(), L"wb") != 0)
                 {
-                    std::cout << getLastError() << std::endl;
                     _f = nullptr;
                 }
 #else // _WINDOWS

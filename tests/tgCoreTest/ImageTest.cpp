@@ -94,6 +94,10 @@ namespace tg
                 const float aspect = image->getAspect();
                 TG_ASSERT(info.pixelType == image->getPixelType());
                 TG_ASSERT(image->isValid());
+                ImageTags tags;
+                tags["Layer"] = "1";
+                image->setTags(tags);
+                TG_ASSERT(tags == image->getTags());
                 TG_ASSERT(1920 * 1080 * 3 == image->getByteCount());
                 TG_ASSERT(image->getData());
                 const std::shared_ptr<const Image> image2 = image;
