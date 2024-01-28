@@ -5,8 +5,7 @@ set(SOURCE tgtest.cpp)
 set(LIBRARIES
     tgBaseAppTest
     tgBaseApp
-    tgCoreTest
-    tgRenderTest)
+    tgCoreTest)
 if ("${TINYGFX_API}" STREQUAL "GL_4_1" OR
     "${TINYGFX_API}" STREQUAL "GL_4_1_Debug" OR
     "${TINYGFX_API}" STREQUAL "GLES_2")

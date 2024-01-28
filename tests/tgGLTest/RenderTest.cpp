@@ -155,28 +155,28 @@ namespace tg
                 auto glyphs = fontSystem->getGlyphs(text, fontInfo);
                 render->drawText(glyphs, V2F(100.F, 100.F));
                 
-                std::vector<render::ImageOptions> imageOptionsList;
-                for (auto i : render::getInputVideoLevelsEnums())
+                std::vector<ImageOptions> imageOptionsList;
+                for (auto i : getInputVideoLevelsEnums())
                 {
-                    render::ImageOptions imageOptions;
+                    ImageOptions imageOptions;
                     imageOptions.videoLevels = i;
                     imageOptionsList.push_back(imageOptions);
                 }
-                for (auto i : render::getAlphaBlendEnums())
+                for (auto i : getAlphaBlendEnums())
                 {
-                    render::ImageOptions imageOptions;
+                    ImageOptions imageOptions;
                     imageOptions.alphaBlend = i;
                     imageOptionsList.push_back(imageOptions);
                 }
                 {
-                    render::ImageOptions imageOptions;
+                    ImageOptions imageOptions;
                     imageOptions.cache = false;
                     imageOptionsList.push_back(imageOptions);
                 }
                 {
-                    render::ImageOptions imageOptions;
-                    imageOptions.imageFilters.minify = render::ImageFilter::Nearest;
-                    imageOptions.imageFilters.magnify = render::ImageFilter::Nearest;
+                    ImageOptions imageOptions;
+                    imageOptions.imageFilters.minify = ImageFilter::Nearest;
+                    imageOptions.imageFilters.magnify = ImageFilter::Nearest;
                     imageOptionsList.push_back(imageOptions);
                 }
                 for (const auto& imageSize : { Size2I(64, 64), Size2I(2048, 2048) })

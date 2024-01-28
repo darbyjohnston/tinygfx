@@ -52,7 +52,7 @@ namespace tg
 
         void Render::begin(
             const Size2I& size,
-            const render::RenderOptions& options)
+            const RenderOptions& options)
         {
             TG_P();
 
@@ -212,27 +212,27 @@ namespace tg
 
         std::vector<std::shared_ptr<Texture> > Render::_getTextures(
             const ImageInfo& info,
-            const render::ImageFilters& imageFilters,
+            const ImageFilters& imageFilters,
             size_t offset)
         {
             std::vector<std::shared_ptr<Texture> > out;
             TextureOptions options;
             switch (imageFilters.minify)
             {
-            case render::ImageFilter::Nearest:
+            case ImageFilter::Nearest:
                 options.filters.minify = TextureFilter::Nearest;
                 break;
-            case render::ImageFilter::Linear:
+            case ImageFilter::Linear:
                 options.filters.minify = TextureFilter::Linear;
                 break;
             default: break;
             }
             switch (imageFilters.magnify)
             {
-            case render::ImageFilter::Nearest:
+            case ImageFilter::Nearest:
                 options.filters.magnify = TextureFilter::Nearest;
                 break;
-            case render::ImageFilter::Linear:
+            case ImageFilter::Linear:
                 options.filters.magnify = TextureFilter::Linear;
                 break;
             default: break;

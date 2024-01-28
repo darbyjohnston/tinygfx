@@ -14,9 +14,9 @@
 
 namespace tg
 {
-    namespace render
+    namespace core
     {
-        //! \name Rendering Options
+        //! \name Rendering
         ///@{
 
         //! Render options.
@@ -26,10 +26,10 @@ namespace tg
             bool clear = true;
 
             //! Clear color.
-            core::Color4F clearColor = core::Color4F(0.F, 0.F, 0.F, 0.F);
+            Color4F clearColor = Color4F(0.F, 0.F, 0.F, 0.F);
 
             //! Texture cache byte count.
-            size_t textureCacheByteCount = core::gigabyte / 4;
+            size_t textureCacheByteCount = gigabyte / 4;
 
             bool operator == (const RenderOptions&) const;
             bool operator != (const RenderOptions&) const;
@@ -108,5 +108,5 @@ namespace tg
     }
 }
 
-#include <tgRender/RenderOptionsInline.h>
+#include <tgCore/RenderOptionsInline.h>
 

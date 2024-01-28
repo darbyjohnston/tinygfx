@@ -4,7 +4,7 @@
 
 namespace tg
 {
-    namespace render
+    namespace core
     {
         inline bool RenderOptions::operator == (const RenderOptions& other) const
         {

@@ -15,6 +15,7 @@ set(HEADERS
     FontSystemInline.h
     Format.h
     FormatInline.h
+    IRender.h
     ISystem.h
     ISystemInline.h
     ImageIO.h
@@ -41,6 +42,9 @@ set(HEADERS
     ObservableValueInline.h
     Range.h
     RangeInline.h
+    RenderOptions.h
+    RenderOptionsInline.h
+    RenderUtil.h
     Size.h
     SizeInline.h
     String.h
@@ -58,6 +62,7 @@ set(SOURCE
     FileIO.cpp
     FontSystem.cpp
     Format.cpp
+    IRender.cpp
     ISystem.cpp
     ImageIO.cpp
     Image.cpp
@@ -70,6 +75,8 @@ set(SOURCE
     PNGRead.cpp
     PNGWrite.cpp
     OS.cpp
+    RenderOptions.cpp
+    RenderUtil.cpp
     String.cpp
     Time.cpp
     Timer.cpp)

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <tgRender/IRender.h>
+#include <tgCore/IRender.h>
 
 #include <tgCore/LRUCache.h>
 
@@ -23,7 +23,7 @@ namespace tg
             std::vector<std::shared_ptr<Texture> > > TextureCache;
         
         //! OpenGL renderer.
-        class Render : public render::IRender
+        class Render : public core::IRender
         {
             TG_NON_COPYABLE(Render);
 
@@ -47,7 +47,7 @@ namespace tg
 
             void begin(
                 const core::Size2I&,
-                const render::RenderOptions& = render::RenderOptions()) override;
+                const core::RenderOptions& = core::RenderOptions()) override;
             void end() override;
             core::Size2I getRenderSize() const override;
             void setRenderSize(const core::Size2I&) override;
@@ -67,7 +67,7 @@ namespace tg
                 const core::V2F&,
                 const core::V2F&,
                 const core::Color4F&,
-                const render::LineOptions& = render::LineOptions()) override;
+                const core::LineOptions& = core::LineOptions()) override;
             void drawMesh(
                 const core::TriMesh2F&,
                 const core::Color4F& = core::Color4F(1.F, 1.F, 1.F, 1.F),
@@ -84,12 +84,12 @@ namespace tg
                 const std::shared_ptr<core::Image>&,
                 const core::Box2F&,
                 const core::Color4F& = core::Color4F(1.F, 1.F, 1.F, 1.F),
-                const render::ImageOptions& = render::ImageOptions()) override;
+                const core::ImageOptions& = core::ImageOptions()) override;
 
         private:
             std::vector<std::shared_ptr<Texture> > _getTextures(
                 const core::ImageInfo&,
-                const render::ImageFilters&,
+                const core::ImageFilters&,
                 size_t offset = 0);
             void _copyTextures(
                 const std::shared_ptr<core::Image>&,

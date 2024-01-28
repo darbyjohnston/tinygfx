@@ -11,11 +11,11 @@
 
 namespace tg
 {
-    namespace render
+    namespace core
     {
         class IRender;
 
-        //! \name Rendering Utilities
+        //! \name Rendering
         ///@{
         
         //! Set and restore the render size.
@@ -62,7 +62,7 @@ namespace tg
 
             ~ClipRectState();
 
-            const core::Box2I& getClipRect() const;
+            const Box2I& getClipRect() const;
 
         private:
             TG_PRIVATE();

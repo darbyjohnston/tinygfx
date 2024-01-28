@@ -8,7 +8,7 @@
 
 namespace tg
 {
-    namespace render_test
+    namespace core_test
     {
         class RenderOptionsTest : public test::ITest
         {

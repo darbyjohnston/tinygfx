@@ -7,9 +7,8 @@
 #include <tgUI/IconLibrary.h>
 #include <tgUI/Style.h>
 
-#include <tgRender/IRender.h>
-
 #include <tgCore/FontSystem.h>
+#include <tgCore/IRender.h>
 
 namespace tg
 {
@@ -68,13 +67,13 @@ namespace tg
                 float displayScale,
                 const std::shared_ptr<Style>&,
                 const std::shared_ptr<IconLibrary>&,
-                const std::shared_ptr<render::IRender>&);
+                const std::shared_ptr<core::IRender>&);
 
             std::shared_ptr<core::FontSystem> fontSystem;
             float                             displayScale = 1.F;
             std::shared_ptr<Style>            style;
             std::shared_ptr<IconLibrary>      iconLibrary;
-            std::shared_ptr<render::IRender>  render;
+            std::shared_ptr<core::IRender>    render;
         };
 
         //! Drag and drop data.

@@ -1,6 +1,5 @@
 add_subdirectory(tgBaseApp)
 add_subdirectory(tgCore)
-add_subdirectory(tgRender)
 add_subdirectory(tgResourceApp)
 add_subdirectory(tgUI)
 add_subdirectory(tgUIApp)

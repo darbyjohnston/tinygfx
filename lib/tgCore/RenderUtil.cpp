@@ -2,15 +2,13 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgRender/RenderUtil.h>
+#include <tgCore/RenderUtil.h>
 
-#include <tgRender/IRender.h>
-
-using namespace tg::core;
+#include <tgCore/IRender.h>
 
 namespace tg
 {
-    namespace render
+    namespace core
     {
         struct RenderSizeState::Private
         {

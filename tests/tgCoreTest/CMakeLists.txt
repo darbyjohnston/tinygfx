@@ -18,6 +18,7 @@ set(HEADERS
     ObservableTest.h
     PNGTest.h
     RangeTest.h
+    RenderOptionsTest.h
     SizeTest.h
     StringTest.h
     SystemTest.h
@@ -46,6 +47,7 @@ set(SOURCE
     ObservableTest.cpp
     PNGTest.cpp
     RangeTest.cpp
+    RenderOptionsTest.cpp
     SizeTest.cpp
     StringTest.cpp
     SystemTest.cpp

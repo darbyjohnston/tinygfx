@@ -2,22 +2,20 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgRenderTest/RenderOptionsTest.h>
-
-#include <tgRender/RenderOptions.h>
+#include <tgCoreTest/RenderOptionsTest.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
+#include <tgCore/RenderOptions.h>
 
 using namespace tg::core;
-using namespace tg::render;
 
 namespace tg
 {
-    namespace render_test
+    namespace core_test
     {
         RenderOptionsTest::RenderOptionsTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "tg::render_test::RenderOptionsTest")
+            ITest(context, "tg::core_test::RenderOptionsTest")
         {}
 
         RenderOptionsTest::~RenderOptionsTest()

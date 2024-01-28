@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgRender/RenderOptions.h>
+#include <tgCore/RenderOptions.h>
 
 #include <tgCore/Error.h>
 #include <tgCore/String.h>
@@ -12,7 +12,7 @@
 
 namespace tg
 {
-    namespace render
+    namespace core
     {
         TG_ENUM_IMPL(
             InputVideoLevels,

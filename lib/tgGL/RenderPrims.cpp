@@ -36,7 +36,7 @@ namespace tg
             const V2F& v0,
             const V2F& v1,
             const Color4F& color,
-            const render::LineOptions& options)
+            const LineOptions& options)
         {
             TG_P();
 
@@ -252,7 +252,7 @@ namespace tg
             const std::shared_ptr<Image>& image,
             const Box2F& box,
             const Color4F& color,
-            const render::ImageOptions& imageOptions)
+            const ImageOptions& imageOptions)
         {
             TG_P();
 
@@ -277,10 +277,10 @@ namespace tg
             VideoLevels videoLevels = info.videoLevels;
             switch (imageOptions.videoLevels)
             {
-            case render::InputVideoLevels::FullRange:
+            case InputVideoLevels::FullRange:
                 videoLevels = VideoLevels::FullRange;
                 break;
-            case render::InputVideoLevels::LegalRange:
+            case InputVideoLevels::LegalRange:
                 videoLevels = VideoLevels::LegalRange;
                 break;
             default: break;
@@ -307,13 +307,13 @@ namespace tg
 
             switch (imageOptions.alphaBlend)
             {
-            case render::AlphaBlend::None:
+            case AlphaBlend::None:
                 glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ONE, GL_ONE);
                 break;
-            case render::AlphaBlend::Straight:
+            case AlphaBlend::Straight:
                 glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
                 break;
-            case render::AlphaBlend::Premultiplied:
+            case AlphaBlend::Premultiplied:
                 glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
                 break;
             default: break;

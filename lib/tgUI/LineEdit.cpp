@@ -9,7 +9,7 @@
 #include <tgUI/IWindow.h>
 #include <tgUI/LayoutUtil.h>
 
-#include <tgRender/RenderUtil.h>
+#include <tgCore/RenderUtil.h>
 
 using namespace tg::core;
 
@@ -336,8 +336,8 @@ namespace tg
                 Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                 event.style->getColorRole(ColorRole::Base));
 
-            const render::ClipRectEnabledState clipRectEnabledState(event.render);
-            const render::ClipRectState clipRectState(event.render);
+            const ClipRectEnabledState clipRectEnabledState(event.render);
+            const ClipRectState clipRectState(event.render);
             event.render->setClipRectEnabled(true);
             event.render->setClipRect(intersect(margin(g, -p.size.border * 2), drawRect));
 

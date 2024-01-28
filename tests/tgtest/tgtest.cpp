@@ -17,8 +17,6 @@
 #include <tgGLTest/WindowTest.h>
 #endif // TINYGFX_API_GL_4_1
 
-#include <tgRenderTest/RenderOptionsTest.h>
-
 #include <tgCoreTest/BoxPackTest.h>
 #include <tgCoreTest/BoxTest.h>
 #include <tgCoreTest/ColorTest.h>
@@ -38,6 +36,7 @@
 #include <tgCoreTest/ObservableTest.h>
 #include <tgCoreTest/PNGTest.h>
 #include <tgCoreTest/RangeTest.h>
+#include <tgCoreTest/RenderOptionsTest.h>
 #include <tgCoreTest/SizeTest.h>
 #include <tgCoreTest/StringTest.h>
 #include <tgCoreTest/SystemTest.h>
@@ -112,14 +111,13 @@ namespace tg
             p.tests.push_back(core_test::ObservableTest::create(context));
             p.tests.push_back(core_test::PNGTest::create(context));
             p.tests.push_back(core_test::RangeTest::create(context));
+            p.tests.push_back(core_test::RenderOptionsTest::create(context));
             p.tests.push_back(core_test::SizeTest::create(context));
             p.tests.push_back(core_test::StringTest::create(context));
             p.tests.push_back(core_test::SystemTest::create(context));
             p.tests.push_back(core_test::TimeTest::create(context));
             p.tests.push_back(core_test::TimerTest::create(context));
             p.tests.push_back(core_test::VectorTest::create(context));
-
-            p.tests.push_back(render_test::RenderOptionsTest::create(context));
 
 #if defined(TINYGFX_API_GL_4_1) || defined(TINYGFX_API_GLES_2)
             p.tests.push_back(gl_test::MeshTest::create(context));

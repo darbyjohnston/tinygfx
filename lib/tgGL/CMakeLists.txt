@@ -34,7 +34,7 @@ elseif ("${TINYGFX_API}" STREQUAL "GLES_2")
 endif()
 
 add_library(tgGL ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
-target_link_libraries(tgGL tgRender glad glfw)
+target_link_libraries(tgGL tgCore glad glfw)
 set_target_properties(tgGL PROPERTIES FOLDER lib)
 set_target_properties(tgGL PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
