@@ -52,7 +52,7 @@ namespace tg
                 const Options&)
             {
                 return compare(
-                    std::filesystem::path(fileName).extension(),
+                    std::filesystem::path(fileName).extension().string(),
                     ".png",
                     Compare::CaseInsensitive) &&
                     (
