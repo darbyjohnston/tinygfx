@@ -36,7 +36,9 @@ void MainWindow::_init(
     auto groupBox = GroupBox::create(context, "Combo Boxes", layout);
     auto vLayout = VerticalLayout::create(context, groupBox);
     auto comboBox = ComboBox::create(context, getEndianLabels(), vLayout);
+    comboBox->setToolTip("Endian types");
     comboBox = ComboBox::create(context, getImageTypeLabels(), vLayout);
+    comboBox->setToolTip("Image types");
     
     // Create color swatches.
     groupBox = GroupBox::create(context, "Color Popups", layout);

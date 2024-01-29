@@ -143,7 +143,7 @@ namespace tg
                 "const int ImageType_ARGB_4444_Premult = 28;\n";
 
             const std::string videoLevels =
-                "// enum tl::image::VideoLevels\n"
+                "// enum tg::core::VideoLevels\n"
                 "const int VideoLevels_FullRange  = 0;\n"
                 "const int VideoLevels_LegalRange = 1;\n";
 
