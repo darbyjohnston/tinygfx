@@ -7,6 +7,7 @@
 #include <tgUIApp/App.h>
 
 #include <tgUI/ComboBox.h>
+#include <tgUI/ColorSwatch.h>
 #include <tgUI/GroupBox.h>
 #include <tgUI/RowLayout.h>
 
@@ -36,6 +37,25 @@ void MainWindow::_init(
     auto vLayout = VerticalLayout::create(context, groupBox);
     auto comboBox = ComboBox::create(context, getEndianLabels(), vLayout);
     comboBox = ComboBox::create(context, getPixelTypeLabels(), vLayout);
+    
+    // Create color swatches.
+    groupBox = GroupBox::create(context, "Color Popups", layout);
+    auto hLayout = HorizontalLayout::create(context, groupBox);
+    const std::vector<Color4F> colors =
+    {
+        Color4F(1.F, 0.F, 0.F),
+        Color4F(0.F, 1.F, 0.F),
+        Color4F(0.F, 0.F, 1.F),
+        Color4F(1.F, 1.F, 0.F),
+        Color4F(0.F, 1.F, 1.F),
+        Color4F(1.F, 0.F, 1.F)
+    };
+    for (const auto& color : colors)
+    {
+        auto colorSwatch = ColorSwatch::create(context, hLayout);
+        colorSwatch->setColor(color);
+        colorSwatch->setEditable(true);
+    }
 }
 
 MainWindow::~MainWindow()

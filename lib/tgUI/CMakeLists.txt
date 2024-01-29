@@ -1,6 +1,9 @@
 set(HEADERS
     ButtonGroup.h
     CheckBox.h
+    ColorPopup.h
+    ColorSwatch.h
+    ColorWidget.h
     ComboBox.h
     DoubleEdit.h
     DoubleEditSlider.h
@@ -20,6 +23,7 @@ set(HEADERS
     IPopup.h
     IWidget.h
     IWidgetInline.h
+    IWidgetPopup.h
     IWindow.h
     IncButtons.h
     IntEdit.h
@@ -50,6 +54,9 @@ set(PRIVATE_HEADERS)
 set(SOURCE
     ButtonGroup.cpp
     CheckBox.cpp
+    ColorPopup.cpp
+    ColorSwatch.cpp
+    ColorWidget.cpp
     ComboBox.cpp
     DoubleEdit.cpp
     DoubleEditSlider.cpp
@@ -68,6 +75,7 @@ set(SOURCE
     IMenuPopup.cpp
     IPopup.cpp
     IWidget.cpp
+    IWidgetPopup.cpp
     IWindow.cpp
     IncButtons.cpp
     IntEdit.cpp
