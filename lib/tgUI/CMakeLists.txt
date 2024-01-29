@@ -1,10 +1,12 @@
 set(HEADERS
+    Bellows.h
     ButtonGroup.h
     CheckBox.h
     ColorPopup.h
     ColorSwatch.h
     ColorWidget.h
     ComboBox.h
+    Divider.h
     DoubleEdit.h
     DoubleEditSlider.h
     DoubleModel.h
@@ -43,6 +45,7 @@ set(HEADERS
     ScrollBar.h
     ScrollWidget.h
     Spacer.h
+    Splitter.h
     StackLayout.h
     Style.h
     StyleInline.h
@@ -52,12 +55,14 @@ set(HEADERS
 set(PRIVATE_HEADERS)
 
 set(SOURCE
+    Bellows.cpp
     ButtonGroup.cpp
     CheckBox.cpp
     ColorPopup.cpp
     ColorSwatch.cpp
     ColorWidget.cpp
     ComboBox.cpp
+    Divider.cpp
     DoubleEdit.cpp
     DoubleEditSlider.cpp
     DoubleModel.cpp
@@ -95,6 +100,7 @@ set(SOURCE
     ScrollBar.cpp
     ScrollWidget.cpp
     Spacer.cpp
+    Splitter.cpp
     StackLayout.cpp
     Style.cpp
     ToolButton.cpp
