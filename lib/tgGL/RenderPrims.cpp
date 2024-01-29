@@ -273,7 +273,7 @@ namespace tg
 
             p.shaders["image"]->bind();
             p.shaders["image"]->setUniform("color", color);
-            p.shaders["image"]->setUniform("pixelType", static_cast<int>(info.pixelType));
+            p.shaders["image"]->setUniform("imageType", static_cast<int>(info.type));
             VideoLevels videoLevels = info.videoLevels;
             switch (imageOptions.videoLevels)
             {
@@ -287,17 +287,17 @@ namespace tg
             }
             p.shaders["image"]->setUniform("videoLevels", static_cast<int>(videoLevels));
             p.shaders["image"]->setUniform("yuvCoefficients", getYUVCoefficients(info.yuvCoefficients));
-            p.shaders["image"]->setUniform("imageChannels", getChannelCount(info.pixelType));
+            p.shaders["image"]->setUniform("imageChannels", getChannelCount(info.type));
             p.shaders["image"]->setUniform("mirrorX", info.layout.mirror.x);
             p.shaders["image"]->setUniform("mirrorY", info.layout.mirror.y);
-            switch (info.pixelType)
+            switch (info.type)
             {
-            case PixelType::YUV_420P_U8:
-            case PixelType::YUV_422P_U8:
-            case PixelType::YUV_444P_U8:
-            case PixelType::YUV_420P_U16:
-            case PixelType::YUV_422P_U16:
-            case PixelType::YUV_444P_U16:
+            case ImageType::YUV_420P_U8:
+            case ImageType::YUV_422P_U8:
+            case ImageType::YUV_444P_U8:
+            case ImageType::YUV_420P_U16:
+            case ImageType::YUV_422P_U16:
+            case ImageType::YUV_444P_U16:
                 p.shaders["image"]->setUniform("textureSampler1", 1);
                 p.shaders["image"]->setUniform("textureSampler2", 2);
             default:

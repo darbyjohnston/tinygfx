@@ -15,7 +15,7 @@ namespace tg
     namespace core
     {
         TG_ENUM_IMPL(
-            PixelType,
+            ImageType,
             "None",
             "L_U8",
             "L_U16",
@@ -46,9 +46,9 @@ namespace tg
             "YUV_444P_U16",
             "ARGB_4444_Premult");
 
-        int getChannelCount(PixelType value)
+        int getChannelCount(ImageType value)
         {
-            const std::array<int, static_cast<size_t>(PixelType::Count)> values =
+            const std::array<int, static_cast<size_t>(ImageType::Count)> values =
             {
                 0,
                 1, 1, 1, 1, 1,
@@ -62,9 +62,9 @@ namespace tg
             return values[static_cast<size_t>(value)];
         }
 
-        int getBitDepth(PixelType value)
+        int getBitDepth(ImageType value)
         {
-            const std::array<int, static_cast<size_t>(PixelType::Count)> values =
+            const std::array<int, static_cast<size_t>(ImageType::Count)> values =
             {
                 0,
                 8, 16, 32, 16, 32,
@@ -104,42 +104,42 @@ namespace tg
             const size_t w = size.w;
             const size_t h = size.h;
             const size_t alignment = layout.alignment;
-            switch (pixelType)
+            switch (type)
             {
-            case PixelType::L_U8:     out = getAlignedByteCount(w, alignment) * h; break;
-            case PixelType::L_U16:    out = getAlignedByteCount(w * 2, alignment) * h; break;
-            case PixelType::L_U32:    out = getAlignedByteCount(w * 4, alignment) * h; break;
-            case PixelType::L_F16:    out = getAlignedByteCount(w * 2, alignment) * h; break;
-            case PixelType::L_F32:    out = getAlignedByteCount(w * 4, alignment) * h; break;
+            case ImageType::L_U8:     out = getAlignedByteCount(w, alignment) * h; break;
+            case ImageType::L_U16:    out = getAlignedByteCount(w * 2, alignment) * h; break;
+            case ImageType::L_U32:    out = getAlignedByteCount(w * 4, alignment) * h; break;
+            case ImageType::L_F16:    out = getAlignedByteCount(w * 2, alignment) * h; break;
+            case ImageType::L_F32:    out = getAlignedByteCount(w * 4, alignment) * h; break;
 
-            case PixelType::LA_U8:    out = getAlignedByteCount(w * 2, alignment) * h; break;
-            case PixelType::LA_U16:   out = getAlignedByteCount(w * 2 * 2, alignment) * h; break;
-            case PixelType::LA_U32:   out = getAlignedByteCount(w * 2 * 4, alignment) * h; break;
-            case PixelType::LA_F16:   out = getAlignedByteCount(w * 2 * 2, alignment) * h; break;
-            case PixelType::LA_F32:   out = getAlignedByteCount(w * 2 * 4, alignment) * h; break;
+            case ImageType::LA_U8:    out = getAlignedByteCount(w * 2, alignment) * h; break;
+            case ImageType::LA_U16:   out = getAlignedByteCount(w * 2 * 2, alignment) * h; break;
+            case ImageType::LA_U32:   out = getAlignedByteCount(w * 2 * 4, alignment) * h; break;
+            case ImageType::LA_F16:   out = getAlignedByteCount(w * 2 * 2, alignment) * h; break;
+            case ImageType::LA_F32:   out = getAlignedByteCount(w * 2 * 4, alignment) * h; break;
 
-            case PixelType::RGB_U8:   out = getAlignedByteCount(w * 3, alignment) * h; break;
-            case PixelType::RGB_U10:  out = getAlignedByteCount(w * 4, alignment) * h; break;
-            case PixelType::RGB_U16:  out = getAlignedByteCount(w * 3 * 2, alignment) * h; break;
-            case PixelType::RGB_U32:  out = getAlignedByteCount(w * 3 * 4, alignment) * h; break;
-            case PixelType::RGB_F16:  out = getAlignedByteCount(w * 3 * 2, alignment) * h; break;
-            case PixelType::RGB_F32:  out = getAlignedByteCount(w * 3 * 4, alignment) * h; break;
+            case ImageType::RGB_U8:   out = getAlignedByteCount(w * 3, alignment) * h; break;
+            case ImageType::RGB_U10:  out = getAlignedByteCount(w * 4, alignment) * h; break;
+            case ImageType::RGB_U16:  out = getAlignedByteCount(w * 3 * 2, alignment) * h; break;
+            case ImageType::RGB_U32:  out = getAlignedByteCount(w * 3 * 4, alignment) * h; break;
+            case ImageType::RGB_F16:  out = getAlignedByteCount(w * 3 * 2, alignment) * h; break;
+            case ImageType::RGB_F32:  out = getAlignedByteCount(w * 3 * 4, alignment) * h; break;
 
-            case PixelType::RGBA_U8:  out = getAlignedByteCount(w * 4, alignment) * h; break;
-            case PixelType::RGBA_U16: out = getAlignedByteCount(w * 4 * 2, alignment) * h; break;
-            case PixelType::RGBA_U32: out = getAlignedByteCount(w * 4 * 4, alignment) * h; break;
-            case PixelType::RGBA_F16: out = getAlignedByteCount(w * 4 * 2, alignment) * h; break;
-            case PixelType::RGBA_F32: out = getAlignedByteCount(w * 4 * 4, alignment) * h; break;
+            case ImageType::RGBA_U8:  out = getAlignedByteCount(w * 4, alignment) * h; break;
+            case ImageType::RGBA_U16: out = getAlignedByteCount(w * 4 * 2, alignment) * h; break;
+            case ImageType::RGBA_U32: out = getAlignedByteCount(w * 4 * 4, alignment) * h; break;
+            case ImageType::RGBA_F16: out = getAlignedByteCount(w * 4 * 2, alignment) * h; break;
+            case ImageType::RGBA_F32: out = getAlignedByteCount(w * 4 * 4, alignment) * h; break;
 
             //! \todo Is YUV data aligned?
-            case PixelType::YUV_420P_U8:  out = w * h + (w / 2 * h / 2) + (w / 2 * h / 2); break;
-            case PixelType::YUV_422P_U8:  out = w * h + (w / 2 * h) + (w / 2 * h); break;
-            case PixelType::YUV_444P_U8:  out = w * h * 3; break;
-            case PixelType::YUV_420P_U16: out = (w * h + (w / 2 * h / 2) + (w / 2 * h / 2)) * 2; break;
-            case PixelType::YUV_422P_U16: out = (w * h + (w / 2 * h) + (w / 2 * h)) * 2; break;
-            case PixelType::YUV_444P_U16: out = (w * h * 3) * 2; break;
+            case ImageType::YUV_420P_U8:  out = w * h + (w / 2 * h / 2) + (w / 2 * h / 2); break;
+            case ImageType::YUV_422P_U8:  out = w * h + (w / 2 * h) + (w / 2 * h); break;
+            case ImageType::YUV_444P_U8:  out = w * h * 3; break;
+            case ImageType::YUV_420P_U16: out = (w * h + (w / 2 * h / 2) + (w / 2 * h / 2)) * 2; break;
+            case ImageType::YUV_422P_U16: out = (w * h + (w / 2 * h) + (w / 2 * h)) * 2; break;
+            case ImageType::YUV_444P_U16: out = (w * h * 3) * 2; break;
 
-            case PixelType::ARGB_4444_Premult: out = w * h * 4 * 2; break;
+            case ImageType::ARGB_4444_Premult: out = w * h * 4 * 2; break;
 
             default: break;
             }
@@ -161,14 +161,14 @@ namespace tg
             return std::shared_ptr<Image>(new Image(info));
         }
 
-        std::shared_ptr<Image> Image::create(const Size2I& size, PixelType pixelType)
+        std::shared_ptr<Image> Image::create(const Size2I& size, ImageType type)
         {
-            return std::shared_ptr<Image>(new Image(ImageInfo(size, pixelType)));
+            return std::shared_ptr<Image>(new Image(ImageInfo(size, type)));
         }
 
-        std::shared_ptr<Image> Image::create(int w, int h, PixelType pixelType)
+        std::shared_ptr<Image> Image::create(int w, int h, ImageType type)
         {
-            return std::shared_ptr<Image>(new Image(ImageInfo(w, h, pixelType)));
+            return std::shared_ptr<Image>(new Image(ImageInfo(w, h, type)));
         }
 
         void Image::setTags(const ImageTags& tags)

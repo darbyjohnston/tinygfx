@@ -179,7 +179,7 @@ namespace tg
 #endif // TINYGFX_API_GL_4_1
 
             // Create the color texture.
-            if (p.options.color != PixelType::None)
+            if (p.options.color != ImageType::None)
             {
                 glGenTextures(1, &p.colorID);
                 if (!p.colorID)

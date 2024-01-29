@@ -25,9 +25,9 @@ namespace tg
             "Nearest",
             "Linear");
 
-        unsigned int getTextureFormat(PixelType value)
+        unsigned int getTextureFormat(ImageType value)
         {
-            const std::array<GLenum, static_cast<size_t>(PixelType::Count)> data =
+            const std::array<GLenum, static_cast<size_t>(ImageType::Count)> data =
             {
                 GL_NONE,
 
@@ -104,9 +104,9 @@ namespace tg
             return data[static_cast<size_t>(value)];
         }
 
-        unsigned int getTextureInternalFormat(PixelType type)
+        unsigned int getTextureInternalFormat(ImageType type)
         {
-            const std::array<GLenum, static_cast<size_t>(PixelType::Count)> data =
+            const std::array<GLenum, static_cast<size_t>(ImageType::Count)> data =
             {
                 GL_NONE,
 
@@ -183,9 +183,9 @@ namespace tg
             return data[static_cast<size_t>(type)];
         }
 
-        unsigned int getTextureType(PixelType value)
+        unsigned int getTextureType(ImageType value)
         {
-            const std::array<GLenum, static_cast<size_t>(PixelType::Count)> data =
+            const std::array<GLenum, static_cast<size_t>(ImageType::Count)> data =
             {
                 GL_NONE,
 
@@ -337,12 +337,12 @@ namespace tg
             glTexImage2D(
                 GL_TEXTURE_2D,
                 0,
-                getTextureInternalFormat(p.info.pixelType),
+                getTextureInternalFormat(p.info.type),
                 p.info.size.w,
                 p.info.size.h,
                 0,
-                getTextureFormat(p.info.pixelType),
-                getTextureType(p.info.pixelType),
+                getTextureFormat(p.info.type),
+                getTextureType(p.info.type),
                 NULL);
         }
 
@@ -386,9 +386,9 @@ namespace tg
             return _p->info.size.h;
         }
 
-        PixelType Texture::getPixelType() const
+        ImageType Texture::getType() const
         {
-            return _p->info.pixelType;
+            return _p->info.type;
         }
 
         unsigned int Texture::getID() const
@@ -421,8 +421,8 @@ namespace tg
                         0,
                         info.size.w,
                         info.size.h,
-                        getTextureFormat(info.pixelType),
-                        getTextureType(info.pixelType),
+                        getTextureFormat(info.type),
+                        getTextureType(info.type),
                         NULL);
                 }
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
@@ -443,8 +443,8 @@ namespace tg
                     0,
                     info.size.w,
                     info.size.h,
-                    getTextureFormat(info.pixelType),
-                    getTextureType(info.pixelType),
+                    getTextureFormat(info.type),
+                    getTextureType(info.type),
                     data->getData());
             }
         }
@@ -474,8 +474,8 @@ namespace tg
                         y,
                         info.size.w,
                         info.size.h,
-                        getTextureFormat(info.pixelType),
-                        getTextureType(info.pixelType),
+                        getTextureFormat(info.type),
+                        getTextureType(info.type),
                         NULL);
                 }
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
@@ -496,8 +496,8 @@ namespace tg
                     y,
                     info.size.w,
                     info.size.h,
-                    getTextureFormat(info.pixelType),
-                    getTextureType(info.pixelType),
+                    getTextureFormat(info.type),
+                    getTextureType(info.type),
                     data->getData());
             }
         }
@@ -526,8 +526,8 @@ namespace tg
                         0,
                         info.size.w,
                         info.size.h,
-                        getTextureFormat(info.pixelType),
-                        getTextureType(info.pixelType),
+                        getTextureFormat(info.type),
+                        getTextureType(info.type),
                         NULL);
                 }
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
@@ -547,8 +547,8 @@ namespace tg
                     0,
                     info.size.w,
                     info.size.h,
-                    getTextureFormat(info.pixelType),
-                    getTextureType(info.pixelType),
+                    getTextureFormat(info.type),
+                    getTextureType(info.type),
                     data);
             }
         }

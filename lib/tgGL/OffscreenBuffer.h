@@ -17,9 +17,9 @@ namespace tg
         
         //! Default offscreen buffer color type.
 #if defined(TINYGFX_API_GL_4_1)
-        const core::PixelType offscreenColorDefault = core::PixelType::RGBA_F32;
+        const core::ImageType offscreenColorDefault = core::ImageType::RGBA_F32;
 #elif defined(TINYGFX_API_GLES_2)
-        const core::PixelType offscreenColorDefault = core::PixelType::RGBA_U8;
+        const core::ImageType offscreenColorDefault = core::ImageType::RGBA_U8;
 #endif // TINYGFX_API_GL_4_1
 
         //! Offscreen buffer depth size.
@@ -70,7 +70,7 @@ namespace tg
         //! Offscreen buffer options.
         struct OffscreenBufferOptions
         {
-            core::PixelType color = core::PixelType::None;
+            core::ImageType color = core::ImageType::None;
             TextureFilters colorFilters;
             OffscreenDepth depth = OffscreenDepth::None;
             OffscreenStencil stencil = OffscreenStencil::None;

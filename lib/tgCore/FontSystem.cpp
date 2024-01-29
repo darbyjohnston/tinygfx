@@ -288,7 +288,7 @@ namespace tg
                         out = std::make_shared<Glyph>();
                         out->info = GlyphInfo(code, fontInfo);
                         auto ftBitmap = i->second->glyph->bitmap;
-                        const ImageInfo imageInfo(ftBitmap.width, ftBitmap.rows, PixelType::L_U8);
+                        const ImageInfo imageInfo(ftBitmap.width, ftBitmap.rows, ImageType::L_U8);
                         out->image = Image::create(imageInfo);
                         for (size_t y = 0; y < ftBitmap.rows; ++y)
                         {

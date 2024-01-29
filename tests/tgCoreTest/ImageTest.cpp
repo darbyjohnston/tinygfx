@@ -37,7 +37,7 @@ namespace tg
         
         void ImageTest::_enums()
         {
-            TINYGFX_TEST_ENUM(PixelType);
+            TINYGFX_TEST_ENUM(ImageType);
             TINYGFX_TEST_ENUM(VideoLevels);
             TINYGFX_TEST_ENUM(YUVCoefficients);
         }
@@ -50,12 +50,12 @@ namespace tg
                 TG_ASSERT(0 == info.getByteCount());
             }
             {
-                const ImageInfo info(Size2I(1920, 1080), PixelType::RGB_U8);
+                const ImageInfo info(Size2I(1920, 1080), ImageType::RGB_U8);
                 TG_ASSERT(info.isValid());
                 TG_ASSERT(1920 * 1080 * 3 == info.getByteCount());
             }
             {
-                const ImageInfo info(1920, 1080, PixelType::RGB_U8);
+                const ImageInfo info(1920, 1080, ImageType::RGB_U8);
                 TG_ASSERT(info.isValid());
                 TG_ASSERT(1920 * 1080 * 3 == info.getByteCount());
             }
@@ -76,15 +76,15 @@ namespace tg
                 TG_ASSERT(!image->isValid());
             }
             {
-                auto image = Image::create(Size2I(1920, 1080), PixelType::RGB_U8);
+                auto image = Image::create(Size2I(1920, 1080), ImageType::RGB_U8);
                 TG_ASSERT(image->isValid());                
             }
             {
-                auto image = Image::create(1920, 1080, PixelType::RGB_U8);
+                auto image = Image::create(1920, 1080, ImageType::RGB_U8);
                 TG_ASSERT(image->isValid());
             }
             {
-                const ImageInfo info(Size2I(1920, 1080), PixelType::RGB_U8);
+                const ImageInfo info(Size2I(1920, 1080), ImageType::RGB_U8);
                 auto image = Image::create(info);
                 image->zero();
                 TG_ASSERT(info == image->getInfo());
@@ -92,7 +92,7 @@ namespace tg
                 TG_ASSERT(info.size.w == image->getWidth());
                 TG_ASSERT(info.size.h == image->getHeight());
                 const float aspect = image->getAspect();
-                TG_ASSERT(info.pixelType == image->getPixelType());
+                TG_ASSERT(info.type == image->getType());
                 TG_ASSERT(image->isValid());
                 ImageTags tags;
                 tags["Layer"] = "1";
@@ -107,7 +107,7 @@ namespace tg
         
         void ImageTest::_functions()
         {
-            for (auto i : getPixelTypeEnums())
+            for (auto i : getImageTypeEnums())
             {
                 _print(Format("{0}: channels={1}, bitDepth={2}").
                     arg(i).

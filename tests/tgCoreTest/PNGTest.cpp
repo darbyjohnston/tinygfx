@@ -40,32 +40,32 @@ namespace tg
                     Size2I(1, 1),
                     Size2I(0, 0)
                 };
-                const std::vector<PixelType> pixelTypes =
+                const std::vector<ImageType> imageTypes =
                 {
-                    PixelType::L_U8,
-                    PixelType::L_U16,
-                    PixelType::LA_U8,
-                    PixelType::LA_U16,
-                    PixelType::RGB_U8,
-                    PixelType::RGB_U16,
-                    PixelType::RGBA_U8,
-                    PixelType::RGBA_U16,
-                    PixelType::None
+                    ImageType::L_U8,
+                    ImageType::L_U16,
+                    ImageType::LA_U8,
+                    ImageType::LA_U16,
+                    ImageType::RGB_U8,
+                    ImageType::RGB_U16,
+                    ImageType::RGBA_U8,
+                    ImageType::RGBA_U16,
+                    ImageType::None
                 };
                 for (auto size : sizes)
                 {
-                    for (auto pixelType : pixelTypes)
+                    for (auto imageType : imageTypes)
                     {
                         try
                         {
-                            const ImageInfo info(size, pixelType);
+                            const ImageInfo info(size, imageType);
                             auto image = Image::create(info);
                             image->zero();
                             const std::string fileName = Format(
                                 "PNGTest_{0}_{1}_{2}.png").
                                 arg(size.w).
                                 arg(size.h).
-                                arg(pixelType);
+                                arg(imageType);
 
                             auto write = io->write(fileName, info);
                             if (write)
@@ -77,7 +77,7 @@ namespace tg
                             auto read = io->read(fileName);
                             auto info2 = read->getInfo();
                             TG_ASSERT(info.size == info2.size);
-                            TG_ASSERT(info.pixelType == info2.pixelType);
+                            TG_ASSERT(info.type == info2.type);
                             auto image2 = read->read();
                             TG_ASSERT(image2);
                             read.reset();
@@ -88,7 +88,7 @@ namespace tg
                             read = io->read(fileName, memory);
                             info2 = read->getInfo();
                             TG_ASSERT(info.size == info2.size);
-                            TG_ASSERT(info.pixelType == info2.pixelType);
+                            TG_ASSERT(info.type == info2.type);
                             image2 = read->read();
                             TG_ASSERT(image2);
                             read.reset();

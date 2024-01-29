@@ -23,8 +23,8 @@ namespace tg
         //! \name Images
         ///@{
 
-        //! Pixel types.
-        enum class PixelType
+        //! Image types.
+        enum class ImageType
         {
             None,
 
@@ -66,13 +66,13 @@ namespace tg
             Count,
             First = None
         };
-        TG_ENUM(PixelType);
+        TG_ENUM(ImageType);
 
-        //! Get the number of channels for the given pixel type.
-        int getChannelCount(PixelType);
+        //! Get the number of channels for the given image type.
+        int getChannelCount(ImageType);
 
-        //! Get the bit-depth for the given pixel type.
-        int getBitDepth(PixelType);
+        //! Get the bit-depth for the given image type.
+        int getBitDepth(ImageType);
 
         //! Video levels.
         enum class VideoLevels
@@ -135,11 +135,11 @@ namespace tg
         struct ImageInfo
         {
             ImageInfo() = default;
-            ImageInfo(const Size2I&, PixelType);
-            ImageInfo(int w, int h, PixelType);
+            ImageInfo(const Size2I&, ImageType);
+            ImageInfo(int w, int h, ImageType);
 
             Size2I          size;
-            PixelType       pixelType        = PixelType::None;
+            ImageType       type             = ImageType::None;
             float           pixelAspectRatio = 1.F;
             VideoLevels     videoLevels      = VideoLevels::FullRange;
             YUVCoefficients yuvCoefficients  = YUVCoefficients::REC709;
@@ -176,10 +176,10 @@ namespace tg
             static std::shared_ptr<Image> create(const ImageInfo&);
 
             //! Create a new image.
-            static std::shared_ptr<Image> create(const Size2I&, PixelType);
+            static std::shared_ptr<Image> create(const Size2I&, ImageType);
 
             //! Create a new image.
-            static std::shared_ptr<Image> create(int w, int h, PixelType);
+            static std::shared_ptr<Image> create(int w, int h, ImageType);
 
             //! Get the image information.
             const ImageInfo& getInfo() const;
@@ -196,8 +196,8 @@ namespace tg
             //! Get the aspect ratio.
             float getAspect() const;
 
-            //! Get the image pixel type.
-            PixelType getPixelType() const;
+            //! Get the image type.
+            ImageType getType() const;
 
             //! Is the image valid?
             bool isValid() const;

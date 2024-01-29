@@ -20,7 +20,7 @@ namespace tg
         struct TextureAtlas::Private
         {
             int textureSize = 0;
-            PixelType textureType = PixelType::None;
+            ImageType textureType = ImageType::None;
             int border = 0;
             std::shared_ptr<Texture> texture;
             std::shared_ptr<BoxPack> boxPack;
@@ -28,7 +28,7 @@ namespace tg
 
         void TextureAtlas::_init(
             int textureSize,
-            PixelType textureType,
+            ImageType textureType,
             TextureFilter filter,
             int border)
         {
@@ -57,7 +57,7 @@ namespace tg
 
         std::shared_ptr<TextureAtlas> TextureAtlas::create(
             int textureSize,
-            PixelType textureType,
+            ImageType textureType,
             TextureFilter filter,
             int border)
         {
@@ -71,7 +71,7 @@ namespace tg
             return _p->textureSize;
         }
 
-        PixelType TextureAtlas::getTextureType() const
+        ImageType TextureAtlas::getTextureType() const
         {
             return _p->textureType;
         }
@@ -103,7 +103,7 @@ namespace tg
             {
                 out = true;
 
-                auto zero = Image::create(node->box.size(), PixelType::L_U8);
+                auto zero = Image::create(node->box.size(), ImageType::L_U8);
                 zero->zero();
                 p.texture->copy(
                     zero,

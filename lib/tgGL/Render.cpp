@@ -30,7 +30,7 @@ namespace tg
 
             p.glyphTextureAtlas = TextureAtlas::create(
                 4096,
-                PixelType::L_U8,
+                ImageType::L_U8,
                 TextureFilter::Linear);
         }
 
@@ -238,58 +238,58 @@ namespace tg
             default: break;
             }
             options.pbo = info.size.w >= pboSizeMin || info.size.h >= pboSizeMin;
-            switch (info.pixelType)
+            switch (info.type)
             {
-            case PixelType::YUV_420P_U8:
+            case ImageType::YUV_420P_U8:
             {
-                auto infoTmp = ImageInfo(info.size, PixelType::L_U8);
+                auto infoTmp = ImageInfo(info.size, ImageType::L_U8);
                 out.push_back(Texture::create(infoTmp, options));
-                infoTmp = ImageInfo(info.size.w / 2, info.size.h / 2, PixelType::L_U8);
+                infoTmp = ImageInfo(info.size.w / 2, info.size.h / 2, ImageType::L_U8);
                 out.push_back(Texture::create(infoTmp, options));
                 out.push_back(Texture::create(infoTmp, options));
                 break;
             }
-            case PixelType::YUV_422P_U8:
+            case ImageType::YUV_422P_U8:
             {
-                auto infoTmp = ImageInfo(info.size, PixelType::L_U8);
+                auto infoTmp = ImageInfo(info.size, ImageType::L_U8);
                 out.push_back(Texture::create(infoTmp, options));
-                infoTmp = ImageInfo(info.size.w / 2, info.size.h, PixelType::L_U8);
+                infoTmp = ImageInfo(info.size.w / 2, info.size.h, ImageType::L_U8);
                 out.push_back(Texture::create(infoTmp, options));
                 out.push_back(Texture::create(infoTmp, options));
                 break;
             }
-            case PixelType::YUV_444P_U8:
+            case ImageType::YUV_444P_U8:
             {
-                auto infoTmp = ImageInfo(info.size, PixelType::L_U8);
+                auto infoTmp = ImageInfo(info.size, ImageType::L_U8);
                 out.push_back(Texture::create(infoTmp, options));
-                infoTmp = ImageInfo(info.size, PixelType::L_U8);
+                infoTmp = ImageInfo(info.size, ImageType::L_U8);
                 out.push_back(Texture::create(infoTmp, options));
                 out.push_back(Texture::create(infoTmp, options));
                 break;
             }
-            case PixelType::YUV_420P_U16:
+            case ImageType::YUV_420P_U16:
             {
-                auto infoTmp = ImageInfo(info.size, PixelType::L_U16);
+                auto infoTmp = ImageInfo(info.size, ImageType::L_U16);
                 out.push_back(Texture::create(infoTmp, options));
-                infoTmp = ImageInfo(info.size.w / 2, info.size.h / 2, PixelType::L_U16);
+                infoTmp = ImageInfo(info.size.w / 2, info.size.h / 2, ImageType::L_U16);
                 out.push_back(Texture::create(infoTmp, options));
                 out.push_back(Texture::create(infoTmp, options));
                 break;
             }
-            case PixelType::YUV_422P_U16:
+            case ImageType::YUV_422P_U16:
             {
-                auto infoTmp = ImageInfo(info.size, PixelType::L_U16);
+                auto infoTmp = ImageInfo(info.size, ImageType::L_U16);
                 out.push_back(Texture::create(infoTmp, options));
-                infoTmp = ImageInfo(info.size.w / 2, info.size.h, PixelType::L_U16);
+                infoTmp = ImageInfo(info.size.w / 2, info.size.h, ImageType::L_U16);
                 out.push_back(Texture::create(infoTmp, options));
                 out.push_back(Texture::create(infoTmp, options));
                 break;
             }
-            case PixelType::YUV_444P_U16:
+            case ImageType::YUV_444P_U16:
             {
-                auto infoTmp = ImageInfo(info.size, PixelType::L_U16);
+                auto infoTmp = ImageInfo(info.size, ImageType::L_U16);
                 out.push_back(Texture::create(infoTmp, options));
-                infoTmp = ImageInfo(info.size, PixelType::L_U16);
+                infoTmp = ImageInfo(info.size, ImageType::L_U16);
                 out.push_back(Texture::create(infoTmp, options));
                 out.push_back(Texture::create(infoTmp, options));
                 break;
@@ -310,9 +310,9 @@ namespace tg
             size_t offset)
         {
             const auto& info = image->getInfo();
-            switch (info.pixelType)
+            switch (info.type)
             {
-            case PixelType::YUV_420P_U8:
+            case ImageType::YUV_420P_U8:
             {
                 if (3 == textures.size())
                 {
@@ -326,7 +326,7 @@ namespace tg
                 }
                 break;
             }
-            case PixelType::YUV_422P_U8:
+            case ImageType::YUV_422P_U8:
             {
                 if (3 == textures.size())
                 {
@@ -339,7 +339,7 @@ namespace tg
                 }
                 break;
             }
-            case PixelType::YUV_444P_U8:
+            case ImageType::YUV_444P_U8:
             {
                 if (3 == textures.size())
                 {
@@ -351,7 +351,7 @@ namespace tg
                 }
                 break;
             }
-            case PixelType::YUV_420P_U16:
+            case ImageType::YUV_420P_U16:
             {
                 if (3 == textures.size())
                 {
@@ -365,7 +365,7 @@ namespace tg
                 }
                 break;
             }
-            case PixelType::YUV_422P_U16:
+            case ImageType::YUV_422P_U16:
             {
                 if (3 == textures.size())
                 {
@@ -378,7 +378,7 @@ namespace tg
                 }
                 break;
             }
-            case PixelType::YUV_444P_U16:
+            case ImageType::YUV_444P_U16:
             {
                 if (3 == textures.size())
                 {
@@ -404,9 +404,9 @@ namespace tg
             const std::vector<std::shared_ptr<Texture> >& textures,
             size_t offset)
         {
-            switch (info.pixelType)
+            switch (info.type)
             {
-            case PixelType::YUV_420P_U8:
+            case ImageType::YUV_420P_U8:
                 if (3 == textures.size())
                 {
                     glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + offset));
@@ -417,7 +417,7 @@ namespace tg
                     textures[2]->bind();
                 }
                 break;
-            case PixelType::YUV_422P_U8:
+            case ImageType::YUV_422P_U8:
                 if (3 == textures.size())
                 {
                     glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + offset));
@@ -428,7 +428,7 @@ namespace tg
                     textures[2]->bind();
                 }
                 break;
-            case PixelType::YUV_444P_U8:
+            case ImageType::YUV_444P_U8:
                 if (3 == textures.size())
                 {
                     glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + offset));
@@ -439,7 +439,7 @@ namespace tg
                     textures[2]->bind();
                 }
                 break;
-            case PixelType::YUV_420P_U16:
+            case ImageType::YUV_420P_U16:
                 if (3 == textures.size())
                 {
                     glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + offset));
@@ -450,7 +450,7 @@ namespace tg
                     textures[2]->bind();
                 }
                 break;
-            case PixelType::YUV_422P_U16:
+            case ImageType::YUV_422P_U16:
                 if (3 == textures.size())
                 {
                     glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + offset));
@@ -461,7 +461,7 @@ namespace tg
                     textures[2]->bind();
                 }
                 break;
-            case PixelType::YUV_444P_U16:
+            case ImageType::YUV_444P_U16:
                 if (3 == textures.size())
                 {
                     glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + offset));

@@ -35,28 +35,28 @@ namespace tg
                     png_init_io(png, f);
 
                     int colorType = 0;
-                    switch (info.pixelType)
+                    switch (info.type)
                     {
-                    case PixelType::L_U8:
-                    case PixelType::L_U16:
+                    case ImageType::L_U8:
+                    case ImageType::L_U16:
                         colorType = PNG_COLOR_TYPE_GRAY;
                         break;
-                    case PixelType::LA_U8:
-                    case PixelType::LA_U16:
+                    case ImageType::LA_U8:
+                    case ImageType::LA_U16:
                         colorType = PNG_COLOR_TYPE_GRAY_ALPHA;
                         break;
-                    case PixelType::RGB_U8:
-                    case PixelType::RGB_U16:
+                    case ImageType::RGB_U8:
+                    case ImageType::RGB_U16:
                         colorType = PNG_COLOR_TYPE_RGB;
                         break;
-                    case PixelType::RGBA_U8:
-                    case PixelType::RGBA_U16:
+                    case ImageType::RGBA_U8:
+                    case ImageType::RGBA_U16:
                         colorType = PNG_COLOR_TYPE_RGB_ALPHA;
                         break;
                     default: return false;
                     }
 
-                    const int bitDepth = getBitDepth(info.pixelType);
+                    const int bitDepth = getBitDepth(info.type);
                     png_set_IHDR(
                         png,
                         *pngInfo,
@@ -133,16 +133,16 @@ namespace tg
                 }
 
                 size_t scanlineByteCount = 0;
-                switch (info.pixelType)
+                switch (info.type)
                 {
-                case PixelType::L_U8: scanlineByteCount = info.size.w; break;
-                case PixelType::L_U16: scanlineByteCount = static_cast<size_t>(info.size.w) * 2; break;
-                case PixelType::LA_U8: scanlineByteCount = static_cast<size_t>(info.size.w) * 2; break;
-                case PixelType::LA_U16: scanlineByteCount = static_cast<size_t>(info.size.w) * 2 * 2; break;
-                case PixelType::RGB_U8: scanlineByteCount = static_cast<size_t>(info.size.w) * 3; break;
-                case PixelType::RGB_U16: scanlineByteCount = static_cast<size_t>(info.size.w) * 3 * 2; break;
-                case PixelType::RGBA_U8: scanlineByteCount = static_cast<size_t>(info.size.w) * 4; break;
-                case PixelType::RGBA_U16: scanlineByteCount = static_cast<size_t>(info.size.w) * 4 * 2; break;
+                case ImageType::L_U8: scanlineByteCount = info.size.w; break;
+                case ImageType::L_U16: scanlineByteCount = static_cast<size_t>(info.size.w) * 2; break;
+                case ImageType::LA_U8: scanlineByteCount = static_cast<size_t>(info.size.w) * 2; break;
+                case ImageType::LA_U16: scanlineByteCount = static_cast<size_t>(info.size.w) * 2 * 2; break;
+                case ImageType::RGB_U8: scanlineByteCount = static_cast<size_t>(info.size.w) * 3; break;
+                case ImageType::RGB_U16: scanlineByteCount = static_cast<size_t>(info.size.w) * 3 * 2; break;
+                case ImageType::RGBA_U8: scanlineByteCount = static_cast<size_t>(info.size.w) * 4; break;
+                case ImageType::RGBA_U16: scanlineByteCount = static_cast<size_t>(info.size.w) * 4 * 2; break;
                 default: break;
                 }
                 scanlineByteCount = getAlignedByteCount(scanlineByteCount, info.layout.alignment);

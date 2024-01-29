@@ -62,16 +62,16 @@ namespace tg
                 
                 auto atlas = TextureAtlas::create(
                     1024,
-                    PixelType::L_U8,
+                    ImageType::L_U8,
                     TextureFilter::Linear,
                     0);
                 TG_ASSERT(1024 == atlas->getTextureSize());
-                TG_ASSERT(PixelType::L_U8 == atlas->getTextureType());
+                TG_ASSERT(ImageType::L_U8 == atlas->getTextureType());
                 TG_ASSERT(atlas->getTexture());
                 
                 for (size_t i = 0; i < 10; ++i)
                 {
-                    auto image = Image::create(512, 512, PixelType::L_U8);
+                    auto image = Image::create(512, 512, ImageType::L_U8);
                     TextureAtlasItem item;
                     TG_ASSERT(atlas->addItem(image, item));
                     TG_ASSERT(atlas->getItem(item.id, item));

@@ -43,19 +43,19 @@ namespace tg
             return !(other == *this);
         }
 
-        inline ImageInfo::ImageInfo(const Size2I& size, PixelType pixelType) :
+        inline ImageInfo::ImageInfo(const Size2I& size, ImageType type) :
             size(size),
-            pixelType(pixelType)
+            type(type)
         {}
         
-        inline ImageInfo::ImageInfo(int w, int h, PixelType pixelType) :
+        inline ImageInfo::ImageInfo(int w, int h, ImageType type) :
             size(w, h),
-            pixelType(pixelType)
+            type(type)
         {}
 
         inline bool ImageInfo::isValid() const
         {
-            return size.isValid() && pixelType != PixelType::None;
+            return size.isValid() && type != ImageType::None;
         }
 
         inline float ImageInfo::getAspect() const
@@ -67,7 +67,7 @@ namespace tg
         {
             return
                 size == other.size &&
-                pixelType == other.pixelType &&
+                type == other.type &&
                 pixelAspectRatio == other.pixelAspectRatio &&
                 videoLevels == other.videoLevels &&
                 yuvCoefficients == other.yuvCoefficients &&
@@ -104,9 +104,9 @@ namespace tg
             return _info.getAspect();
         }
 
-        inline PixelType Image::getPixelType() const
+        inline ImageType Image::getType() const
         {
-            return _info.pixelType;
+            return _info.type;
         }
 
         inline bool Image::isValid() const

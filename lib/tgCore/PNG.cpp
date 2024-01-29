@@ -56,14 +56,14 @@ namespace tg
                     ".png",
                     Compare::CaseInsensitive) &&
                     (
-                        info.pixelType == PixelType::L_U8 ||
-                        info.pixelType == PixelType::L_U16 ||
-                        info.pixelType == PixelType::LA_U8 ||
-                        info.pixelType == PixelType::LA_U16 ||
-                        info.pixelType == PixelType::RGB_U8 ||
-                        info.pixelType == PixelType::RGB_U16 ||
-                        info.pixelType == PixelType::RGBA_U8 ||
-                        info.pixelType == PixelType::RGBA_U16
+                        info.type == ImageType::L_U8 ||
+                        info.type == ImageType::L_U16 ||
+                        info.type == ImageType::LA_U8 ||
+                        info.type == ImageType::LA_U16 ||
+                        info.type == ImageType::RGB_U8 ||
+                        info.type == ImageType::RGB_U16 ||
+                        info.type == ImageType::RGBA_U8 ||
+                        info.type == ImageType::RGBA_U16
                     );
             }
 

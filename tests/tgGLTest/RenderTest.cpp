@@ -181,9 +181,9 @@ namespace tg
                 }
                 for (const auto& imageSize : { Size2I(64, 64), Size2I(2048, 2048) })
                 {
-                    for (auto pixelType : getPixelTypeEnums())
+                    for (auto imageType : getImageTypeEnums())
                     {
-                        auto image = Image::create(imageSize, pixelType);
+                        auto image = Image::create(imageSize, imageType);
                         for (const auto& imageOptions : imageOptionsList)
                         {
                             try

@@ -66,10 +66,10 @@ namespace tg
 
                 const Size2I size(1920, 1080);
                 std::vector<OffscreenBufferOptions> optionsList;
-                for (auto pixelType : getPixelTypeEnums())
+                for (auto imageType : getImageTypeEnums())
                 {
                     OffscreenBufferOptions options;
-                    options.color = pixelType;
+                    options.color = imageType;
                     optionsList.push_back(options);
                 }
                 for (auto depth : getOffscreenDepthEnums())
@@ -128,7 +128,7 @@ namespace tg
                         TG_ASSERT(size.h == offscreen->getHeight());
                         TG_ASSERT(options == offscreen->getOptions());
                         TG_ASSERT(offscreen->getID());
-                        if (options.color != PixelType::None)
+                        if (options.color != ImageType::None)
                         {
                             TG_ASSERT(offscreen->getColorID());
                             offscreen->bind();

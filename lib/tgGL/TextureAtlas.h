@@ -34,7 +34,7 @@ namespace tg
         protected:
             void _init(
                 int textureSize,
-                core::PixelType textureType,
+                core::ImageType textureType,
                 TextureFilter filter,
                 int border);
 
@@ -46,12 +46,12 @@ namespace tg
             //! Create a new texture atlas.
             static std::shared_ptr<TextureAtlas> create(
                 int textureSize,
-                core::PixelType textureType,
+                core::ImageType textureType,
                 TextureFilter filter = TextureFilter::Linear,
                 int border = 1);
 
             int getTextureSize() const;
-            core::PixelType getTextureType() const;
+            core::ImageType getTextureType() const;
             unsigned int getTexture() const;
 
             bool getItem(core::BoxPackID, TextureAtlasItem&);

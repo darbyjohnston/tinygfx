@@ -204,49 +204,49 @@ namespace tg
                 }
                 _scanlineSize = width * channels * bitDepth / 8;
 
-                PixelType pixelType = PixelType::None;
+                ImageType type = ImageType::None;
                 switch (channels)
                 {
                     case 1:
                         switch (bitDepth)
                         {
-                        case 8: pixelType = PixelType::L_U8; break;
-                        case 16: pixelType = PixelType::L_U16; break;
+                        case 8: type = ImageType::L_U8; break;
+                        case 16: type = ImageType::L_U16; break;
                         default: break;
                         }
                         break;
                     case 2:
                         switch (bitDepth)
                         {
-                        case 8: pixelType = PixelType::LA_U8; break;
-                        case 16: pixelType = PixelType::LA_U16; break;
+                        case 8: type = ImageType::LA_U8; break;
+                        case 16: type = ImageType::LA_U16; break;
                         default: break;
                         }
                         break;
                     case 3:
                         switch (bitDepth)
                         {
-                        case 8: pixelType = PixelType::RGB_U8; break;
-                        case 16: pixelType = PixelType::RGB_U16; break;
+                        case 8: type = ImageType::RGB_U8; break;
+                        case 16: type = ImageType::RGB_U16; break;
                         default: break;
                         }
                         break;
                     case 4:
                         switch (bitDepth)
                         {
-                        case 8: pixelType = PixelType::RGBA_U8; break;
-                        case 16: pixelType = PixelType::RGBA_U16; break;
+                        case 8: type = ImageType::RGBA_U8; break;
+                        case 16: type = ImageType::RGBA_U16; break;
                         default: break;
                         }
                         break;
                     default: break;
                 }
-                if (PixelType::None == pixelType)
+                if (ImageType::None == type)
                 {
                     throw std::runtime_error(Format("{0}: Cannot open").arg(fileName));
                 }
 
-                _info = ImageInfo(width, height, pixelType);
+                _info = ImageInfo(width, height, type);
                 _info.layout.mirror.y = true;
             }
             

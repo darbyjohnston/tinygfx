@@ -14,13 +14,13 @@ namespace tg
         ///@{
         
         //! Get the OpenGL texture format.
-        unsigned int getTextureFormat(core::PixelType);
+        unsigned int getTextureFormat(core::ImageType);
 
         //! Get the OpenGL internal texture format.
-        unsigned int getTextureInternalFormat(core::PixelType);
+        unsigned int getTextureInternalFormat(core::ImageType);
 
         //! Get the OpenGL texture type.
-        unsigned int getTextureType(core::PixelType);
+        unsigned int getTextureType(core::ImageType);
 
         //! Texture filtering.
         enum class TextureFilter
@@ -86,8 +86,8 @@ namespace tg
             //! Get the height.
             int getHeight() const;
 
-            //! Get the pixel type.
-            core::PixelType getPixelType() const;
+            //! Get the image type.
+            core::ImageType getType() const;
 
             //! Get the OpenGL texture ID.
             unsigned int getID() const;

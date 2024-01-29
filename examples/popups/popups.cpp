@@ -36,19 +36,19 @@ void MainWindow::_init(
     auto groupBox = GroupBox::create(context, "Combo Boxes", layout);
     auto vLayout = VerticalLayout::create(context, groupBox);
     auto comboBox = ComboBox::create(context, getEndianLabels(), vLayout);
-    comboBox = ComboBox::create(context, getPixelTypeLabels(), vLayout);
+    comboBox = ComboBox::create(context, getImageTypeLabels(), vLayout);
     
     // Create color swatches.
     groupBox = GroupBox::create(context, "Color Popups", layout);
     auto hLayout = HorizontalLayout::create(context, groupBox);
     const std::vector<Color4F> colors =
     {
-        Color4F(1.F, 0.F, 0.F),
-        Color4F(0.F, 1.F, 0.F),
-        Color4F(0.F, 0.F, 1.F),
-        Color4F(1.F, 1.F, 0.F),
-        Color4F(0.F, 1.F, 1.F),
-        Color4F(1.F, 0.F, 1.F)
+        Color4F(1.F, .5F, .5F),
+        Color4F(.5F, 1.F, .5F),
+        Color4F(.5F, .5F, 1.F),
+        Color4F(1.F, 1.F, .5F),
+        Color4F(.5F, 1.F, 1.F),
+        Color4F(1.F, .5F, 1.F)
     };
     for (const auto& color : colors)
     {
