@@ -39,6 +39,8 @@ set(HEADERS
     LayoutUtil.h
     LineEdit.h
     ListButton.h
+    MDICanvas.h
+    MDIWidget.h
     PushButton.h
     RowLayout.h
     ScrollArea.h
@@ -94,6 +96,8 @@ set(SOURCE
     LayoutUtil.cpp
     LineEdit.cpp
     ListButton.cpp
+    MDICanvas.cpp
+    MDIWidget.cpp
     PushButton.cpp
     RowLayout.cpp
     ScrollArea.cpp
