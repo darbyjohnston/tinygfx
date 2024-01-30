@@ -44,14 +44,11 @@ namespace tg
         std::shared_ptr<BoxPackNode> BoxPack::getNode(BoxPackID id)
         {
             std::shared_ptr<BoxPackNode> out;
-            for (const auto& node : getNodes())
+            const auto i = _idToNode.find(id);
+            if (i != _idToNode.end())
             {
-                if (id == node->id)
-                {
-                    node->timestamp = _timestamp++;
-                    out = node;
-                    break;
-                }
+                i->second->timestamp = _timestamp++;
+                out = i->second;
             }
             return out;
         }
@@ -78,6 +75,7 @@ namespace tg
                     if (sizeAndBorder.w <= nodeSize.w &&
                         sizeAndBorder.h <= nodeSize.h)
                     {
+                        _removeFromMap(node);
                         node->id = boxPackInvalidID;
                         node->timestamp = 0;
                         node->children[0].reset();
@@ -127,6 +125,7 @@ namespace tg
                 {
                     node->id = _id++;
                     node->timestamp = _timestamp++;
+                    _idToNode[node->id] = node;
                     out = node;
                 }
                 else if (sizeAndBorder.w <= nodeSize.w &&
@@ -164,6 +163,23 @@ namespace tg
                 }
             }
             return out;
+        }
+
+        void BoxPack::_removeFromMap(const std::shared_ptr<BoxPackNode>& node)
+        {
+            const auto i = _idToNode.find(node->id);
+            if (i != _idToNode.end())
+            {
+                _idToNode.erase(i);
+            }
+            if (node->children[0])
+            {
+                _removeFromMap(node->children[0]);
+            }
+            if (node->children[1])
+            {
+                _removeFromMap(node->children[1]);
+            }
         }
     }
 }

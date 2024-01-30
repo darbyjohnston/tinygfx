@@ -8,6 +8,7 @@
 #include <tgCore/Util.h>
 
 #include <array>
+#include <map>
 #include <memory>
 #include <vector>
 
@@ -70,10 +71,13 @@ namespace tg
                 std::shared_ptr<BoxPackNode>,
                 const Size2I&);
 
+            void _removeFromMap(const std::shared_ptr<BoxPackNode>&);
+
             int _border = 0;
             std::shared_ptr<BoxPackNode> _root;
             BoxPackID _id = 0;
             BoxPackTimestamp _timestamp = 0;
+            std::map<BoxPackID, std::shared_ptr<BoxPackNode>> _idToNode;
         };
 
         ///@}
