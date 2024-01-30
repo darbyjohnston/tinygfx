@@ -23,7 +23,9 @@ namespace tg
 
             if (p.vbos["rect"])
             {
-                p.vbos["rect"]->copy(convert(mesh(box), p.vbos["rect"]->getType()));
+                const auto mesh = core::mesh(box);
+                p.vbos["rect"]->copy(convert(mesh, p.vbos["rect"]->getType()));
+                p.stats.triCount += mesh.triangles.size();
             }
             if (p.vaos["rect"])
             {
@@ -67,6 +69,7 @@ namespace tg
             if (p.vbos["line"])
             {
                 p.vbos["line"]->copy(convert(mesh, p.vbos["line"]->getType()));
+                p.stats.triCount += mesh.triangles.size();
             }
             if (p.vaos["line"])
             {
@@ -101,6 +104,7 @@ namespace tg
                 if (p.vbos["mesh"])
                 {
                     p.vbos["mesh"]->copy(convert(mesh, VBOType::Pos2_F32));
+                    p.stats.triCount += mesh.triangles.size();
                 }
 
                 if (!p.vaos["mesh"] && p.vbos["mesh"])
@@ -141,6 +145,7 @@ namespace tg
                 if (p.vbos["colorMesh"])
                 {
                     p.vbos["colorMesh"]->copy(convert(mesh, VBOType::Pos2_F32_Color_F32));
+                    p.stats.triCount += mesh.triangles.size();
                 }
 
                 if (!p.vaos["colorMesh"] && p.vbos["colorMesh"])
@@ -243,6 +248,7 @@ namespace tg
                     }
 
                     x += glyph->advance;
+                    ++p.stats.glyphCount;
                 }
             }
             _drawTextMesh(mesh);
@@ -270,6 +276,7 @@ namespace tg
                 p.textureCache->add(image, textures, image->getByteCount());
             }
             _setActiveTextures(info, textures);
+            p.stats.textureCount += textures.size();
 
             p.shaders["image"]->bind();
             p.shaders["image"]->setUniform("color", color);
@@ -321,7 +328,9 @@ namespace tg
 
             if (p.vbos["image"])
             {
-                p.vbos["image"]->copy(convert(mesh(box), p.vbos["image"]->getType()));
+                const auto mesh = core::mesh(box);
+                p.vbos["image"]->copy(convert(mesh, p.vbos["image"]->getType()));
+                p.stats.triCount += mesh.triangles.size();
             }
             if (p.vaos["image"])
             {
@@ -344,6 +353,7 @@ namespace tg
                 if (p.vbos["text"])
                 {
                     p.vbos["text"]->copy(convert(mesh, p.vbos["text"]->getType()));
+                    p.stats.triCount += mesh.triangles.size();
                 }
                 if (!p.vaos["text"] && p.vbos["text"])
                 {

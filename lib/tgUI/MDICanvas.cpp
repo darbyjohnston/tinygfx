@@ -14,15 +14,8 @@ namespace tg
     {
         struct MDICanvas::Private
         {
-            std::list<std::weak_ptr<IWidget> > newWidgets;
-
-            struct SizeData
-            {
-                bool sizeInit = true;
-                int size = 0;
-                int spacing = 0;
-            };
-            SizeData size;
+            Size2I canvasSize = Size2I(2000, 2000);
+            std::vector<std::pair<V2I, std::shared_ptr<IWidget> > > newWidgets;
 
             struct MouseData
             {
@@ -58,15 +51,31 @@ namespace tg
             return out;
         }
 
+        const Size2I& MDICanvas::getCanvasSize() const
+        {
+            return _p->canvasSize;
+        }
+
+        void MDICanvas::setCanvasSize(const Size2I& value)
+        {
+            TG_P();
+            if (value == p.canvasSize)
+                return;
+            p.canvasSize = value;
+            _updates |= Update::Size;
+            _updates |= Update::Draw;            
+        }
+
         std::shared_ptr<MDIWidget> MDICanvas::addWidget(
             const std::string& title,
+            const core::V2I& pos,
             const std::shared_ptr<IWidget>& value)
         {
             TG_P();
             std::shared_ptr<MDIWidget> out;
             if (auto context = _context.lock())
             {
-                auto out = MDIWidget::create(context, title, shared_from_this());
+                out = MDIWidget::create(context, title, shared_from_this());
                 out->setWidget(value);
                 out->setPressCallback(
                     [this, out](bool value)
@@ -163,7 +172,7 @@ namespace tg
                             widget->setGeometry(g2);
                         }
                     });
-                p.newWidgets.push_back(out);
+                p.newWidgets.push_back(std::make_pair(pos, out));
                 _updates |= Update::Size;
                 _updates |= Update::Draw;
             }
@@ -172,50 +181,32 @@ namespace tg
 
         void MDICanvas::setGeometry(const Box2I& value)
         {
+            V2I offset = value.min - _geometry.min;
             IWidget::setGeometry(value);
             TG_P();
-            const Box2I& g = _geometry;
-            V2I pos = g.min + p.size.spacing;
-            while (!p.newWidgets.empty())
+            for (auto i : p.newWidgets)
             {
-                if (auto widget = p.newWidgets.front().lock())
-                {
-                    const Size2I& sizeHint = widget->getSizeHint();
-                    widget->setGeometry(Box2I(
-                        pos.x,
-                        pos.y,
-                        sizeHint.w,
-                        sizeHint.h));
-                    pos = pos + p.size.spacing;
-                }
-                p.newWidgets.pop_front();
+                const Size2I& sizeHint = i.second->getSizeHint();
+                i.second->setGeometry(Box2I(i.first, sizeHint));
             }
+            p.newWidgets.clear();
             for (const auto& child : _children)
             {
                 const Size2I& sizeHint = child->getSizeHint();
-                const Box2I& g2 = child->getGeometry();
+                const Box2I& g = child->getGeometry();
                 child->setGeometry(Box2I(
-                    g2.min.x,
-                    g2.min.y,
-                    std::max(g2.w(), sizeHint.w),
-                    std::max(g2.h(), sizeHint.h)));
+                    g.min.x + offset.x,
+                    g.min.y + offset.y,
+                    std::max(g.w(), sizeHint.w),
+                    std::max(g.h(), sizeHint.h)));
             }
         }
 
         void MDICanvas::sizeHintEvent(const SizeHintEvent& event)
         {
-            const bool displayScaleChanged = event.displayScale != _displayScale;
             IWidget::sizeHintEvent(event);
             TG_P();
-
-            if (displayScaleChanged || p.size.sizeInit)
-            {
-                p.size.size = event.style->getSizeRole(SizeRole::ScrollArea, _displayScale);
-                p.size.spacing = event.style->getSizeRole(SizeRole::SpacingLarge, _displayScale);
-            }
-            p.size.sizeInit = false;
-
-            _sizeHint.w = _sizeHint.h = p.size.size;
+            _sizeHint = p.canvasSize;
         }
 
         void MDICanvas::mouseMoveEvent(MouseMoveEvent& event)

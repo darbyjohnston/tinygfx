@@ -4,6 +4,10 @@
 
 #include <tgGL/RenderPrivate.h>
 
+#include <tgCore/Context.h>
+#include <tgCore/Format.h>
+#include <tgCore/LogSystem.h>
+
 using namespace tg::core;
 
 namespace tg
@@ -13,6 +17,7 @@ namespace tg
         namespace
         {
             const int pboSizeMin = 1024;
+            const size_t statsAverageCount = 10;
         }
 
         void Render::_init(
@@ -32,6 +37,19 @@ namespace tg
                 4096,
                 ImageType::L_U8,
                 TextureFilter::Linear);
+            
+            p.logTimer = Timer::create(context);
+            p.logTimer->setRepeating(true);
+            auto weak = std::weak_ptr<Render>(std::dynamic_pointer_cast<Render>(shared_from_this()));
+            p.logTimer->start(
+                std::chrono::seconds(10),
+                [this]
+                {
+                    if (_p->options.log)
+                    {
+                        _log();
+                    }
+                });
         }
 
         Render::Render() :
@@ -56,6 +74,9 @@ namespace tg
         {
             TG_P();
 
+            p.startTime = std::chrono::steady_clock::now();
+            p.stats = Private::Stats();
+            
             p.size = size;
             p.options = options;
             p.textureCache->setMax(options.textureCacheByteCount);
@@ -122,7 +143,17 @@ namespace tg
         }
         
         void Render::end()
-        {}
+        {
+            TG_P();
+            const auto now = std::chrono::steady_clock::now();
+            const auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(now - p.startTime);
+            p.stats.renderTime = diff.count();
+            p.statsList.push_back(p.stats);
+            while (p.statsList.size() > statsAverageCount)
+            {
+                p.statsList.pop_front();
+            }
+        }
 
         Size2I Render::getRenderSize() const
         {
@@ -479,6 +510,43 @@ namespace tg
                     textures[0]->bind();
                 }
                 break;
+            }
+        }
+        
+        void Render::_log()
+        {
+            TG_P();
+            if (auto context = _context.lock())
+            {
+                auto logSystem = context->getSystem<LogSystem>();
+                Private::Stats average;
+                const size_t size = p.statsList.size();
+                if (size)
+                {
+                    for (auto i : p.statsList)
+                    {
+                        average.renderTime   += i.renderTime;
+                        average.triCount     += i.triCount;
+                        average.textureCount += i.textureCount;
+                        average.glyphCount   += i.glyphCount;
+                    }
+                    average.renderTime   /= size;
+                    average.triCount     /= size;
+                    average.textureCount /= size;
+                    average.glyphCount   /= size;
+                }
+                logSystem->print(
+                    "tg::gl::Render",
+                    Format(
+                        "Averages:\n"
+                        "    Render time:    {0}ms\n"
+                        "    Triangle count: {1}\n"
+                        "    Texture count:  {2}\n"
+                        "    Glyph count:    {3}").
+                        arg(average.renderTime).
+                        arg(average.triCount).
+                        arg(average.textureCount).
+                        arg(average.glyphCount));
             }
         }
     }

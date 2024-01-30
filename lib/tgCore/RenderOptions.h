@@ -30,6 +30,9 @@ namespace tg
 
             //! Texture cache byte count.
             size_t textureCacheByteCount = gigabyte / 4;
+            
+            //! Enable logging.
+            bool log = true;
 
             bool operator == (const RenderOptions&) const;
             bool operator != (const RenderOptions&) const;

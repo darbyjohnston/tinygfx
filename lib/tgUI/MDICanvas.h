@@ -25,14 +25,21 @@ namespace tg
         public:
             virtual ~MDICanvas();
 
-            //! Create a new widget.
+            //! Create a new canvas.
             static std::shared_ptr<MDICanvas> create(
                 const std::shared_ptr<core::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            //! Get the canvas size.
+            const core::Size2I& getCanvasSize() const;
+
+            //! Set the canvas size.
+            void setCanvasSize(const core::Size2I&);
+
             //! Add a widget to the canvas.
             std::shared_ptr<MDIWidget> addWidget(
                 const std::string& title,
+                const core::V2I& pos,
                 const std::shared_ptr<IWidget>&);
 
             void setGeometry(const core::Box2I&) override;

@@ -126,7 +126,7 @@ namespace tg
         typedef Color<2, float> Color2F;
         typedef Color<3, float> Color3F;
         typedef Color<4, float> Color4F;
-
+        
         template<int C, typename T>
         bool operator == (const Color<C, T>&, const Color<C, T>&);
         template<int C, typename T>

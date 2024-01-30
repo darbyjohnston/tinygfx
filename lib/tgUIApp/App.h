@@ -54,6 +54,8 @@ namespace tg
                 bool visible,
                 bool enabled,
                 const TickEvent&);
+            
+            void _log();
 
             TG_PRIVATE();
         };

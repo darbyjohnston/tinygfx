@@ -114,6 +114,12 @@ namespace tg
 
             //! Set the geometry.
             virtual void setGeometry(const core::Box2I&);
+            
+            //! Set the position.
+            void setPos(const core::V2I&);
+            
+            //! Set the size.
+            void setSize(const core::Size2I&);
 
             ///@}
 

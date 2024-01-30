@@ -101,6 +101,8 @@ namespace tg
                 size_t offset = 0);
 
             void _drawTextMesh(const core::TriMesh2F&);
+            
+            void _log();
 
             TG_PRIVATE();
         };

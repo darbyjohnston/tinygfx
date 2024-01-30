@@ -13,7 +13,10 @@
 #include <tgUI/Style.h>
 
 #include <tgCore/Context.h>
+#include <tgCore/Format.h>
+#include <tgCore/LogSystem.h>
 #include <tgCore/Time.h>
+#include <tgCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -39,6 +42,8 @@ namespace tg
             std::shared_ptr<Style> style;
             std::shared_ptr<IconLibrary> iconLibrary;
             std::list<std::shared_ptr<Window> > windows;
+            std::list<int> tickTimes;
+            std::shared_ptr<Timer> logTimer;
         };
         
         void App::_init(
@@ -53,9 +58,23 @@ namespace tg
             TG_P();
             ui::init(context);
             gl::init(context);
+
             p.fontSystem = context->getSystem<FontSystem>();
             p.style = Style::create(context);
             p.iconLibrary = IconLibrary::create(context);
+            
+            p.logTimer = Timer::create(context);
+            p.logTimer->setRepeating(true);
+            auto weak = std::weak_ptr<App>(std::dynamic_pointer_cast<App>(shared_from_this()));
+            p.logTimer->start(
+                std::chrono::seconds(10),
+                [weak]
+                {
+                    if (auto app = weak.lock())
+                    {
+                        app->_log();
+                    }
+                });
         }
 
         App::App() :
@@ -133,8 +152,12 @@ namespace tg
                     auto t1 = std::chrono::steady_clock::now();
                     sleep(timeout, t0, t1);
                     t1 = std::chrono::steady_clock::now();
-                    const std::chrono::duration<double> diff = t1 - t0;
-                    //std::cout << "tick: " << diff.count() << std::endl;
+                    const auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0);
+                    p.tickTimes.push_back(diff.count());
+                    while (p.tickTimes.size() > 10)
+                    {
+                        p.tickTimes.pop_front();
+                    }
                     t0 = t1;
                 }
             }
@@ -159,6 +182,24 @@ namespace tg
                     event);
             }
             widget->tickEvent(visible, enabled, event);
+        }
+        
+        void App::_log()
+        {
+            TG_P();
+            double tickAverage = 0.0;
+            if (!p.tickTimes.empty())
+            {
+                for (auto t : p.tickTimes)
+                {
+                    tickAverage += t;
+                }
+                tickAverage /= static_cast<double>(p.tickTimes.size());
+            }
+            auto logSystem = _context->getSystem<LogSystem>();
+            logSystem->print(
+                "tg::ui::App",
+                Format("Average tick time: {0}ms").arg(tickAverage));
         }
     }
 }

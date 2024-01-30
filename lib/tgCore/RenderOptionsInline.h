@@ -11,7 +11,8 @@ namespace tg
             return
                 clear == other.clear &&
                 clearColor == other.clearColor &&
-                textureCacheByteCount == other.textureCacheByteCount;
+                textureCacheByteCount == other.textureCacheByteCount &&
+                log == other.log;
         }
 
         inline bool RenderOptions::operator != (const RenderOptions& other) const
@@ -21,8 +22,7 @@ namespace tg
 
         inline bool LineOptions::operator == (const LineOptions& other) const
         {
-            return
-                width == other.width;
+            return width == other.width;
         }
 
         inline bool LineOptions::operator != (const LineOptions& other) const

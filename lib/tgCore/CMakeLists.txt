@@ -40,6 +40,8 @@ set(HEADERS
     ObservableMapInline.h
     ObservableValue.h
     ObservableValueInline.h
+    Random.h
+    RandomInline.h
     Range.h
     RangeInline.h
     RenderOptions.h
@@ -75,6 +77,7 @@ set(SOURCE
     PNGRead.cpp
     PNGWrite.cpp
     OS.cpp
+    Random.cpp
     RenderOptions.cpp
     RenderUtil.cpp
     String.cpp

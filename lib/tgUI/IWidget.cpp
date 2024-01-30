@@ -189,6 +189,16 @@ namespace tg
             _updates |= Update::Draw;
         }
 
+        void IWidget::setPos(const V2I& value)
+        {
+            setGeometry(Box2I(value, _geometry.size()));
+        }
+        
+        void IWidget::setSize(const Size2I& value)
+        {
+            setGeometry(Box2I(_geometry.min, value));
+        }
+
         void IWidget::setVisible(bool value)
         {
             if (value == _visible)

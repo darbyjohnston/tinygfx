@@ -10,6 +10,9 @@
 #include <tgUI/MDICanvas.h>
 #include <tgUI/MDIWidget.h>
 
+#include <tgCore/Format.h>
+#include <tgCore/Random.h>
+
 using namespace tg::core;
 using namespace tg::ui;
 
@@ -31,15 +34,16 @@ void MainWindow::_init(
     _scrollWidget->setWidget(canvas);
 
     // Create the MDI widgets.
-    auto colorWidget = ColorWidget::create(context);
-    colorWidget->setColor(Color4F(1.F, .5F, .5F));
-    canvas->addWidget("Color", colorWidget);
-    colorWidget = ColorWidget::create(context);
-    colorWidget->setColor(Color4F(.5F, 1.F, .5F));
-    canvas->addWidget("Color", colorWidget);
-    colorWidget = ColorWidget::create(context);
-    colorWidget->setColor(Color4F(.5F, .5F, 1.F));
-    canvas->addWidget("Color", colorWidget);
+    Random random;
+    for (size_t i = 0; i < 10; ++i)
+    {
+        auto colorWidget = ColorWidget::create(context);
+        colorWidget->setColor(Color4F(random.get(), random.get(), random.get()));
+        canvas->addWidget(
+            Format("Color {0}").arg(i),
+            V2I(random.get(0, size.w), random.get(0, size.h)),
+            colorWidget);
+    }
 }
 
 MainWindow::~MainWindow()
