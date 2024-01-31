@@ -6,10 +6,18 @@
 
 #include <tgUIApp/Window.h>
 
+#include <tgCore/Timer.h>
+
 using namespace tg;
 
 class MainWindow : public ui::Window
 {
+protected:
+    void _init(
+        const std::shared_ptr<core::Context>&,
+        const std::string& name,
+        const core::Size2I&);
+
 public:
     virtual ~MainWindow();
     
@@ -18,6 +26,14 @@ public:
         const std::string& name,
         const core::Size2I&);
 
+    void setGeometry(const core::Box2I&) override;
     void drawEvent(const core::Box2I&, const ui::DrawEvent&) override;
+
+private:
+    void _tick();
+
+    std::shared_ptr<core::Image> _image;
+    std::shared_ptr<core::Timer> _timer;
+    double _noiseZ = 0.0;
 };
 
