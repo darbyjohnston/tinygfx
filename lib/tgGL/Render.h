@@ -63,6 +63,9 @@ namespace tg
             void drawRect(
                 const core::Box2F&,
                 const core::Color4F&) override;
+            void drawRects(
+                const std::vector<core::Box2F>&,
+                const core::Color4F&) override;
             void drawLine(
                 const core::V2F&,
                 const core::V2F&,

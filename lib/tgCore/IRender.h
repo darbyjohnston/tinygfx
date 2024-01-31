@@ -79,6 +79,11 @@ namespace tg
             virtual void drawRect(
                 const Box2F&,
                 const Color4F&) = 0;
+
+            //! Draw filled rectangles.
+            virtual void drawRects(
+                const std::vector<Box2F>&,
+                const Color4F&) = 0;
             
             //! Draw a line.
             virtual void drawLine(

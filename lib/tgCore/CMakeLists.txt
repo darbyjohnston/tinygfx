@@ -33,6 +33,7 @@ set(HEADERS
     MemoryInline.h
     Mesh.h
     MeshInline.h
+    Noise.h
     OS.h
     ObservableList.h
     ObservableListInline.h
@@ -73,6 +74,7 @@ set(SOURCE
     Math.cpp
     Memory.cpp
     Mesh.cpp
+    Noise.cpp
     PNG.cpp
     PNGRead.cpp
     PNGWrite.cpp

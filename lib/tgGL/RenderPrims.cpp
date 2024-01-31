@@ -11,7 +11,7 @@ namespace tg
     namespace gl
     {
         void Render::drawRect(
-            const Box2F& box,
+            const Box2F& rect,
             const Color4F& color)
         {
             TG_P();
@@ -23,7 +23,7 @@ namespace tg
 
             if (p.vbos["rect"])
             {
-                const auto mesh = core::mesh(box);
+                const auto mesh = core::mesh(rect);
                 p.vbos["rect"]->copy(convert(mesh, p.vbos["rect"]->getType()));
                 p.stats.triCount += mesh.triangles.size();
             }
@@ -32,6 +32,24 @@ namespace tg
                 p.vaos["rect"]->bind();
                 p.vaos["rect"]->draw(GL_TRIANGLES, 0, p.vbos["rect"]->getSize());
             }
+        }
+
+        void Render::drawRects(
+            const std::vector<Box2F>& rects,
+            const Color4F& color)
+        {
+            TriMesh2F mesh;
+            for (const auto& rect : rects)
+            {
+                const size_t i = mesh.v.size();
+                mesh.v.push_back(rect.min);
+                mesh.v.push_back(V2F(rect.max.x, rect.min.y));
+                mesh.v.push_back(rect.max);
+                mesh.v.push_back(V2F(rect.min.x, rect.max.y));
+                mesh.triangles.push_back({ i + 1, i + 2, i + 3 });
+                mesh.triangles.push_back({ i + 3, i + 4, i + 1 });
+            }
+            drawMesh(mesh, color);
         }
         
         void Render::drawLine(
