@@ -8,8 +8,7 @@
 #include <tgCore/Format.h>
 #include <tgCore/Memory.h>
 
-#include <cstring>
-#include <exception>
+#include <filesystem>
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -17,7 +16,6 @@
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif // NOMINMAX
-#include <sys/stat.h>
 #include <windows.h>
 
 namespace tg
@@ -127,40 +125,6 @@ namespace tg
             out->_p->memoryStart = memory.p;
             out->_p->memoryEnd = memory.p + memory.size;
             out->_p->memoryP = memory.p;
-            return out;
-        }
-
-        std::shared_ptr<FileIO> FileIO::createTemp()
-        {
-            auto out = std::shared_ptr<FileIO>(new FileIO);
-
-            WCHAR path[MAX_PATH];
-            DWORD r = GetTempPathW(MAX_PATH, path);
-            if (!r)
-            {
-                throw std::runtime_error(
-                    getErrorMessage(ErrorType::OpenTemp, std::string(), getLastError()));
-            }
-            WCHAR buf[MAX_PATH];
-            if (GetTempFileNameW(path, L"", 0, buf))
-            {
-                std::string fileName;
-                try
-                {
-                    fileName = fromWide(buf);
-                }
-                catch (const std::exception&)
-                {
-                    throw std::runtime_error(getErrorMessage(ErrorType::OpenTemp, fileName));
-                }
-                out->_open(fileName, FileMode::ReadWrite, FileRead::Normal);
-            }
-            else
-            {
-                throw std::runtime_error(
-                    getErrorMessage(ErrorType::OpenTemp, std::string(), getLastError()));
-            }
-
             return out;
         }
 
@@ -386,14 +350,7 @@ namespace tg
             p.mode = mode;
             p.readType = readType;
             p.pos = 0;
-            struct _stati64 info;
-            memset(&info, 0, sizeof(struct _stati64));
-            if (_wstati64(fileNameW.c_str(), &info) != 0)
-            {
-                throw std::runtime_error(
-                    Format("{0}: Cannot get file size").arg(fileName));
-            }
-            p.size = info.st_size;
+            p.size = std::filesystem::file_size(fileName);
 
             // Memory mapping.
             if (FileRead::MemoryMapped == p.readType &&

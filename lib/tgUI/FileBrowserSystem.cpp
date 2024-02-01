@@ -34,7 +34,7 @@ namespace tg
             _p(new Private)
         {
             TG_P();
-            p.path = std::filesystem::current_path();
+            p.path = std::filesystem::current_path().string();
             p.recentFilesModel = RecentFilesModel::create(context);
 #if defined(TINYGFX_NFD)
             NFD::Init();

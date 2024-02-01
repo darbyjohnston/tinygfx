@@ -6,6 +6,7 @@
 
 #include <tgCore/Util.h>
 
+#include <iostream>
 #include <string>
 #include <vector>
 

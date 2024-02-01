@@ -205,7 +205,7 @@ namespace tg
                     try
                     {
                         const auto& path = i.path();
-                        const std::string fileName = path.filename();
+                        const std::string fileName = path.filename().string();
                         bool keep = true;
                         if (!options.search.empty())
                         {
@@ -218,7 +218,7 @@ namespace tg
                         std::string extension;
                         if (!isDir)
                         {
-                            extension = path.extension();
+                            extension = path.extension().string();
                         }
                         if (!isDir && !options.extension.empty())
                         {
@@ -230,7 +230,7 @@ namespace tg
                         if (keep)
                         {
                             out.push_back({
-                                path,
+                                path.string(),
                                 fileName,
                                 extension,
                                 isDir,

@@ -165,7 +165,7 @@ namespace tg
             p.upButton->setClickedCallback(
                 [this]
                 {
-                    _p->path = std::filesystem::path(_p->path).parent_path();
+                    _p->path = std::filesystem::path(_p->path).parent_path().string();
                     _pathUpdate();
                 });
 

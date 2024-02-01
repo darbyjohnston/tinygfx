@@ -185,13 +185,13 @@ namespace tg
                 }
 
                 _createButton(context, "Current", p.layouts["Shortcuts"]);
-                p.paths.push_back(std::filesystem::current_path());
+                p.paths.push_back(std::filesystem::current_path().string());
                 for (auto userPath : getUserPathEnums())
                 {
                     const std::string path = getUserPath(userPath);
                     _createButton(
                         context,
-                        std::filesystem::path(path).filename(),
+                        std::filesystem::path(path).filename().string(),
                         p.layouts["Shortcuts"]);
                     p.paths.push_back(path);
                 }
@@ -200,9 +200,9 @@ namespace tg
                 {
                     _createButton(
                         context,
-                        std::filesystem::path(recent).filename(),
+                        std::filesystem::path(recent).filename().string(),
                         p.layouts["Recent"]);
-                    p.paths.push_back(std::filesystem::path(recent).parent_path());
+                    p.paths.push_back(std::filesystem::path(recent).parent_path().string());
                 }
             }
         }
