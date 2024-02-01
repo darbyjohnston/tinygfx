@@ -13,6 +13,12 @@ project(
 # Options
 
 set(TINYGFX_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
+if(WIN32 OR APPLE)
+    set(TINYGFX_NFD_DEFAULT TRUE)
+else()
+    set(TINYGFX_NFD_DEFAULT FALSE)
+endif()
+set(TINYGFX_NFD ${TINYGFX_NFD_DEFAULT} CACHE BOOL "Enable support for native file dialogs")
 set(TINYGFX_TESTS ON CACHE BOOL "Enable tests")
 set(TINYGFX_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 set(TINYGFX_GPROF FALSE CACHE BOOL "Enable gprof code profiling")
@@ -89,6 +95,13 @@ endif()
 add_definitions(-DTINYGFX_API_${TINYGFX_API})
 if("${TINYGFX_API}" STREQUAL "GL_4_1_Debug")
     add_definitions(-DTINYGFX_API_GL_4_1)
+endif()
+
+if(TINYGFX_NFD)
+    find_package(NFD)
+    if(NFD_FOUND)
+        add_definitions(-DTINYGFX_NFD)
+    endif()
 endif()
 
 #-------------------------------------------------------------------------------

@@ -177,10 +177,6 @@ namespace tg
                     fileIO->readU32(&u32b, 1);
                     TG_ASSERT(u32 == u32b);
                 }
-                {
-                    auto fileIO = FileIO::createTemp();
-                    fileIO->write("Hello world");                    
-                }
                 try
                 {
                     const std::string fileName = "FileIOTest4";

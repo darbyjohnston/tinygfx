@@ -8,19 +8,14 @@
 #include <tgCore/Format.h>
 #include <tgCore/Memory.h>
 
-#if defined(__linux__)
-#include <linux/limits.h>
-#endif // __linux__
+#include <filesystem>
+
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <errno.h>
 #include <fcntl.h>
 #include <string.h>
 #include <unistd.h>
-
-#define _STAT     struct stat
-#define _STAT_FNC stat
 
 namespace tg
 {
@@ -31,7 +26,6 @@ namespace tg
             enum class ErrorType
             {
                 Open,
-                Stat,
                 MemoryMap,
                 Close,
                 CloseMemoryMap,
@@ -65,9 +59,6 @@ namespace tg
                 {
                 case ErrorType::Open:
                     out = Format("{0}: Cannot open file").arg(fileName);
-                    break;
-                case ErrorType::Stat:
-                    out = Format("{0}: Cannot stat file").arg(fileName);
                     break;
                 case ErrorType::MemoryMap:
                     out = Format("{0}: Cannot memory map").arg(fileName);
@@ -142,38 +133,6 @@ namespace tg
             out->_p->memoryStart = memory.p;
             out->_p->memoryEnd = memory.p + memory.size;
             out->_p->memoryP = memory.p;
-            return out;
-        }
-        
-        std::shared_ptr<FileIO> FileIO::createTemp()
-        {
-            auto out = std::shared_ptr<FileIO>(new FileIO);
-
-            // Open the file.
-            const std::string fileName = getTempDir() + "/XXXXXX";
-            const size_t size = fileName.size();
-            std::vector<char> buf(size + 1);
-            memcpy(buf.data(), fileName.c_str(), size);
-            buf[size] = 0;
-            out->_p->f = mkstemp(buf.data());
-            if (-1 == out->_p->f)
-            {
-                throw std::runtime_error(getErrorMessage(ErrorType::Open, fileName, getErrorString()));
-            }
-
-            // Stat the file.
-            _STAT info;
-            memset(&info, 0, sizeof(_STAT));
-            if (_STAT_FNC(buf.data(), &info) != 0)
-            {
-                throw std::runtime_error(getErrorMessage(ErrorType::Stat, fileName, getErrorString()));
-            }
-            out->_p->fileName = std::string(buf.data());
-            out->_p->mode     = FileMode::ReadWrite;
-            out->_p->readType = FileRead::Normal;
-            out->_p->pos      = 0;
-            out->_p->size     = info.st_size;
-            
             return out;
         }
         
@@ -376,19 +335,13 @@ namespace tg
                 throw std::runtime_error(getErrorMessage(ErrorType::Open, fileName, getErrorString()));
             }
 
-            // Stat the file.
-            _STAT info;
-            memset(&info, 0, sizeof(_STAT));
-            if (_STAT_FNC(fileName.c_str(), &info) != 0)
-            {
-                throw std::runtime_error(getErrorMessage(ErrorType::Stat, fileName, getErrorString()));
-            }
+            // File information.
             p.fileName = fileName;
             p.mode     = mode;
             p.readType = readType;
             p.pos      = 0;
-            p.size     = info.st_size;
-
+            p.size     = std::filesystem::file_size(fileName);
+            
             // Memory mapping.
             if (FileRead::MemoryMapped == p.readType &&
                 FileMode::Read == p.mode &&

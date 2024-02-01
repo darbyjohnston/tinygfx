@@ -1,4 +1,5 @@
 add_subdirectory(buttons)
+add_subdirectory(filebrowser)
 add_subdirectory(gol)
 add_subdirectory(mdi)
 add_subdirectory(noise)

@@ -62,6 +62,7 @@ set(SOURCE
     BoxPack.cpp
     Context.cpp
     Error.cpp
+    File.cpp
     FileIO.cpp
     FontSystem.cpp
     Format.cpp

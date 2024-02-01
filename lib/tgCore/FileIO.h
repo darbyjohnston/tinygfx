@@ -75,9 +75,6 @@ namespace tg
                 const std::string& fileName,
                 const InMemoryFile&);
 
-            //! Create a read-write temporary file I/O object.
-            static std::shared_ptr<FileIO> createTemp();
-
             //! Get whether the file is open.
             bool isOpen() const;
 

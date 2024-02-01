@@ -35,8 +35,8 @@ namespace tg
 
             //! Create a new widget.
             static std::shared_ptr<Label> create(
-                const std::string& text,
                 const std::shared_ptr<core::Context>&,
+                const std::string& text,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Set the text.

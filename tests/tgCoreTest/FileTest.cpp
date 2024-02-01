@@ -6,7 +6,6 @@
 
 #include <tgCore/Assert.h>
 #include <tgCore/File.h>
-#include <tgCore/FileIO.h>
 #include <tgCore/Format.h>
 
 using namespace tg::core;
@@ -30,21 +29,14 @@ namespace tg
         
         void FileTest::run()
         {
+            for (const auto& drive : getDrives())
             {
-                const std::string fileName = "FileTest";
-                auto fileIO = FileIO::create(fileName, FileMode::Write);
-                fileIO.reset();
-                TG_ASSERT(fileExists(fileName));
-                TG_ASSERT(rm(fileName));
+                _print(Format("Drive: {0}").arg(drive));
             }
+            for (auto path : getUserPathEnums())
             {
-                const std::string fileName = "FileTestDir";
-                TG_ASSERT(mkdir(fileName));
-                TG_ASSERT(rmdir(fileName));
+                _print(Format("{0}: {1}").arg(path).arg(getUserPath(path)));
             }
-            _print(Format("CWD: {0}").arg(getCWD()));
-            _print(Format("Temp dir: {0}").arg(getTempDir()));
-            _print(Format("Create temp dir: {0}").arg(createTempDir()));
         }
     }
 }

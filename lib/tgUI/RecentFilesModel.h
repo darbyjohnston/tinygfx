@@ -27,7 +27,7 @@ namespace tg
             TG_NON_COPYABLE(RecentFilesModel);
 
         protected:
-            void _init(const std::shared_ptr<Context>&);
+            void _init(const std::shared_ptr<core::Context>&);
 
             RecentFilesModel();
 
@@ -36,7 +36,7 @@ namespace tg
 
             //! Create a new model.
             static std::shared_ptr<RecentFilesModel> create(
-                const std::shared_ptr<Context>&);
+                const std::shared_ptr<core::Context>&);
 
             //! Get the maximum number of recent files.
             size_t getRecentMax() const;

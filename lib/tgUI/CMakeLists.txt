@@ -12,15 +12,20 @@ set(HEADERS
     DoubleModel.h
     DoubleSlider.h
     DrawUtil.h
+    DrivesModel.h
     Event.h
     GridLayout.h
     GroupBox.h
+    FileBrowser.h
+    FileBrowserPrivate.h
+    FileEdit.h
     FloatEdit.h
     FloatEditSlider.h
     FloatModel.h
     FloatSlider.h
     IButton.h
     IClipboard.h
+    IDialog.h
     IMenuPopup.h
     IPopup.h
     IWidget.h
@@ -42,10 +47,12 @@ set(HEADERS
     MDICanvas.h
     MDIWidget.h
     PushButton.h
+    RecentFilesModel.h
     RowLayout.h
     ScrollArea.h
     ScrollBar.h
     ScrollWidget.h
+    SearchBox.h
     Spacer.h
     Splitter.h
     StackLayout.h
@@ -70,7 +77,15 @@ set(SOURCE
     DoubleModel.cpp
     DoubleSlider.cpp
     DrawUtil.cpp
+    DrivesModel.cpp
     Event.cpp
+    FileBrowser.cpp
+    FileBrowserButton.cpp
+    FileBrowserDirectoryWidget.cpp
+    FileBrowserPathsWidget.cpp
+    FileBrowserSystem.cpp
+    FileBrowserWidget.cpp
+    FileEdit.cpp
     FloatEdit.cpp
     FloatEditSlider.cpp
     FloatModel.cpp
@@ -79,6 +94,7 @@ set(SOURCE
     GroupBox.cpp
     IButton.cpp
     IClipboard.cpp
+    IDialog.cpp
     IMenuPopup.cpp
     IPopup.cpp
     IWidget.cpp
@@ -99,10 +115,12 @@ set(SOURCE
     MDICanvas.cpp
     MDIWidget.cpp
     PushButton.cpp
+    RecentFilesModel.cpp
     RowLayout.cpp
     ScrollArea.cpp
     ScrollBar.cpp
     ScrollWidget.cpp
+    SearchBox.cpp
     Spacer.cpp
     Splitter.cpp
     StackLayout.cpp
@@ -111,8 +129,13 @@ set(SOURCE
     ToolTip.cpp
     WidgetOptions.cpp)
 
+set(LIBRARIES_PRIVATE)
+if(TINYGFX_NFD)
+    list(APPEND LIBRARIES_PRIVATE NFD)
+endif()
+
 add_library(tgUI ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
-target_link_libraries(tgUI tgCore)
+target_link_libraries(tgUI PUBLIC tgCore PRIVATE ${LIBRARIES_PRIVATE})
 set_target_properties(tgUI PROPERTIES FOLDER lib)
 set_target_properties(tgUI PROPERTIES PUBLIC_HEADER "${HEADERS}")
 

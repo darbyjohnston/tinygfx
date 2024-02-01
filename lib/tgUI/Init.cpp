@@ -4,6 +4,8 @@
 
 #include <tgUI/Init.h>
 
+#include <tgUI/FileBrowser.h>
+
 #include <tgCore/Context.h>
 
 using namespace tg::core;
@@ -14,6 +16,10 @@ namespace tg
     {
         void init(const std::shared_ptr<Context>& context)
         {
+            if (!context->getSystem<FileBrowserSystem>())
+            {
+                context->addSystem(FileBrowserSystem::create(context));
+            }
         }
     }
 }

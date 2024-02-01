@@ -330,11 +330,6 @@ namespace tg
             return _p->window->shouldClose();
         }
 
-        bool Window::shouldRefresh() const
-        {
-            return _p->refresh;
-        }
-
         void Window::setGeometry(const Box2I& value)
         {
             IWindow::setGeometry(value);

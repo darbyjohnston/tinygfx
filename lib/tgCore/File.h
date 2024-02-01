@@ -4,7 +4,10 @@
 
 #pragma once
 
+#include <tgCore/Util.h>
+
 #include <string>
+#include <vector>
 
 namespace tg
 {
@@ -13,26 +16,24 @@ namespace tg
         //! \name Files
         ///@{
 
-        //! Does a file exist?
-        bool fileExists(const std::string&);
+        //! Get the list of file system drives.
+        std::vector<std::string> getDrives();
 
-        //! Remove a file.
-        bool rm(const std::string&);
+        //! User paths.
+        enum class UserPath
+        {
+            Home,
+            Desktop,
+            Documents,
+            Downloads,
 
-        //! Create a directory.
-        bool mkdir(const std::string&);
+            Count,
+            First = Home
+        };
+        TG_ENUM(UserPath);
 
-        //! Remove a directory.
-        bool rmdir(const std::string&);
-
-        //! Get the current working directory.
-        std::string getCWD();
-
-        //! Get the temporary directory.
-        std::string getTempDir();
-
-        //! Create a temporary directory.
-        std::string createTempDir();
+        //! Get a user path.
+        std::string getUserPath(UserPath);
         
         ///@}
     }

@@ -4,6 +4,7 @@
 
 #include <tgUI/DrivesModel.h>
 
+#include <tgCore/File.h>
 #include <tgCore/Time.h>
 #include <tgCore/Timer.h>
 
@@ -35,7 +36,7 @@ namespace tg
             std::thread thread;
             std::atomic<bool> running;
 
-            std::shared_ptr<time::Timer> timer;
+            std::shared_ptr<Timer> timer;
         };
 
         void DrivesModel::_init(const std::shared_ptr<Context>& context)
@@ -51,16 +52,16 @@ namespace tg
                     TG_P();
                     while (p.running)
                     {
-                        const std::vector<std::string> drives = file::getDrives();
+                        const auto drives = getDrives();
                         {
                             std::lock_guard<std::mutex> lock(p.mutex.mutex);
                             p.mutex.drives = drives;
                         }
-                        time::sleep(timeout);
+                        sleep(timeout);
                     }
                 });
 
-            p.timer = time::Timer::create(context);
+            p.timer = Timer::create(context);
             p.timer->setRepeating(true);
             p.timer->start(
                 timeout,

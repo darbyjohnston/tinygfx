@@ -4,106 +4,88 @@
 
 #include <tgCore/File.h>
 
-#include <cstring>
-#include <vector>
-
-#include <sys/stat.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 #if defined(__APPLE__)
-#define _STAT struct ::stat
-#define _STAT_FNC    ::stat
-#else // __APPLE__
-#define _STAT struct ::stat64
-#define _STAT_FNC    ::stat64
+#include <ApplicationServices/ApplicationServices.h>
+#include <CoreFoundation/CFBundle.h>
+#include <CoreServices/CoreServices.h>
 #endif // __APPLE__
+
+#include <cstring>
+#include <filesystem>
+
+#include <sys/types.h>
+#include <pwd.h>
+#include <unistd.h>
 
 namespace tg
 {
     namespace core
     {
-        bool fileExists(const std::string& fileName)
-        {
-            _STAT info;
-            memset(&info, 0, sizeof(_STAT));
-            return 0 == _STAT_FNC(fileName.c_str(), &info);
-        }
-        
-        bool rm(const std::string& fileName)
-        {
-            return 0 == ::remove(fileName.c_str());
-        }
-
-        bool mkdir(const std::string& fileName)
-        {
-            return 0 == ::mkdir(fileName.c_str(), S_IRWXU | S_IRWXG);
-        }
-
-        bool rmdir(const std::string& fileName)
-        {
-            return 0 == ::rmdir(fileName.c_str());
-        }
-
-        std::string getCWD()
-        {
-            char buf[PATH_MAX];
-            if (!getcwd(buf, PATH_MAX))
-            {
-                buf[0] = 0;
-            }
-            std::string out(buf);
-            const size_t size = out.size();
-            if (size > 0 && out[size - 1] != '/')
-            {
-                out.push_back('/');
-            }
-            return out;
-        }
-            
-        std::string getTempDir()
+        std::string getUserPath(UserPath value)
         {
             std::string out;
-            char* env = nullptr;
-            if ((env = getenv("TEMP")))
+#if defined(__APPLE__)
+            OSType folderType = kDesktopFolderType;
+            switch (value)
             {
-                out = env;
+            case UserPath::Home:      folderType = kCurrentUserFolderType; break;
+            case UserPath::Desktop:   folderType = kDesktopFolderType;     break;
+            case UserPath::Documents: folderType = kDocumentsFolderType;   break;
+            case UserPath::Downloads: folderType = kCurrentUserFolderType; break;
+            default: break;
             }
-            else if ((env = getenv("TMP")))
+            FSRef ref;
+            FSFindFolder(kUserDomain, folderType, kCreateFolder, &ref);
+            char path[PATH_MAX];
+            FSRefMakePath(&ref, (UInt8*)&path, PATH_MAX);
+            if (UserPath::Downloads == value)
             {
-                out = env;
-            }
-            else if ((env = getenv("TMPDIR")))
-            {
-                out = env;
+                out = std::filesystem::path(path) / std::filesystem::path("Downloads");
             }
             else
             {
-                for (const auto& path : { "/tmp", "/var/tmp", "/usr/tmp" })
+                out = path;
+            }
+#else // __APPLE__
+            if (struct passwd* buf = ::getpwuid(::getuid()))
+            {
+                switch (value)
                 {
-                    if (fileExists(path))
-                    {
-                        out = path;
-                        break;
-                    }
+                case UserPath::Home:
+                    out = std::string(buf->pw_dir);
+                    break;
+                case UserPath::Desktop:
+                    out = std::filesystem::path(buf->pw_dir) / std::filesystem::path("Desktop");
+                    break;
+                case UserPath::Documents:
+                    out = std::filesystem::path(buf->pw_dir) / std::filesystem::path("Documents");
+                    break;
+                case UserPath::Downloads:
+                    out = std::filesystem::path(buf->pw_dir) / std::filesystem::path("Downloads");
+                    break;
+                default: break;
                 }
             }
+#endif // __APPLE__
             return out;
         }
 
-        std::string createTempDir()
+        std::vector<std::string> getDrives()
         {
-            std::string out;
-            const std::string path = getTempDir() + "/XXXXXX";
-            const size_t size = path.size();
-            std::vector<char> buf(size + 1);
-            std::memcpy(buf.data(), path.c_str(), size);
-            buf[size] = 0;
-            if (char* s = mkdtemp(buf.data()))
+            std::vector<std::string> out;
+            out.push_back(std::filesystem::path("/"));
+            std::vector<std::string> list;
+#if defined(__APPLE__)
+            for (const auto& i : std::filesystem::directory_iterator("/Volumes"))
             {
-                out = s;
+                out.push_back(i.path());
             }
+#else // __APPLE__
+            for (const auto& i : std::filesystem::directory_iterator("/mnt"))
+            {
+                out.push_back(i.path());
+            }
+#endif // __APPLE__
             return out;
         }
     }

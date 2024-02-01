@@ -36,9 +36,6 @@ namespace tg
             //! Get the display scale.
             float getDisplayScale() const;
 
-            //! Get whether the window should refresh.
-            bool shouldRefresh() const;
-
             //! Get whether the window should close.
             bool shouldClose() const;
         

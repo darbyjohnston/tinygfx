@@ -66,8 +66,8 @@ namespace tg
         }
 
         std::shared_ptr<Label> Label::create(
-            const std::string& text,
             const std::shared_ptr<Context>& context,
+            const std::string& text,
             const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<Label>(new Label);

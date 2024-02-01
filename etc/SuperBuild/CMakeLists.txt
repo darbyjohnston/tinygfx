@@ -11,6 +11,12 @@ project(tinygfx-SuperBuild)
 # Options
 
 set(TINYGFX_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
+if(WIN32 OR APPLE)
+    set(TINYGFX_NFD_DEFAULT TRUE)
+else()
+    set(TINYGFX_NFD_DEFAULT FALSE)
+endif()
+set(TINYGFX_NFD ${TINYGFX_NFD_DEFAULT} CACHE BOOL "Enable support for native file dialogs")
 set(TINYGFX_TESTS ON CACHE BOOL "Enable tests")
 set(TINYGFX_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 set(TINYGFX_GPROF FALSE CACHE BOOL "Enable gprof code profiling")
@@ -64,6 +70,9 @@ if ("${TINYGFX_API}" STREQUAL "GL_4_1" OR
     "${TINYGFX_API}" STREQUAL "GL_4_1_Debug" OR
     "${TINYGFX_API}" STREQUAL "GLES_2")
     list(APPEND TINYGFX_DEPS glfw3)
+endif()
+if(TINYGFX_NFD)
+    list(APPEND TINYGFX_EXTERNAL_DEPS NFD)
 endif()
 
 foreach(DEP ${TINYGFX_DEPS})
