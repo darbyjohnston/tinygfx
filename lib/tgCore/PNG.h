@@ -78,7 +78,7 @@ namespace tg
 
                 bool canRead(
                     const std::string& fileName,
-                    const Options& = Options());
+                    const Options& = Options()) override;
                 std::shared_ptr<IImageReader> read(
                     const std::string& fileName,
                     const Options& = Options()) override;
@@ -89,7 +89,7 @@ namespace tg
                 bool canWrite(
                     const std::string& fileName,
                     const core::ImageInfo&,
-                    const Options& = Options());
+                    const Options& = Options()) override;
                 std::shared_ptr<IImageWriter> write(
                     const std::string& fileName,
                     const core::ImageInfo&,

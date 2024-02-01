@@ -98,7 +98,7 @@ if("${TINYGFX_API}" STREQUAL "GL_4_1_Debug")
 endif()
 
 if(TINYGFX_NFD)
-    find_package(NFD)
+    find_package(NFD REQUIRED)
     if(NFD_FOUND)
         add_definitions(-DTINYGFX_NFD)
     endif()

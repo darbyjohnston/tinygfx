@@ -35,6 +35,7 @@ namespace tg
             case Orientation::Vertical:
                 setHStretch(Stretch::Expanding);
                 break;
+            default: break;
             }
         }
 

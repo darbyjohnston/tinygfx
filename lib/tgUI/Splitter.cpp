@@ -164,6 +164,7 @@ namespace tg
                     }
                 }
                 break;
+            default: break;
             }
 
             size_t i = 0;
@@ -253,6 +254,7 @@ namespace tg
                 case Orientation::Vertical:
                     split = (event.pos.y - g.min.y) / static_cast<float>(g.h());
                     break;
+                default: break;
                 }
                 split = clamp(split, .1F, .9F);
                 if (split != p.split)

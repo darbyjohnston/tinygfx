@@ -72,7 +72,7 @@ if ("${TINYGFX_API}" STREQUAL "GL_4_1" OR
     list(APPEND TINYGFX_DEPS glfw3)
 endif()
 if(TINYGFX_NFD)
-    list(APPEND TINYGFX_EXTERNAL_DEPS NFD)
+    list(APPEND TINYGFX_DEPS NFD)
 endif()
 
 foreach(DEP ${TINYGFX_DEPS})
