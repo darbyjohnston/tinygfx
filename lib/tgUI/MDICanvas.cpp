@@ -14,8 +14,15 @@ namespace tg
     {
         struct MDICanvas::Private
         {
-            Size2I canvasSize = Size2I(2000, 2000);
+            Size2I canvasSize = Size2I(500, 500);
+            Size2I gridSize = Size2I(20, 20);
             std::vector<std::pair<V2I, std::shared_ptr<IWidget> > > newWidgets;
+
+            struct SizeData
+            {
+                Size2I gridSize;
+            };
+            SizeData size;
 
             struct MouseData
             {
@@ -63,7 +70,22 @@ namespace tg
                 return;
             p.canvasSize = value;
             _updates |= Update::Size;
-            _updates |= Update::Draw;            
+            _updates |= Update::Draw;
+        }
+
+        const Size2I& MDICanvas::getGridSize() const
+        {
+            return _p->gridSize;
+        }
+
+        void MDICanvas::setGridSize(const Size2I& value)
+        {
+            TG_P();
+            if (value == p.gridSize)
+                return;
+            p.gridSize = value;
+            _updates |= Update::Size;
+            _updates |= Update::Draw;
         }
 
         std::shared_ptr<MDIWidget> MDICanvas::addWidget(
@@ -97,18 +119,22 @@ namespace tg
                     {
                         if (auto widget = _p->mouse.widget)
                         {
-                            const Box2I& g = getGeometry();
-                            widget->setGeometry(Box2I(
+                            const Box2I& pg = getGeometry();
+                            const Size2I& gridSize = _p->size.gridSize;
+                            const Box2I g(
                                 clamp(
-                                    _p->mouse.geom.min.x + move.x,
-                                    g.min.x,
-                                    g.max.x + 1 - _p->mouse.geom.w()),
+                                    (_p->mouse.geom.min.x - pg.min.x + move.x) / gridSize.w,
+                                    0,
+                                    (pg.w() - _p->mouse.geom.w()) / gridSize.w) *
+                                gridSize.w + pg.min.x,
                                 clamp(
-                                    _p->mouse.geom.min.y + move.y,
-                                    g.min.y,
-                                    g.max.y + 1 - _p->mouse.geom.h()),
+                                    (_p->mouse.geom.min.y - pg.min.y + move.y) / gridSize.h,
+                                    0,
+                                    (pg.h() - _p->mouse.geom.h()) / gridSize.h) *
+                                gridSize.h + pg.min.y,
                                 _p->mouse.geom.w(),
-                                _p->mouse.geom.h()));
+                                _p->mouse.geom.h());
+                            widget->setGeometry(g);
                         }
                     });
                 out->setResizeCallback(
@@ -116,60 +142,100 @@ namespace tg
                     {
                         if (auto widget = _p->mouse.widget)
                         {
-                            const Size2I sizeHint = widget->getSizeHint();
-                            const Box2I& g = getGeometry();
-                            Box2I g2 = _p->mouse.geom;
+                            const Box2I& pg = getGeometry();
+                            const Size2I& gridSize = _p->size.gridSize;
+                            const Size2F gridSizeF(gridSize.w, gridSize.h);
+                            const Size2I& sizeHint = widget->getSizeHint();
+                            Box2I g = _p->mouse.geom;
                             switch (value)
                             {
                             case MDIResize::North:
-                                g2.min.y = clamp(
-                                    g2.min.y + move.y,
-                                    g.min.y,
-                                    _p->mouse.geom.max.y - sizeHint.h);
+                                g.min.y = clamp(
+                                    (g.min.y - pg.min.y + move.y) / gridSize.h,
+                                    0,
+                                    (g.max.y - pg.min.y - sizeHint.h) / gridSize.h) *
+                                    gridSize.h + pg.min.y;
                                 break;
                             case MDIResize::NorthEast:
-                                g2.min.y = clamp(
-                                    g2.min.y + move.y,
-                                    g.min.y,
-                                    _p->mouse.geom.max.y - sizeHint.h);
-                                g2.max.x = std::min(g2.max.x + move.x, g.max.x);
+                                g.min.y = clamp(
+                                    (g.min.y - pg.min.y + move.y) / gridSize.h,
+                                    0,
+                                    (g.max.y - pg.min.y - sizeHint.h) / gridSize.h) *
+                                    gridSize.h + pg.min.y;
+                                g.max.x = clamp(
+                                    (g.max.x - pg.min.x + move.x) / gridSize.w,
+                                    (g.min.x - pg.min.x + sizeHint.w) / gridSize.w,
+                                    pg.w() / gridSize.w) *
+                                    gridSize.w - 1 + pg.min.x;
                                 break;
                             case MDIResize::East:
-                                g2.max.x = std::min(g2.max.x + move.x, g.max.x);
+                                g.max.x = clamp(
+                                    (g.max.x - pg.min.x + move.x) / gridSize.w,
+                                    (g.min.x - pg.min.x + sizeHint.w) / gridSize.w,
+                                    pg.w() / gridSize.w) *
+                                    gridSize.w - 1 + pg.min.x;
                                 break;
                             case MDIResize::SouthEast:
-                                g2.max.x = std::min(g2.max.x + move.x, g.max.x);
-                                g2.max.y = std::min(g2.max.y + move.y, g.max.y);
+                                g.max.x = clamp(
+                                    (g.max.x - pg.min.x + move.x) / gridSize.w,
+                                    (g.min.x - pg.min.x + sizeHint.w) / gridSize.w,
+                                    pg.w() / gridSize.w) *
+                                    gridSize.w - 1 + pg.min.x;
+                                g.max.y = clamp(
+                                    (g.max.y - pg.min.y + move.y) / gridSize.h,
+                                    (g.min.y - pg.min.y + sizeHint.h) / gridSize.h,
+                                    pg.h() / gridSize.h) *
+                                    gridSize.h - 1 + pg.min.y;
                                 break;
                             case MDIResize::South:
-                                g2.max.y = std::min(g2.max.y + move.y, g.max.y);
+                                g.max.y = clamp(
+                                    (g.max.y - pg.min.y + move.y) / gridSize.h,
+                                    (g.min.y - pg.min.y + sizeHint.h) / gridSize.h,
+                                    pg.h() / gridSize.h) *
+                                    gridSize.h - 1 + pg.min.y;
                                 break;
                             case MDIResize::SouthWest:
-                                g2.min.x = clamp(
-                                    g2.min.x + move.x,
-                                    g.min.x,
-                                    _p->mouse.geom.max.x - sizeHint.w);
-                                g2.max.y = std::min(g2.max.y + move.y, g.max.y);
+                                g.min.x = clamp(
+                                    (g.min.x - pg.min.x + move.x) / gridSize.w,
+                                    0,
+                                    (g.max.x - pg.min.x - sizeHint.w) / gridSize.w) *
+                                    gridSize.w + pg.min.x;
+                                g.max.y = clamp(
+                                    (g.max.y - pg.min.y + move.y) / gridSize.h,
+                                    (g.min.y - pg.min.y + sizeHint.h) / gridSize.h,
+                                    pg.h() / gridSize.h) *
+                                    gridSize.h - 1 + pg.min.y;
                                 break;
                             case MDIResize::West:
-                                g2.min.x = clamp(
-                                    g2.min.x + move.x,
-                                    g.min.x,
-                                    _p->mouse.geom.max.x - sizeHint.w);
+                                g.min.x = clamp(
+                                    (g.min.x - pg.min.x + move.x) / gridSize.w,
+                                    0,
+                                    (g.max.x - pg.min.x - sizeHint.w) / gridSize.w) *
+                                    gridSize.w + pg.min.x;
                                 break;
                             case MDIResize::NorthWest:
-                                g2.min.x = clamp(
-                                    g2.min.x + move.x,
-                                    g.min.x,
-                                    _p->mouse.geom.max.x - sizeHint.w);
-                                g2.min.y = clamp(
-                                    g2.min.y + move.y,
-                                    g.min.y,
-                                    _p->mouse.geom.max.y - sizeHint.h);
+                                g.min.x = clamp(
+                                    (g.min.x - pg.min.x + move.x) / gridSize.w,
+                                    0,
+                                    (g.max.x - pg.min.x - sizeHint.w) / gridSize.w) *
+                                    gridSize.w + pg.min.x;
+                                g.min.y = clamp(
+                                    (g.min.y - pg.min.y + move.y) / gridSize.h,
+                                    0,
+                                    (g.max.y - pg.min.y - sizeHint.h) / gridSize.h) *
+                                    gridSize.h + pg.min.y;
                                 break;
                             default: break;
                             }
-                            widget->setGeometry(g2);
+                            if (g.w() < sizeHint.w)
+                            {
+                                g.max.x += gridSize.w;
+                            }
+                            if (g.h() < sizeHint.h)
+                            {
+                                g.max.y += gridSize.h;
+                            }
+                            widget->setGeometry(g);
                         }
                     });
                 p.newWidgets.push_back(std::make_pair(pos, out));
@@ -184,21 +250,81 @@ namespace tg
             V2I offset = value.min - _geometry.min;
             IWidget::setGeometry(value);
             TG_P();
+
+            const Box2I& pg = getGeometry();
+            const Size2I& gridSize = p.size.gridSize;
             for (auto i : p.newWidgets)
             {
+                const Size2I& gridSize = _p->size.gridSize;
                 const Size2I& sizeHint = i.second->getSizeHint();
-                i.second->setGeometry(Box2I(i.first, sizeHint));
+                Box2I g(
+                    i.first.x / gridSize.w * gridSize.w,
+                    i.first.y / gridSize.h * gridSize.h,
+                    sizeHint.w / gridSize.w * gridSize.w,
+                    sizeHint.h / gridSize.h * gridSize.h);
+                if (g.w() < sizeHint.w)
+                {
+                    g.max.x += gridSize.w;
+                }
+                if (g.h() < sizeHint.h)
+                {
+                    g.max.y += gridSize.h;
+                }
+                i.second->setGeometry(g);
             }
             p.newWidgets.clear();
+            
             for (const auto& child : _children)
             {
-                const Size2I& sizeHint = child->getSizeHint();
-                const Box2I& g = child->getGeometry();
-                child->setGeometry(Box2I(
-                    g.min.x + offset.x,
-                    g.min.y + offset.y,
-                    std::max(g.w(), sizeHint.w),
-                    std::max(g.h(), sizeHint.h)));
+                Box2I g = child->getGeometry();
+             
+                // Add the parent offset.
+                g.min = g.min + offset;
+                g.max = g.max + offset;
+
+                // Clamp to the parent geometry.
+                if (g.min.x < pg.min.x ||
+                    g.min.y < pg.min.y ||
+                    g.max.x > pg.max.x ||
+                    g.max.y > pg.max.y)
+                {
+                    const Size2I& gridSize = _p->size.gridSize;
+                    const Size2F gridSizeF(gridSize.w, gridSize.h);
+                    const Size2I& sizeHint = child->getSizeHint();
+                    const Size2I sizeHintGrid(
+                        ceilf(sizeHint.w / gridSizeF.w),
+                        ceilf(sizeHint.h / gridSizeF.h));
+                    g.min.x = clamp(
+                        (g.min.x - pg.min.x) / gridSize.w,
+                        0,
+                        pg.w() / gridSize.w - sizeHintGrid.w) *
+                        gridSize.w + pg.min.x;
+                    g.min.y = clamp(
+                        (g.min.y - pg.min.y) / gridSize.h,
+                        0,
+                        pg.h() / gridSize.h - sizeHintGrid.h) *
+                        gridSize.h + pg.min.y;
+                    g.max.x = clamp(
+                        (g.max.x - pg.min.x) / gridSize.w,
+                        sizeHintGrid.w,
+                        pg.w() / gridSize.w) *
+                        gridSize.w - 1 + pg.min.x;
+                    g.max.y = clamp(
+                        (g.max.y - pg.min.y) / gridSize.h,
+                        sizeHintGrid.h,
+                        pg.h() / gridSize.h) *
+                        gridSize.h - 1 + pg.min.y;
+                    if (g.w() < sizeHint.w)
+                    {
+                        g.max.x += gridSize.w;
+                    }
+                    if (g.h() < sizeHint.h)
+                    {
+                        g.max.y += gridSize.h;
+                    }
+                }
+
+                child->setGeometry(g);
             }
         }
 
@@ -206,7 +332,45 @@ namespace tg
         {
             IWidget::sizeHintEvent(event);
             TG_P();
-            _sizeHint = p.canvasSize;
+            p.size.gridSize = p.gridSize * static_cast<int>(event.displayScale);
+            _sizeHint = p.canvasSize * static_cast<int>(event.displayScale);
+        }
+
+        void MDICanvas::drawEvent(const Box2I& drawRect, const DrawEvent& event)
+        {
+            IWidget::drawEvent(drawRect, event);
+            TG_P();
+            const Box2I& g = _geometry;
+
+            const Size2I& gridSize = p.size.gridSize;
+            V2I offset;
+            offset.x = g.min.x % gridSize.w;
+            offset.y = g.min.y % gridSize.h;
+
+            Box2I grid = intersect(g, drawRect);
+            grid.min.x = (grid.min.x / gridSize.w - 2) * gridSize.w + offset.x;
+            grid.min.y = (grid.min.y / gridSize.h - 2) * gridSize.h + offset.y;
+            grid.max.x = (grid.max.x / gridSize.w + 2) * gridSize.w + offset.x;
+            grid.max.y = (grid.max.y / gridSize.h + 2) * gridSize.h + offset.y;
+
+            LineOptions options;
+            options.width = 1 * event.displayScale;
+            for (int x = grid.min.x; x < grid.max.x; x += gridSize.w)
+            {
+                event.render->drawLine(
+                    V2F(x, grid.min.y),
+                    V2F(x, grid.max.y),
+                    event.style->getColorRole(ColorRole::Border),
+                    options);
+            }
+            for (int y = grid.min.y; y < grid.max.y; y += gridSize.h)
+            {
+                event.render->drawLine(
+                    V2F(grid.min.x, y),
+                    V2F(grid.max.x, y),
+                    event.style->getColorRole(ColorRole::Border),
+                    options);
+            }
         }
 
         void MDICanvas::mouseMoveEvent(MouseMoveEvent& event)

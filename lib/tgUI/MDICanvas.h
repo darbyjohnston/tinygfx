@@ -36,6 +36,12 @@ namespace tg
             //! Set the canvas size.
             void setCanvasSize(const core::Size2I&);
 
+            //! Get the grid size.
+            const core::Size2I& getGridSize() const;
+
+            //! Set the grid size.
+            void setGridSize(const core::Size2I&);
+
             //! Add a widget to the canvas.
             std::shared_ptr<MDIWidget> addWidget(
                 const std::string& title,
@@ -44,11 +50,13 @@ namespace tg
 
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
+            void drawEvent(const core::Box2I&, const DrawEvent&) override;
             void mouseMoveEvent(MouseMoveEvent&) override;
             void mousePressEvent(MouseClickEvent&) override;
             void mouseReleaseEvent(MouseClickEvent&) override;
 
         private:
+
             TG_PRIVATE();
         };
     }
