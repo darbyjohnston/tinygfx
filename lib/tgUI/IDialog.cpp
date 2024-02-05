@@ -20,7 +20,8 @@ namespace tg
             
             struct SizeData
             {
-                bool sizeInit = true;
+                bool init = true;
+                float displayScale = 0.F;
                 int margin = 0;
                 int border = 0;
                 int shadow = 0;
@@ -101,17 +102,16 @@ namespace tg
 
         void IDialog::sizeHintEvent(const SizeHintEvent& event)
         {
-            const bool displayScaleChanged = event.displayScale != _displayScale;
             IPopup::sizeHintEvent(event);
             TG_P();
-
-            if (displayScaleChanged || p.size.sizeInit)
+            if (p.size.init || event.displayScale != p.size.displayScale)
             {
-                p.size.margin = event.style->getSizeRole(SizeRole::MarginDialog, _displayScale);
-                p.size.border = event.style->getSizeRole(SizeRole::Border, _displayScale);
-                p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, _displayScale);
+                p.size.init = false;
+                p.size.displayScale = event.displayScale;
+                p.size.margin = event.style->getSizeRole(SizeRole::MarginDialog, p.size.displayScale);
+                p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+                p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, p.size.displayScale);
             }
-            p.size.sizeInit = false;
         }
 
         void IDialog::drawEvent(

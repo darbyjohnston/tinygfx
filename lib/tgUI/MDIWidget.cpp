@@ -43,7 +43,8 @@ namespace tg
 
             struct SizeData
             {
-                bool sizeInit = true;
+                bool init = true;
+                float displayScale = 0.F;
                 int border = 0;
                 int handle = 0;
                 int shadow = 0;
@@ -215,18 +216,17 @@ namespace tg
 
         void MDIWidget::sizeHintEvent(const SizeHintEvent& event)
         {
-            const bool displayScaleChanged = event.displayScale != _displayScale;
             IWidget::sizeHintEvent(event);
             TG_P();
-
-            if (displayScaleChanged || p.size.sizeInit)
+            const bool displayScaleChanged = event.displayScale != p.size.displayScale;
+            if (p.size.init || displayScaleChanged)
             {
-                p.size.border = event.style->getSizeRole(SizeRole::Border, _displayScale);
-                p.size.handle = event.style->getSizeRole(SizeRole::Handle, _displayScale);
-                p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, _displayScale);
+                p.size.init = false;
+                p.size.displayScale = event.displayScale;
+                p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+                p.size.handle = event.style->getSizeRole(SizeRole::Handle, p.size.displayScale);
+                p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, p.size.displayScale);
             }
-            p.size.sizeInit = false;
-
             const int margin = std::max(p.size.handle, p.size.shadow);
             _sizeHint = p.layout->getSizeHint() + p.size.border * 2;
             _sizeHint.w += margin * 2;

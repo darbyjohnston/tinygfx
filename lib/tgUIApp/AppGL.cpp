@@ -131,6 +131,7 @@ namespace tg
                     {
                         TickEvent tickEvent(
                             p.fontSystem,
+                            (*i)->getDisplayScale(),
                             p.style,
                             p.iconLibrary);
                         _tickRecursive(

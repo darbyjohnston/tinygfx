@@ -27,7 +27,8 @@ namespace tg
 
             struct SizeData
             {
-                bool sizeInit = true;
+                bool init = true;
+                float displayScale = 0.F;
                 int margin = 0;
                 int spacing = 0;
             };
@@ -222,16 +223,16 @@ namespace tg
 
         void GridLayout::sizeHintEvent(const SizeHintEvent& event)
         {
-            const bool displayScaleChanged = event.displayScale != _displayScale;
             IWidget::sizeHintEvent(event);
             TG_P();
 
-            if (displayScaleChanged || p.size.sizeInit)
+            if (p.size.init || event.displayScale != p.size.displayScale)
             {
-                p.size.margin = event.style->getSizeRole(p.marginRole, _displayScale);
-                p.size.spacing = event.style->getSizeRole(p.spacingRole, _displayScale);
+                p.size.init = false;
+                p.size.displayScale = event.displayScale;
+                p.size.margin = event.style->getSizeRole(p.marginRole, p.size.displayScale);
+                p.size.spacing = event.style->getSizeRole(p.spacingRole, p.size.displayScale);
             }
-            p.size.sizeInit = false;
 
             // Get size hints.
             std::vector<int> rowSizeHints;

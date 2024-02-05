@@ -156,7 +156,7 @@ namespace tg
             IWidget::sizeHintEvent(event);
             TG_P();
 
-            p.size.spacing = event.style->getSizeRole(SizeRole::Spacing, _displayScale);
+            p.size.spacing = event.style->getSizeRole(SizeRole::Spacing, event.displayScale);
 
             std::vector<int> columns;
             for (const auto& button : p.buttons)

@@ -276,7 +276,6 @@ namespace tg
             std::weak_ptr<core::Context> _context;
             std::string _objectName;
             ColorRole _backgroundRole = ColorRole::None;
-            float _displayScale = 1.F;
             int _updates = 0;
             std::weak_ptr<IWidget> _parent;
             std::list<std::shared_ptr<IWidget> > _children;

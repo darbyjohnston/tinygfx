@@ -120,6 +120,7 @@ namespace tg
             struct Mutex
             {
                 std::list<std::shared_ptr<Request> > requests;
+                LRUCache<CacheKey, std::shared_ptr<Image> > cache;
                 bool stopped = false;
                 std::mutex mutex;
             };
@@ -127,7 +128,6 @@ namespace tg
 
             struct Thread
             {
-                LRUCache<CacheKey, std::shared_ptr<Image> > cache;
                 std::condition_variable cv;
                 std::thread thread;
                 std::atomic<bool> running;
@@ -211,7 +211,7 @@ namespace tg
             p.iconData[std::make_pair("Volume", 192)] = Volume_192_png;
             p.iconData[std::make_pair("WindowFullScreen", 192)] = WindowFullScreen_192_png;
 
-            p.thread.cache.setMax(1000);
+            p.mutex.cache.setMax(1000);
             p.thread.running = true;
             p.thread.thread = std::thread(
                 [this]
@@ -250,9 +250,14 @@ namespace tg
                             }
                             //std::cout << "icon request: " << request->name << " " << dpi << std::endl;
                             std::shared_ptr<Image> image;
-                            if (!p.thread.cache.get(
-                                std::make_pair(request->name, request->displayScale),
-                                image))
+                            bool cached = false;
+                            {
+                                std::unique_lock<std::mutex> lock(p.mutex.mutex);
+                                cached = p.mutex.cache.get(
+                                    std::make_pair(request->name, request->displayScale),
+                                    image);
+                            }
+                            if (!cached)
                             {
                                 const auto j = p.iconData.find(std::make_pair(request->name, dpi));
                                 if (j != p.iconData.end())
@@ -278,9 +283,12 @@ namespace tg
                                 }
                             }
                             request->promise.set_value(image);
-                            p.thread.cache.add(
-                                std::make_pair(request->name, request->displayScale),
-                                image);
+                            {
+                                std::unique_lock<std::mutex> lock(p.mutex.mutex);
+                                p.mutex.cache.add(
+                                    std::make_pair(request->name, request->displayScale),
+                                    image);
+                            }
                         }
                     }
                     {
@@ -322,22 +330,37 @@ namespace tg
             request->name = name;
             request->displayScale = displayScale;
             auto future = request->promise.get_future();
-            bool valid = false;
+            std::shared_ptr<Image> image;
+            bool cached = false;
             {
                 std::unique_lock<std::mutex> lock(p.mutex.mutex);
-                if (!p.mutex.stopped)
-                {
-                    valid = true;
-                    p.mutex.requests.push_back(request);
-                }
+                cached = p.mutex.cache.get(
+                    std::make_pair(name, displayScale),
+                    image);
             }
-            if (valid)
+            if (cached)
             {
-                p.thread.cv.notify_one();
+                request->promise.set_value(image);
             }
             else
             {
-                request->promise.set_value(nullptr);
+                bool valid = false;
+                {
+                    std::unique_lock<std::mutex> lock(p.mutex.mutex);
+                    if (!p.mutex.stopped)
+                    {
+                        valid = true;
+                        p.mutex.requests.push_back(request);
+                    }
+                }
+                if (valid)
+                {
+                    p.thread.cv.notify_one();
+                }
+                else
+                {
+                    request->promise.set_value(nullptr);
+                }
             }
             return future;
         }

@@ -92,7 +92,8 @@ namespace tg
 
             struct SizeData
             {
-                bool sizeInit = true;
+                bool init = true;
+                float displayScale = 0.F;
                 int shadow = 0;
             };
             SizeData size;
@@ -244,15 +245,14 @@ namespace tg
 
         void IMenuPopup::sizeHintEvent(const SizeHintEvent& event)
         {
-            const bool displayScaleChanged = event.displayScale != _displayScale;
             IPopup::sizeHintEvent(event);
             TG_P();
-
-            if (displayScaleChanged || p.size.sizeInit)
+            if (p.size.init || event.displayScale != p.size.displayScale)
             {
-                p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, _displayScale);
+                p.size.init = false;
+                p.size.displayScale = event.displayScale;
+                p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, p.size.displayScale);
             }
-            p.size.sizeInit = false;
         }
 
         void IMenuPopup::drawEvent(

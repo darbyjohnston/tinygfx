@@ -220,8 +220,8 @@ namespace tg
         {
             IPopup::sizeHintEvent(event);
             TG_P();
-            p.size.border = event.style->getSizeRole(SizeRole::Border, _displayScale);
-            p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, _displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+            p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, event.displayScale);
         }
 
         void IWidgetPopup::drawEvent(

@@ -23,7 +23,8 @@ namespace tg
 
             struct SizeData
             {
-                bool sizeInit = true;
+                bool init = true;
+                float displayScale = 0.F;
                 int size = 0;
                 int border = 0;
             };
@@ -88,24 +89,22 @@ namespace tg
             if (value == p.sizeRole)
                 return;
             p.sizeRole = value;
-            p.size.sizeInit = true;
+            p.size.init = true;
             _updates |= Update::Size;
             _updates |= Update::Draw;
         }
 
         void ColorSwatch::sizeHintEvent(const SizeHintEvent& event)
         {
-            const bool displayScaleChanged = event.displayScale != _displayScale;
             IWidget::sizeHintEvent(event);
             TG_P();
-
-            if (displayScaleChanged || p.size.sizeInit)
+            if (p.size.init || event.displayScale != p.size.displayScale)
             {
-                p.size.size = event.style->getSizeRole(p.sizeRole, _displayScale);
-                p.size.border = event.style->getSizeRole(SizeRole::Border, _displayScale);
+                p.size.init = false;
+                p.size.displayScale = event.displayScale;
+                p.size.size = event.style->getSizeRole(p.sizeRole, p.size.displayScale);
+                p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
             }
-            p.size.sizeInit = false;
-
             _sizeHint.w = _sizeHint.h = p.size.size;
         }
 

@@ -280,7 +280,7 @@ namespace tg
         void IWidget::tickEvent(
             bool parentsVisible,
             bool parentsEnabled,
-            const TickEvent&)
+            const TickEvent& event)
         {
             _parentsVisible = parentsVisible;
             _parentsEnabled = parentsEnabled;
@@ -288,7 +288,6 @@ namespace tg
 
         void IWidget::sizeHintEvent(const SizeHintEvent& event)
         {
-            _displayScale = event.displayScale;
             _updates &= ~static_cast<int>(Update::Size);
         }
 

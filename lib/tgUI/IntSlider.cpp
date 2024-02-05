@@ -18,7 +18,8 @@ namespace tg
 
             struct SizeData
             {
-                bool sizeInit = true;
+                bool init = true;
+                float displayScale = 0.F;
                 int size = 0;
                 int border = 0;
                 int handle = 0;
@@ -136,20 +137,18 @@ namespace tg
 
         void IntSlider::sizeHintEvent(const SizeHintEvent& event)
         {
-            const bool displayScaleChanged = event.displayScale != _displayScale;
             IWidget::sizeHintEvent(event);
             TG_P();
-
-            if (displayScaleChanged || p.size.sizeInit)
+            if (p.size.init || event.displayScale || p.size.displayScale)
             {
-                p.size.size = event.style->getSizeRole(SizeRole::Slider, _displayScale);
-                p.size.border = event.style->getSizeRole(SizeRole::Border, _displayScale);
-                p.size.handle = event.style->getSizeRole(SizeRole::Handle, _displayScale);
-                auto fontInfo = event.style->getFontRole(FontRole::Label, _displayScale);
+                p.size.init = false;
+                p.size.displayScale = event.displayScale;
+                p.size.size = event.style->getSizeRole(SizeRole::Slider, p.size.displayScale);
+                p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+                p.size.handle = event.style->getSizeRole(SizeRole::Handle, p.size.displayScale);
+                auto fontInfo = event.style->getFontRole(FontRole::Label, p.size.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(fontInfo);
             }
-            p.size.sizeInit = false;
-
             _sizeHint.w =
                 p.size.size +
                 p.size.border * 6;

@@ -138,7 +138,7 @@ namespace tg
 
             struct SizeData
             {
-                bool sizeInit = true;
+                float displayScale = 0.F;
                 int margin = 0;
                 int spacing = 0;
                 int border = 0;
@@ -275,9 +275,9 @@ namespace tg
         {
             IWidget::tickEvent(parentsVisible, parentsEnabled, event);
             TG_P();
-            if (_displayScale != p.iconScale)
+            if (event.displayScale != p.iconScale)
             {
-                p.iconScale = _displayScale;
+                p.iconScale = event.displayScale;
                 p.iconInit = true;
                 p.iconFuture = std::future<std::shared_ptr<Image> >();
                 p.iconImage.reset();
@@ -288,7 +288,12 @@ namespace tg
             if (!p.icon.empty() && p.iconInit)
             {
                 p.iconInit = false;
-                p.iconFuture = event.iconLibrary->request(p.icon, _displayScale);
+                p.iconFuture = event.iconLibrary->request(p.icon, event.displayScale);
+            }
+            if (p.arrowIconInit)
+            {
+                p.arrowIconInit = false;
+                p.arrowIconFuture = event.iconLibrary->request("MenuArrow", event.displayScale);
             }
             if (p.iconFuture.valid() &&
                 p.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
@@ -296,11 +301,6 @@ namespace tg
                 p.iconImage = p.iconFuture.get();
                 _updates |= Update::Size;
                 _updates |= Update::Draw;
-            }
-            if (p.arrowIconInit)
-            {
-                p.arrowIconInit = false;
-                p.arrowIconFuture = event.iconLibrary->request("MenuArrow", _displayScale);
             }
             if (p.arrowIconFuture.valid() &&
                 p.arrowIconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
@@ -313,19 +313,21 @@ namespace tg
 
         void ComboBox::sizeHintEvent(const SizeHintEvent& event)
         {
-            const bool displayScaleChanged = event.displayScale != _displayScale;
             IWidget::sizeHintEvent(event);
             TG_P();
 
-            if (displayScaleChanged || p.size.sizeInit)
+            const bool displayScaleChanged = event.displayScale != p.size.displayScale;
+            if (displayScaleChanged)
             {
-                p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, _displayScale);
-                p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, _displayScale);
-                p.size.border = event.style->getSizeRole(SizeRole::Border, _displayScale);
+                p.size.displayScale = event.displayScale;
+                p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
+                p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
+                p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
             }
-            if (displayScaleChanged || p.size.textInit || p.size.sizeInit)
+            if (displayScaleChanged || p.size.textInit)
             {
-                p.size.fontInfo = event.style->getFontRole(p.fontRole, _displayScale);
+                p.size.textInit = false;
+                p.size.fontInfo = event.style->getFontRole(p.fontRole, p.size.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
                 p.size.textSize = Size2I();
                 for (const auto& i : p.items)
@@ -339,8 +341,6 @@ namespace tg
                 }
                 p.draw.glyphs.clear();
             }
-            p.size.sizeInit = false;
-            p.size.textInit = false;
 
             _sizeHint.w = p.size.textSize.w + p.size.margin * 2;
             _sizeHint.h = p.size.fontMetrics.lineHeight;

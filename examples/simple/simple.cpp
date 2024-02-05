@@ -25,16 +25,23 @@ std::shared_ptr<MainWindow> MainWindow::create(
 void MainWindow::drawEvent(const Box2I& drawRect, const DrawEvent& event)
 {
     Window::drawEvent(drawRect, event);
-    const Box2F box(0, 0, _geometry.w(), _geometry.h());
     const std::string text = "Hello world";
     FontInfo fontInfo;
-    fontInfo.size = _geometry.h() / 6.F * event.displayScale;
-    const Size2I textSize = event.fontSystem->getSize(text, fontInfo);
+    fontInfo.size = 0;
+    Size2I textSize;
+    const Box2I g = margin(_geometry, -100);
+    while (textSize.w < g.w() && textSize.h < g.h())
+    {
+        fontInfo.size += 10;
+        textSize = event.fontSystem->getSize(text, fontInfo);
+    }
     const auto textGlyphs = event.fontSystem->getGlyphs(text, fontInfo);
-    const FontMetrics fontMetrics = event.fontSystem->getMetrics(fontInfo);
+    const auto fontMetrics = event.fontSystem->getMetrics(fontInfo);
     event.render->drawText(
         textGlyphs,
-        center(box) - V2F(textSize.w, textSize.h) / 2.F + V2F(0.F, fontMetrics.ascender),
+        center(Box2F(g.x(), g.y(), g.w(), g.h())) -
+            V2F(textSize.w, textSize.h) / 2.F +
+            V2F(0.F, fontMetrics.ascender),
         Color4F(1.F, 1.F, 1.F));
 }
 

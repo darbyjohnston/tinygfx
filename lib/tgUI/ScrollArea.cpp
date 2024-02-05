@@ -23,7 +23,8 @@ namespace tg
 
             struct SizeData
             {
-                bool sizeInit = true;
+                bool init = true;
+                float displayScale = 0.F;
                 int size = 0;
                 int border = 0;
             };
@@ -177,18 +178,19 @@ namespace tg
 
         void ScrollArea::sizeHintEvent(const SizeHintEvent& event)
         {
-            const bool displayScaleChanged = event.displayScale != _displayScale;
             IWidget::sizeHintEvent(event);
             TG_P();
 
-            if (displayScaleChanged || p.size.sizeInit)
+            const bool displayScaleChanged = event.displayScale != p.size.displayScale;
+            if (p.size.init || displayScaleChanged)
             {
-                p.size.size = event.style->getSizeRole(SizeRole::ScrollArea, _displayScale);
+                p.size.init = false;
+                p.size.displayScale = event.displayScale;
+                p.size.size = event.style->getSizeRole(SizeRole::ScrollArea, p.size.displayScale);
                 p.size.border = p.border ?
-                    event.style->getSizeRole(SizeRole::Border, _displayScale) :
+                    event.style->getSizeRole(SizeRole::Border, p.size.displayScale) :
                     0;
             }
-            p.size.sizeInit = false;
 
             _sizeHint = Size2I();
             for (const auto& child : _children)

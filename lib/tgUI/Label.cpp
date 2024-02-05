@@ -24,7 +24,8 @@ namespace tg
 
             struct SizeData
             {
-                bool sizeInit = true;
+                bool init = true;
+                float displayScale = 0.F;
                 int margin = 0;
 
                 bool textInit = true;
@@ -104,7 +105,7 @@ namespace tg
             if (value == p.marginRole)
                 return;
             p.marginRole = value;
-            p.size.sizeInit = true;
+            p.size.init = true;
             _updates |= Update::Size;
             _updates |= Update::Draw;
         }
@@ -123,24 +124,23 @@ namespace tg
 
         void Label::sizeHintEvent(const SizeHintEvent& event)
         {
-            const bool displayScaleChanged = event.displayScale != _displayScale;
             IWidget::sizeHintEvent(event);
             TG_P();
-
-            if (displayScaleChanged || p.size.sizeInit)
+            const bool displayScaleChanged = event.displayScale != p.size.displayScale;
+            if (p.size.init || displayScaleChanged)
             {
-                p.size.margin = event.style->getSizeRole(p.marginRole, _displayScale);
+                p.size.init = false;
+                p.size.displayScale = event.displayScale;
+                p.size.margin = event.style->getSizeRole(p.marginRole, event.displayScale);
             }
-            if (displayScaleChanged || p.size.textInit || p.size.sizeInit)
+            if (p.size.textInit || displayScaleChanged)
             {
-                p.size.fontInfo = event.style->getFontRole(p.fontRole, _displayScale);
+                p.size.textInit = false;
+                p.size.fontInfo = event.style->getFontRole(p.fontRole, event.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
                 p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);
                 p.draw.glyphs.clear();
             }
-            p.size.sizeInit = false;
-            p.size.textInit = false;
-
             _sizeHint.w =
                 p.size.textSize.w +
                 p.size.margin * 2;

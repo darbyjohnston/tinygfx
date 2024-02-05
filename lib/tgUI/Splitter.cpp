@@ -20,7 +20,8 @@ namespace tg
 
             struct SizeData
             {
-                bool sizeInit = true;
+                bool init = true;
+                float displayScale = 0.F;
                 int size = 0;
                 int spacing = 0;
                 int handle = 0;
@@ -89,7 +90,7 @@ namespace tg
             if (value == p.spacingRole)
                 return;
             p.spacingRole = value;
-            p.size.sizeInit = true;
+            p.size.init = true;
             _updates |= Update::Size;
             _updates |= Update::Draw;
         }
@@ -180,17 +181,18 @@ namespace tg
 
         void Splitter::sizeHintEvent(const SizeHintEvent& event)
         {
-            const bool displayScaleChanged = event.displayScale != _displayScale;
             IWidget::sizeHintEvent(event);
             TG_P();
 
-            if (displayScaleChanged || p.size.sizeInit)
+            const bool displayScaleChanged = event.displayScale != p.size.displayScale;
+            if (p.size.init || displayScaleChanged)
             {
-                p.size.size = event.style->getSizeRole(SizeRole::ScrollArea, _displayScale);
-                p.size.spacing = event.style->getSizeRole(p.spacingRole, _displayScale);
-                p.size.handle = event.style->getSizeRole(SizeRole::HandleSmall, _displayScale);
+                p.size.init = false;
+                p.size.displayScale = event.displayScale;
+                p.size.size = event.style->getSizeRole(SizeRole::ScrollArea, p.size.displayScale);
+                p.size.spacing = event.style->getSizeRole(p.spacingRole, p.size.displayScale);
+                p.size.handle = event.style->getSizeRole(SizeRole::HandleSmall, p.size.displayScale);
             }
-            p.size.sizeInit = false;
 
             _sizeHint.w = _sizeHint.h = p.size.size;
         }

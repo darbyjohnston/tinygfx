@@ -14,7 +14,7 @@ namespace tg
     {
         struct MDICanvas::Private
         {
-            Size2I canvasSize = Size2I(500, 500);
+            Size2I canvasSize = Size2I(1000, 1000);
             Size2I gridSize = Size2I(20, 20);
             std::vector<std::pair<V2I, std::shared_ptr<IWidget> > > newWidgets;
 

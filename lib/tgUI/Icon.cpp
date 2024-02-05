@@ -17,15 +17,15 @@ namespace tg
         struct Icon::Private
         {
             std::string icon;
-            std::shared_ptr<Image> iconImage;
             float iconScale = 1.F;
             bool iconInit = false;
+            std::shared_ptr<Image> iconImage;
             std::future<std::shared_ptr<Image> > iconFuture;
             SizeRole marginRole = SizeRole::None;
 
             struct SizeData
             {
-                bool sizeInit = true;
+                float displayScale = 0.F;
                 int margin = 0;
             };
             SizeData size;
@@ -95,6 +95,18 @@ namespace tg
         {
             IWidget::tickEvent(parentsVisible, parentsEnabled, event);
             TG_P();
+            if (event.displayScale != p.iconScale)
+            {
+                p.iconScale = event.displayScale;
+                p.iconImage.reset();
+                p.iconInit = true;
+                p.iconFuture = std::future<std::shared_ptr<Image> >();
+            }
+            if (!p.icon.empty() && p.iconInit)
+            {
+                p.iconInit = false;
+                p.iconFuture = event.iconLibrary->request(p.icon, event.displayScale);
+            }
             if (p.iconFuture.valid() &&
                 p.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
@@ -106,27 +118,13 @@ namespace tg
 
         void Icon::sizeHintEvent(const SizeHintEvent& event)
         {
-            const bool displayScaleChanged = event.displayScale != _displayScale;
             IWidget::sizeHintEvent(event);
             TG_P();
 
-            if (displayScaleChanged || p.size.sizeInit)
+            if (event.displayScale != p.size.displayScale)
             {
-                p.size.margin = event.style->getSizeRole(p.marginRole, _displayScale);
-            }
-            p.size.sizeInit = false;
-
-            if (_displayScale != p.iconScale)
-            {
-                p.iconImage.reset();
-                p.iconScale = _displayScale;
-                p.iconInit = true;
-                p.iconFuture = std::future<std::shared_ptr<Image> >();
-            }
-            if (!p.icon.empty() && p.iconInit)
-            {
-                p.iconInit = false;
-                p.iconFuture = event.iconLibrary->request(p.icon, _displayScale);
+                p.size.displayScale = event.displayScale;
+                p.size.margin = event.style->getSizeRole(p.marginRole, p.size.displayScale);
             }
 
             _sizeHint = Size2I();
