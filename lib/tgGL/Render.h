@@ -71,6 +71,10 @@ namespace tg
                 const core::V2F&,
                 const core::Color4F&,
                 const core::LineOptions& = core::LineOptions()) override;
+            void drawLines(
+                const std::vector<std::pair<core::V2F, core::V2F> >&,
+                const core::Color4F&,
+                const core::LineOptions& = core::LineOptions()) override;
             void drawMesh(
                 const core::TriMesh2F&,
                 const core::Color4F& = core::Color4F(1.F, 1.F, 1.F, 1.F),

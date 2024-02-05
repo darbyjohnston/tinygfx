@@ -67,8 +67,8 @@ namespace tg
 
             const V2F v2 = normalize(v1 - v0);
             const float w = options.width / 2.F;
-            const V2F v2cw = normalize(perpCW(v2)) * w;
-            const V2F v2ccw = normalize(perpCCW(v2)) * w;
+            const V2F v2cw = perpCW(v2) * w;
+            const V2F v2ccw = perpCCW(v2) * w;
             TriMesh2F mesh;
             mesh.v.push_back(v0 + v2ccw);
             mesh.v.push_back(v0 + v2cw);
@@ -94,6 +94,37 @@ namespace tg
                 p.vaos["line"]->bind();
                 p.vaos["line"]->draw(GL_TRIANGLES, 0, p.vbos["line"]->getSize());
             }
+        }
+
+        void Render::drawLines(
+            const std::vector<std::pair<V2F, V2F> >& v,
+            const Color4F& color,
+            const LineOptions& options)
+        {
+            TG_P();
+            TriMesh2F mesh;
+            for (const auto& i : v)
+            {
+                const size_t j = mesh.v.size();
+                const V2F v2 = normalize(i.second - i.first);
+                const float w = options.width / 2.F;
+                const V2F v2cw = perpCW(v2) * w;
+                const V2F v2ccw = perpCCW(v2) * w;
+                mesh.v.push_back(i.first + v2ccw);
+                mesh.v.push_back(i.first + v2cw);
+                mesh.v.push_back(i.second + v2cw);
+                mesh.v.push_back(i.second + v2ccw);
+                Triangle2 triangle;
+                triangle.v[0].v = j + 1;
+                triangle.v[1].v = j + 2;
+                triangle.v[2].v = j + 3;
+                mesh.triangles.push_back(triangle);
+                triangle.v[0].v = j + 3;
+                triangle.v[1].v = j + 4;
+                triangle.v[2].v = j + 1;
+                mesh.triangles.push_back(triangle);
+            }
+            drawMesh(mesh, color);
         }
 
         void Render::drawMesh(

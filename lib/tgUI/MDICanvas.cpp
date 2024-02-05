@@ -355,22 +355,19 @@ namespace tg
 
             LineOptions options;
             options.width = 1 * event.displayScale;
+            std::vector<std::pair<V2F, V2F> > lines;
             for (int x = grid.min.x; x < grid.max.x; x += gridSize.w)
             {
-                event.render->drawLine(
-                    V2F(x, grid.min.y),
-                    V2F(x, grid.max.y),
-                    event.style->getColorRole(ColorRole::Border),
-                    options);
+                lines.push_back({ V2F(x, grid.min.y), V2F(x, grid.max.y) });
             }
             for (int y = grid.min.y; y < grid.max.y; y += gridSize.h)
             {
-                event.render->drawLine(
-                    V2F(grid.min.x, y),
-                    V2F(grid.max.x, y),
-                    event.style->getColorRole(ColorRole::Border),
-                    options);
+                lines.push_back({ V2F(grid.min.x, y), V2F(grid.max.x, y) });
             }
+            event.render->drawLines(
+                lines,
+                event.style->getColorRole(ColorRole::Border),
+                options);
         }
 
         void MDICanvas::mouseMoveEvent(MouseMoveEvent& event)

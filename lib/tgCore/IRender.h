@@ -11,6 +11,7 @@
 #include <tgCore/Vector.h>
 
 #include <memory>
+#include <utility>
 
 namespace tg
 {
@@ -89,6 +90,12 @@ namespace tg
             virtual void drawLine(
                 const V2F&,
                 const V2F&,
+                const Color4F&,
+                const LineOptions & = LineOptions()) = 0;
+
+            //! Draw multiple lines.
+            virtual void drawLines(
+                const std::vector<std::pair<V2F, V2F> >&,
                 const Color4F&,
                 const LineOptions& = LineOptions()) = 0;
 
