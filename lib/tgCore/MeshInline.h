@@ -6,13 +6,13 @@ namespace tg
 {
     namespace core
     {
-        inline Vertex2::Vertex2(size_t v, size_t t, size_t c) :
+        constexpr Vertex2::Vertex2(size_t v, size_t t, size_t c) :
             v(v),
             t(t),
             c(c)
         {}
 
-        inline Vertex3::Vertex3(size_t v, size_t t, size_t n, size_t c) :
+        constexpr Vertex3::Vertex3(size_t v, size_t t, size_t n, size_t c) :
             v(v),
             t(t),
             n(n),

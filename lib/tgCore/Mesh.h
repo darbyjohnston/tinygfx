@@ -21,7 +21,7 @@ namespace tg
         struct Vertex2
         {
             Vertex2() = default;
-            Vertex2(size_t v, size_t t = 0, size_t c = 0);
+            constexpr Vertex2(size_t v, size_t t = 0, size_t c = 0);
 
             size_t v = 0;
             size_t t = 0;
@@ -32,7 +32,7 @@ namespace tg
         struct Vertex3
         {
             Vertex3() = default;
-            Vertex3(size_t v, size_t t = 0, size_t n = 0, size_t c = 0);
+            constexpr Vertex3(size_t v, size_t t = 0, size_t n = 0, size_t c = 0);
 
             size_t v = 0;
             size_t t = 0;
