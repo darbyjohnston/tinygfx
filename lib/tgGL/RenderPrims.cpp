@@ -39,15 +39,22 @@ namespace tg
             const Color4F& color)
         {
             TriMesh2F mesh;
+            mesh.v.resize(rects.size() * 4);
+            mesh.triangles.resize(rects.size() * 2);
+            size_t v = 0;
+            size_t t = 0;
             for (const auto& rect : rects)
             {
-                const size_t i = mesh.v.size();
-                mesh.v.push_back(rect.min);
-                mesh.v.push_back(V2F(rect.max.x, rect.min.y));
-                mesh.v.push_back(rect.max);
-                mesh.v.push_back(V2F(rect.min.x, rect.max.y));
-                mesh.triangles.push_back({ i + 1, i + 2, i + 3 });
-                mesh.triangles.push_back({ i + 3, i + 4, i + 1 });
+                mesh.v[v + 0] = rect.min;
+                mesh.v[v + 1].x = rect.max.x;
+                mesh.v[v + 1].y = rect.min.y;
+                mesh.v[v + 2] = rect.max;
+                mesh.v[v + 3].x = rect.min.x;
+                mesh.v[v + 3].y = rect.max.y;
+                mesh.triangles[t + 0] = { v + 1, v + 2, v + 3 };
+                mesh.triangles[t + 1] = { v + 3, v + 4, v + 1 };
+                v += 4;
+                t += 2;
             }
             drawMesh(mesh, color);
         }
@@ -66,23 +73,15 @@ namespace tg
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
             const V2F v2 = normalize(v1 - v0);
-            const float w = options.width / 2.F;
-            const V2F v2cw = perpCW(v2) * w;
-            const V2F v2ccw = perpCCW(v2) * w;
+            const V2F v2CW = perpCW(v2) * options.width / 2.F;
+            const V2F v2CCW = perpCCW(v2) * options.width / 2.F;
             TriMesh2F mesh;
-            mesh.v.push_back(v0 + v2ccw);
-            mesh.v.push_back(v0 + v2cw);
-            mesh.v.push_back(v1 + v2cw);
-            mesh.v.push_back(v1 + v2ccw);
-            Triangle2 triangle;
-            triangle.v[0].v = 1;
-            triangle.v[1].v = 2;
-            triangle.v[2].v = 3;
-            mesh.triangles.push_back(triangle);
-            triangle.v[0].v = 3;
-            triangle.v[1].v = 4;
-            triangle.v[2].v = 1;
-            mesh.triangles.push_back(triangle);
+            mesh.v.push_back(v0 + v2CCW);
+            mesh.v.push_back(v0 + v2CW);
+            mesh.v.push_back(v1 + v2CW);
+            mesh.v.push_back(v1 + v2CCW);
+            mesh.triangles.push_back({ 1, 2, 3 });
+            mesh.triangles.push_back({ 3, 4, 1 });
 
             if (p.vbos["line"])
             {
@@ -97,32 +96,29 @@ namespace tg
         }
 
         void Render::drawLines(
-            const std::vector<std::pair<V2F, V2F> >& v,
+            const std::vector<std::pair<V2F, V2F> >& lines,
             const Color4F& color,
             const LineOptions& options)
         {
             TG_P();
             TriMesh2F mesh;
-            for (const auto& i : v)
+            mesh.v.resize(lines.size() * 4);
+            mesh.triangles.resize(lines.size() * 2);
+            size_t v = 0;
+            size_t t = 0;
+            for (const auto& i : lines)
             {
-                const size_t j = mesh.v.size();
                 const V2F v2 = normalize(i.second - i.first);
-                const float w = options.width / 2.F;
-                const V2F v2cw = perpCW(v2) * w;
-                const V2F v2ccw = perpCCW(v2) * w;
-                mesh.v.push_back(i.first + v2ccw);
-                mesh.v.push_back(i.first + v2cw);
-                mesh.v.push_back(i.second + v2cw);
-                mesh.v.push_back(i.second + v2ccw);
-                Triangle2 triangle;
-                triangle.v[0].v = j + 1;
-                triangle.v[1].v = j + 2;
-                triangle.v[2].v = j + 3;
-                mesh.triangles.push_back(triangle);
-                triangle.v[0].v = j + 3;
-                triangle.v[1].v = j + 4;
-                triangle.v[2].v = j + 1;
-                mesh.triangles.push_back(triangle);
+                const V2F v2CW = perpCW(v2) * options.width / 2.F;
+                const V2F v2CCW = perpCCW(v2) * options.width / 2.F;
+                mesh.v[v + 0] = i.first + v2CCW;
+                mesh.v[v + 1] = i.first + v2CW;
+                mesh.v[v + 2] = i.second + v2CW;
+                mesh.v[v + 3] = i.second + v2CCW;
+                mesh.triangles[t + 0] = { v + 1, v + 2, v + 3 };
+                mesh.triangles[t + 1] = { v + 3, v + 4, v + 1 };
+                v += 4;
+                t += 2;
             }
             drawMesh(mesh, color);
         }
@@ -225,10 +221,24 @@ namespace tg
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE0));
             glBindTexture(GL_TEXTURE_2D, p.glyphTextureAtlas->getTexture());
 
+            size_t glyphCount = 0;
+            for (const auto& glyph : glyphs)
+            {
+                if (glyph && glyph->image && glyph->image->isValid())
+                {
+                    ++glyphCount;
+                }
+            }
+            p.stats.glyphCount += glyphCount;
+
             int x = 0;
             int32_t rsbDeltaPrev = 0;
             TriMesh2F mesh;
-            size_t meshIndex = 0;
+            mesh.v.resize(glyphCount * 4);
+            mesh.t.resize(glyphCount * 4);
+            mesh.triangles.resize(glyphCount * 2);
+            size_t v = 0;
+            size_t t = 0;
             for (const auto& glyph : glyphs)
             {
                 if (glyph)
@@ -268,36 +278,35 @@ namespace tg
                         const auto& min = box.min;
                         const auto& max = box.max;
 
-                        mesh.v.push_back(V2F(min.x, min.y));
-                        mesh.v.push_back(V2F(max.x + 1, min.y));
-                        mesh.v.push_back(V2F(max.x + 1, max.y + 1));
-                        mesh.v.push_back(V2F(min.x, max.y + 1));
-                        mesh.t.push_back(V2F(item.textureU.min(), item.textureV.min()));
-                        mesh.t.push_back(V2F(item.textureU.max(), item.textureV.min()));
-                        mesh.t.push_back(V2F(item.textureU.max(), item.textureV.max()));
-                        mesh.t.push_back(V2F(item.textureU.min(), item.textureV.max()));
+                        mesh.v[v + 0].x = min.x;
+                        mesh.v[v + 0].y = min.y;
+                        mesh.v[v + 1].x = max.x + 1;
+                        mesh.v[v + 1].y = min.y;
+                        mesh.v[v + 2].x = max.x + 1;
+                        mesh.v[v + 2].y = max.y + 1;
+                        mesh.v[v + 3].x = min.x;
+                        mesh.v[v + 3].y = max.y + 1;
+                        mesh.t[v + 0].x = item.textureU.min();
+                        mesh.t[v + 0].y = item.textureV.min();
+                        mesh.t[v + 1].x = item.textureU.max();
+                        mesh.t[v + 1].y = item.textureV.min();
+                        mesh.t[v + 2].x = item.textureU.max();
+                        mesh.t[v + 2].y = item.textureV.max();
+                        mesh.t[v + 3].x = item.textureU.min();
+                        mesh.t[v + 3].y = item.textureV.max();
 
-                        Triangle2 triangle;
-                        triangle.v[0].v = meshIndex + 1;
-                        triangle.v[1].v = meshIndex + 2;
-                        triangle.v[2].v = meshIndex + 3;
-                        triangle.v[0].t = meshIndex + 1;
-                        triangle.v[1].t = meshIndex + 2;
-                        triangle.v[2].t = meshIndex + 3;
-                        mesh.triangles.push_back(triangle);
-                        triangle.v[0].v = meshIndex + 3;
-                        triangle.v[1].v = meshIndex + 4;
-                        triangle.v[2].v = meshIndex + 1;
-                        triangle.v[0].t = meshIndex + 3;
-                        triangle.v[1].t = meshIndex + 4;
-                        triangle.v[2].t = meshIndex + 1;
-                        mesh.triangles.push_back(triangle);
+                        mesh.triangles[t + 0].v[0] = { v + 1, v + 1 };
+                        mesh.triangles[t + 0].v[1] = { v + 2, v + 2 };
+                        mesh.triangles[t + 0].v[2] = { v + 3, v + 3 };
+                        mesh.triangles[t + 1].v[0] = { v + 3, v + 3 };
+                        mesh.triangles[t + 1].v[1] = { v + 4, v + 4 };
+                        mesh.triangles[t + 1].v[2] = { v + 1, v + 1 };
 
-                        meshIndex += 4;
+                        v += 4;
+                        t += 2;
                     }
 
                     x += glyph->advance;
-                    ++p.stats.glyphCount;
                 }
             }
             _drawTextMesh(mesh);

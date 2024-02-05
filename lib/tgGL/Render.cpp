@@ -215,13 +215,14 @@ namespace tg
         {
             TG_P();
             p.clipRect = value;
-            if (value.w() > 0 && value.h() > 0)
+            const Size2I size = value.size();
+            if (size.isValid())
             {
                 glScissor(
                     value.x(),
-                    p.size.h - value.h() - value.y(),
-                    value.w(),
-                    value.h());
+                    p.size.h - size.h - value.y(),
+                    size.w,
+                    size.h);
             }
         }
 
