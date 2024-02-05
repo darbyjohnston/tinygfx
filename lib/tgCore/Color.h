@@ -21,11 +21,11 @@ namespace tg
         public:
             Color();
 
-            T operator [] (int) const;
-            T& operator [] (int);
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
 
             std::array<T, C> e;
         };
@@ -35,20 +35,20 @@ namespace tg
         class Color<1, T>
         {
         public:
-            Color();
-            explicit Color(T);
-            Color(const Color<1, T>&);
+            constexpr Color();
+            explicit constexpr Color(T);
+            constexpr Color(const Color<1, T>&);
 
-            T operator [] (int) const;
-            T& operator [] (int);
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
             
             std::array<T, 1> e;
             T& l;
 
-            Color<1, T>& operator = (const Color<1, T>&);
+            constexpr Color<1, T>& operator = (const Color<1, T>&);
         };
 
         //! Two channel color (luminance and alpha).
@@ -56,22 +56,22 @@ namespace tg
         class Color<2, T>
         {
         public:
-            Color();
-            explicit Color(T);
-            Color(T, T);
-            Color(const Color<2, T>&);
+            constexpr Color();
+            explicit constexpr Color(T);
+            constexpr Color(T, T);
+            constexpr Color(const Color<2, T>&);
 
-            T operator [] (int) const;
-            T& operator [] (int);
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
             
             std::array<T, 2> e;
             T& l;
             T& a;
 
-            Color<2, T>& operator = (const Color<2, T>&);
+            constexpr Color<2, T>& operator = (const Color<2, T>&);
         };
 
         //! Three channel color (RGB).
@@ -79,22 +79,22 @@ namespace tg
         class Color<3, T>
         {
         public:
-            Color();
-            Color(T, T, T);
-            Color(const Color<3, T>&);
+            constexpr Color();
+            constexpr Color(T, T, T);
+            constexpr Color(const Color<3, T>&);
 
-            T operator [] (int) const;
-            T& operator [] (int);
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
             
             std::array<T, 3> e;
             T& r;
             T& g;
             T& b;
 
-            Color<3, T>& operator = (const Color<3, T>&);
+            constexpr Color<3, T>& operator = (const Color<3, T>&);
         };
 
         //! Four channel color (RGBA).
@@ -102,16 +102,16 @@ namespace tg
         class Color<4, T>
         {
         public:
-            Color();
-            Color(T, T, T);
-            Color(T, T, T, T);
-            Color(const Color<4, T>&);
+            constexpr Color();
+            constexpr Color(T, T, T);
+            constexpr Color(T, T, T, T);
+            constexpr Color(const Color<4, T>&);
 
-            T operator [] (int) const;
-            T& operator [] (int);
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
             
             std::array<T, 4> e;
             T& r;
@@ -119,7 +119,7 @@ namespace tg
             T& b;
             T& a;
 
-            Color<4, T>& operator = (const Color<4, T>&);
+            constexpr Color<4, T>& operator = (const Color<4, T>&);
         };
 
         typedef Color<1, float> Color1F;

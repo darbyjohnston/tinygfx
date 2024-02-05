@@ -20,11 +20,11 @@ namespace tg
         public:
             Matrix();
 
-            T get(int row, int column) const;
-            void set(int row, int column, T);
+            constexpr T get(int row, int column) const;
+            constexpr void set(int row, int column, T);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
 
         private:
             std::array<T, R * C> _e;
@@ -35,17 +35,17 @@ namespace tg
         class Matrix<3, 3, T>
         {
         public:
-            Matrix();
-            Matrix(
+            constexpr Matrix();
+            constexpr Matrix(
                 T e0, T e1, T e2,
                 T e3, T e4, T e5,
                 T e6, T e7, T e8);
 
-            T get(int row, int column) const;
-            void set(int row, int column, T);
+            constexpr T get(int row, int column) const;
+            constexpr void set(int row, int column, T);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
 
         private:
             std::array<T, 9> _e;
@@ -56,18 +56,18 @@ namespace tg
         class Matrix<4, 4, T>
         {
         public:
-            Matrix();
-            Matrix(
+            constexpr Matrix();
+            constexpr Matrix(
                 T e0, T e1, T e2, T e3,
                 T e4, T e5, T e6, T e7,
                 T e8, T e9, T e10, T e11,
                 T e12, T e13, T e14, T e15);
 
-            T get(int row, int column) const;
-            void set(int row, int column, T);
+            constexpr T get(int row, int column) const;
+            constexpr void set(int row, int column, T);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
 
         private:
             std::array<T, 16> _e;

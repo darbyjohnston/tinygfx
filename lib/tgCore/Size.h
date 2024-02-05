@@ -21,11 +21,11 @@ namespace tg
         public:
             Size();
 
-            T operator [] (int) const;
-            T& operator [] (int);
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
             
             bool isValid() const;
 
@@ -37,23 +37,23 @@ namespace tg
         class Size<2, T>
         {
         public:
-            Size();
-            Size(T, T);
-            Size(const Size<2, T>&);
+            constexpr Size();
+            constexpr Size(T, T);
+            constexpr Size(const Size<2, T>&);
 
-            T operator [] (int) const;
-            T& operator [] (int);
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
             
             std::array<T, 2> e;
             T& w;
             T& h;
 
-            bool isValid() const;
+            constexpr bool isValid() const;
 
-            Size<2, T>& operator = (const Size<2, T>&);
+            constexpr Size<2, T>& operator = (const Size<2, T>&);
         };
 
         //! Three-dimensional size.
@@ -61,24 +61,24 @@ namespace tg
         class Size<3, T>
         {
         public:
-            Size();
-            Size(T, T, T);
-            Size(const Size<3, T>&);
+            constexpr Size();
+            constexpr Size(T, T, T);
+            constexpr Size(const Size<3, T>&);
 
-            T operator [] (int) const;
-            T& operator [] (int);
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
             
             std::array<T, 3> e;
             T& w;
             T& h;
             T& d;
 
-            bool isValid() const;
+            constexpr bool isValid() const;
 
-            Size<3, T>& operator = (const Size<3, T>&);
+            constexpr Size<3, T>& operator = (const Size<3, T>&);
         };
 
         typedef Size<2, int> Size2I;
@@ -87,15 +87,15 @@ namespace tg
 
         //! Get the aspect ratio of the given size.
         template<typename T>
-        T aspectRatio(const Size<2, T>&);
+        constexpr T aspectRatio(const Size<2, T>&);
         
         //! Get the area of the given size.
         template<typename T>
-        T area(const Size<2, T>&);
+        constexpr T area(const Size<2, T>&);
         
         //! Get the volume of the given size.
         template<typename T>
-        T volume(const Size<3, T>&);
+        constexpr T volume(const Size<3, T>&);
         
         template<int C, typename T>
         Size<C, T> operator + (const Size<C, T>&, T);

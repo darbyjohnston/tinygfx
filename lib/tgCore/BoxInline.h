@@ -7,7 +7,7 @@ namespace tg
     namespace core
     {
         template<int C, typename T>
-        inline Box<C, T>::Box(const Vector<C, T>& min, const Vector<C, T>& max) :
+        constexpr Box<C, T>::Box(const Vector<C, T>& min, const Vector<C, T>& max) :
             min(min),
             max(max)
         {}
@@ -30,7 +30,7 @@ namespace tg
         }
 
         template<typename T>
-        inline Box<2, T>::Box(const Vector<2, T>& min, const Vector<2, T>& max) :
+        constexpr Box<2, T>::Box(const Vector<2, T>& min, const Vector<2, T>& max) :
             min(min),
             max(max)
         {}
@@ -48,25 +48,25 @@ namespace tg
         {}
 
         template<typename T>
-        inline Box<2, T>::Box(T x, T y, T width, T height) :
+        constexpr Box<2, T>::Box(T x, T y, T width, T height) :
             min(x, y),
             max(x + width, y + height)
         {}
 
         template<>
-        inline Box<2, int>::Box(int x, int y, int width, int height) :
+        constexpr Box<2, int>::Box(int x, int y, int width, int height) :
             min(x, y),
             max(x + width - 1, y + height - 1)
         {}
         
         template<typename T>
-        inline T Box<2, T>::x() const
+        constexpr T Box<2, T>::x() const
         {
             return min.x;
         }
 
         template<typename T>
-        inline T Box<2, T>::y() const
+        constexpr T Box<2, T>::y() const
         {
             return min.y;
         }
@@ -88,19 +88,19 @@ namespace tg
         }
 
         template<typename T>
-        inline T Box<2, T>::w() const
+        constexpr T Box<2, T>::w() const
         {
             return size().w;
         }
 
         template<typename T>
-        inline T Box<2, T>::h() const
+        constexpr T Box<2, T>::h() const
         {
             return size().h;
         }
 
         template<typename T>
-        inline Box<3, T>::Box(const Vector<3, T>& min, const Vector<3, T>& max) :
+        constexpr Box<3, T>::Box(const Vector<3, T>& min, const Vector<3, T>& max) :
             min(min),
             max(max)
         {}
@@ -112,25 +112,25 @@ namespace tg
         {}
 
         template<typename T>
-        inline Box<3, T>::Box(T x, T y, T z, T width, T height, T depth) :
+        constexpr Box<3, T>::Box(T x, T y, T z, T width, T height, T depth) :
             min(x, y, z),
             max(x + width, y + height, z + depth)
         {}
         
         template<typename T>
-        inline T Box<3, T>::x() const
+        constexpr T Box<3, T>::x() const
         {
             return min.x;
         }
 
         template<typename T>
-        inline T Box<3, T>::y() const
+        constexpr T Box<3, T>::y() const
         {
             return min.y;
         }
 
         template<typename T>
-        inline T Box<3, T>::z() const
+        constexpr T Box<3, T>::z() const
         {
             return min.z;
         }
@@ -145,19 +145,19 @@ namespace tg
         }
 
         template<typename T>
-        inline T Box<3, T>::w() const
+        constexpr T Box<3, T>::w() const
         {
             return size().w;
         }
 
         template<typename T>
-        inline T Box<3, T>::h() const
+        constexpr T Box<3, T>::h() const
         {
             return size().h;
         }
 
         template<typename T>
-        inline T Box<3, T>::d() const
+        constexpr T Box<3, T>::d() const
         {
             return size().d;
         }

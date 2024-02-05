@@ -21,11 +21,11 @@ namespace tg
             Vector();
             explicit Vector(const Size<C, T>&);
             
-            T operator [] (int) const;
-            T& operator [] (int);
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
 
             std::array<T, C> e;
         };
@@ -35,22 +35,22 @@ namespace tg
         class Vector<2, T>
         {
         public:
-            Vector();
-            Vector(T, T);
-            explicit Vector(const Size<2, T>&);
-            Vector(const Vector<2, T>&);
+            constexpr Vector();
+            constexpr Vector(T, T);
+            explicit constexpr Vector(const Size<2, T>&);
+            constexpr Vector(const Vector<2, T>&);
 
-            T operator [] (int) const;
-            T& operator [] (int);
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
 
             std::array<T, 2> e;
             T& x;
             T& y;
             
-            Vector<2, T>& operator = (const Vector<2, T>&);
+            constexpr Vector<2, T>& operator = (const Vector<2, T>&);
         };
 
         //! Three-dimensional vector.
@@ -58,23 +58,23 @@ namespace tg
         class Vector<3, T>
         {
         public:
-            Vector();
-            Vector(T, T, T);
-            explicit Vector(const Size<3, T>&);
-            Vector(const Vector<3, T>&);
+            constexpr Vector();
+            constexpr Vector(T, T, T);
+            explicit constexpr Vector(const Size<3, T>&);
+            constexpr Vector(const Vector<3, T>&);
 
-            T operator [] (int) const;
-            T& operator [] (int);
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
 
             std::array<T, 3> e;
             T& x;
             T& y;
             T& z;
 
-            Vector<3, T>& operator = (const Vector<3, T>&);
+            constexpr Vector<3, T>& operator = (const Vector<3, T>&);
         };
 
         //! Four-dimensional vector.
@@ -82,15 +82,15 @@ namespace tg
         class Vector<4, T>
         {
         public:
-            Vector();
-            Vector(T, T, T, T = T(0));
-            Vector(const Vector<4, T>&);
+            constexpr Vector();
+            constexpr Vector(T, T, T, T = T(0));
+            constexpr Vector(const Vector<4, T>&);
 
-            T operator [] (int) const;
-            T& operator [] (int);
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
 
-            const T* data() const;
-            T* data();
+            constexpr const T* data() const;
+            constexpr T* data();
 
             std::array<T, 4> e;
             T& x;
@@ -98,7 +98,7 @@ namespace tg
             T& z;
             T& w;
 
-            Vector<4, T>& operator = (const Vector<4, T>&);
+            constexpr Vector<4, T>& operator = (const Vector<4, T>&);
         };
 
         typedef Vector<2, int> V2I;
@@ -121,12 +121,12 @@ namespace tg
         //! Get a vector perpindicular to the given vector in the clockwise
         //! direction.
         template<typename T>
-        Vector<2, T> perpCW(const Vector<2, T>&);
+        constexpr Vector<2, T> perpCW(const Vector<2, T>&);
 
         //! Get a vector perpindicular to the given vector in the
         //! counter-clockwise direction.
         template<typename T>
-        Vector<2, T> perpCCW(const Vector<2, T>&);
+        constexpr Vector<2, T> perpCCW(const Vector<2, T>&);
         
         template<int C, typename T>
         Vector<C, T> operator + (const Vector<C, T>&, const Vector<C, T>&);

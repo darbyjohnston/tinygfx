@@ -20,7 +20,7 @@ namespace tg
         {
         public:
             Box() = default;
-            Box(const Vector<C, T>& min, const Vector<C, T>& max);
+            constexpr Box(const Vector<C, T>& min, const Vector<C, T>& max);
             Box(const Vector<C, T>& min, const Size<C, T>& max);
             
             Vector<C, T> min;
@@ -35,19 +35,19 @@ namespace tg
         {
         public:
             Box() = default;
-            Box(const Vector<2, T>& min, const Vector<2, T>& max);
+            constexpr Box(const Vector<2, T>& min, const Vector<2, T>& max);
             Box(const Vector<2, T>& min, const Size<2, T>& max);
-            Box(T x, T y, T width, T height);
+            constexpr Box(T x, T y, T width, T height);
             
             Vector<2, T> min;
             Vector<2, T> max;
             
-            T x() const;
-            T y() const;
+            constexpr T x() const;
+            constexpr T y() const;
 
             Size<2, T> size() const;
-            T w() const;
-            T h() const;
+            constexpr T w() const;
+            constexpr T h() const;
         };
 
         //! Three-dimensional box.
@@ -56,22 +56,21 @@ namespace tg
         {
         public:
             Box() = default;
-            Box(const Vector<3, T>& min, const Vector<3, T>& max);
+            constexpr Box(const Vector<3, T>& min, const Vector<3, T>& max);
             Box(const Vector<3, T>& min, const Size<3, T>& max);
-            Box(T x, T y, T z, T width, T height, T depth);
-            Box(const Box<3, T>&);
+            constexpr Box(T x, T y, T z, T width, T height, T depth);
             
             Vector<3, T> min;
             Vector<3, T> max;
             
-            T x() const;
-            T y() const;
-            T z() const;
+            constexpr T x() const;
+            constexpr T y() const;
+            constexpr T z() const;
 
             Size<3, T> size() const;
-            T w() const;
-            T h() const;
-            T d() const;
+            constexpr T w() const;
+            constexpr T h() const;
+            constexpr T d() const;
         };
 
         typedef Box<2, int> Box2I;

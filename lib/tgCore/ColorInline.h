@@ -16,139 +16,139 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline T Color<C, T>::operator [] (int i) const
+        constexpr T Color<C, T>::operator [] (int i) const
         {
             return e[i];
         }
 
         template<int C, typename T>
-        inline T& Color<C, T>::operator [] (int i)
+        constexpr T& Color<C, T>::operator [] (int i)
         {
             return e[i];
         }
 
         template<int C, typename T>
-        inline const T* Color<C, T>::data() const
+        constexpr const T* Color<C, T>::data() const
         {
             return e.data();
         }
 
         template<int C, typename T>
-        inline T* Color<C, T>::data()
+        constexpr T* Color<C, T>::data()
         {
             return e.data();
         }
 
         template<typename T>
-        inline Color<1, T>::Color() :
+        constexpr Color<1, T>::Color() :
             e({ 0 }),
             l(e[0])
         {}
 
         template<typename T>
-        inline Color<1, T>::Color(T l) :
+        constexpr Color<1, T>::Color(T l) :
             e({ l }),
             l(e[0])
         {}
 
         template<typename T>
-        inline Color<1, T>::Color(const Color<1, T>& v) :
+        constexpr Color<1, T>::Color(const Color<1, T>& v) :
             e(v.e),
             l(e[0])
         {}
 
         template<typename T>
-        inline T Color<1, T>::operator [] (int i) const
+        constexpr T Color<1, T>::operator [] (int i) const
         {
             return e[i];
         }
 
         template<typename T>
-        inline T& Color<1, T>::operator [] (int i)
+        constexpr T& Color<1, T>::operator [] (int i)
         {
             return e[i];
         }
 
         template<typename T>
-        inline const T* Color<1, T>::data() const
+        constexpr const T* Color<1, T>::data() const
         {
             return e.data();
         }
 
         template<typename T>
-        inline T* Color<1, T>::data()
+        constexpr T* Color<1, T>::data()
         {
             return e.data();
         }
 
         template<typename T>
-        inline Color<1, T>& Color<1, T>::operator = (const Color<1, T>& v)
+        constexpr Color<1, T>& Color<1, T>::operator = (const Color<1, T>& v)
         {
             e = v.e;
             return *this;
         }
 
         template<typename T>
-        inline Color<2, T>::Color() :
+        constexpr Color<2, T>::Color() :
             e({ 0, 0 }),
             l(e[0]),
             a(e[1])
         {}
 
         template<typename T>
-        inline Color<2, T>::Color(T l, T a) :
+        constexpr Color<2, T>::Color(T l, T a) :
             e({ l, a }),
             l(e[0]),
             a(e[1])
         {}
 
         template<>
-        inline Color<2, float>::Color(float l) :
+        constexpr Color<2, float>::Color(float l) :
             e({ l, 1.F }),
             l(e[0]),
             a(e[1])
         {}
 
         template<typename T>
-        inline Color<2, T>::Color(const Color<2, T>& v) :
+        constexpr Color<2, T>::Color(const Color<2, T>& v) :
             e(v.e),
             l(e[0]),
             a(e[1])
         {}
 
         template<typename T>
-        inline T Color<2, T>::operator [] (int i) const
+        constexpr T Color<2, T>::operator [] (int i) const
         {
             return e[i];
         }
 
         template<typename T>
-        inline T& Color<2, T>::operator [] (int i)
+        constexpr T& Color<2, T>::operator [] (int i)
         {
             return e[i];
         }
 
         template<typename T>
-        inline const T* Color<2, T>::data() const
+        constexpr const T* Color<2, T>::data() const
         {
             return e.data();
         }
 
         template<typename T>
-        inline T* Color<2, T>::data()
+        constexpr T* Color<2, T>::data()
         {
             return e.data();
         }
 
         template<typename T>
-        inline Color<2, T>& Color<2, T>::operator = (const Color<2, T>& v)
+        constexpr Color<2, T>& Color<2, T>::operator = (const Color<2, T>& v)
         {
             e = v.e;
             return *this;
         }
 
         template<typename T>
-        inline Color<3, T>::Color() :
+        constexpr Color<3, T>::Color() :
             e({ 0, 0, 0 }),
             r(e[0]),
             g(e[1]),
@@ -156,7 +156,7 @@ namespace tg
         {}
 
         template<typename T>
-        inline Color<3, T>::Color(T r, T g, T b) :
+        constexpr Color<3, T>::Color(T r, T g, T b) :
             e({ r, g, b }),
             r(e[0]),
             g(e[1]),
@@ -164,7 +164,7 @@ namespace tg
         {}
 
         template<typename T>
-        inline Color<3, T>::Color(const Color<3, T>& v) :
+        constexpr Color<3, T>::Color(const Color<3, T>& v) :
             e(v.e),
             r(e[0]),
             g(e[1]),
@@ -172,38 +172,38 @@ namespace tg
         {}
 
         template<typename T>
-        inline T Color<3, T>::operator [] (int i) const
+        constexpr T Color<3, T>::operator [] (int i) const
         {
             return e[i];
         }
 
         template<typename T>
-        inline T& Color<3, T>::operator [] (int i)
+        constexpr T& Color<3, T>::operator [] (int i)
         {
             return e[i];
         }
 
         template<typename T>
-        inline const T* Color<3, T>::data() const
+        constexpr const T* Color<3, T>::data() const
         {
             return e.data();
         }
 
         template<typename T>
-        inline T* Color<3, T>::data()
+        constexpr T* Color<3, T>::data()
         {
             return e.data();
         }
 
         template<typename T>
-        inline Color<3, T>& Color<3, T>::operator = (const Color<3, T>& v)
+        constexpr Color<3, T>& Color<3, T>::operator = (const Color<3, T>& v)
         {
             e = v.e;
             return *this;
         }
 
         template<typename T>
-        inline Color<4, T>::Color() :
+        constexpr Color<4, T>::Color() :
             e({ 0, 0, 0, 0 }),
             r(e[0]),
             g(e[1]),
@@ -212,7 +212,7 @@ namespace tg
         {}
 
         template<typename T>
-        inline Color<4, T>::Color(T r, T g, T b, T a) :
+        constexpr Color<4, T>::Color(T r, T g, T b, T a) :
             e({ r, g, b, a }),
             r(e[0]),
             g(e[1]),
@@ -221,7 +221,7 @@ namespace tg
         {}
 
         template<>
-        inline Color<4, float>::Color(float r, float g, float b) :
+        constexpr Color<4, float>::Color(float r, float g, float b) :
             e({ r, g, b, 1.F }),
             r(e[0]),
             g(e[1]),
@@ -230,7 +230,7 @@ namespace tg
         {}
 
         template<typename T>
-        inline Color<4, T>::Color(const Color<4, T>& v) :
+        constexpr Color<4, T>::Color(const Color<4, T>& v) :
             e(v.e),
             r(e[0]),
             g(e[1]),
@@ -239,31 +239,31 @@ namespace tg
         {}
 
         template<typename T>
-        inline T Color<4, T>::operator [] (int i) const
+        constexpr T Color<4, T>::operator [] (int i) const
         {
             return e[i];
         }
 
         template<typename T>
-        inline T& Color<4, T>::operator [] (int i)
+        constexpr T& Color<4, T>::operator [] (int i)
         {
             return e[i];
         }
 
         template<typename T>
-        inline const T* Color<4, T>::data() const
+        constexpr const T* Color<4, T>::data() const
         {
             return e.data();
         }
 
         template<typename T>
-        inline T* Color<4, T>::data()
+        constexpr T* Color<4, T>::data()
         {
             return e.data();
         }
 
         template<typename T>
-        inline Color<4, T>& Color<4, T>::operator = (const Color<4, T>& v)
+        constexpr Color<4, T>& Color<4, T>::operator = (const Color<4, T>& v)
         {
             e = v.e;
             return *this;

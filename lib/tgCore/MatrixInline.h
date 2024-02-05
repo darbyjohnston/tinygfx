@@ -23,31 +23,31 @@ namespace tg
         }
 
         template<int R, int C, typename T>
-        inline T Matrix<R, C, T>::get(int row, int column) const
+        constexpr T Matrix<R, C, T>::get(int row, int column) const
         {
             return _e[row * C + column];
         }
 
         template<int R, int C, typename T>
-        inline void Matrix<R, C, T>::set(int row, int column, T v)
+        constexpr void Matrix<R, C, T>::set(int row, int column, T v)
         {
             _e[row * C + column] = v;
         }
             
         template<int R, int C, typename T>
-        inline const T* Matrix<R, C, T>::data() const
+        constexpr const T* Matrix<R, C, T>::data() const
         {
             return _e.data();
         }
 
         template<int R, int C, typename T>
-        inline T* Matrix<R, C, T>::data()
+        constexpr T* Matrix<R, C, T>::data()
         {
             return _e.data();
         }
 
         template<typename T>
-        inline Matrix<3, 3, T>::Matrix() :
+        constexpr Matrix<3, 3, T>::Matrix() :
             _e({
                 T(1), T(0), T(0),
                 T(0), T(1), T(0),
@@ -56,7 +56,7 @@ namespace tg
         {}
 
         template<typename T>
-        inline Matrix<3, 3, T>::Matrix(
+        constexpr Matrix<3, 3, T>::Matrix(
             T e0, T e1, T e2,
             T e3, T e4, T e5,
             T e6, T e7, T e8) :
@@ -68,31 +68,31 @@ namespace tg
         {}
 
         template<typename T>
-        inline T Matrix<3, 3, T>::get(int row, int column) const
+        constexpr T Matrix<3, 3, T>::get(int row, int column) const
         {
             return _e[row * 3 + column];
         }
 
         template<typename T>
-        inline void Matrix<3, 3, T>::set(int row, int column, T v)
+        constexpr void Matrix<3, 3, T>::set(int row, int column, T v)
         {
             _e[row * 3 + column] = v;
         }
             
         template<typename T>
-        inline const T* Matrix<3, 3, T>::data() const
+        constexpr const T* Matrix<3, 3, T>::data() const
         {
             return _e.data();
         }
 
         template<typename T>
-        inline T* Matrix<3, 3, T>::data()
+        constexpr T* Matrix<3, 3, T>::data()
         {
             return _e.data();
         }
 
         template<typename T>
-        inline Matrix<4, 4, T>::Matrix() :
+        constexpr Matrix<4, 4, T>::Matrix() :
             _e({
                 T(1), T(0), T(0), T(0),
                 T(0), T(1), T(0), T(0),
@@ -102,7 +102,7 @@ namespace tg
         {}
 
         template<typename T>
-        inline Matrix<4, 4, T>::Matrix(
+        constexpr Matrix<4, 4, T>::Matrix(
             T e0, T e1, T e2, T e3,
             T e4, T e5, T e6, T e7,
             T e8, T e9, T e10, T e11,
@@ -116,25 +116,25 @@ namespace tg
         {}
 
         template<typename T>
-        inline T Matrix<4, 4, T>::get(int row, int column) const
+        constexpr T Matrix<4, 4, T>::get(int row, int column) const
         {
             return _e[row * 4 + column];
         }
 
         template<typename T>
-        inline void Matrix<4, 4, T>::set(int row, int column, T v)
+        constexpr void Matrix<4, 4, T>::set(int row, int column, T v)
         {
             _e[row * 4 + column] = v;
         }
             
         template<typename T>
-        inline const T* Matrix<4, 4, T>::data() const
+        constexpr const T* Matrix<4, 4, T>::data() const
         {
             return _e.data();
         }
 
         template<typename T>
-        inline T* Matrix<4, 4, T>::data()
+        constexpr T* Matrix<4, 4, T>::data()
         {
             return _e.data();
         }
