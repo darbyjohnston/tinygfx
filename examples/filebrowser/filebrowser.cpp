@@ -7,50 +7,48 @@
 #include <tgUIApp/App.h>
 
 #include <tgUI/FileEdit.h>
+#include <tgUI/RowLayout.h>
 
 #include <tgCore/Format.h>
 
 using namespace tg::core;
 using namespace tg::ui;
 
-void MainWindow::_init(
-    const std::shared_ptr<Context>& context,
-    const std::string& name,
-    const Size2I& size)
+namespace tg
 {
-    Window::_init(context, name, size);
-    
-    // Create the layout.
-    _layout = VerticalLayout::create(context, shared_from_this());
-    _layout->setMarginRole(SizeRole::Margin);
-    
-    // Create the file widget.
-    auto fileEdit = FileEdit::create(context, _layout);
-}
+    namespace examples
+    {
+        namespace filebrowser
+        {
+            void Window::_init(
+                const std::shared_ptr<Context>& context,
+                const std::string& name,
+                const Size2I& size)
+            {
+                ui::Window::_init(context, name, size);
 
-MainWindow::~MainWindow()
-{}
+                // Create the layout.
+                auto layout = VerticalLayout::create(context, shared_from_this());
+                layout->setMarginRole(SizeRole::Margin);
 
-std::shared_ptr<MainWindow> MainWindow::create(
-    const std::shared_ptr<Context>& context,
-    const std::string& name,
-    const Size2I& size)
-{
-    auto out = std::shared_ptr<MainWindow>(new MainWindow);
-    out->_init(context, name, size);
-    return out;
-}
+                // Create the file widget.
+                auto fileEdit = FileEdit::create(context, layout);
+            }
 
-void MainWindow::setGeometry(const Box2I& value)
-{
-    Window::setGeometry(value);
-    _layout->setGeometry(value);
-}
+            Window::~Window()
+            {}
 
-void MainWindow::sizeHintEvent(const SizeHintEvent& event)
-{
-    Window::sizeHintEvent(event);
-    _sizeHint = _layout->getSizeHint();
+            std::shared_ptr<Window> Window::create(
+                const std::shared_ptr<Context>& context,
+                const std::string& name,
+                const Size2I& size)
+            {
+                auto out = std::shared_ptr<Window>(new Window);
+                out->_init(context, name, size);
+                return out;
+            }
+        }
+    }
 }
 
 TG_MAIN()
@@ -59,11 +57,14 @@ TG_MAIN()
     try
     {
         auto context = Context::create();
-        auto args = app::convert(argc, argv);
+        auto args = tg::app::convert(argc, argv);
         auto app = App::create(context, args, "filebrowser", "File browser example");
         if (0 == app->getExit())
         {
-            auto window = MainWindow::create(context, "filebrowser", Size2I(1280, 720));
+            auto window = tg::examples::filebrowser::Window::create(
+                context,
+                "filebrowser",
+                Size2I(1280, 720));
             app->addWindow(window);
             window->show();
         }

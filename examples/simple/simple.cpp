@@ -9,40 +9,49 @@
 using namespace tg::core;
 using namespace tg::ui;
 
-MainWindow::~MainWindow()
-{}
-
-std::shared_ptr<MainWindow> MainWindow::create(
-    const std::shared_ptr<Context>& context,
-    const std::string& name,
-    const Size2I& size)
+namespace tg
 {
-    auto out = std::shared_ptr<MainWindow>(new MainWindow);
-    out->_init(context, name, size);
-    return out;
-}
-
-void MainWindow::drawEvent(const Box2I& drawRect, const DrawEvent& event)
-{
-    Window::drawEvent(drawRect, event);
-    const std::string text = "Hello world";
-    FontInfo fontInfo;
-    fontInfo.size = 0;
-    Size2I textSize;
-    const Box2I g = margin(_geometry, -100);
-    while (textSize.w < g.w() && textSize.h < g.h())
+    namespace examples
     {
-        fontInfo.size += 10;
-        textSize = event.fontSystem->getSize(text, fontInfo);
+        namespace simple
+        {
+            Window::~Window()
+            {}
+
+            std::shared_ptr<Window> Window::create(
+                const std::shared_ptr<Context>& context,
+                const std::string& name,
+                const Size2I& size)
+            {
+                auto out = std::shared_ptr<Window>(new Window);
+                out->_init(context, name, size);
+                return out;
+            }
+
+            void Window::drawEvent(const Box2I& drawRect, const DrawEvent& event)
+            {
+                ui::Window::drawEvent(drawRect, event);
+                const std::string text = "Hello world";
+                FontInfo fontInfo;
+                fontInfo.size = 0;
+                Size2I textSize;
+                const Box2I g = margin(_geometry, -100);
+                while (textSize.w < g.w() && textSize.h < g.h())
+                {
+                    fontInfo.size += 10;
+                    textSize = event.fontSystem->getSize(text, fontInfo);
+                }
+                const auto textGlyphs = event.fontSystem->getGlyphs(text, fontInfo);
+                const auto fontMetrics = event.fontSystem->getMetrics(fontInfo);
+                event.render->drawText(
+                    textGlyphs,
+                    center(Box2F(g.x(), g.y(), g.w(), g.h())) -
+                    V2F(textSize.w, textSize.h) / 2.F +
+                    V2F(0.F, fontMetrics.ascender),
+                    Color4F(1.F, 1.F, 1.F));
+            }
+        }
     }
-    const auto textGlyphs = event.fontSystem->getGlyphs(text, fontInfo);
-    const auto fontMetrics = event.fontSystem->getMetrics(fontInfo);
-    event.render->drawText(
-        textGlyphs,
-        center(Box2F(g.x(), g.y(), g.w(), g.h())) -
-            V2F(textSize.w, textSize.h) / 2.F +
-            V2F(0.F, fontMetrics.ascender),
-        Color4F(1.F, 1.F, 1.F));
 }
 
 TG_MAIN()
@@ -51,11 +60,14 @@ TG_MAIN()
     try
     {
         auto context = Context::create();
-        auto args = app::convert(argc, argv);
+        auto args = tg::app::convert(argc, argv);
         auto app = App::create(context, args, "simple", "Simple example");
         if (0 == app->getExit())
         {
-            auto window = MainWindow::create(context, "simple", Size2I(1280, 720));
+            auto window = tg::examples::simple::Window::create(
+                context,
+                "simple",
+                Size2I(1280, 720));
             app->addWindow(window);
             window->show();
         }

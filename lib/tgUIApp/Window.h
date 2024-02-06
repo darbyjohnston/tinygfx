@@ -45,6 +45,7 @@ namespace tg
                 bool parentsVisible,
                 bool parentsEnabled,
                 const TickEvent&) override;
+            void sizeHintEvent(const SizeHintEvent&) override;
 
         private:
             bool _hasSizeUpdate(const std::shared_ptr<IWidget>&) const;

@@ -333,9 +333,9 @@ namespace tg
         void Window::setGeometry(const Box2I& value)
         {
             IWindow::setGeometry(value);
-            for (const auto& i : _children)
+            for (const auto& child : _children)
             {
-                i->setGeometry(value);
+                child->setGeometry(value);
             }
         }
 
@@ -517,6 +517,18 @@ namespace tg
                 p.window->doneCurrent();
 
                 p.refresh = false;
+            }
+        }
+
+        void Window::sizeHintEvent(const SizeHintEvent& event)
+        {
+            IWidget::sizeHintEvent(event);
+            _sizeHint = Size2I();
+            for (const auto& child : _children)
+            {
+                const Size2I& sizeHint = child->getSizeHint();
+                _sizeHint.w = std::max(_sizeHint.w, sizeHint.w);
+                _sizeHint.h = std::max(_sizeHint.h, sizeHint.h);
             }
         }
 

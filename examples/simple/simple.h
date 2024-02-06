@@ -6,18 +6,28 @@
 
 #include <tgUIApp/Window.h>
 
-using namespace tg;
-
-class MainWindow : public ui::Window
+namespace tg
 {
-public:
-    virtual ~MainWindow();
-    
-    static std::shared_ptr<MainWindow> create(
-        const std::shared_ptr<core::Context>&,
-        const std::string& name,
-        const core::Size2I&);
+    namespace examples
+    {
+        namespace simple
+        {
+            class Window : public ui::Window
+            {
+            protected:
+                Window() = default;
 
-    void drawEvent(const core::Box2I&, const ui::DrawEvent&) override;
-};
+            public:
+                virtual ~Window();
+
+                static std::shared_ptr<Window> create(
+                    const std::shared_ptr<core::Context>&,
+                    const std::string& name,
+                    const core::Size2I&);
+
+                void drawEvent(const core::Box2I&, const ui::DrawEvent&) override;
+            };
+        }
+    }
+}
 

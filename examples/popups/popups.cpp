@@ -10,79 +10,77 @@
 #include <tgUI/ColorSwatch.h>
 #include <tgUI/GroupBox.h>
 #include <tgUI/RowLayout.h>
+#include <tgUI/ScrollWidget.h>
 
 #include <tgCore/Format.h>
 
 using namespace tg::core;
 using namespace tg::ui;
 
-void MainWindow::_init(
-    const std::shared_ptr<Context>& context,
-    const std::string& name,
-    const Size2I& size)
+namespace tg
 {
-    Window::_init(context, name, size);
-    
-    // Create the layout and scroll widget.
-    auto layout = VerticalLayout::create(context);
-    layout->setMarginRole(SizeRole::Margin);
-    _scrollWidget = ScrollWidget::create(
-        context,
-        ScrollType::Both,
-        shared_from_this());
-    _scrollWidget->setWidget(layout);
-    
-    // Create combo boxes.
-    auto groupBox = GroupBox::create(context, "Combo Boxes", layout);
-    auto vLayout = VerticalLayout::create(context, groupBox);
-    auto comboBox = ComboBox::create(context, getEndianLabels(), vLayout);
-    comboBox->setToolTip("Endian types");
-    comboBox = ComboBox::create(context, getImageTypeLabels(), vLayout);
-    comboBox->setToolTip("Image types");
-    
-    // Create color swatches.
-    groupBox = GroupBox::create(context, "Color Popups", layout);
-    auto hLayout = HorizontalLayout::create(context, groupBox);
-    const std::vector<Color4F> colors =
+    namespace examples
     {
-        Color4F(1.F, .5F, .5F),
-        Color4F(.5F, 1.F, .5F),
-        Color4F(.5F, .5F, 1.F),
-        Color4F(1.F, 1.F, .5F),
-        Color4F(.5F, 1.F, 1.F),
-        Color4F(1.F, .5F, 1.F)
-    };
-    for (const auto& color : colors)
-    {
-        auto colorSwatch = ColorSwatch::create(context, hLayout);
-        colorSwatch->setColor(color);
-        colorSwatch->setEditable(true);
+        namespace popups
+        {
+            void Window::_init(
+                const std::shared_ptr<Context>& context,
+                const std::string& name,
+                const Size2I& size)
+            {
+                ui::Window::_init(context, name, size);
+
+                // Create the layout and scroll widget.
+                auto layout = VerticalLayout::create(context);
+                layout->setMarginRole(SizeRole::Margin);
+                auto scrollWidget = ScrollWidget::create(
+                    context,
+                    ScrollType::Both,
+                    shared_from_this());
+                scrollWidget->setWidget(layout);
+
+                // Create combo boxes.
+                auto groupBox = GroupBox::create(context, "Combo Boxes", layout);
+                auto vLayout = VerticalLayout::create(context, groupBox);
+                auto comboBox = ComboBox::create(context, getEndianLabels(), vLayout);
+                comboBox->setToolTip("Endian types");
+                comboBox = ComboBox::create(context, getImageTypeLabels(), vLayout);
+                comboBox->setToolTip("Image types");
+
+                // Create color swatches.
+                groupBox = GroupBox::create(context, "Color Popups", layout);
+                auto hLayout = HorizontalLayout::create(context, groupBox);
+                const std::vector<Color4F> colors =
+                {
+                    Color4F(1.F, .5F, .5F),
+                    Color4F(.5F, 1.F, .5F),
+                    Color4F(.5F, .5F, 1.F),
+                    Color4F(1.F, 1.F, .5F),
+                    Color4F(.5F, 1.F, 1.F),
+                    Color4F(1.F, .5F, 1.F)
+                };
+                for (const auto& color : colors)
+                {
+                    auto colorSwatch = ColorSwatch::create(context, hLayout);
+                    colorSwatch->setColor(color);
+                    colorSwatch->setEditable(true);
+                }
+            }
+
+            Window::~Window()
+            {}
+
+            std::shared_ptr<Window> Window::create(
+                const std::shared_ptr<Context>& context,
+                const std::string& name,
+                const Size2I& size)
+            {
+                auto out = std::shared_ptr<Window>(new Window);
+                out->_init(context, name, size);
+                return out;
+            }
+        }
     }
-}
-
-MainWindow::~MainWindow()
-{}
-
-std::shared_ptr<MainWindow> MainWindow::create(
-    const std::shared_ptr<Context>& context,
-    const std::string& name,
-    const Size2I& size)
-{
-    auto out = std::shared_ptr<MainWindow>(new MainWindow);
-    out->_init(context, name, size);
-    return out;
-}
-
-void MainWindow::setGeometry(const Box2I& value)
-{
-    Window::setGeometry(value);
-    _scrollWidget->setGeometry(value);
-}
-
-void MainWindow::sizeHintEvent(const SizeHintEvent& event)
-{
-    Window::sizeHintEvent(event);
-    _sizeHint = _scrollWidget->getSizeHint();
 }
 
 TG_MAIN()
@@ -91,11 +89,14 @@ TG_MAIN()
     try
     {
         auto context = Context::create();
-        auto args = app::convert(argc, argv);
+        auto args = tg::app::convert(argc, argv);
         auto app = App::create(context, args, "popups", "Popups example");
         if (0 == app->getExit())
         {
-            auto window = MainWindow::create(context, "popups", Size2I(1280, 720));
+            auto window = tg::examples::popups::Window::create(
+                context,
+                "popups",
+                Size2I(1280, 720));
             app->addWindow(window);
             window->show();
         }

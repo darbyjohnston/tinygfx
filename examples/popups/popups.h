@@ -6,32 +6,30 @@
 
 #include <tgUIApp/Window.h>
 
-#include <tgUI/ScrollWidget.h>
-
-using namespace tg;
-
-class MainWindow : public ui::Window
+namespace tg
 {
-protected:
-    void _init(
-        const std::shared_ptr<core::Context>&,
-        const std::string& name,
-        const core::Size2I&);
+    namespace examples
+    {
+        namespace popups
+        {
+            class Window : public ui::Window
+            {
+            protected:
+                void _init(
+                    const std::shared_ptr<core::Context>&,
+                    const std::string& name,
+                    const core::Size2I&);
 
-    MainWindow() = default;
+                Window() = default;
 
-public:
-    virtual ~MainWindow();
-    
-    static std::shared_ptr<MainWindow> create(
-        const std::shared_ptr<core::Context>&,
-        const std::string& name,
-        const core::Size2I&);
+            public:
+                virtual ~Window();
 
-    void setGeometry(const core::Box2I&) override;
-    void sizeHintEvent(const ui::SizeHintEvent&) override;
-
-private:
-    std::shared_ptr<ui::ScrollWidget> _scrollWidget;
-};
-
+                static std::shared_ptr<Window> create(
+                    const std::shared_ptr<core::Context>&,
+                    const std::string& name,
+                    const core::Size2I&);
+            };
+        }
+    }
+}

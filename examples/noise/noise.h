@@ -8,32 +8,38 @@
 
 #include <tgCore/Timer.h>
 
-using namespace tg;
-
-class MainWindow : public ui::Window
+namespace tg
 {
-protected:
-    void _init(
-        const std::shared_ptr<core::Context>&,
-        const std::string& name,
-        const core::Size2I&);
+    namespace examples
+    {
+        namespace noise
+        {
+            class Window : public ui::Window
+            {
+            protected:
+                void _init(
+                    const std::shared_ptr<core::Context>&,
+                    const std::string& name,
+                    const core::Size2I&);
 
-public:
-    virtual ~MainWindow();
-    
-    static std::shared_ptr<MainWindow> create(
-        const std::shared_ptr<core::Context>&,
-        const std::string& name,
-        const core::Size2I&);
+            public:
+                virtual ~Window();
 
-    void setGeometry(const core::Box2I&) override;
-    void drawEvent(const core::Box2I&, const ui::DrawEvent&) override;
+                static std::shared_ptr<Window> create(
+                    const std::shared_ptr<core::Context>&,
+                    const std::string& name,
+                    const core::Size2I&);
 
-private:
-    void _tick();
+                void setGeometry(const core::Box2I&) override;
+                void drawEvent(const core::Box2I&, const ui::DrawEvent&) override;
 
-    std::shared_ptr<core::Image> _image;
-    std::shared_ptr<core::Timer> _timer;
-    double _noiseZ = 0.0;
-};
+            private:
+                void _tick();
 
+                std::shared_ptr<core::Image> _image;
+                std::shared_ptr<core::Timer> _timer;
+                double _noiseZ = 0.0;
+            };
+        }
+    }
+}
