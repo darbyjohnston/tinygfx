@@ -63,8 +63,14 @@ namespace tg
             //! Set the resize callback.
             void setResizeCallback(const std::function<void(MDIResize, const core::V2I&)>&);
 
-            //! Get the inside geometry.
-            const core::Box2I& getInsideGeometry() const;
+            //! Add the margins.
+            core::Box2I addMargins(const core::Box2I&) const;
+
+            //! Remove the margins.
+            core::Box2I removeMargins(const core::Box2I&) const;
+
+            //! Remove the margins.
+            core::Size2I removeMargins(const core::Size2I&) const;
 
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;

@@ -49,6 +49,7 @@ namespace tg
                 const std::shared_ptr<IWidget>&);
 
             void setGeometry(const core::Box2I&) override;
+            void childRemovedEvent(const ChildEvent&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void drawEvent(const core::Box2I&, const DrawEvent&) override;
             void mouseMoveEvent(MouseMoveEvent&) override;
@@ -56,6 +57,9 @@ namespace tg
             void mouseReleaseEvent(MouseClickEvent&) override;
 
         private:
+            int _snapToGridX(int) const;
+            int _snapToGridY(int) const;
+            core::Size2I _snapToGrid(const core::Size2I&) const;
 
             TG_PRIVATE();
         };

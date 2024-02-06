@@ -48,8 +48,6 @@ namespace tg
                 int border = 0;
                 int handle = 0;
                 int shadow = 0;
-
-                Box2I insideGeometry;
             };
             SizeData size;
 
@@ -153,24 +151,41 @@ namespace tg
             _p->resizeCallback = value;
         }
 
-        const Box2I& MDIWidget::getInsideGeometry() const
+        Box2I MDIWidget::addMargins(const Box2I& value) const
         {
-            return _p->size.insideGeometry;
+            TG_P();
+            const int margin = std::max(p.size.handle, p.size.shadow);
+            return core::margin(value, margin, p.size.handle, margin, margin);
+        }
+
+        Box2I MDIWidget::removeMargins(const Box2I& value) const
+        {
+            TG_P();
+            const int margin = std::max(p.size.handle, p.size.shadow);
+            return core::margin(value, -margin, -p.size.handle, -margin, -margin);
+        }
+
+        Size2I MDIWidget::removeMargins(const Size2I& value) const
+        {
+            TG_P();
+            const int margin = std::max(p.size.handle, p.size.shadow);
+            return Size2I(value.w - margin * 2, value.h - p.size.handle - margin);
         }
 
         void MDIWidget::setGeometry(const Box2I& value)
         {
             IWidget::setGeometry(value);
             TG_P();
+
             const int margin = std::max(p.size.handle, p.size.shadow);
-            const Box2I g = core::margin(
+            Box2I g = core::margin(
                 value,
                 -(margin + p.size.border),
                 -(p.size.handle + p.size.border),
                 -(margin + p.size.border),
                 -(margin + p.size.border));
-            p.size.insideGeometry = g;
             p.layout->setGeometry(g);
+
             p.mouse.resizeBoxes.clear();
             p.mouse.resizeBoxes[MDIResize::North] = Box2I(
                 g.min.x + p.size.handle,
