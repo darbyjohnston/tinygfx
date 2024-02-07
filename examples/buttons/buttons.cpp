@@ -32,17 +32,17 @@ namespace tg
             {
                 ui::Window::_init(context, name, size);
 
-                // Create the layout and scroll widget.
-                auto layout = VerticalLayout::create(context);
-                layout->setMarginRole(SizeRole::Margin);
+                // Create the scroll widget.
                 auto scrollWidget = ScrollWidget::create(
                     context,
                     ScrollType::Both,
                     shared_from_this());
-                scrollWidget->setWidget(layout);
+                auto scrollLayout = VerticalLayout::create(context);
+                scrollLayout->setMarginRole(SizeRole::Margin);
+                scrollWidget->setWidget(scrollLayout);
 
                 // Create push buttons.
-                auto groupBox = GroupBox::create(context, "Push Buttons", layout);
+                auto groupBox = GroupBox::create(context, "Push Buttons", scrollLayout);
                 auto hLayout = HorizontalLayout::create(context, groupBox);
                 auto pushButton = PushButton::create(
                     context,
@@ -60,7 +60,7 @@ namespace tg
                 pushButton->setEnabled(false);
 
                 // Create list buttons.
-                groupBox = GroupBox::create(context, "List Buttons", layout);
+                groupBox = GroupBox::create(context, "List Buttons", scrollLayout);
                 auto vLayout = VerticalLayout::create(context, groupBox);
                 vLayout->setSpacingRole(SizeRole::None);
                 _listButtonGroup = ButtonGroup::create(context, ButtonGroupType::Toggle);
@@ -86,7 +86,7 @@ namespace tg
                 _listButtonGroup->addButton(listButton);
 
                 // Create tool buttons.
-                groupBox = GroupBox::create(context, "Tool Buttons", layout);
+                groupBox = GroupBox::create(context, "Tool Buttons", scrollLayout);
                 hLayout = HorizontalLayout::create(context, groupBox);
                 hLayout->setSpacingRole(SizeRole::None);
                 _toolButtonGroup = ButtonGroup::create(context, ButtonGroupType::Radio);
@@ -117,7 +117,7 @@ namespace tg
                 _toolButtonGroup->addButton(toolButton);
 
                 // Create check boxes.
-                groupBox = GroupBox::create(context, "Check Boxes", layout);
+                groupBox = GroupBox::create(context, "Check Boxes", scrollLayout);
                 vLayout = VerticalLayout::create(context, groupBox);
                 auto checkBox = CheckBox::create(
                     context,

@@ -6,6 +6,8 @@
 
 #include <tgUIApp/Window.h>
 
+#include <tgUI/MenuBar.h>
+
 namespace tg
 {
     namespace examples
@@ -29,6 +31,12 @@ namespace tg
                     const std::shared_ptr<core::Context>&,
                     const std::string& name,
                     const core::Size2I&);
+
+                void keyPressEvent(ui::KeyEvent&) override;
+                void keyReleaseEvent(ui::KeyEvent&) override;
+
+            private:
+                std::shared_ptr<ui::MenuBar> _menuBar;
             };
         }
     }

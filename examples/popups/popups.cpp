@@ -6,13 +6,13 @@
 
 #include <tgUIApp/App.h>
 
+#include <tgUI/Action.h>
 #include <tgUI/ComboBox.h>
 #include <tgUI/ColorSwatch.h>
 #include <tgUI/GroupBox.h>
+#include <tgUI/Menu.h>
 #include <tgUI/RowLayout.h>
 #include <tgUI/ScrollWidget.h>
-
-#include <tgCore/Format.h>
 
 using namespace tg::core;
 using namespace tg::ui;
@@ -30,17 +30,63 @@ namespace tg
             {
                 ui::Window::_init(context, name, size);
 
-                // Create the layout and scroll widget.
-                auto layout = VerticalLayout::create(context);
-                layout->setMarginRole(SizeRole::Margin);
+                // Create the menu bar.
+                auto layout = VerticalLayout::create(context, shared_from_this());
+                layout->setSpacingRole(SizeRole::None);
+                _menuBar = MenuBar::create(context, layout);
+                auto menu = Menu::create(context);
+                menu->addItem(std::make_shared<Action>(
+                    "Action 1",
+                    [] { std::cout << "Action 1" << std::endl; }));
+                menu->addItem(std::make_shared<Action>(
+                    "Action 2",
+                    "FileOpen",
+                    [] { std::cout << "Action 2" << std::endl; }));
+                menu->addItem(std::make_shared<Action>(
+                    "Action 3",
+                    Key::_3,
+                    static_cast<int>(KeyModifier::Control),
+                    [] { std::cout << "Action 3" << std::endl; }));
+                menu->addItem(std::make_shared<Action>(
+                    "Action 4",
+                    "FileClose",
+                    Key::_4,
+                    static_cast<int>(KeyModifier::Control),
+                    [] { std::cout << "Action 4" << std::endl; }));
+                _menuBar->addMenu("Menu 1", menu);
+                menu = Menu::create(context);
+                menu->addItem(std::make_shared<Action>(
+                    "Action 5",
+                    [](bool value) { std::cout << "Action 5: " << value << std::endl; }));
+                menu->addItem(std::make_shared<Action>(
+                    "Action 6",
+                    "Next",
+                    [](bool value) { std::cout << "Action 6: " << value << std::endl; }));
+                menu->addItem(std::make_shared<Action>(
+                    "Action 7",
+                    Key::_7,
+                    static_cast<int>(KeyModifier::Control),
+                    [](bool value) { std::cout << "Action 7: " << value << std::endl; }));
+                menu->addItem(std::make_shared<Action>(
+                    "Action 8",
+                    "Prev",
+                    Key::_8,
+                    static_cast<int>(KeyModifier::Control),
+                    [](bool value) { std::cout << "Action 8: " << value << std::endl; }));
+                _menuBar->addMenu("Menu 2", menu);
+
+                // Create the scroll widget.
                 auto scrollWidget = ScrollWidget::create(
                     context,
                     ScrollType::Both,
-                    shared_from_this());
-                scrollWidget->setWidget(layout);
+                    layout);
+                scrollWidget->setStretch(Stretch::Expanding);
+                auto scrollLayout = VerticalLayout::create(context);
+                scrollLayout->setMarginRole(SizeRole::Margin);
+                scrollWidget->setWidget(scrollLayout);
 
                 // Create combo boxes.
-                auto groupBox = GroupBox::create(context, "Combo Boxes", layout);
+                auto groupBox = GroupBox::create(context, "Combo Boxes", scrollLayout);
                 auto vLayout = VerticalLayout::create(context, groupBox);
                 auto comboBox = ComboBox::create(context, getEndianLabels(), vLayout);
                 comboBox->setToolTip("Endian types");
@@ -48,7 +94,7 @@ namespace tg
                 comboBox->setToolTip("Image types");
 
                 // Create color swatches.
-                groupBox = GroupBox::create(context, "Color Popups", layout);
+                groupBox = GroupBox::create(context, "Color Popups", scrollLayout);
                 auto hLayout = HorizontalLayout::create(context, groupBox);
                 const std::vector<Color4F> colors =
                 {
@@ -78,6 +124,16 @@ namespace tg
                 auto out = std::shared_ptr<Window>(new Window);
                 out->_init(context, name, size);
                 return out;
+            }
+
+            void Window::keyPressEvent(ui::KeyEvent& event)
+            {
+                event.accept = _menuBar->shortcut(event.key, event.modifiers);
+            }
+
+            void Window::keyReleaseEvent(ui::KeyEvent& event)
+            {
+                event.accept = true;
             }
         }
     }

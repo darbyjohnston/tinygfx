@@ -1,4 +1,5 @@
 set(HEADERS
+    Action.h
     Bellows.h
     ButtonGroup.h
     CheckBox.h
@@ -46,6 +47,8 @@ set(HEADERS
     ListButton.h
     MDICanvas.h
     MDIWidget.h
+    Menu.h
+    MenuBar.h
     PushButton.h
     RecentFilesModel.h
     RowLayout.h
@@ -64,6 +67,7 @@ set(HEADERS
 set(PRIVATE_HEADERS)
 
 set(SOURCE
+    Action.cpp
     Bellows.cpp
     ButtonGroup.cpp
     CheckBox.cpp
@@ -114,6 +118,8 @@ set(SOURCE
     ListButton.cpp
     MDICanvas.cpp
     MDIWidget.cpp
+    Menu.cpp
+    MenuBar.cpp
     PushButton.cpp
     RecentFilesModel.cpp
     RowLayout.cpp
