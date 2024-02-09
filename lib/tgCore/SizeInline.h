@@ -9,22 +9,22 @@ namespace tg
         template<int C, typename T>
         inline Size<C, T>::Size()
         {
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                e[i] = T(0);
+                e[c] = T(0);
             }
         }
 
         template<int C, typename T>
-        constexpr T Size<C, T>::operator [] (int i) const
+        constexpr T Size<C, T>::operator [] (int c) const
         {
-            return e[i];
+            return e[c];
         }
 
         template<int C, typename T>
-        constexpr T& Size<C, T>::operator [] (int i)
+        constexpr T& Size<C, T>::operator [] (int c)
         {
-            return e[i];
+            return e[c];
         }
 
         template<int C, typename T>
@@ -43,9 +43,9 @@ namespace tg
         inline bool Size<C, T>::isValid() const
         {
             bool out = true;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out &= e[i] > 0;
+                out &= e[c] > 0;
             }
             return out;
         }
@@ -72,15 +72,15 @@ namespace tg
         {}
 
         template<typename T>
-        constexpr T Size<2, T>::operator [] (int i) const
+        constexpr T Size<2, T>::operator [] (int c) const
         {
-            return e[i];
+            return e[c];
         }
 
         template<typename T>
-        constexpr T& Size<2, T>::operator [] (int i)
+        constexpr T& Size<2, T>::operator [] (int c)
         {
-            return e[i];
+            return e[c];
         }
 
         template<typename T>
@@ -133,15 +133,15 @@ namespace tg
         {}
 
         template<typename T>
-        constexpr T Size<3, T>::operator [] (int i) const
+        constexpr T Size<3, T>::operator [] (int c) const
         {
-            return e[i];
+            return e[c];
         }
 
         template<typename T>
-        constexpr T& Size<3, T>::operator [] (int i)
+        constexpr T& Size<3, T>::operator [] (int c)
         {
-            return e[i];
+            return e[c];
         }
 
         template<typename T>
@@ -196,9 +196,9 @@ namespace tg
         inline Size<C, T> operator + (const Size<C, T>& a, T b)
         {
             Size<C, T> out;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] = a[i] + b;
+                out[c] = a[c] + b;
             }
             return out;
         }
@@ -207,9 +207,9 @@ namespace tg
         inline Size<C, T> operator - (const Size<C, T>& a, T b)
         {
             Size<C, T> out;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] = a[i] - b;
+                out[c] = a[c] - b;
             }
             return out;
         }
@@ -218,9 +218,9 @@ namespace tg
         inline Size<C, T> operator * (const Size<C, T>& a, T b)
         {
             Size<C, T> out;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] = a[i] * b;
+                out[c] = a[c] * b;
             }
             return out;
         }
@@ -229,9 +229,9 @@ namespace tg
         inline Size<C, T> operator / (const Size<C, T>& a, T b)
         {
             Size<C, T> out;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] = a[i] / b;
+                out[c] = a[c] / b;
             }
             return out;
         }
@@ -240,9 +240,9 @@ namespace tg
         inline bool operator == (const Size<C, T>& a, const Size<C, T>& b)
         {
             bool out = true;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out &= a[i] == b[i];
+                out &= a[c] == b[c];
             }
             return out;
         }
@@ -256,23 +256,41 @@ namespace tg
         template<int C, typename T>
         inline std::ostream& operator << (std::ostream& os, const Size<C, T>& v)
         {
-            int i = 0;
-            for (; i < C - 1; ++i)
+            int c = 0;
+            for (; c < C - 1; ++c)
             {
-                os << v[i] << " ";
+                os << v[c] << " ";
             }
-            os << v[i];
+            os << v[c];
             return os;
         }
         
         template<int C, typename T>
         inline std::istream& operator >> (std::istream& is, Size<C, T>& v)
         {
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                is >> v[i];
+                is >> v[c];
             }
             return is;
+        }
+
+        template<int C, typename T>
+        inline void to_json(nlohmann::json& j, const Size<C, T>& value)
+        {
+            for (int c = 0; c < C; ++c)
+            {
+                j.push_back(value[c]);
+            }
+        }
+
+        template<int C, typename T>
+        inline void from_json(nlohmann::json& j, Size<C, T>& value)
+        {
+            for (int c = 0; c < C; ++c)
+            {
+                value[c] = j[c];
+            }
         }
     }
 }

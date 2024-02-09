@@ -11,31 +11,31 @@ namespace tg
         template<int C, typename T>
         inline Vector<C, T>::Vector()
         {
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                e[i] = T(0);
+                e[c] = T(0);
             }
         }
         
         template<int C, typename T>
         inline Vector<C, T>::Vector(const Size<C, T>& size)
         {
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                e[i] = size[i];
+                e[c] = size[c];
             }
         }
 
         template<int C, typename T>
-        constexpr T Vector<C, T>::operator [] (int i) const
+        constexpr T Vector<C, T>::operator [] (int c) const
         {
-            return e[i];
+            return e[c];
         }
 
         template<int C, typename T>
-        constexpr T& Vector<C, T>::operator [] (int i)
+        constexpr T& Vector<C, T>::operator [] (int c)
         {
-            return e[i];
+            return e[c];
         }
 
         template<int C, typename T>
@@ -79,15 +79,15 @@ namespace tg
         {}        
 
         template<typename T>
-        constexpr T Vector<2, T>::operator [] (int i) const
+        constexpr T Vector<2, T>::operator [] (int c) const
         {
-            return e[i];
+            return e[c];
         }
 
         template<typename T>
-        constexpr T& Vector<2, T>::operator [] (int i)
+        constexpr T& Vector<2, T>::operator [] (int c)
         {
-            return e[i];
+            return e[c];
         }
 
         template<typename T>
@@ -142,15 +142,15 @@ namespace tg
         {}        
 
         template<typename T>
-        constexpr T Vector<3, T>::operator [] (int i) const
+        constexpr T Vector<3, T>::operator [] (int c) const
         {
-            return e[i];
+            return e[c];
         }
 
         template<typename T>
-        constexpr T& Vector<3, T>::operator [] (int i)
+        constexpr T& Vector<3, T>::operator [] (int c)
         {
-            return e[i];
+            return e[c];
         }
 
         template<typename T>
@@ -200,15 +200,15 @@ namespace tg
         {}        
 
         template<typename T>
-        constexpr T Vector<4, T>::operator [] (int i) const
+        constexpr T Vector<4, T>::operator [] (int c) const
         {
-            return e[i];
+            return e[c];
         }
 
         template<typename T>
-        constexpr T& Vector<4, T>::operator [] (int i)
+        constexpr T& Vector<4, T>::operator [] (int c)
         {
-            return e[i];
+            return e[c];
         }
 
         template<typename T>
@@ -234,9 +234,9 @@ namespace tg
         inline T length(const Vector<C, T>& v)
         {
             T s = T(0);
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                s += v[i] * v[i];
+                s += v[c] * v[c];
             }
             return std::sqrt(s);
         }
@@ -246,9 +246,9 @@ namespace tg
         {
             const T l = length(v);
             Vector<C, T> out = v;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] /= l;
+                out[c] /= l;
             }
             return out;
         }
@@ -257,9 +257,9 @@ namespace tg
         inline T dot(const Vector<C, T>& v0, const Vector<C, T>& v1)
         {
             T out = T(0);
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out += v0[i] * v1[i];
+                out += v0[c] * v1[c];
             }
             return out;
         }
@@ -280,9 +280,9 @@ namespace tg
         inline Vector<C, T> operator + (const Vector<C, T>& v0, const Vector<C, T>& v1)
         {
             Vector<C, T> out;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] = v0[i] + v1[i];
+                out[c] = v0[c] + v1[c];
             }
             return out;
         }
@@ -291,9 +291,9 @@ namespace tg
         inline Vector<C, T> operator + (const Vector<C, T>& v, T s)
         {
             Vector<C, T> out;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] = v[i] + s;
+                out[c] = v[c] + s;
             }
             return out;
         }
@@ -302,9 +302,9 @@ namespace tg
         inline Vector<C, T> operator - (const Vector<C, T>& v0, const Vector<C, T>& v1)
         {
             Vector<C, T> out;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] = v0[i] - v1[i];
+                out[c] = v0[c] - v1[c];
             }
             return out;
         }
@@ -313,9 +313,9 @@ namespace tg
         inline Vector<C, T> operator - (const Vector<C, T>& v, T s)
         {
             Vector<C, T> out;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] = v[i] - s;
+                out[c] = v[c] - s;
             }
             return out;
         }
@@ -324,9 +324,9 @@ namespace tg
         inline Vector<C, T> operator * (const Vector<C, T>& v, T s)
         {
             Vector<C, T> out;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] = v[i] * s;
+                out[c] = v[c] * s;
             }
             return out;
         }
@@ -335,9 +335,9 @@ namespace tg
         inline Vector<C, T> operator / (const Vector<C, T>& v, T s)
         {
             Vector<C, T> out;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] = v[i] / s;
+                out[c] = v[c] / s;
             }
             return out;
         }
@@ -346,9 +346,9 @@ namespace tg
         inline bool operator == (const Vector<C, T>& a, const Vector<C, T>& b)
         {
             bool out = true;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out &= a[i] == b[i];
+                out &= a[c] == b[c];
             }
             return out;
         }
@@ -362,23 +362,41 @@ namespace tg
         template<int C, typename T>
         inline std::ostream& operator << (std::ostream& os, const Vector<C, T>& v)
         {
-            int i = 0;
-            for (; i < C - 1; ++i)
+            int c = 0;
+            for (; c < C - 1; ++c)
             {
-                os << v[i] << " ";
+                os << v[c] << " ";
             }
-            os << v[i];
+            os << v[c];
             return os;
         }
         
         template<int C, typename T>
         inline std::istream& operator >> (std::istream& is, Vector<C, T>& v)
         {
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                is >> v[i];
+                is >> v[c];
             }
             return is;
+        }
+
+        template<int C, typename T>
+        inline void to_json(nlohmann::json& j, const Vector<C, T>& value)
+        {
+            for (int c = 0; c < C; ++c)
+            {
+                j.push_back(value[c]);
+            }
+        }
+
+        template<int C, typename T>
+        inline void from_json(const nlohmann::json& j, Vector<C, T>& value)
+        {
+            for (int c = 0; c < C; ++c)
+            {
+                value[c] = j[c];
+            }
         }
     }
 }

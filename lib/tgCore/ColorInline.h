@@ -307,5 +307,23 @@ namespace tg
             }
             return is;
         }
+
+        template<int C, typename T>
+        inline void to_json(nlohmann::json& j, const Color<C, T>& value)
+        {
+            for (int c = 0; c < C; ++c)
+            {
+                j.push_back(value[c]);
+            }
+        }
+
+        template<int C, typename T>
+        inline void from_json(nlohmann::json& j, Color<C, T>& value)
+        {
+            for (int c = 0; c < C; ++c)
+            {
+                value[c] = j[c];
+            }
+        }
     }
 }

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <nlohmann/json.hpp>
+
 #include <array>
 #include <iostream>
 
@@ -136,6 +138,11 @@ namespace tg
         std::ostream& operator << (std::ostream&, const Color<C, T>&);
         template<int C, typename T>
         std::istream& operator >> (std::istream&, Color<C, T>&);
+
+        template<int C, typename T>
+        void to_json(nlohmann::json&, const Color<C, T>&);
+        template<int C, typename T>
+        void from_json(const nlohmann::json&, Color<C, T>&);
 
         ///@}
     }

@@ -140,6 +140,23 @@ namespace tg
                 ss >> m1;
                 TG_ASSERT(m == m1);
             }
+            {
+                nlohmann::json j;
+                const M33F m = translate(V2F(1.F, 2.F));
+                to_json(j, m);
+                M33F m1;
+                from_json(j, m1);
+                TG_ASSERT(m == m1);
+            }
+            {
+                nlohmann::json j;
+                const M44F m = translate(V3F(1.F, 2.F, 3.F));
+                to_json(j, m);
+                M44F m1;
+                from_json(j, m1);
+                TG_ASSERT(m == m1);
+                _print(j.dump());
+            }
         }
     }
 }

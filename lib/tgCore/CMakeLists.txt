@@ -41,6 +41,7 @@ set(HEADERS
     ObservableMapInline.h
     ObservableValue.h
     ObservableValueInline.h
+    PNG.h
     Random.h
     RandomInline.h
     Range.h
@@ -56,7 +57,7 @@ set(HEADERS
     Vector.h
     VectorInline.h)
 set(HEADERS_PRIVATE
-    PNG.h)
+    PNGPrivate.h)
 set(SOURCE
     Assert.cpp
     BoxPack.cpp
@@ -102,7 +103,9 @@ else()
 endif()
 
 add_library(tgCore ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(tgCore Freetype::Freetype PNG ZLIB::ZLIB)
+target_link_libraries(tgCore 
+    PUBLIC nlohmann_json::nlohmann_json
+    PRIVATE Freetype::Freetype PNG ZLIB::ZLIB)
 set_target_properties(tgCore PROPERTIES FOLDER lib)
 set_target_properties(tgCore PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
@@ -111,6 +114,3 @@ install(TARGETS tgCore
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
     PUBLIC_HEADER DESTINATION include/tinygfx/tgCore)
-
-
-

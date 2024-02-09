@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgCore/PNG.h>
+#include <tgCore/PNGPrivate.h>
 
 #include <tgCore/Error.h>
 #include <tgCore/Format.h>
@@ -94,31 +94,41 @@ namespace tg
                 }
             }
 
+            struct ImageWriter::Private
+            {
+                png_structp png = nullptr;
+                png_infop   pngInfo = nullptr;
+                FILE*       f = nullptr;
+                ErrorStruct error;
+            };
+
             ImageWriter::ImageWriter(
                 const std::string& fileName,
                 const core::ImageInfo&,
                 const Options& options) :
-                IImageWriter(fileName, options)
+                IImageWriter(fileName, options),
+                _p(new Private)
             {
-                _png = png_create_write_struct(
+                TG_P();
+                p.png = png_create_write_struct(
                     PNG_LIBPNG_VER_STRING,
-                    &_error,
+                    &p.error,
                     pngErrorFunc,
                     pngWarningFunc);
-                if (!_png)
+                if (!p.png)
                 {
                     throw std::runtime_error(Format("{0}: Cannot open").arg(fileName));
                 }
 
 #if defined(_WINDOWS)
-                if (_wfopen_s(&_f, toWide(fileName).c_str(), L"wb") != 0)
+                if (_wfopen_s(&p.f, toWide(fileName).c_str(), L"wb") != 0)
                 {
-                    _f = nullptr;
+                    p.f = nullptr;
                 }
 #else // _WINDOWS
-                _f = fopen(fileName.c_str(), "wb");
+                p.f = fopen(fileName.c_str(), "wb");
 #endif // _WINDOWS
-                if (!_f)
+                if (!p.f)
                 {
                     throw std::runtime_error(Format("{0}: Cannot open").arg(fileName));
                 }
@@ -126,8 +136,9 @@ namespace tg
             
             void ImageWriter::write(const std::shared_ptr<Image>& image)
             {
+                TG_P();
                 const ImageInfo& info = image->getInfo();
-                if (!open(_f, _png, &_pngInfo, info))
+                if (!open(p.f, p.png, &p.pngInfo, info))
                 {
                     throw std::runtime_error(Format("{0}: Cannot open").arg(_fileName));
                 }
@@ -146,15 +157,15 @@ namespace tg
                 default: break;
                 }
                 scanlineByteCount = getAlignedByteCount(scanlineByteCount, info.layout.alignment);
-                const uint8_t* p = image->getData() + (info.size.h - 1) * scanlineByteCount;
-                for (uint16_t y = 0; y < info.size.h; ++y, p -= scanlineByteCount)
+                const uint8_t* data = image->getData() + (info.size.h - 1) * scanlineByteCount;
+                for (uint16_t y = 0; y < info.size.h; ++y, data -= scanlineByteCount)
                 {
-                    if (!scanline(_png, p))
+                    if (!scanline(p.png, data))
                     {
                         throw std::runtime_error(Format("{0}: Cannot write scanline: {1}").arg(_fileName).arg(y));
                     }
                 }
-                if (!end(_png, _pngInfo))
+                if (!end(p.png, p.pngInfo))
                 {
                     throw std::runtime_error(Format("{0}: Cannot close").arg(_fileName));
                 }
@@ -162,15 +173,16 @@ namespace tg
 
             ImageWriter::~ImageWriter()
             {
-                if (_f)
+                TG_P();
+                if (p.f)
                 {
-                    fclose(_f);
+                    fclose(p.f);
                 }
-                if (_png || _pngInfo)
+                if (p.png || p.pngInfo)
                 {
                     png_destroy_write_struct(
-                        _png ? &_png : nullptr,
-                        _pngInfo ? &_pngInfo : nullptr);
+                        p.png ? &p.png : nullptr,
+                        p.pngInfo ? &p.pngInfo : nullptr);
                 }
             }
         }

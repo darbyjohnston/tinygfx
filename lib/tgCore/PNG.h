@@ -6,8 +6,6 @@
 
 #include <tgCore/ImageIO.h>
 
-#include <png.h>
-
 namespace tg
 {
     namespace core
@@ -16,12 +14,6 @@ namespace tg
         {
             //! \name PNG
             ///@{
-
-            //! PNG error.
-            struct ErrorStruct
-            {
-                std::string message;
-            };
 
             //! PNG image reader.
             class ImageReader : public IImageReader
@@ -38,14 +30,7 @@ namespace tg
                 std::shared_ptr<core::Image> read() override;
 
             private:
-                png_structp        _png = nullptr;
-                png_infop          _pngInfo = nullptr;
-                png_infop          _pngInfoEnd = nullptr;
-                FILE*              _f = nullptr;
-                core::InMemoryFile _memory;
-                ErrorStruct        _error;
-                size_t             _scanlineSize = 0;
-                core::ImageInfo    _info;
+                TG_PRIVATE();
             };
 
             //! PNG image writer.
@@ -62,10 +47,7 @@ namespace tg
                 void write(const std::shared_ptr<core::Image>&) override;
 
             private:
-                png_structp _png = nullptr;
-                png_infop   _pngInfo = nullptr;
-                FILE*       _f = nullptr;
-                ErrorStruct _error;
+                TG_PRIVATE();
             };
             
             //! PNG image I/O plugin.
@@ -100,15 +82,3 @@ namespace tg
         }
     }
 }
-
-//! \name PNG
-///@{
-
-extern "C"
-{
-    void pngErrorFunc(png_structp, png_const_charp);
-    void pngWarningFunc(png_structp, png_const_charp);
-}
-
-///@}
-

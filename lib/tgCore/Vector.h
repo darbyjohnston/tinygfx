@@ -147,11 +147,16 @@ namespace tg
         bool operator == (const Vector<C, T>&, const Vector<C, T>&);
         template<int C, typename T>
         bool operator != (const Vector<C, T>&, const Vector<C, T>&);
-        
+
         template<int C, typename T>
         std::ostream& operator << (std::ostream&, const Vector<C, T>&);
         template<int C, typename T>
         std::istream& operator >> (std::istream&, Vector<C, T>&);
+
+        template<int C, typename T>
+        void to_json(nlohmann::json&, const Vector<C, T>&);
+        template<int C, typename T>
+        void from_json(const nlohmann::json&, Vector<C, T>&);
 
         ///@}
     }

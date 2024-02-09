@@ -64,6 +64,7 @@ message("TINYGFX_DEPS_ARGS: " ${TINYGFX_DEPS_ARGS_TMP})
 # Build
 
 list(APPEND TINYGFX_DEPS ZLIB)
+list(APPEND TINYGFX_DEPS nlohmann_json)
 list(APPEND TINYGFX_DEPS PNG)
 list(APPEND TINYGFX_DEPS Freetype)
 if ("${TINYGFX_API}" STREQUAL "GL_4_1" OR
@@ -80,4 +81,3 @@ foreach(DEP ${TINYGFX_DEPS})
 endforeach()
 
 include(Buildtinygfx)
-

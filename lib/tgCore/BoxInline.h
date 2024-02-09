@@ -22,9 +22,9 @@ namespace tg
         inline Size<C, T> Box<C, T>::size() const
         {
             Size<C, T> out;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] = max[i] - min[i];
+                out[c] = max[c] - min[c];
             }
             return out;
         }
@@ -166,9 +166,9 @@ namespace tg
         inline Vector<C, T> center(const Box<C, T>& a)
         {
             Vector<C, T> out;
-            for (int i = 0; i < C; ++i)
+            for (int c = 0; c < C; ++c)
             {
-                out[i] = (a.min[i] + a.max[i]) / 2;
+                out[c] = (a.min[c] + a.max[c]) / 2;
             }
             return out;
         }
@@ -322,6 +322,20 @@ namespace tg
             is >> v.min;
             is >> v.max;
             return is;
+        }
+
+        template<int C, typename T>
+        inline void to_json(nlohmann::json& j, const Box<C, T>& value)
+        {
+            to_json(j["min"], value.min);
+            to_json(j["max"], value.max);
+        }
+
+        template<int C, typename T>
+        inline void from_json(const nlohmann::json& j, Box<C, T>& value)
+        {
+            from_json(j["min"], value.min);
+            from_json(j["max"], value.max);
         }
     }
 }

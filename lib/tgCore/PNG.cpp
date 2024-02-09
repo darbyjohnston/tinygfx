@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgCore/PNG.h>
+#include <tgCore/PNGPrivate.h>
 
 #include <filesystem>
 

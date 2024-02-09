@@ -78,6 +78,10 @@ namespace tg
 
         //! Create a translation matrix.
         template<typename T>
+        constexpr Matrix<3, 3, T> translate(const Vector<2, T>&);
+
+        //! Create a translation matrix.
+        template<typename T>
         constexpr Matrix<4, 4, T> translate(const Vector<3, T>&);
 
         //! Create a X rotation matrix.
@@ -124,6 +128,11 @@ namespace tg
         std::ostream& operator << (std::ostream&, const Matrix<R, C, T>&);
         template<int R, int C, typename T>
         std::istream& operator >> (std::istream&, Matrix<R, C, T>&);
+
+        template<int R, int C, typename T>
+        void to_json(nlohmann::json&, const Matrix<R, C, T>&);
+        template<int R, int C, typename T>
+        void from_json(const nlohmann::json&, Matrix<R, C, T>&);
 
         ///@}
     }

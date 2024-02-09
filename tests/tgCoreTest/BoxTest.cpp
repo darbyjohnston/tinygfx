@@ -231,6 +231,30 @@ namespace tg
                 ss >> b1;
                 TG_ASSERT(b == b1);
             }
+            {
+                nlohmann::json j;
+                const Box2I b(1, 2, 3, 4);
+                to_json(j, b);
+                Box2I b1;
+                from_json(j, b1);
+                TG_ASSERT(b == b1);
+            }
+            {
+                nlohmann::json j;
+                const Box2F b(1.F, 2.F, 3.F, 4.F);
+                to_json(j, b);
+                Box2F b1;
+                from_json(j, b1);
+                TG_ASSERT(b == b1);
+            }
+            {
+                nlohmann::json j;
+                const Box3F b(1.F, 2.F, 3.F, 4.F, 5.F, 6.F);
+                to_json(j, b);
+                Box3F b1;
+                from_json(j, b1);
+                TG_ASSERT(b == b1);
+            }
         }
     }
 }

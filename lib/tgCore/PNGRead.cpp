@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgCore/PNG.h>
+#include <tgCore/PNGPrivate.h>
 
 #include <tgCore/Memory.h>
 #include <tgCore/Format.h>
@@ -152,34 +152,48 @@ namespace tg
                 }
             }
 
+            struct ImageReader::Private
+            {
+                png_structp        png = nullptr;
+                png_infop          pngInfo = nullptr;
+                png_infop          pngInfoEnd = nullptr;
+                FILE*              f = nullptr;
+                core::InMemoryFile memory;
+                ErrorStruct        error;
+                size_t             scanlineSize = 0;
+                core::ImageInfo    info;
+            };
+
             ImageReader::ImageReader(
                 const std::string& fileName,
                 const InMemoryFile* memory,
                 const Options& options) :
-                IImageReader(fileName, memory, options)
+                IImageReader(fileName, memory, options),
+                _p(new Private)
             {
-                _png = png_create_read_struct(
+                TG_P();
+                p.png = png_create_read_struct(
                     PNG_LIBPNG_VER_STRING,
-                    &_error,
+                    &p.error,
                     pngErrorFunc,
                     pngWarningFunc);
 
                 if (memory)
                 {
-                    _memory.p = memory->p;
-                    _memory.size = memory->size;
+                    p.memory.p = memory->p;
+                    p.memory.size = memory->size;
                 }
                 else
                 {
 #if defined(_WINDOWS)
-                    if (_wfopen_s(&_f, toWide(fileName).c_str(), L"rb") != 0)
+                    if (_wfopen_s(&p.f, toWide(fileName).c_str(), L"rb") != 0)
                     {
-                        _f = nullptr;
+                        p.f = nullptr;
                     }
 #else // _WINDOWS
-                    _f = fopen(fileName.c_str(), "rb");
+                    p.f = fopen(fileName.c_str(), "rb");
 #endif // _WINDOWS
-                    if (!_f)
+                    if (!p.f)
                     {
                         throw std::runtime_error(Format("{0}: Cannot open").arg(fileName));
                     }
@@ -190,11 +204,11 @@ namespace tg
                 uint8_t channels = 0;
                 uint8_t bitDepth = 0;
                 if (!open(
-                    _f,
-                    &_memory,
-                    _png,
-                    &_pngInfo,
-                    &_pngInfoEnd,
+                    p.f,
+                    &p.memory,
+                    p.png,
+                    &p.pngInfo,
+                    &p.pngInfoEnd,
                     width,
                     height,
                     channels,
@@ -202,7 +216,7 @@ namespace tg
                 {
                     throw std::runtime_error(Format("{0}: Cannot open").arg(fileName));
                 }
-                _scanlineSize = width * channels * bitDepth / 8;
+                p.scanlineSize = width * channels * bitDepth / 8;
 
                 ImageType type = ImageType::None;
                 switch (channels)
@@ -246,42 +260,44 @@ namespace tg
                     throw std::runtime_error(Format("{0}: Cannot open").arg(fileName));
                 }
 
-                _info = ImageInfo(width, height, type);
-                _info.layout.mirror.y = true;
+                p.info = ImageInfo(width, height, type);
+                p.info.layout.mirror.y = true;
             }
             
             ImageReader::~ImageReader()
             {
-                if (_f)
+                TG_P();
+                if (p.f)
                 {
-                    fclose(_f);
+                    fclose(p.f);
                 }
-                if (_png || _pngInfo || _pngInfoEnd)
+                if (p.png || p.pngInfo || p.pngInfoEnd)
                 {
                     png_destroy_read_struct(
-                        _png ? &_png : nullptr,
-                        _pngInfo ? &_pngInfo : nullptr,
-                        _pngInfoEnd ? &_pngInfoEnd : nullptr);
+                        p.png ? &p.png : nullptr,
+                        p.pngInfo ? &p.pngInfo : nullptr,
+                        p.pngInfoEnd ? &p.pngInfoEnd : nullptr);
                 }
             }
 
             const ImageInfo& ImageReader::getInfo() const
             {
-                return _info;
+                return _p->info;
             }
 
             std::shared_ptr<Image> ImageReader::read()
             {
-                auto out = Image::create(_info);
-                uint8_t* p = out->getData();
-                for (uint16_t y = 0; y < _info.size.h; ++y, p += _scanlineSize)
+                TG_P();
+                auto out = Image::create(p.info);
+                uint8_t* data = out->getData();
+                for (uint16_t y = 0; y < p.info.size.h; ++y, data += p.scanlineSize)
                 {
-                    if (!scanline(_png, p))
+                    if (!scanline(p.png, data))
                     {
                         break;
                     }
                 }
-                end(_png, _pngInfoEnd);
+                end(p.png, p.pngInfoEnd);
                 return out;
             }
         }

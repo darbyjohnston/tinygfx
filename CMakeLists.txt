@@ -75,8 +75,9 @@ include_directories(lib etc tests)
 
 find_package(Threads REQUIRED)
 find_package(ZLIB REQUIRED)
+find_package(nlohmann_json REQUIRED)
 find_package(PNG REQUIRED)
-find_package(FreeType REQUIRED)
+find_package(Freetype REQUIRED)
 
 if ("${TINYGFX_API}" STREQUAL "GL_4_1")
     include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GL_4_1/include)
