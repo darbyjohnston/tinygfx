@@ -5,6 +5,7 @@ set(HEADERS
     BoxPack.h
     Color.h
     ColorInline.h
+    Command.h
     Context.h
     ContextInline.h
     Error.h
@@ -61,6 +62,7 @@ set(HEADERS_PRIVATE
 set(SOURCE
     Assert.cpp
     BoxPack.cpp
+    Command.cpp
     Context.cpp
     Error.cpp
     File.cpp

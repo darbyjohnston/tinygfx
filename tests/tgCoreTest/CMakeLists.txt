@@ -2,6 +2,7 @@ set(HEADERS
     BoxPackTest.h
     BoxTest.h
     ColorTest.h
+    CommandTest.h
     ErrorTest.h
     FileIOTest.h
     FileTest.h
@@ -31,6 +32,7 @@ set(SOURCE
     BoxPackTest.cpp
     BoxTest.cpp
     ColorTest.cpp
+    CommandTest.cpp
     ErrorTest.cpp
     FileIOTest.cpp
     FileTest.cpp

@@ -20,6 +20,7 @@
 #include <tgCoreTest/BoxPackTest.h>
 #include <tgCoreTest/BoxTest.h>
 #include <tgCoreTest/ColorTest.h>
+#include <tgCoreTest/CommandTest.h>
 #include <tgCoreTest/ErrorTest.h>
 #include <tgCoreTest/FileIOTest.h>
 #include <tgCoreTest/FileTest.h>
@@ -95,6 +96,7 @@ namespace tg
             p.tests.push_back(core_test::BoxPackTest::create(context));
             p.tests.push_back(core_test::BoxTest::create(context));
             p.tests.push_back(core_test::ColorTest::create(context));
+            p.tests.push_back(core_test::CommandTest::create(context));
             p.tests.push_back(core_test::ErrorTest::create(context));
             p.tests.push_back(core_test::FileIOTest::create(context));
             p.tests.push_back(core_test::FileTest::create(context));
