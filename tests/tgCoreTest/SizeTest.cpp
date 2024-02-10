@@ -165,30 +165,6 @@ namespace tg
                 ss >> s1;
                 TG_ASSERT(s == s1);
             }
-            {
-                nlohmann::json j;
-                const Size2I v(1, 2);
-                to_json(j, v);
-                Size2I v1;
-                from_json(j, v1);
-                TG_ASSERT(v == v1);
-            }
-            {
-                nlohmann::json j;
-                const Size2F v(1.F, 2.F);
-                to_json(j, v);
-                Size2F v1;
-                from_json(j, v1);
-                TG_ASSERT(v == v1);
-            }
-            {
-                nlohmann::json j;
-                const Size3F v(1.F, 2.F, 3.F);
-                to_json(j, v);
-                Size3F v1;
-                from_json(j, v1);
-                TG_ASSERT(v == v1);
-            }
         }
     }
 }

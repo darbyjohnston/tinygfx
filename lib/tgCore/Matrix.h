@@ -129,11 +129,6 @@ namespace tg
         template<int R, int C, typename T>
         std::istream& operator >> (std::istream&, Matrix<R, C, T>&);
 
-        template<int R, int C, typename T>
-        void to_json(nlohmann::json&, const Matrix<R, C, T>&);
-        template<int R, int C, typename T>
-        void from_json(const nlohmann::json&, Matrix<R, C, T>&);
-
         ///@}
     }
 }

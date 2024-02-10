@@ -323,20 +323,6 @@ namespace tg
             is >> v.max;
             return is;
         }
-
-        template<int C, typename T>
-        inline void to_json(nlohmann::json& j, const Box<C, T>& value)
-        {
-            to_json(j["min"], value.min);
-            to_json(j["max"], value.max);
-        }
-
-        template<int C, typename T>
-        inline void from_json(const nlohmann::json& j, Box<C, T>& value)
-        {
-            from_json(j["min"], value.min);
-            from_json(j["max"], value.max);
-        }
     }
 }
 

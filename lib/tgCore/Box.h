@@ -135,11 +135,6 @@ namespace tg
         template<int C, typename T>
         std::istream& operator >> (std::istream&, Box<C, T>&);
 
-        template<int C, typename T>
-        void to_json(nlohmann::json&, const Box<C, T>&);
-        template<int C, typename T>
-        void from_json(const nlohmann::json&, Box<C, T>&);
-
         ///@}
     }
 }

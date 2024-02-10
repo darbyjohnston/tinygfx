@@ -222,38 +222,6 @@ namespace tg
                 ss >> v1;
                 TG_ASSERT(v == v1);
             }
-            {
-                nlohmann::json j;
-                const V2I v(1, 2);
-                to_json(j, v);
-                V2I v1;
-                from_json(j, v1);
-                TG_ASSERT(v == v1);
-            }
-            {
-                nlohmann::json j;
-                const V2F v(1.F, 2.F);
-                to_json(j, v);
-                V2F v1;
-                from_json(j, v1);
-                TG_ASSERT(v == v1);
-            }
-            {
-                nlohmann::json j;
-                const V3F v(1.F, 2.F, 3.F);
-                to_json(j, v);
-                V3F v1;
-                from_json(j, v1);
-                TG_ASSERT(v == v1);
-            }
-            {
-                nlohmann::json j;
-                const V4F v(1.F, 2.F, 3.F, 4.F);
-                to_json(j, v);
-                V4F v1;
-                from_json(j, v1);
-                TG_ASSERT(v == v1);
-            }
         }
     }
 }

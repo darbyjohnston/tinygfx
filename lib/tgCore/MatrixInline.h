@@ -365,32 +365,6 @@ namespace tg
             }
             return is;
         }
-
-        template<int R, int C, typename T>
-        inline void to_json(nlohmann::json& j, const Matrix<R, C, T>& value)
-        {
-            for (int r = 0; r < R; ++r)
-            {
-                auto a = nlohmann::json::array();
-                for (int c = 0; c < C; ++c)
-                {
-                    a.push_back(value.get(r, c));
-                }
-                j.push_back(a);
-            }
-        }
-
-        template<int R, int C, typename T>
-        inline void from_json(nlohmann::json& j, Matrix<R, C, T>& value)
-        {
-            for (int r = 0; r < R; ++r)
-            {
-                for (int c = 0; c < C; ++c)
-                {
-                    value.set(r, c, j[r][c]);
-                }
-            }
-        }
     }
 }
 

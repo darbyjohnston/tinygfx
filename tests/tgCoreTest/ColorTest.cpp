@@ -197,38 +197,6 @@ namespace tg
                 ss >> c1;
                 TG_ASSERT(c == c1);
             }
-            {
-                nlohmann::json j;
-                const Color1F c(.5F);
-                to_json(j, c);
-                Color1F c1;
-                from_json(j, c1);
-                TG_ASSERT(c == c1);
-            }
-            {
-                nlohmann::json j;
-                const Color2F c(.5F, 1.F);
-                to_json(j, c);
-                Color2F c1;
-                from_json(j, c1);
-                TG_ASSERT(c == c1);
-            }
-            {
-                nlohmann::json j;
-                const Color3F c(.25F, .5F, .75F);
-                to_json(j, c);
-                Color3F c1;
-                from_json(j, c1);
-                TG_ASSERT(c == c1);
-            }
-            {
-                nlohmann::json j;
-                const Color4F c(.25F, .5F, .75F, 1.F);
-                to_json(j, c);
-                Color4F c1;
-                from_json(j, c1);
-                TG_ASSERT(c == c1);
-            }
         }
     }
 }
