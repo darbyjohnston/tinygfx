@@ -4,7 +4,6 @@
 
 #include <tgUI/FileBrowserPrivate.h>
 
-#include <tgUI/CheckBox.h>
 #include <tgUI/ComboBox.h>
 #include <tgUI/Divider.h>
 #include <tgUI/Label.h>
@@ -46,7 +45,7 @@ namespace tg
             std::shared_ptr<SearchBox> searchBox;
             std::shared_ptr<ComboBox> extensionsComboBox;
             std::shared_ptr<ComboBox> sortComboBox;
-            std::shared_ptr<CheckBox> reverseSortCheckBox;
+            std::shared_ptr<ToolButton> reverseSortButton;
             std::shared_ptr<PushButton> okButton;
             std::shared_ptr<PushButton> cancelButton;
             std::shared_ptr<Splitter> splitter;
@@ -71,10 +70,6 @@ namespace tg
             _setMousePress(true);
 
             p.path = path;
-
-            std::vector<std::string> extensionsLabels;
-            p.extensions.push_back(std::string());
-            extensionsLabels.push_back("*.*");
 
             p.titleLabel = Label::create(context, "File Browser");
             p.titleLabel->setMarginRole(SizeRole::MarginSmall);
@@ -104,19 +99,22 @@ namespace tg
 
             p.searchBox = SearchBox::create(context);
 
+            std::vector<std::string> extensionsLabels;
+            p.extensions.push_back(std::string());
+            extensionsLabels.push_back("*.*");
             p.extensionsComboBox = ComboBox::create(context, extensionsLabels);
             if (!extensionsLabels.empty())
             {
                 p.extensionsComboBox->setCurrentIndex(extensionsLabels.size() - 1);
             }
-            p.extensionsComboBox->setToolTip(
-                "Only show files with this extension");
+            p.extensionsComboBox->setToolTip("Filter by extension");
 
             p.sortComboBox = ComboBox::create(context, getFileBrowserSortLabels());
-            p.sortComboBox->setToolTip("Set the sort mode");
+            p.sortComboBox->setToolTip("Sorting");
 
-            p.reverseSortCheckBox = CheckBox::create(context, "Reverse sort");
-            p.reverseSortCheckBox->setToolTip("Reverse the sort");
+            p.reverseSortButton = ToolButton::create(context);
+            p.reverseSortButton->setCheckable(true);
+            p.reverseSortButton->setToolTip("Reverse sorting");
 
             p.okButton = PushButton::create(context);
             p.okButton->setText("Ok");
@@ -143,16 +141,10 @@ namespace tg
             p.directoryScrollWidget->setParent(p.splitter);
             hLayout = HorizontalLayout::create(context, vLayout);
             hLayout->setSpacingRole(SizeRole::SpacingSmall);
-            auto label = Label::create(context, "Search:", hLayout);
-            label->setMarginRole(SizeRole::MarginInside);
             p.searchBox->setParent(hLayout);
-            label = Label::create(context, "Extensions:", hLayout);
-            label->setMarginRole(SizeRole::MarginInside);
             p.extensionsComboBox->setParent(hLayout);
-            label = Label::create(context, "Sort:", hLayout);
-            label->setMarginRole(SizeRole::MarginInside);
             p.sortComboBox->setParent(hLayout);
-            p.reverseSortCheckBox->setParent(hLayout);
+            p.reverseSortButton->setParent(hLayout);
             auto spacer = Spacer::create(context, Orientation::Horizontal, hLayout);
             spacer->setSpacingRole(SizeRole::None);
             spacer->setHStretch(Stretch::Expanding);
@@ -250,7 +242,7 @@ namespace tg
                     }
                 });
 
-            p.reverseSortCheckBox->setCheckedCallback(
+            p.reverseSortButton->setCheckedCallback(
                 [this](bool value)
                 {
                     TG_P();
@@ -379,7 +371,7 @@ namespace tg
                 p.extensionsComboBox->setCurrentIndex(i - p.extensions.begin());
             }
             p.sortComboBox->setCurrentIndex(static_cast<int>(p.options.sort));
-            p.reverseSortCheckBox->setChecked(p.options.reverseSort);
+            p.reverseSortButton->setChecked(p.options.reverseSort);
         }
     }
 }
