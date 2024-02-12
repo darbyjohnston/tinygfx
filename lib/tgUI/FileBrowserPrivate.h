@@ -50,7 +50,8 @@ namespace tg
         private:
             void _createButton(
                 const std::shared_ptr<core::Context>&,
-                const std::string&,
+                const std::string& text,
+                const std::string& toolTip,
                 const std::shared_ptr<IWidget>& parent);
 
             void _pathsUpdate();

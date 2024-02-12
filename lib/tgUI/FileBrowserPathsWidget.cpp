@@ -150,12 +150,13 @@ namespace tg
         void PathsWidget::_createButton(
             const std::shared_ptr<Context>& context,
             const std::string& text,
+            const std::string& toolTip,
             const std::shared_ptr<IWidget>& parent)
         {
             TG_P();
-            auto button = ListButton::create(context);
+            auto button = ListButton::create(context, parent);
             button->setText(text);
-            button->setParent(parent);
+            button->setToolTip(toolTip);
             p.buttons.push_back(button);
             p.buttonGroup->addButton(button);
         }
@@ -180,18 +181,20 @@ namespace tg
             {
                 for (const auto& i : p.drives)
                 {
-                    _createButton(context, i, p.layouts["Drives"]);
+                    _createButton(context, i, std::string(), p.layouts["Drives"]);
                     p.paths.push_back(i);
                 }
 
-                _createButton(context, "Current", p.layouts["Shortcuts"]);
-                p.paths.push_back(std::filesystem::current_path().string());
+                const std::string currentPath = std::filesystem::current_path().string();
+                _createButton(context, "Current", currentPath, p.layouts["Shortcuts"]);
+                p.paths.push_back(currentPath);
                 for (auto userPath : getUserPathEnums())
                 {
                     const std::string path = getUserPath(userPath);
                     _createButton(
                         context,
                         std::filesystem::path(path).filename().string(),
+                        path,
                         p.layouts["Shortcuts"]);
                     p.paths.push_back(path);
                 }
@@ -201,6 +204,7 @@ namespace tg
                     _createButton(
                         context,
                         std::filesystem::path(recent).filename().string(),
+                        recent,
                         p.layouts["Recent"]);
                     p.paths.push_back(std::filesystem::path(recent).parent_path().string());
                 }
