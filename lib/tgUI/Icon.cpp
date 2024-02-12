@@ -36,7 +36,7 @@ namespace tg
             const std::shared_ptr<IWidget>& parent)
         {
             IWidget::_init(context, "tg::ui::Icon", parent);
-            _hAlign = HAlign::Left;
+            setHAlign(HAlign::Left);
         }
 
         Icon::Icon() :
@@ -74,8 +74,8 @@ namespace tg
             p.icon = value;
             p.iconImage.reset();
             p.iconInit = true;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void Icon::setMarginRole(SizeRole value)
@@ -84,8 +84,8 @@ namespace tg
             if (value == p.marginRole)
                 return;
             p.marginRole = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void Icon::tickEvent(
@@ -111,8 +111,8 @@ namespace tg
                 p.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 p.iconImage = p.iconFuture.get();
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
         }
 
@@ -127,12 +127,13 @@ namespace tg
                 p.size.margin = event.style->getSizeRole(p.marginRole, p.size.displayScale);
             }
 
-            _sizeHint = Size2I();
+            Size2I sizeHint;
             if (p.iconImage)
             {
-                _sizeHint.w = p.iconImage->getWidth();
-                _sizeHint.h = p.iconImage->getHeight();
+                sizeHint.w = p.iconImage->getWidth();
+                sizeHint.h = p.iconImage->getHeight();
             }
+            _setSizeHint(sizeHint);
         }
 
         void Icon::clipEvent(const Box2I& clipRect, bool clipped)
@@ -150,7 +151,7 @@ namespace tg
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-            const Box2I g = margin(_geometry, -p.size.margin);
+            const Box2I g = margin(getGeometry(), -p.size.margin);
             if (p.iconImage)
             {
                 const Size2I& iconSize = p.iconImage->getSize();

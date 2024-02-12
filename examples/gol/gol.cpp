@@ -58,12 +58,13 @@ namespace tg
 
             void Window::setGeometry(const Box2I& value)
             {
-                const bool changed = value != _geometry;
+                const bool changed = value != getGeometry();
                 ui::Window::setGeometry(value);
                 if (changed)
                 {
-                    _cellsSize.w = _geometry.w() / _cellSize;
-                    _cellsSize.h = _geometry.h() / _cellSize;
+                    const Box2I& g = getGeometry();
+                    _cellsSize.w = g.w() / _cellSize;
+                    _cellsSize.h = g.h() / _cellSize;
                     const size_t size = _cellsSize.w * _cellsSize.h;
                     _cells[0].resize(size);
                     _cells[1].resize(size);
@@ -80,7 +81,8 @@ namespace tg
             void Window::drawEvent(const Box2I& drawRect, const DrawEvent& event)
             {
                 ui::Window::drawEvent(drawRect, event);
-                const Box2F box(0, 0, _geometry.w(), _geometry.h());
+                const Box2I& g = getGeometry();
+                const Box2F box(0, 0, g.w(), g.h());
                 event.render->drawRect(box, Color4F(0.F, 0.F, 0.F));
                 std::vector<Box2F> rects;
                 V2I pos;
@@ -151,7 +153,7 @@ namespace tg
                         }
                     }
                 }
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
 
             void Window::_tick()
@@ -201,7 +203,7 @@ namespace tg
                 }
                 _currentCells = dest;
                 _noiseZ += 1.0;
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
         }
     }

@@ -81,8 +81,8 @@ namespace tg
             p.text = value;
             p.size.textInit = true;
             p.draw.glyphs.clear();
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void GroupBox::setFontRole(FontRole value)
@@ -93,8 +93,8 @@ namespace tg
             p.fontRole = value;
             p.size.textInit = true;
             p.draw.glyphs.clear();
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void GroupBox::setGeometry(const Box2I& value)
@@ -104,7 +104,7 @@ namespace tg
             Box2I g = value;
             g.min.y += p.size.fontMetrics.lineHeight + p.size.spacing;
             g = margin(g, -(p.size.border + p.size.margin));
-            for (const auto& child : _children)
+            for (const auto& child : getChildren())
             {
                 child->setGeometry(g);
             }
@@ -133,17 +133,18 @@ namespace tg
                 p.draw.glyphs.clear();
             }
 
-            _sizeHint = Size2I();
-            for (const auto& child : _children)
+            Size2I sizeHint;
+            for (const auto& child : getChildren())
             {
-                const Size2I& sizeHint = child->getSizeHint();
-                _sizeHint.w = std::max(_sizeHint.w, sizeHint.w);
-                _sizeHint.h = std::max(_sizeHint.h, sizeHint.h);
+                const Size2I& childSizeHint = child->getSizeHint();
+                sizeHint.w = std::max(sizeHint.w, childSizeHint.w);
+                sizeHint.h = std::max(sizeHint.h, childSizeHint.h);
             }
-            _sizeHint.w += p.size.margin * 2 + p.size.border * 2;
-            _sizeHint.h += p.size.margin * 2 + p.size.border * 2;
-            _sizeHint.w = std::max(_sizeHint.w, p.size.textSize.w);
-            _sizeHint.h += p.size.fontMetrics.lineHeight + p.size.spacing;
+            sizeHint.w += p.size.margin * 2 + p.size.border * 2;
+            sizeHint.h += p.size.margin * 2 + p.size.border * 2;
+            sizeHint.w = std::max(sizeHint.w, p.size.textSize.w);
+            sizeHint.h += p.size.fontMetrics.lineHeight + p.size.spacing;
+            _setSizeHint(sizeHint);
         }
 
         void GroupBox::clipEvent(const Box2I& clipRect, bool clipped)
@@ -163,7 +164,7 @@ namespace tg
             IWidget::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
 
             if (!p.text.empty() && p.draw.glyphs.empty())
             {

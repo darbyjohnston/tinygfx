@@ -131,8 +131,8 @@ namespace tg
                 _shortcutModifiers = modifiers;
                 _shortcutText = getLabel(_shortcut, _shortcutModifiers);
                 _size.textInit = true;
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
         
             void MenuButton::setSubMenuIcon(const std::string& name)
@@ -149,8 +149,8 @@ namespace tg
                 if (changed)
                 {
                     _size.textInit = true;
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                 }
             }
 
@@ -161,8 +161,8 @@ namespace tg
                 if (changed)
                 {
                     _size.textInit = true;
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                 }
             }
 
@@ -194,8 +194,8 @@ namespace tg
                     _checkedIcon.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
                     _checkedIcon.image = _checkedIcon.future.get();
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                 }
                 if (!_uncheckedIcon.name.empty() && _uncheckedIcon.init)
                 {
@@ -206,8 +206,8 @@ namespace tg
                     _uncheckedIcon.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
                     _uncheckedIcon.image = _uncheckedIcon.future.get();
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                 }
                 if (!_subMenuIcon.name.empty() && _subMenuIcon.init)
                 {
@@ -218,8 +218,8 @@ namespace tg
                     _subMenuIcon.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
                     _subMenuIcon.image = _subMenuIcon.future.get();
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                 }
             }
 
@@ -247,43 +247,44 @@ namespace tg
                     _draw.shortcutGlyphs.clear();
                 }
 
-                _sizeHint = Size2I();
+                Size2I sizeHint;
                 if (_iconImage)
                 {
-                    _sizeHint.w = _iconImage->getWidth() + _size.spacing;
-                    _sizeHint.h = _iconImage->getHeight();
+                    sizeHint.w = _iconImage->getWidth() + _size.spacing;
+                    sizeHint.h = _iconImage->getHeight();
                 }
                 else if (_checked && _checkedIcon.image)
                 {
-                    _sizeHint.w = _checkedIcon.image->getWidth() + _size.spacing;
-                    _sizeHint.h = _checkedIcon.image->getHeight();
+                    sizeHint.w = _checkedIcon.image->getWidth() + _size.spacing;
+                    sizeHint.h = _checkedIcon.image->getHeight();
                 }
                 else if (!_checked && _uncheckedIcon.image)
                 {
-                    _sizeHint.w = _uncheckedIcon.image->getWidth() + _size.spacing;
-                    _sizeHint.h = _uncheckedIcon.image->getHeight();
+                    sizeHint.w = _uncheckedIcon.image->getWidth() + _size.spacing;
+                    sizeHint.h = _uncheckedIcon.image->getHeight();
                 }
                 if (!_text.empty())
                 {
-                    _sizeHint.w += _size.textSize.w + _size.margin * 2;
-                    _sizeHint.h = std::max(_sizeHint.h, _size.fontMetrics.lineHeight);
+                    sizeHint.w += _size.textSize.w + _size.margin * 2;
+                    sizeHint.h = std::max(sizeHint.h, _size.fontMetrics.lineHeight);
                 }
                 if (!_shortcutText.empty())
                 {
-                    _sizeHint.w += _size.spacing * 4 + _size.shortcutSize.w;
-                    _sizeHint.h = std::max(_sizeHint.h, _size.shortcutSize.h);
+                    sizeHint.w += _size.spacing * 4 + _size.shortcutSize.w;
+                    sizeHint.h = std::max(sizeHint.h, _size.shortcutSize.h);
                 }
                 if (_subMenuIcon.image)
                 {
-                    _sizeHint.w += _size.spacing + _subMenuIcon.image->getWidth();
-                    _sizeHint.h = std::max(_sizeHint.h, _subMenuIcon.image->getHeight());
+                    sizeHint.w += _size.spacing + _subMenuIcon.image->getWidth();
+                    sizeHint.h = std::max(sizeHint.h, _subMenuIcon.image->getHeight());
                 }
-                _sizeHint.w +=
+                sizeHint.w +=
                     _size.margin * 2 +
                     _size.border * 4;
-                _sizeHint.h +=
+                sizeHint.h +=
                     _size.margin * 2 +
                     _size.border * 4;
+                _setSizeHint(sizeHint);
             }
 
             void MenuButton::clipEvent(const Box2I& clipRect, bool clipped)
@@ -302,11 +303,11 @@ namespace tg
             {
                 IButton::drawEvent(drawRect, event);
 
-                const Box2I& g = _geometry;
+                const Box2I& g = getGeometry();
                 const bool enabled = isEnabled();
 
                 // Draw the key focus.
-                if (_keyFocus)
+                if (hasKeyFocus())
                 {
                     event.render->drawMesh(
                         border(g, _size.border * 2),
@@ -322,13 +323,13 @@ namespace tg
                 }
                 
                 // Draw the pressed and hover states.
-                if (_mouse.press && contains(_geometry, _mouse.pos))
+                if (_isMousePressed() && contains(g, _getMousePos()))
                 {
                     event.render->drawRect(
                         Box2F(g.x(), g.y(), g.w(), g.h()),
                         event.style->getColorRole(ColorRole::Pressed));
                 }
-                else if (_mouse.inside)
+                else if (_isMouseInside())
                 {
                     event.render->drawRect(
                         Box2F(g.x(), g.y(), g.w(), g.h()),
@@ -519,7 +520,7 @@ namespace tg
         {
             TG_P();
             p.items.push_back(item);
-            if (auto context = _context.lock())
+            if (auto context = _getContext().lock())
             {
                 auto button = MenuButton::create(context);
                 button->setText(item->text);
@@ -580,7 +581,7 @@ namespace tg
         {
             TG_P();
             std::shared_ptr<Menu> out;
-            if (auto context = _context.lock())
+            if (auto context = _getContext().lock())
             {
                 out = Menu::create(context);
                 out->setPopupStyle(MenuPopupStyle::SubMenu);
@@ -608,7 +609,7 @@ namespace tg
         void Menu::addDivider()
         {
             TG_P();
-            if (auto context = _context.lock())
+            if (auto context = _getContext().lock())
             {
                 auto divider = Divider::create(context, Orientation::Horizontal);
                 divider->setParent(p.layout);

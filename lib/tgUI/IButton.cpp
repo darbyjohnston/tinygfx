@@ -56,7 +56,7 @@ namespace tg
             if (!p.checkable && _checked)
             {
                 _checked = false;
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
         }
 
@@ -71,7 +71,7 @@ namespace tg
             if (value == _checked)
                 return;
             _checked = value;
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void IButton::setText(const std::string& value)
@@ -79,8 +79,8 @@ namespace tg
             if (value == _text)
                 return;
             _text = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void IButton::setFontRole(FontRole value)
@@ -88,8 +88,8 @@ namespace tg
             if (value == _fontRole)
                 return;
             _fontRole = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void IButton::setIcon(const std::string& icon)
@@ -113,7 +113,7 @@ namespace tg
             if (value == _buttonRole)
                 return;
             _buttonRole = value;
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void IButton::setCheckedRole(ColorRole value)
@@ -121,7 +121,7 @@ namespace tg
             if (value == _checkedRole)
                 return;
             _checkedRole = value;
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void IButton::setRepeatClick(bool value)
@@ -181,17 +181,17 @@ namespace tg
                 p.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 _iconImage = p.iconFuture.get();
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
             if (p.checkedIconFuture.valid() &&
                 p.checkedIconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 _checkedIconImage = p.checkedIconFuture.get();
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
-            if (_mouse.press && p.repeatClick)
+            if (_isMousePressed() && p.repeatClick)
             {
                 const float duration = p.repeatClickInit ? .4F : .02F;
                 const auto now = std::chrono::steady_clock::now();
@@ -208,20 +208,20 @@ namespace tg
         void IButton::mouseEnterEvent()
         {
             IWidget::mouseEnterEvent();
-            _updates |= Update::Draw;
+            _setDrawUpdate();
             if (_hoveredCallback)
             {
-                _hoveredCallback(_mouse.inside);
+                _hoveredCallback(_isMouseInside());
             }
         }
 
         void IButton::mouseLeaveEvent()
         {
             IWidget::mouseLeaveEvent();
-            _updates |= Update::Draw;
+            _setDrawUpdate();
             if (_hoveredCallback)
             {
-                _hoveredCallback(_mouse.inside);
+                _hoveredCallback(_isMouseInside());
             }
         }
 
@@ -233,7 +233,7 @@ namespace tg
             {
                 takeKeyFocus();
             }
-            _updates |= Update::Draw;
+            _setDrawUpdate();
             if (_pressedCallback)
             {
                 _pressedCallback();
@@ -248,8 +248,8 @@ namespace tg
         void IButton::mouseReleaseEvent(MouseClickEvent& event)
         {
             IWidget::mouseReleaseEvent(event);
-            _updates |= Update::Draw;
-            if (contains(_geometry, _mouse.pos))
+            _setDrawUpdate();
+            if (contains(getGeometry(), _getMousePos()))
             {
                 _click();
             }
@@ -265,7 +265,7 @@ namespace tg
             if (p.checkable)
             {
                 _checked = !_checked;
-                _updates |= Update::Draw;
+                _setDrawUpdate();
                 if (_checkedCallback)
                 {
                     _checkedCallback(_checked);
@@ -275,7 +275,7 @@ namespace tg
 
         void IButton::_releaseMouse()
         {
-            const bool inside = _mouse.inside;
+            const bool inside = _isMouseInside();
             IWidget::_releaseMouse();
             if (inside)
             {

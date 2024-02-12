@@ -65,7 +65,7 @@ namespace tg
             if (value == p.color)
                 return;
             p.color = value;
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void ColorSwatch::setEditable(bool value)
@@ -90,8 +90,8 @@ namespace tg
                 return;
             p.sizeRole = value;
             p.size.init = true;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void ColorSwatch::sizeHintEvent(const SizeHintEvent& event)
@@ -105,7 +105,7 @@ namespace tg
                 p.size.size = event.style->getSizeRole(p.sizeRole, p.size.displayScale);
                 p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
             }
-            _sizeHint.w = _sizeHint.h = p.size.size;
+            _setSizeHint(Size2I(p.size.size, p.size.size));
         }
 
         void ColorSwatch::drawEvent(
@@ -114,7 +114,7 @@ namespace tg
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
             event.render->drawMesh(
                 border(g, p.size.border),
                 event.style->getColorRole(ColorRole::Border));
@@ -137,7 +137,7 @@ namespace tg
         void ColorSwatch::_showPopup()
         {
             TG_P();
-            if (auto context = _context.lock())
+            if (auto context = _getContext().lock())
             {
                 if (!p.popup)
                 {
@@ -147,7 +147,7 @@ namespace tg
                         [this](const Color4F& value)
                         {
                             _p->color = value;
-                            _updates |= Update::Draw;
+                            _setDrawUpdate();
                             if (_p->callback)
                             {
                                 _p->callback(value);

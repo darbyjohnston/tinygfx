@@ -85,7 +85,7 @@ namespace tg
                 [this](const RangeI& value)
                 {
                     _p->digits = digits(value.max());
-                    _updates |= Update::Size;
+                    _setSizeUpdate();
                     _textUpdate();
                 });
 
@@ -163,7 +163,7 @@ namespace tg
         void IntEdit::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
-            _sizeHint = _p->layout->getSizeHint();
+            _setSizeHint(_p->layout->getSizeHint());
         }
 
         void IntEdit::keyPressEvent(KeyEvent& event)

@@ -94,8 +94,8 @@ namespace tg
                 p.widget->setParent(_p->layout);
                 p.widget->setVisible(p.button->isChecked());
             }
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         bool Bellows::isOpen() const
@@ -122,7 +122,7 @@ namespace tg
         void Bellows::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
-            _sizeHint = _p->layout->getSizeHint();
+            _setSizeHint(_p->layout->getSizeHint());
         }
     }
 }

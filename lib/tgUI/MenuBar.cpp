@@ -53,7 +53,7 @@ namespace tg
         {
             TG_P();
             p.menus.push_back(menu);
-            if (auto context = _context.lock())
+            if (auto context = _getContext().lock())
             {
                 auto button = ListButton::create(context);
                 button->setText(text);
@@ -105,8 +105,8 @@ namespace tg
                     {
                         button->takeKeyFocus();
                     });
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
         }
 
@@ -133,7 +133,7 @@ namespace tg
         void MenuBar::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
-            _sizeHint = _p->layout->getSizeHint();
+            _setSizeHint(_p->layout->getSizeHint());
         }
     }
 }

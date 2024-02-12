@@ -45,8 +45,7 @@ namespace tg
         {
             IWidget::_init(context, "tg::ui::Splitter", parent);
             TG_P();
-            _hStretch = Stretch::Expanding;
-            _vStretch = Stretch::Expanding;
+            setStretch(Stretch::Expanding);
             _setMouseHover(true);
             _setMousePress(true);
             p.orientation = orientation;
@@ -80,8 +79,8 @@ namespace tg
             if (value == p.split)
                 return;
             p.split = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void Splitter::setSpacingRole(SizeRole value)
@@ -91,8 +90,8 @@ namespace tg
                 return;
             p.spacingRole = value;
             p.size.init = true;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void Splitter::setGeometry(const Box2I& value)
@@ -100,10 +99,11 @@ namespace tg
             IWidget::setGeometry(value);
             TG_P();
 
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
 
             std::vector<bool> childVisible;
-            for (const auto& child : _children)
+            const auto& children = getChildren();
+            for (const auto& child : children)
             {
                 childVisible.push_back(child->isVisible(false));
             }
@@ -116,7 +116,7 @@ namespace tg
             switch (p.orientation)
             {
             case Orientation::Horizontal:
-                if (_children.size() > 1 &&
+                if (children.size() > 1 &&
                     childVisible[0] &&
                     childVisible[1])
                 {
@@ -134,14 +134,14 @@ namespace tg
                 }
                 else
                 {
-                    for (size_t i = 0; i < _children.size(); ++i)
+                    for (size_t i = 0; i < children.size(); ++i)
                     {
                         childGeometry.push_back(Box2I(x, y, g.w(), g.h()));
                     }
                 }
                 break;
             case Orientation::Vertical:
-                if (_children.size() > 1 &&
+                if (children.size() > 1 &&
                     childVisible[0] &&
                     childVisible[1])
                 {
@@ -159,7 +159,7 @@ namespace tg
                 }
                 else
                 {
-                    for (size_t i = 0; i < _children.size(); ++i)
+                    for (size_t i = 0; i < children.size(); ++i)
                     {
                         childGeometry.push_back(Box2I(x, y, g.w(), g.h()));
                     }
@@ -169,7 +169,7 @@ namespace tg
             }
 
             size_t i = 0;
-            for (auto child : _children)
+            for (auto child : children)
             {
                 child->setGeometry(
                     i < childGeometry.size() ?
@@ -194,7 +194,7 @@ namespace tg
                 p.size.handle = event.style->getSizeRole(SizeRole::HandleSmall, p.size.displayScale);
             }
 
-            _sizeHint.w = _sizeHint.h = p.size.size;
+            _setSizeHint(Size2I(p.size.size, p.size.size));
         }
 
         void Splitter::drawEvent(
@@ -236,7 +236,7 @@ namespace tg
             if (p.mouse.hoverHandle != -1)
             {
                 p.mouse.hoverHandle = -1;
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
         }
 
@@ -246,7 +246,7 @@ namespace tg
             event.accept = true;
             if (p.mouse.pressedHandle != -1)
             {
-                const Box2I& g = _geometry;
+                const Box2I& g = getGeometry();
                 float split = 0.F;
                 switch (p.orientation)
                 {
@@ -262,8 +262,8 @@ namespace tg
                 if (split != p.split)
                 {
                     p.split = split;
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                 }
             }
             else
@@ -280,7 +280,7 @@ namespace tg
                 if (hoverHandle != p.mouse.hoverHandle)
                 {
                     p.mouse.hoverHandle = hoverHandle;
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                 }
             }
         }
@@ -295,7 +295,7 @@ namespace tg
                 {
                     event.accept = true;
                     p.mouse.pressedHandle = i;
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                     break;
                 }
             }
@@ -306,7 +306,7 @@ namespace tg
             TG_P();
             event.accept = true;
             p.mouse.pressedHandle = -1;
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void Splitter::_releaseMouse()
@@ -317,7 +317,7 @@ namespace tg
             {
                 p.mouse.hoverHandle = -1;
                 p.mouse.pressedHandle = -1;
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
         }
     }

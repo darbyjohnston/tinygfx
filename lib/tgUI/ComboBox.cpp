@@ -211,8 +211,8 @@ namespace tg
             p.iconFuture = std::future<std::shared_ptr<Image> >();
             p.iconImage.reset();
             p.size.textInit = true;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void ComboBox::setItems(const std::vector<std::string>& value)
@@ -243,8 +243,8 @@ namespace tg
             p.iconFuture = std::future<std::shared_ptr<Image> >();
             p.iconImage.reset();
             p.size.textInit = true;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void ComboBox::setIndexCallback(const std::function<void(int)>& value)
@@ -264,8 +264,8 @@ namespace tg
                 return;
             p.fontRole = value;
             p.size.textInit = true;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void ComboBox::tickEvent(
@@ -299,15 +299,15 @@ namespace tg
                 p.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 p.iconImage = p.iconFuture.get();
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
             if (p.arrowIconFuture.valid() &&
                 p.arrowIconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 p.arrowIconImage = p.arrowIconFuture.get();
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
         }
 
@@ -342,33 +342,35 @@ namespace tg
                 p.draw.glyphs.clear();
             }
 
-            _sizeHint.w = p.size.textSize.w + p.size.margin * 2;
-            _sizeHint.h = p.size.fontMetrics.lineHeight;
+            Size2I sizeHint;
+            sizeHint.w = p.size.textSize.w + p.size.margin * 2;
+            sizeHint.h = p.size.fontMetrics.lineHeight;
             if (p.iconImage)
             {
-                _sizeHint.w += p.iconImage->getWidth();
+                sizeHint.w += p.iconImage->getWidth();
                 if (!p.text.empty())
                 {
-                    _sizeHint.w += p.size.spacing;
+                    sizeHint.w += p.size.spacing;
                 }
-                _sizeHint.h = std::max(
-                    _sizeHint.h,
+                sizeHint.h = std::max(
+                    sizeHint.h,
                     static_cast<int>(p.iconImage->getHeight()));
             }
             if (p.arrowIconImage)
             {
-                _sizeHint.w += p.arrowIconImage->getWidth();
-                _sizeHint.w += p.size.spacing;
-                _sizeHint.h = std::max(
-                    _sizeHint.h,
+                sizeHint.w += p.arrowIconImage->getWidth();
+                sizeHint.w += p.size.spacing;
+                sizeHint.h = std::max(
+                    sizeHint.h,
                     static_cast<int>(p.arrowIconImage->getHeight()));
             }
-            _sizeHint.w +=
+            sizeHint.w +=
                 p.size.margin * 2 +
                 p.size.border * 4;
-            _sizeHint.h +=
+            sizeHint.h +=
                 p.size.margin * 2 +
                 p.size.border * 4;
+            _setSizeHint(sizeHint);
         }
 
         void ComboBox::drawEvent(
@@ -378,10 +380,10 @@ namespace tg
             IWidget::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
             const bool enabled = isEnabled();
 
-            if (_keyFocus)
+            if (hasKeyFocus())
             {
                 event.render->drawMesh(
                     border(g, p.size.border * 2),
@@ -399,13 +401,13 @@ namespace tg
                 Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                 event.style->getColorRole(ColorRole::Button));
 
-            if (_mouse.press && contains(_geometry, _mouse.pos))
+            if (_isMousePressed() && contains(g, _getMousePos()))
             {
                 event.render->drawRect(
                     Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                     event.style->getColorRole(ColorRole::Pressed));
             }
-            else if (_mouse.inside)
+            else if (_isMouseInside())
             {
                 event.render->drawRect(
                     Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
@@ -467,13 +469,13 @@ namespace tg
         void ComboBox::mouseEnterEvent()
         {
             IWidget::mouseEnterEvent();
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void ComboBox::mouseLeaveEvent()
         {
             IWidget::mouseLeaveEvent();
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void ComboBox::mousePressEvent(MouseClickEvent& event)
@@ -481,13 +483,13 @@ namespace tg
             IWidget::mousePressEvent(event);
             TG_P();
             _click();
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void ComboBox::mouseReleaseEvent(MouseClickEvent& event)
         {
             IWidget::mouseReleaseEvent(event);
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void ComboBox::keyPressEvent(KeyEvent& event)
@@ -541,12 +543,12 @@ namespace tg
         {
             TG_P();
             takeKeyFocus();
-            if (auto context = _context.lock())
+            if (auto context = _getContext().lock())
             {
                 if (!p.menu)
                 {
                     p.menu = ComboBoxMenu::create(context, p.items);
-                    p.menu->open(getWindow(), _geometry);
+                    p.menu->open(getWindow(), getGeometry());
                     auto weak = std::weak_ptr<ComboBox>(std::dynamic_pointer_cast<ComboBox>(shared_from_this()));
                     p.menu->setCallback(
                         [weak](int index)

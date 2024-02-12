@@ -99,7 +99,7 @@ namespace tg
             std::function<void(const std::string&)> textChangedCallback;
             std::string format = "                    ";
             std::function<void(bool)> focusCallback;
-            FontRole fontRole = FontRole::Mono;
+            FontRole fontRole = FontRole::Label;
             int cursorPos = 0;
             bool cursorVisible = false;
             std::chrono::steady_clock::time_point cursorTimer;
@@ -206,21 +206,21 @@ namespace tg
             if (value == p.fontRole)
                 return;
             p.fontRole = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void LineEdit::setVisible(bool value)
         {
             TG_P();
-            const bool changed = value != _visible;
+            const bool changed = value != isVisible(false);
             IWidget::setVisible(value);
-            if (changed && !_visible)
+            if (changed && !isVisible(false))
             {
                 if (p.cursorVisible)
                 {
                     p.cursorVisible = false;
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                 }
             }
         }
@@ -228,14 +228,14 @@ namespace tg
         void LineEdit::setEnabled(bool value)
         {
             TG_P();
-            const bool changed = value != _enabled;
+            const bool changed = value != isEnabled(false);
             IWidget::setEnabled(value);
-            if (changed && !_enabled)
+            if (changed && !isEnabled(false))
             {
                 if (p.cursorVisible)
                 {
                     p.cursorVisible = false;
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                 }
             }
         }
@@ -254,14 +254,14 @@ namespace tg
                 if (diff.count() > .5F)
                 {
                     p.cursorVisible = !p.cursorVisible;
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                     p.cursorTimer = now;
                 }
             }
             else if (p.cursorVisible)
             {
                 p.cursorVisible = false;
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
         }
 
@@ -289,14 +289,13 @@ namespace tg
                 p.draw.glyphsBox.clear();
             }
 
-            _sizeHint.w =
+            _setSizeHint(Size2I(
                 p.size.formatSize.w +
                 p.size.margin * 2 +
-                p.size.border * 4;
-            _sizeHint.h =
+                p.size.border * 4,
                 p.size.fontMetrics.lineHeight +
                 p.size.margin * 2 +
-                p.size.border * 4;
+                p.size.border * 4));
         }
 
         void LineEdit::clipEvent(const Box2I& clipRect, bool clipped)
@@ -320,7 +319,7 @@ namespace tg
             const Box2I g = _getAlignGeometry();
             const bool enabled = isEnabled();
 
-            if (_keyFocus)
+            if (hasKeyFocus())
             {
                 event.render->drawMesh(
                     border(g, p.size.border * 2),
@@ -390,7 +389,7 @@ namespace tg
         {
             IWidget::mouseMoveEvent(event);
             TG_P();
-            if (_mouse.press)
+            if (_isMousePressed())
             {
                 const int cursorPos = _getCursorPos(event.pos);
                 if (cursorPos != p.cursorPos)
@@ -398,12 +397,12 @@ namespace tg
                     p.cursorPos = cursorPos;
                     p.cursorVisible = true;
                     p.cursorTimer = std::chrono::steady_clock::now();
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                 }
                 if (cursorPos != p.selection.get().second)
                 {
                     p.selection.setSecond(cursorPos);
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                 }
             }
         }
@@ -418,13 +417,13 @@ namespace tg
                 p.cursorPos = cursorPos;
                 p.cursorVisible = true;
                 p.cursorTimer = std::chrono::steady_clock::now();
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
             const SelectionPair selection(cursorPos, cursorPos);
             if (selection != p.selection.get())
             {
                 p.selection.set(selection);
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
             takeKeyFocus();
         }
@@ -440,7 +439,7 @@ namespace tg
                 {
                     p.textCallback(p.text);
                 }
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
             if (p.focusCallback)
             {
@@ -468,7 +467,7 @@ namespace tg
                 {
                     p.selection.clear();
                     p.selection.select(0, p.text.size());
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                 }
                 break;
             case Key::C:
@@ -568,7 +567,7 @@ namespace tg
                     p.cursorVisible = true;
                     p.cursorTimer = std::chrono::steady_clock::now();
                     
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                 }
                 break;
             case Key::Right:
@@ -587,7 +586,7 @@ namespace tg
                     p.cursorVisible = true;
                     p.cursorTimer = std::chrono::steady_clock::now();
 
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                 }
                 break;
             case Key::Home:
@@ -606,7 +605,7 @@ namespace tg
                     p.cursorVisible = true;
                     p.cursorTimer = std::chrono::steady_clock::now();
 
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                 }
                 break;
             case Key::End:
@@ -625,7 +624,7 @@ namespace tg
                     p.cursorVisible = true;
                     p.cursorTimer = std::chrono::steady_clock::now();
 
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                 }
                 break;
             case Key::Backspace:
@@ -731,12 +730,12 @@ namespace tg
         Box2I LineEdit::_getAlignGeometry() const
         {
             return align(
-                _geometry,
-                _sizeHint,
+                getGeometry(),
+                getSizeHint(),
                 Stretch::Expanding,
                 Stretch::Expanding,
-                _hAlign,
-                _vAlign);
+                getHAlign(),
+                getVAlign());
         }
 
         int LineEdit::_getCursorPos(const V2I& value)
@@ -769,8 +768,8 @@ namespace tg
         {
             TG_P();
             p.size.textInit = true;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
     }
 }

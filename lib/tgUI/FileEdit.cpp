@@ -123,13 +123,13 @@ namespace tg
         void FileEdit::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
-            _sizeHint = _p->layout->getSizeHint();
+            _setSizeHint(_p->layout->getSizeHint());
         }
 
         void FileEdit::_openDialog()
         {
             TG_P();
-            if (auto context = _context.lock())
+            if (auto context = _getContext().lock())
             {
                 if (auto fileBrowserSystem = context->getSystem<FileBrowserSystem>())
                 {

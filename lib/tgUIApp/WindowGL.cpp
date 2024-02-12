@@ -190,22 +190,22 @@ namespace tg
             p.window->setSizeCallback(
                 [this](const Size2I& value)
                 {
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                 });
             p.window->setFrameBufferSizeCallback(
                 [this](const Size2I& value)
                 {
                     _p->bufferSize = value;
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                 });
             p.window->setContentScaleCallback(
                 [this](const V2F& value)
                 {
                     _p->contentScale = value;
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                 });
             p.window->setRefreshCallback(
                 [this]()
@@ -288,8 +288,8 @@ namespace tg
             p.contentScale = p.window->getContentScale();
             p.render = gl::Render::create(context);
 
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
         
         Window::Window() :
@@ -333,7 +333,7 @@ namespace tg
         void Window::setGeometry(const Box2I& value)
         {
             IWindow::setGeometry(value);
-            for (const auto& child : _children)
+            for (const auto& child : getChildren())
             {
                 child->setGeometry(value);
             }
@@ -374,7 +374,7 @@ namespace tg
 
                 _clipEventRecursive(
                     shared_from_this(),
-                    _geometry,
+                    getGeometry(),
                     !isVisible(false));
             }
             
@@ -523,13 +523,14 @@ namespace tg
         void Window::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
-            _sizeHint = Size2I();
-            for (const auto& child : _children)
+            Size2I sizeHint;
+            for (const auto& child : getChildren())
             {
-                const Size2I& sizeHint = child->getSizeHint();
-                _sizeHint.w = std::max(_sizeHint.w, sizeHint.w);
-                _sizeHint.h = std::max(_sizeHint.h, sizeHint.h);
+                const Size2I& childSizeHint = child->getSizeHint();
+                sizeHint.w = std::max(sizeHint.w, childSizeHint.w);
+                sizeHint.h = std::max(sizeHint.h, childSizeHint.h);
             }
+            _setSizeHint(sizeHint);
         }
 
         bool Window::_hasSizeUpdate(const std::shared_ptr<IWidget>& widget) const

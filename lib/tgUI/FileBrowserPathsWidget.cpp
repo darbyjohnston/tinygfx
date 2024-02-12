@@ -144,7 +144,7 @@ namespace tg
         void PathsWidget::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
-            _sizeHint = _p->layout->getSizeHint();
+            _setSizeHint(_p->layout->getSizeHint());
         }
 
         void PathsWidget::_createButton(
@@ -176,7 +176,7 @@ namespace tg
             p.buttons.clear();
             p.buttonGroup->clearButtons();
 
-            if (auto context = _context.lock())
+            if (auto context = _getContext().lock())
             {
                 for (const auto& i : p.drives)
                 {

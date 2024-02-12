@@ -56,8 +56,8 @@ namespace tg
                 p.model->observeValue(),
                 [this](float value)
                 {
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                     if (_p->callback)
                     {
                         _p->callback(value);
@@ -68,8 +68,8 @@ namespace tg
                 p.model->observeRange(),
                 [this](const RangeF&)
                 {
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                 });
         }
 
@@ -149,12 +149,11 @@ namespace tg
                 auto fontInfo = event.style->getFontRole(FontRole::Label, p.size.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(fontInfo);
             }
-            _sizeHint.w =
+            _setSizeHint(Size2I(
                 p.size.size +
-                p.size.border * 6;
-            _sizeHint.h =
+                p.size.border * 6,
                 p.size.fontMetrics.lineHeight +
-                p.size.border * 6;
+                p.size.border * 6));
         }
 
         void FloatSlider::drawEvent(
@@ -164,9 +163,9 @@ namespace tg
             IWidget::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
 
-            if (_keyFocus)
+            if (hasKeyFocus())
             {
                 event.render->drawMesh(
                     border(g, p.size.border * 2),
@@ -201,13 +200,13 @@ namespace tg
             event.render->drawRect(
                 Box2F(g4.x(), g4.y(), g4.w(), g4.h()),
                 event.style->getColorRole(ColorRole::Button));
-            if (_mouse.press)
+            if (_isMousePressed())
             {
                 event.render->drawRect(
                     Box2F(g4.x(), g4.y(), g4.w(), g4.h()),
                     event.style->getColorRole(ColorRole::Pressed));
             }
-            else if (_mouse.inside)
+            else if (_isMouseInside())
             {
                 event.render->drawRect(
                     Box2F(g4.x(), g4.y(), g4.w(), g4.h()),
@@ -218,22 +217,22 @@ namespace tg
         void FloatSlider::mouseEnterEvent()
         {
             IWidget::mouseEnterEvent();
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void FloatSlider::mouseLeaveEvent()
         {
             IWidget::mouseLeaveEvent();
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void FloatSlider::mouseMoveEvent(MouseMoveEvent& event)
         {
             IWidget::mouseMoveEvent(event);
             TG_P();
-            if (_mouse.press && p.model)
+            if (_isMousePressed() && p.model)
             {
-                p.model->setValue(_posToValue(_mouse.pos.x));
+                p.model->setValue(_posToValue(_getMousePos().x));
             }
         }
 
@@ -243,16 +242,16 @@ namespace tg
             TG_P();
             if (p.model)
             {
-                p.model->setValue(_posToValue(_mouse.pos.x));
+                p.model->setValue(_posToValue(_getMousePos().x));
             }
             takeKeyFocus();
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void FloatSlider::mouseReleaseEvent(MouseClickEvent& event)
         {
             IWidget::mouseReleaseEvent(event);
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void FloatSlider::keyPressEvent(KeyEvent& event)
@@ -309,7 +308,7 @@ namespace tg
         {
             TG_P();
             return margin(
-                _geometry,
+                getGeometry(),
                 -(p.size.border * 3 + p.size.handle / 2),
                 -(p.size.border * 3),
                 -(p.size.border * 3 + p.size.handle / 2),

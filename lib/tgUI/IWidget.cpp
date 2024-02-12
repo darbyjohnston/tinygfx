@@ -47,7 +47,7 @@ namespace tg
             if (value == _backgroundRole)
                 return;
             _backgroundRole = value;
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void IWidget::setParent(const std::shared_ptr<IWidget>& value)
@@ -64,8 +64,8 @@ namespace tg
                     event.child = *i;
                     parent->_children.erase(i);
                     parent->childRemovedEvent(event);
-                    parent->_updates |= Update::Size;
-                    parent->_updates |= Update::Draw;
+                    parent->_setSizeUpdate();
+                    parent->_setDrawUpdate();
                 }
             }
             _parent = value;
@@ -76,8 +76,8 @@ namespace tg
                 ChildEvent event;
                 event.child = shared_from_this();
                 value->childAddedEvent(event);
-                value->_updates |= Update::Size;
-                value->_updates |= Update::Draw;
+                value->_setSizeUpdate();
+                value->_setDrawUpdate();
             }
         }
 
@@ -89,8 +89,8 @@ namespace tg
                 auto child = *i;
                 _children.erase(i);
                 _children.push_back(child);
-                value->_updates |= Update::Size;
-                value->_updates |= Update::Draw;
+                value->_setSizeUpdate();
+                value->_setDrawUpdate();
             }
         }
 
@@ -102,8 +102,8 @@ namespace tg
                 auto child = *i;
                 _children.erase(i);
                 _children.push_front(child);
-                value->_updates |= Update::Size;
-                value->_updates |= Update::Draw;
+                value->_setSizeUpdate();
+                value->_setDrawUpdate();
             }
         }
 
@@ -124,8 +124,8 @@ namespace tg
             if (value == _hStretch)
                 return;
             _hStretch = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void IWidget::setVStretch(Stretch value)
@@ -133,8 +133,8 @@ namespace tg
             if (value == _vStretch)
                 return;
             _vStretch = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void IWidget::setStretch(Stretch horizontal, Stretch vertical)
@@ -143,8 +143,8 @@ namespace tg
                 return;
             _hStretch = horizontal;
             _vStretch = vertical;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void IWidget::setStretch(Stretch value)
@@ -157,8 +157,8 @@ namespace tg
             if (value == _hAlign)
                 return;
             _hAlign = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void IWidget::setVAlign(VAlign value)
@@ -166,8 +166,8 @@ namespace tg
             if (value == _vAlign)
                 return;
             _vAlign = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void IWidget::setAlign(HAlign hAlign, VAlign vAlign)
@@ -176,8 +176,8 @@ namespace tg
                 return;
             _hAlign = hAlign;
             _vAlign = vAlign;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void IWidget::setGeometry(const Box2I& value)
@@ -185,8 +185,8 @@ namespace tg
             if (value == _geometry)
                 return;
             _geometry = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void IWidget::setPos(const V2I& value)
@@ -209,8 +209,8 @@ namespace tg
                 _releaseMouse();
                 releaseKeyFocus();
             }
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void IWidget::show()
@@ -238,8 +238,8 @@ namespace tg
                 _releaseMouse();
                 releaseKeyFocus();
             }
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void IWidget::setAcceptsKeyFocus(bool value)
@@ -414,7 +414,7 @@ namespace tg
             {
                 _mouse.inside = false;
                 _mouse.press = false;
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
         }
     }

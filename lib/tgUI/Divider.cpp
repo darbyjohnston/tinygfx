@@ -67,7 +67,7 @@ namespace tg
                 p.size.displayScale = event.displayScale;
                 p.size.size = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
             }
-            _sizeHint.w = _sizeHint.h = p.size.size;
+            _setSizeHint(Size2I(p.size.size, p.size.size));
         }
     }
 }

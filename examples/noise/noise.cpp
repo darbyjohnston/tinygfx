@@ -50,17 +50,19 @@ namespace tg
             void Window::setGeometry(const Box2I& value)
             {
                 ui::Window::setGeometry(value);
-                _image = Image::create(_geometry.w() / 2, _geometry.h() / 2, ImageType::L_U8);
+                const Box2I& g = getGeometry();
+                _image = Image::create(g.w() / 2, g.h() / 2, ImageType::L_U8);
             }
 
             void Window::drawEvent(const Box2I& drawRect, const DrawEvent& event)
             {
                 ui::Window::drawEvent(drawRect, event);
+                const Box2I& g = getGeometry();
                 ImageOptions options;
                 options.cache = false;
                 event.render->drawImage(
                     _image,
-                    Box2F(0.F, 0.F, _geometry.w(), _geometry.h()),
+                    Box2F(0.F, 0.F, g.w(), g.h()),
                     Color4F(1.F, 1.F, 1.F),
                     options);
             }
@@ -79,7 +81,7 @@ namespace tg
                     }
                 }
                 _noiseZ += 1.0;
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
         }
     }

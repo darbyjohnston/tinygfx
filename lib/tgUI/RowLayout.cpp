@@ -60,8 +60,8 @@ namespace tg
             if (value == p.marginRole)
                 return;
             p.marginRole = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void RowLayout::setSpacingRole(SizeRole value)
@@ -70,19 +70,20 @@ namespace tg
             if (value == p.spacingRole)
                 return;
             p.spacingRole = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void RowLayout::setGeometry(const Box2I& value)
         {
             IWidget::setGeometry(value);
             TG_P();
-            const Box2I g = margin(_geometry, -p.size.margin);
+            const Box2I g = margin(getGeometry(), -p.size.margin);
             std::vector<Size2I> sizeHints;
             size_t expanding = 0;
             std::shared_ptr<IWidget> lastVisibleChild;
-            for (const auto& child : _children)
+            const auto& children = getChildren();
+            for (const auto& child : children)
             {
                 if (child->isVisible(false))
                 {
@@ -107,11 +108,11 @@ namespace tg
                 }
             }
             const std::pair<int, int> extra(
-                _geometry.w() - _sizeHint.w,
-                _geometry.h() - _sizeHint.h);
+                getGeometry().w() - getSizeHint().w,
+                getGeometry().h() - getSizeHint().h);
             V2I pos = g.min;
             size_t count = 0;
-            for (const auto& child : _children)
+            for (const auto& child : children)
             {
                 if (child->isVisible(false))
                 {
@@ -182,7 +183,7 @@ namespace tg
 
         Box2I RowLayout::getChildrenClipRect() const
         {
-            return margin(_geometry, -_p->size.margin);
+            return margin(getGeometry(), -_p->size.margin);
         }
 
         void RowLayout::sizeHintEvent(const SizeHintEvent& event)
@@ -199,28 +200,28 @@ namespace tg
                 p.size.spacing = event.style->getSizeRole(p.spacingRole, p.size.displayScale);
             }
 
-            _sizeHint = Size2I();
+            Size2I sizeHint;
             std::vector<Size2I> sizeHints;
             size_t visible = 0;
-            for (const auto& child : _children)
+            for (const auto& child : getChildren())
             {
                 if (child->isVisible(false))
                 {
-                    const Size2I& sizeHint = child->getSizeHint();
-                    sizeHints.push_back(sizeHint);
+                    const Size2I& childSizeHint = child->getSizeHint();
+                    sizeHints.push_back(childSizeHint);
                     switch (p.orientation)
                     {
                     case Orientation::Horizontal:
-                        _sizeHint.w += sizeHint.w;
-                        _sizeHint.h = std::max(_sizeHint.h, sizeHint.h);
+                        sizeHint.w += childSizeHint.w;
+                        sizeHint.h = std::max(sizeHint.h, childSizeHint.h);
                         if (sizeHint.w > 0)
                         {
                             ++visible;
                         }
                         break;
                     case Orientation::Vertical:
-                        _sizeHint.w = std::max(_sizeHint.w, sizeHint.w);
-                        _sizeHint.h += sizeHint.h;
+                        sizeHint.w = std::max(sizeHint.w, childSizeHint.w);
+                        sizeHint.h += childSizeHint.h;
                         if (sizeHint.h > 0)
                         {
                             ++visible;
@@ -235,28 +236,29 @@ namespace tg
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
-                    _sizeHint.w += p.size.spacing * (visible - 1);
+                    sizeHint.w += p.size.spacing * (visible - 1);
                     break;
                 case Orientation::Vertical:
-                    _sizeHint.h += p.size.spacing * (visible - 1);
+                    sizeHint.h += p.size.spacing * (visible - 1);
                     break;
                 default: break;
                 }
             }
-            _sizeHint.w += p.size.margin * 2;
-            _sizeHint.h += p.size.margin * 2;
+            sizeHint.w += p.size.margin * 2;
+            sizeHint.h += p.size.margin * 2;
+            _setSizeHint(sizeHint);
         }
 
         void RowLayout::childAddedEvent(const ChildEvent&)
         {
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void RowLayout::childRemovedEvent(const ChildEvent&)
         {
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void HorizontalLayout::_init(

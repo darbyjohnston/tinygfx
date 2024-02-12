@@ -63,18 +63,20 @@ namespace tg
             void ContainerWidget::setGeometry(const Box2I& value)
             {
                 IWidget::setGeometry(value);
-                if (!_children.empty())
+                const auto& children = getChildren();
+                if (!children.empty())
                 {
-                    _children.front()->setGeometry(value);
+                    children.front()->setGeometry(value);
                 }
             }
 
             void ContainerWidget::sizeHintEvent(const SizeHintEvent& value)
             {
                 IWidget::sizeHintEvent(value);
-                if (!_children.empty())
+                const auto& children = getChildren();
+                if (!children.empty())
                 {
-                    _sizeHint = _children.front()->getSizeHint();
+                    _setSizeHint(children.front()->getSizeHint());
                 }
             }
         }
@@ -166,7 +168,7 @@ namespace tg
             if (value == p.popupRole)
                 return;
             p.popupRole = value;
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void IMenuPopup::setWidget(const std::shared_ptr<IWidget>& value)

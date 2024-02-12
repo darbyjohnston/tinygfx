@@ -35,7 +35,7 @@ namespace tg
                 FontInfo fontInfo;
                 fontInfo.size = 0;
                 Size2I textSize;
-                const Box2I g = margin(_geometry, -100);
+                const Box2I g = margin(getGeometry(), -100);
                 while (textSize.w < g.w() && textSize.h < g.h())
                 {
                     fontInfo.size += 10;

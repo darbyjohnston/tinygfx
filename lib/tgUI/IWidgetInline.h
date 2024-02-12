@@ -117,5 +117,45 @@ namespace tg
         {
             return _toolTip;
         }
+
+        inline const std::weak_ptr<core::Context>& IWidget::_getContext() const
+        {
+            return _context;
+        }
+
+        inline void IWidget::_setDrawUpdate()
+        {
+            _updates |= Update::Draw;
+        }
+
+        inline void IWidget::_setSizeUpdate()
+        {
+            _updates |= Update::Size;
+        }
+
+        inline void IWidget::_setSizeHint(const core::Size2I& value)
+        {
+            _sizeHint = value;
+        }
+
+        inline bool IWidget::_isMouseInside() const
+        {
+            return _mouse.inside;
+        }
+
+        inline const core::V2I& IWidget::_getMousePos() const
+        {
+            return _mouse.pos;
+        }
+
+        inline bool IWidget::_isMousePressed() const
+        {
+            return _mouse.press;
+        }
+
+        inline const core::V2I& IWidget::_getMousePressPos() const
+        {
+            return _mouse.pressPos;
+        }
     }
 }

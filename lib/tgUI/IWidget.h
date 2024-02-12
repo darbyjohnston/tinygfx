@@ -269,10 +269,22 @@ namespace tg
             ///@}
 
         protected:
+            const std::weak_ptr<core::Context>& _getContext() const;
+
+            void _setDrawUpdate();
+            void _setSizeUpdate();
+
+            void _setSizeHint(const core::Size2I&);
+
             void _setMouseHover(bool);
             void _setMousePress(bool, int button = -1, int modifiers = -1);
             virtual void _releaseMouse();
+            bool _isMouseInside() const;
+            const core::V2I& _getMousePos() const;
+            bool _isMousePressed() const;
+            const core::V2I& _getMousePressPos() const;
 
+        private:
             std::weak_ptr<core::Context> _context;
             std::string _objectName;
             ColorRole _backgroundRole = ColorRole::None;
@@ -290,6 +302,10 @@ namespace tg
             bool _clipped = false;
             bool _enabled = true;
             bool _parentsEnabled = true;
+            bool _mouseHoverEnabled = false;
+            bool _mousePressEnabled = false;
+            int _mousePressButton = -1;
+            int _mousePressModifiers = -1;
             struct MouseData
             {
                 bool inside = false;
@@ -301,12 +317,6 @@ namespace tg
             bool _acceptsKeyFocus = false;
             bool _keyFocus = false;
             std::string _toolTip;
-
-        private:
-            bool _mouseHoverEnabled = false;
-            bool _mousePressEnabled = false;
-            int _mousePressButton = -1;
-            int _mousePressModifiers = -1;
         };
     }
 }

@@ -186,11 +186,12 @@ namespace tg
                 button->setColumns(columns);
             }
 
-            _sizeHint = p.layout->getSizeHint();
+            Size2I sizeHint = p.layout->getSizeHint();
             for (size_t i = 0; i < columns.size(); ++i)
             {
-                _sizeHint.w += columns[i];
+                sizeHint.w += columns[i];
             }
+            _setSizeHint(sizeHint);
         }
         
         namespace
@@ -302,7 +303,7 @@ namespace tg
             p.buttonGroup->clearButtons();
             p.fileInfo.clear();
             list(p.path, p.options, p.fileInfo);
-            if (auto context = _context.lock())
+            if (auto context = _getContext().lock())
             {
                 for (const auto& fileInfo : p.fileInfo)
                 {

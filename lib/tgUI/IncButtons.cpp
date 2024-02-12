@@ -55,14 +55,15 @@ namespace tg
 
             //p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, _displayScale);
 
-            _sizeHint = Size2I();
+            Size2I sizeHint;
             if (_iconImage)
             {
-                _sizeHint.w = _iconImage->getWidth();
-                _sizeHint.h = _iconImage->getHeight();
+                sizeHint.w = _iconImage->getWidth();
+                sizeHint.h = _iconImage->getHeight();
             }
-            _sizeHint.w += p.size.margin * 2;
-            _sizeHint.h += p.size.margin * 2;
+            sizeHint.w += p.size.margin * 2;
+            sizeHint.h += p.size.margin * 2;
+            _setSizeHint(sizeHint);
         }
 
         void IncButton::drawEvent(
@@ -72,7 +73,7 @@ namespace tg
             IButton::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
 
             const ColorRole colorRole = _checked ?
                 ColorRole::Checked :
@@ -84,13 +85,13 @@ namespace tg
                     event.style->getColorRole(colorRole));
             }
 
-            if (_mouse.press && contains(_geometry, _mouse.pos))
+            if (_isMousePressed() && contains(g, _getMousePos()))
             {
                 event.render->drawRect(
                     Box2F(g.x(), g.y(), g.w(), g.h()),
                     event.style->getColorRole(ColorRole::Pressed));
             }
-            else if (_mouse.inside)
+            else if (_isMouseInside())
             {
                 event.render->drawRect(
                     Box2F(g.x(), g.y(), g.w(), g.h()),
@@ -159,8 +160,9 @@ namespace tg
             IWidget::sizeHintEvent(event);
             const Size2I incSizeHint = _incButton->getSizeHint();
             const Size2I decSizeHint = _decButton->getSizeHint();
-            _sizeHint.w = std::max(incSizeHint.w, decSizeHint.w);
-            _sizeHint.h = incSizeHint.h + decSizeHint.h;
+            _setSizeHint(Size2I(
+                std::max(incSizeHint.w, decSizeHint.w),
+                incSizeHint.h + decSizeHint.h));
         }
 
         void IncButtons::setIncCallback(const std::function<void(void)>& value)

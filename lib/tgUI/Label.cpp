@@ -47,7 +47,7 @@ namespace tg
             const std::shared_ptr<IWidget>& parent)
         {
             IWidget::_init(context, "tg::ui::Label", parent);
-            _hAlign = HAlign::Left;
+            setHAlign(HAlign::Left);
         }
 
         Label::Label() :
@@ -86,8 +86,8 @@ namespace tg
             p.size.textInit = true;
             p.draw.glyphs.clear();
             _textUpdate();
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void Label::setTextRole(ColorRole value)
@@ -96,7 +96,7 @@ namespace tg
             if (value == p.textRole)
                 return;
             p.textRole = value;
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void Label::setMarginRole(SizeRole value)
@@ -106,8 +106,8 @@ namespace tg
                 return;
             p.marginRole = value;
             p.size.init = true;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void Label::setFontRole(FontRole value)
@@ -118,8 +118,8 @@ namespace tg
             p.fontRole = value;
             p.size.textInit = true;
             p.draw.glyphs.clear();
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void Label::sizeHintEvent(const SizeHintEvent& event)
@@ -141,12 +141,11 @@ namespace tg
                 p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);
                 p.draw.glyphs.clear();
             }
-            _sizeHint.w =
+            _setSizeHint(Size2I(
                 p.size.textSize.w +
-                p.size.margin * 2;
-            _sizeHint.h =
+                p.size.margin * 2,
                 p.size.textSize.h +
-                p.size.margin * 2;
+                p.size.margin * 2));
         }
 
         void Label::clipEvent(const Box2I& clipRect, bool clipped)
@@ -169,12 +168,12 @@ namespace tg
             //event.render->drawRect(_geometry, Color4F(.5F, .3F, .3F));
 
             const Box2I g = margin(align(
-                _geometry,
-                _sizeHint,
+                getGeometry(),
+                getSizeHint(),
                 Stretch::Fixed,
                 Stretch::Fixed,
-                _hAlign,
-                _vAlign),
+                getHAlign(),
+                getVAlign()),
                 -p.size.margin);
 
             if (!p.text.empty() && p.draw.glyphs.empty())

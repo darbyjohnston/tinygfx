@@ -70,8 +70,8 @@ namespace tg
             if (value == p.canvasSize)
                 return;
             p.canvasSize = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         const Size2I& MDICanvas::getGridSize() const
@@ -85,8 +85,8 @@ namespace tg
             if (value == p.gridSize)
                 return;
             p.gridSize = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         std::shared_ptr<MDIWidget> MDICanvas::addWidget(
@@ -96,7 +96,7 @@ namespace tg
         {
             TG_P();
             std::shared_ptr<MDIWidget> out;
-            if (auto context = _context.lock())
+            if (auto context = _getContext().lock())
             {
                 out = MDIWidget::create(context, title, shared_from_this());
                 out->setWidget(value);
@@ -216,15 +216,15 @@ namespace tg
                         }
                     });
                 p.newWidgets.push_back(std::make_pair(pos, out));
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
             return out;
         }
 
         void MDICanvas::setGeometry(const Box2I& value)
         {
-            V2I offset = value.min - _geometry.min;
+            V2I offset = value.min - getGeometry().min;
             IWidget::setGeometry(value);
             TG_P();
 
@@ -247,7 +247,7 @@ namespace tg
             p.newWidgets.clear();
             
             // Update the child widget geometry.
-            for (const auto& child : _children)
+            for (const auto& child : getChildren())
             {
                 if (auto mdi = std::dynamic_pointer_cast<MDIWidget>(child))
                 {
@@ -317,14 +317,14 @@ namespace tg
             IWidget::sizeHintEvent(event);
             TG_P();
             p.size.gridSize = p.gridSize * static_cast<int>(event.displayScale);
-            _sizeHint = p.canvasSize * static_cast<int>(event.displayScale);
+            _setSizeHint(p.canvasSize * static_cast<int>(event.displayScale));
         }
 
         void MDICanvas::drawEvent(const Box2I& drawRect, const DrawEvent& event)
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
 
             // Draw the grid.
             const Size2I& gridSize = p.size.gridSize;

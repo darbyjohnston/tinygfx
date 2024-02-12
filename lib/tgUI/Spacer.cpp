@@ -58,7 +58,7 @@ namespace tg
                 return;
             p.spacingRole = value;
             p.size.init = true;
-            _updates |= Update::Size;
+            _setSizeUpdate();
         }
 
         void Spacer::sizeHintEvent(const SizeHintEvent& event)
@@ -74,17 +74,18 @@ namespace tg
                 p.size.size = event.style->getSizeRole(p.spacingRole, p.size.displayScale);
             }
 
-            _sizeHint = Size2I();
+            Size2I sizeHint;
             switch (p.orientation)
             {
             case Orientation::Horizontal:
-                _sizeHint.w = p.size.size;
+                sizeHint.w = p.size.size;
                 break;
             case Orientation::Vertical:
-                _sizeHint.h = p.size.size;
+                sizeHint.h = p.size.size;
                 break;
             default: break;
             }
+            _setSizeHint(sizeHint);
         }
     }
 }

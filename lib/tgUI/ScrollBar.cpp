@@ -71,7 +71,7 @@ namespace tg
             if (value == p.scrollSize)
                 return;
             p.scrollSize = value;
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         int ScrollBar::getScrollPos() const
@@ -85,7 +85,7 @@ namespace tg
             if (value == p.scrollPos)
                 return;
             p.scrollPos = value;
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void ScrollBar::setScrollPosCallback(const std::function<void(int)>& value)
@@ -107,20 +107,20 @@ namespace tg
                 p.size.handle = event.style->getSizeRole(SizeRole::Handle, p.size.displayScale);
             }
 
-            _sizeHint.w = p.size.handle;
-            _sizeHint.h = p.size.handle;
+            Size2I sizeHint(p.size.handle, p.size.handle);
             switch (p.orientation)
             {
             case Orientation::Horizontal:
-                _sizeHint.w += p.size.handle + p.size.border * 2;
-                _sizeHint.h += p.size.border;
+                sizeHint.w += p.size.handle + p.size.border * 2;
+                sizeHint.h += p.size.border;
                 break;
             case Orientation::Vertical:
-                _sizeHint.w += p.size.border;
-                _sizeHint.h += p.size.handle + p.size.border * 2;
+                sizeHint.w += p.size.border;
+                sizeHint.h += p.size.handle + p.size.border * 2;
                 break;
             default: break;
             }
+            _setSizeHint(sizeHint);
         }
 
         void ScrollBar::drawEvent(
@@ -144,13 +144,13 @@ namespace tg
                     Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                     event.style->getColorRole(ColorRole::Button));
 
-                if (_mouse.press)
+                if (_isMousePressed())
                 {
                     event.render->drawRect(
                         Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                         event.style->getColorRole(ColorRole::Pressed));
                 }
-                else if (_mouse.inside)
+                else if (_isMouseInside())
                 {
                     event.render->drawRect(
                         Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
@@ -162,20 +162,20 @@ namespace tg
         void ScrollBar::mouseEnterEvent()
         {
             IWidget::mouseEnterEvent();
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void ScrollBar::mouseLeaveEvent()
         {
             IWidget::mouseLeaveEvent();
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void ScrollBar::mouseMoveEvent(MouseMoveEvent& event)
         {
             IWidget::mouseMoveEvent(event);
             TG_P();
-            if (_mouse.press)
+            if (_isMousePressed())
             {
                 int scrollPos = 0;
                 const float s = _getScrollScale();
@@ -183,11 +183,11 @@ namespace tg
                 {
                 case Orientation::Horizontal:
                     scrollPos = p.mouse.pressedScrollPos +
-                        (event.pos.x - _mouse.pressPos.x) * s;
+                        (event.pos.x - _getMousePressPos().x) * s;
                     break;
                 case Orientation::Vertical:
                     scrollPos = p.mouse.pressedScrollPos +
-                        (event.pos.y - _mouse.pressPos.y) * s;
+                        (event.pos.y - _getMousePressPos().y) * s;
                     break;
                 default: break;
                 }
@@ -196,8 +196,8 @@ namespace tg
                 if (scrollPosClamped != p.scrollPos)
                 {
                     p.scrollPos = scrollPosClamped;
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                     if (p.scrollPosCallback)
                     {
                         p.scrollPosCallback(p.scrollPos);
@@ -210,18 +210,19 @@ namespace tg
         {
             IWidget::mousePressEvent(event);
             TG_P();
-            const Box2I g = _getHandleGeometry();
-            if (!contains(g, event.pos))
+            const Box2I& g = getGeometry();
+            const Box2I hg = _getHandleGeometry();
+            if (!contains(hg, event.pos))
             {
                 int scrollPos = 0;
                 const float s = _getScrollScale();
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
-                    scrollPos = (event.pos.x - g.w() / 2 - _geometry.min.x) * s;
+                    scrollPos = (event.pos.x - hg.w() / 2 - g.min.x) * s;
                     break;
                 case Orientation::Vertical:
-                    scrollPos = (event.pos.y - g.h() / 2 - _geometry.min.y) * s;
+                    scrollPos = (event.pos.y - hg.h() / 2 - g.min.y) * s;
                     break;
                 default: break;
                 }
@@ -230,8 +231,8 @@ namespace tg
                 if (scrollPosClamped != p.scrollPos)
                 {
                     p.scrollPos = scrollPosClamped;
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                     if (p.scrollPosCallback)
                     {
                         p.scrollPosCallback(p.scrollPos);
@@ -239,20 +240,20 @@ namespace tg
                 }
             }
             p.mouse.pressedScrollPos = p.scrollPos;
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void ScrollBar::mouseReleaseEvent(MouseClickEvent& event)
         {
             IWidget::mouseReleaseEvent(event);
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         Box2I ScrollBar::_getBorderGeometry() const
         {
             TG_P();
             Box2I out;
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
             switch (p.orientation)
             {
             case Orientation::Horizontal:

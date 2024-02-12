@@ -84,8 +84,8 @@ namespace tg
             TG_P();
             p.gridPos[child].row = row;
             p.gridPos[child].column = column;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void GridLayout::setMarginRole(SizeRole value)
@@ -94,8 +94,8 @@ namespace tg
             if (value == p.marginRole)
                 return;
             p.marginRole = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void GridLayout::setSpacingRole(SizeRole value)
@@ -104,8 +104,8 @@ namespace tg
             if (value == p.spacingRole)
                 return;
             p.spacingRole = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void GridLayout::setGeometry(const Box2I& value)
@@ -113,7 +113,7 @@ namespace tg
             IWidget::setGeometry(value);
             TG_P();
 
-            const Box2I g = margin(_geometry, -p.size.margin);
+            const Box2I g = margin(getGeometry(), -p.size.margin);
 
             // Get the child size hints.
             std::vector<int> rowSizeHints;
@@ -238,14 +238,14 @@ namespace tg
             std::vector<int> rowSizeHints;
             std::vector<int> columnSizeHints;
             p.getSizeHints(rowSizeHints, columnSizeHints);
-            _sizeHint = Size2I();
+            Size2I sizeHint;
             for (int i : rowSizeHints)
             {
-                _sizeHint.h += i;
+                sizeHint.h += i;
             }
             for (int i : columnSizeHints)
             {
-                _sizeHint.w += i;
+                sizeHint.w += i;
             }
 
             // Add spacing.
@@ -254,16 +254,18 @@ namespace tg
             p.getVisible(rowsVisible, columnsVisible);
             if (rowsVisible > 0)
             {
-                _sizeHint.h += (rowsVisible - 1) * p.size.spacing;
+                sizeHint.h += (rowsVisible - 1) * p.size.spacing;
             }
             if (columnsVisible > 0)
             {
-                _sizeHint.w += (columnsVisible - 1) * p.size.spacing;
+                sizeHint.w += (columnsVisible - 1) * p.size.spacing;
             }
 
             // Add the margin.
-            _sizeHint.w += p.size.margin * 2;
-            _sizeHint.h += p.size.margin * 2;
+            sizeHint.w += p.size.margin * 2;
+            sizeHint.h += p.size.margin * 2;
+
+            _setSizeHint(sizeHint);
         }
 
         void GridLayout::childRemovedEvent(const ChildEvent& event)
@@ -274,8 +276,8 @@ namespace tg
             {
                 p.gridPos.erase(i);
             }
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         GridPos GridLayout::Private::getSize() const

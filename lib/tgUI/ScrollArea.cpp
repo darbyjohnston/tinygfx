@@ -79,7 +79,7 @@ namespace tg
             V2I tmp = value;
             if (clamp)
             {
-                const Box2I g = margin(_geometry, -p.size.border);
+                const Box2I g = margin(getGeometry(), -p.size.border);
                 tmp = V2I(
                     core::clamp(tmp.x, 0, std::max(0, p.scrollSize.x - g.w())),
                     core::clamp(tmp.y, 0, std::max(0, p.scrollSize.y - g.h())));
@@ -87,8 +87,8 @@ namespace tg
             if (tmp == p.scrollPos)
                 return;
             p.scrollPos = tmp;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
             if (p.scrollPosCallback)
             {
                 p.scrollPosCallback(p.scrollPos);
@@ -102,8 +102,7 @@ namespace tg
 
         Box2I ScrollArea::getChildrenClipRect() const
         {
-            TG_P();
-            return margin(_geometry, -p.size.border);
+            return margin(getGeometry(), -_p->size.border);
         }
 
         void ScrollArea::setBorder(bool value)
@@ -112,8 +111,8 @@ namespace tg
             if (value == p.border)
                 return;
             p.border = value;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void ScrollArea::setGeometry(const Box2I& value)
@@ -123,38 +122,38 @@ namespace tg
             const Box2I g = margin(value, -p.size.border);
 
             V2I scrollSize;
-            for (const auto& child : _children)
+            for (const auto& child : getChildren())
             {
-                Size2I sizeHint = child->getSizeHint();
+                Size2I childSizeHint = child->getSizeHint();
                 switch (p.scrollType)
                 {
                 case ScrollType::Horizontal:
-                    sizeHint.h = std::max(sizeHint.h, g.h());
+                    childSizeHint.h = std::max(childSizeHint.h, g.h());
                     break;
                 case ScrollType::Vertical:
                 case ScrollType::Menu:
-                    sizeHint.w = std::max(sizeHint.w, g.w());
+                    childSizeHint.w = std::max(childSizeHint.w, g.w());
                     break;
                 case ScrollType::Both:
-                    sizeHint.w = std::max(sizeHint.w, g.w());
-                    sizeHint.h = std::max(sizeHint.h, g.h());
+                    childSizeHint.w = std::max(childSizeHint.w, g.w());
+                    childSizeHint.h = std::max(childSizeHint.h, g.h());
                     break;
                 default: break;
                 }
-                scrollSize.x = std::max(scrollSize.x, sizeHint.w);
-                scrollSize.y = std::max(scrollSize.y, sizeHint.h);
+                scrollSize.x = std::max(scrollSize.x, childSizeHint.w);
+                scrollSize.y = std::max(scrollSize.y, childSizeHint.h);
                 const Box2I g2(
                     g.min.x - p.scrollPos.x,
                     g.min.y - p.scrollPos.y,
-                    sizeHint.w,
-                    sizeHint.h);
+                    childSizeHint.w,
+                    childSizeHint.h);
                 child->setGeometry(g2);
             }
             if (scrollSize != p.scrollSize)
             {
                 p.scrollSize = scrollSize;
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
                 if (p.scrollSizeCallback)
                 {
                     p.scrollSizeCallback(p.scrollSize);
@@ -167,8 +166,8 @@ namespace tg
             if (scrollPos != p.scrollPos)
             {
                 p.scrollPos = scrollPos;
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
                 if (p.scrollPosCallback)
                 {
                     p.scrollPosCallback(p.scrollPos);
@@ -192,28 +191,29 @@ namespace tg
                     0;
             }
 
-            _sizeHint = Size2I();
-            for (const auto& child : _children)
+            Size2I sizeHint;
+            for (const auto& child : getChildren())
             {
-                const Size2I& sizeHint = child->getSizeHint();
-                _sizeHint.w = std::max(_sizeHint.w, sizeHint.w);
-                _sizeHint.h = std::max(_sizeHint.h, sizeHint.h);
+                const Size2I& childSizeHint = child->getSizeHint();
+                sizeHint.w = std::max(sizeHint.w, childSizeHint.w);
+                sizeHint.h = std::max(sizeHint.h, childSizeHint.h);
             }
             switch (p.scrollType)
             {
                 case ScrollType::Horizontal:
-                    _sizeHint.w = p.size.size;
+                    sizeHint.w = p.size.size;
                     break;
                 case ScrollType::Vertical:
-                    _sizeHint.h = p.size.size;
+                    sizeHint.h = p.size.size;
                     break;
                 case ScrollType::Both:
-                    _sizeHint.w = _sizeHint.h = p.size.size;
+                    sizeHint.w = sizeHint.h = p.size.size;
                     break;
                 default: break;
             }
-            _sizeHint.w += p.size.border * 2;
-            _sizeHint.h += p.size.border * 2;
+            sizeHint.w += p.size.border * 2;
+            sizeHint.h += p.size.border * 2;
+            _setSizeHint(sizeHint);
         }
 
         void ScrollArea::drawEvent(
@@ -222,7 +222,7 @@ namespace tg
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
             if (p.border)
             {
                 event.render->drawMesh(

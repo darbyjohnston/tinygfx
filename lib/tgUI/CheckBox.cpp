@@ -82,8 +82,8 @@ namespace tg
             if (changed)
             {
                 p.size.textInit = true;
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
         }
 
@@ -95,8 +95,8 @@ namespace tg
             if (changed)
             {
                 p.size.textInit = true;
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
         }
 
@@ -124,16 +124,15 @@ namespace tg
                 p.draw.glyphs.clear();
             }
 
-            _sizeHint.w =
+            _setSizeHint(Size2I(
                 p.size.checkBox +
                 p.size.spacing +
                 p.size.textSize.w + p.size.margin * 2 +
                 p.size.margin * 2 +
-                p.size.border * 4;
-            _sizeHint.h =
+                p.size.border * 4,
                 p.size.fontMetrics.lineHeight +
                 p.size.margin * 2 +
-                p.size.border * 4;
+                p.size.border * 4));
         }
 
         void CheckBox::clipEvent(const Box2I& clipRect, bool clipped)
@@ -153,10 +152,10 @@ namespace tg
             IButton::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
             const bool enabled = isEnabled();
 
-            if (_keyFocus)
+            if (hasKeyFocus())
             {
                 event.render->drawMesh(
                     border(g, p.size.border * 2),
@@ -164,13 +163,13 @@ namespace tg
             }
 
             const Box2I g2 = margin(g, -p.size.border * 2);
-            if (_mouse.press && contains(_geometry, _mouse.pos))
+            if (_isMousePressed() && contains(g, _getMousePos()))
             {
                 event.render->drawRect(
                     Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                     event.style->getColorRole(ColorRole::Pressed));
             }
-            else if (_mouse.inside)
+            else if (_isMouseInside())
             {
                 event.render->drawRect(
                     Box2F(g2.x(), g2.y(), g2.w(), g2.h()),

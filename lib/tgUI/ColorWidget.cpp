@@ -137,7 +137,7 @@ namespace tg
                 return;
             p.color = value;
             _colorUpdate();
-            _updates |= Update::Draw;
+            _setDrawUpdate();
         }
 
         void ColorWidget::setCallback(const std::function<void(const Color4F&)>& value)
@@ -154,7 +154,7 @@ namespace tg
         void ColorWidget::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
-            _sizeHint = _p->layout->getSizeHint();
+            _setSizeHint(_p->layout->getSizeHint());
         }
 
         void ColorWidget::_colorUpdate()

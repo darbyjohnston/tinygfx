@@ -354,7 +354,7 @@ namespace tg
         void FileBrowserWidget::sizeHintEvent(const SizeHintEvent& value)
         {
             IWidget::sizeHintEvent(value);
-            _sizeHint = _p->layout->getSizeHint();
+            _setSizeHint(_p->layout->getSizeHint());
         }
 
         void FileBrowserWidget::_pathUpdate()

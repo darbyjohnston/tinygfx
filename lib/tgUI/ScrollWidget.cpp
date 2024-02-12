@@ -230,7 +230,7 @@ namespace tg
         void ScrollWidget::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
-            _sizeHint = _p->layout->getSizeHint();
+            _setSizeHint(_p->layout->getSizeHint());
         }
 
         void ScrollWidget::scrollEvent(ScrollEvent& event)

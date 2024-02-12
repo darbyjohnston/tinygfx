@@ -132,8 +132,8 @@ namespace tg
             {
                 p.widget->setParent(p.widgetLayout);
             }
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void MDIWidget::setPressCallback(const std::function<void(bool)>& value)
@@ -243,9 +243,10 @@ namespace tg
                 p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, p.size.displayScale);
             }
             const int margin = std::max(p.size.handle, p.size.shadow);
-            _sizeHint = p.layout->getSizeHint() + p.size.border * 2;
-            _sizeHint.w += margin * 2;
-            _sizeHint.h += p.size.handle + margin;
+            Size2I sizeHint = p.layout->getSizeHint() + p.size.border * 2;
+            sizeHint.w += margin * 2;
+            sizeHint.h += p.size.handle + margin;
+            _setSizeHint(sizeHint);
         }
 
         void MDIWidget::drawEvent(
@@ -254,7 +255,7 @@ namespace tg
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
             const int margin = std::max(p.size.handle, p.size.shadow);
             const Box2I g2 = core::margin(g, -margin, -p.size.handle, -margin, -margin);
             event.render->drawColorMesh(
@@ -287,7 +288,7 @@ namespace tg
             if (p.mouse.resize != MDIResize::None)
             {
                 p.mouse.resize = MDIResize::None;
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
         }
 
@@ -295,7 +296,7 @@ namespace tg
         {
             IWidget::mouseMoveEvent(event);
             TG_P();
-            if (!_mouse.press)
+            if (!_isMousePressed())
             {
                 MDIResize resize = MDIResize::None;
                 for (const auto& box : p.mouse.resizeBoxes)
@@ -309,21 +310,22 @@ namespace tg
                 if (resize != p.mouse.resize)
                 {
                     p.mouse.resize = resize;
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                 }
             }
             else
             {
+                const V2I& mousePressPos = _getMousePressPos();
                 if (p.mouse.resize != MDIResize::None)
                 {
                     if (p.resizeCallback)
                     {
-                        p.resizeCallback(p.mouse.resize, event.pos - _mouse.pressPos);
+                        p.resizeCallback(p.mouse.resize, event.pos - mousePressPos);
                     }
                 }
                 else if (p.moveCallback)
                 {
-                    p.moveCallback(event.pos - _mouse.pressPos);
+                    p.moveCallback(event.pos - mousePressPos);
                 }
             }
         }

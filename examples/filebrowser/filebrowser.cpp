@@ -6,8 +6,10 @@
 
 #include <tgUIApp/App.h>
 
+#include <tgUI/FileBrowser.h>
 #include <tgUI/FileEdit.h>
 #include <tgUI/RowLayout.h>
+#include <tgUI/ScrollWidget.h>
 
 #include <tgCore/Format.h>
 
@@ -27,12 +29,20 @@ namespace tg
             {
                 ui::Window::_init(context, name, size);
 
-                // Create the layout.
-                auto layout = VerticalLayout::create(context, shared_from_this());
-                layout->setMarginRole(SizeRole::Margin);
+                // Create the scroll widget.
+                auto scrollWidget = ScrollWidget::create(
+                    context,
+                    ScrollType::Both,
+                    shared_from_this());
+                auto scrollLayout = VerticalLayout::create(context);
+                scrollLayout->setMarginRole(SizeRole::Margin);
+                scrollWidget->setWidget(scrollLayout);
 
-                // Create the file widget.
-                auto fileEdit = FileEdit::create(context, layout);
+                // Create the file widgets.
+                for (size_t i = 0; i < 10; ++i)
+                {
+                    FileEdit::create(context, scrollLayout);
+                }
             }
 
             Window::~Window()
@@ -61,6 +71,7 @@ TG_MAIN()
         auto app = App::create(context, args, "filebrowser", "File browser example");
         if (0 == app->getExit())
         {
+            context->getSystem<tg::ui::FileBrowserSystem>()->setNativeFileDialog(false);
             auto window = tg::examples::filebrowser::Window::create(
                 context,
                 "filebrowser",

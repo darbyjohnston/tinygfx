@@ -59,13 +59,13 @@ namespace tg
             if (auto widget = p.keyFocus.lock())
             {
                 widget->keyFocusEvent(false);
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
             p.keyFocus = value;
             if (auto widget = p.keyFocus.lock())
             {
                 widget->keyFocusEvent(true);
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
         }
 
@@ -81,10 +81,10 @@ namespace tg
 
         void IWindow::setVisible(bool value)
         {
-            const bool changed = value != _visible;
+            const bool changed = value != isVisible(false);
             IWidget::setVisible(value);
             TG_P();
-            if (changed && !_visible)
+            if (changed && !isVisible(false))
             {
                 if (auto hover = p.hover.lock())
                 {
@@ -121,7 +121,7 @@ namespace tg
                 }
                 p.dndData.reset();
                 p.dndCursor.reset();
-                _clipEventRecursive(shared_from_this(), _geometry, true);
+                _clipEventRecursive(shared_from_this(), getGeometry(), true);
             }
         }
         
@@ -136,7 +136,7 @@ namespace tg
             const auto toolTipDiff = std::chrono::duration_cast<std::chrono::milliseconds>(toolTipTime - p.toolTipTimer);
             if (toolTipDiff > toolTipTimeout && !p.toolTip)
             {
-                if (auto context = _context.lock())
+                if (auto context = _getContext().lock())
                 {
                     std::string text;
                     auto widgets = _getUnderCursor(p.cursorPos);
@@ -366,7 +366,7 @@ namespace tg
 
             if (widget && p.dndCursor)
             {
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
 
             if (length(p.cursorPos - p.toolTipPos) > toolTipDistance)
@@ -434,7 +434,7 @@ namespace tg
                     }
                     p.dndData.reset();
                     p.dndCursor.reset();
-                    _updates |= Update::Draw;
+                    _setDrawUpdate();
                 }
 
                 MouseMoveEvent event(
@@ -562,10 +562,11 @@ namespace tg
         {
             TG_P();
             std::shared_ptr<IWidget> out;
-            if (!_children.empty())
+            const auto& children = getChildren();
+            if (!children.empty())
             {
                 std::list<std::shared_ptr<IWidget> > widgets;
-                _getKeyFocus(_children.back(), widgets);
+                _getKeyFocus(children.back(), widgets);
                 if (!widgets.empty())
                 {
                     auto i = std::find(widgets.begin(), widgets.end(), value);
@@ -594,10 +595,11 @@ namespace tg
         {
             TG_P();
             std::shared_ptr<IWidget> out;
-            if (!_children.empty())
+            const auto& children = getChildren();
+            if (!children.empty())
             {
                 std::list<std::shared_ptr<IWidget> > widgets;
-                _getKeyFocus(_children.back(), widgets);
+                _getKeyFocus(children.back(), widgets);
                 if (!widgets.empty())
                 {
                     auto i = std::find(widgets.rbegin(), widgets.rend(), value);

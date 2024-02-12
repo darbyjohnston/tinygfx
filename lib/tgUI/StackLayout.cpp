@@ -64,7 +64,8 @@ namespace tg
         void StackLayout::setCurrentWidget(const std::shared_ptr<IWidget>& value)
         {
             int index = 0;
-            for (auto i = _children.begin(); i != _children.end(); ++i, ++index)
+            const auto& children = getChildren();
+            for (auto i = children.begin(); i != children.end(); ++i, ++index)
             {
                 if (value == *i)
                 {
@@ -81,16 +82,16 @@ namespace tg
                 return;
             p.marginRole = value;
             p.size.init = true;
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void StackLayout::setGeometry(const Box2I& value)
         {
             IWidget::setGeometry(value);
             TG_P();
-            const Box2I g = margin(_geometry, -p.size.margin);
-            for (const auto& child : _children)
+            const Box2I g = margin(getGeometry(), -p.size.margin);
+            for (const auto& child : getChildren())
             {
                 child->setGeometry(g);
             }
@@ -98,7 +99,7 @@ namespace tg
 
         Box2I StackLayout::getChildrenClipRect() const
         {
-            return margin(_geometry, -_p->size.margin);
+            return margin(getGeometry(), -_p->size.margin);
         }
 
         void StackLayout::childAddedEvent(const ChildEvent& event)
@@ -124,15 +125,16 @@ namespace tg
                 p.size.margin = event.style->getSizeRole(p.marginRole, p.size.displayScale);
             }
 
-            _sizeHint = Size2I();
-            for (const auto& child : _children)
+            Size2I sizeHint;
+            for (const auto& child : getChildren())
             {
-                const Size2I& sizeHint = child->getSizeHint();
-                _sizeHint.w = std::max(_sizeHint.w, sizeHint.w);
-                _sizeHint.h = std::max(_sizeHint.h, sizeHint.h);
+                const Size2I& childSizeHint = child->getSizeHint();
+                sizeHint.w = std::max(sizeHint.w, childSizeHint.w);
+                sizeHint.h = std::max(sizeHint.h, childSizeHint.h);
             }
-            _sizeHint.w += p.size.margin * 2;
-            _sizeHint.h += p.size.margin * 2;
+            sizeHint.w += p.size.margin * 2;
+            sizeHint.h += p.size.margin * 2;
+            _setSizeHint(sizeHint);
         }
 
         std::shared_ptr<IWidget> StackLayout::_getCurrentWidget() const
@@ -140,7 +142,7 @@ namespace tg
             TG_P();
             std::shared_ptr<IWidget> out;
             int i = 0;
-            for (const auto& child : _children)
+            for (const auto& child : getChildren())
             {
                 if (i == p.currentIndex)
                 {
@@ -155,12 +157,12 @@ namespace tg
         void StackLayout::_widgetUpdate()
         {
             const auto currentWidget = _getCurrentWidget();
-            for (const auto& child : _children)
+            for (const auto& child : getChildren())
             {
                 child->setVisible(child == currentWidget);
             }
-            _updates |= Update::Size;
-            _updates |= Update::Draw;
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
     }
 }

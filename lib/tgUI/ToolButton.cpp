@@ -80,8 +80,8 @@ namespace tg
             if (changed)
             {
                 p.size.textInit = true;
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
         }
 
@@ -93,8 +93,8 @@ namespace tg
             if (changed)
             {
                 p.size.textInit = true;
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
         }
 
@@ -121,35 +121,36 @@ namespace tg
                 p.draw.glyphs.clear();
             }
 
-            _sizeHint = Size2I();
+            Size2I sizeHint;
             if (!_text.empty())
             {
-                _sizeHint.w = p.size.textSize.w + p.size.margin * 2;
-                _sizeHint.h = p.size.fontMetrics.lineHeight;
+                sizeHint.w = p.size.textSize.w + p.size.margin * 2;
+                sizeHint.h = p.size.fontMetrics.lineHeight;
                 if (_icon.empty())
                 {
-                    const int max = std::max(_sizeHint.w, _sizeHint.h);
-                    _sizeHint.w = max;
-                    _sizeHint.h = _sizeHint.h;
+                    const int max = std::max(sizeHint.w, sizeHint.h);
+                    sizeHint.w = max;
+                    sizeHint.h = sizeHint.h;
                 }
             }
             if (_iconImage)
             {
-                _sizeHint.w += _iconImage->getWidth();
+                sizeHint.w += _iconImage->getWidth();
                 if (!_text.empty())
                 {
-                    _sizeHint.w += p.size.spacing;
+                    sizeHint.w += p.size.spacing;
                 }
-                _sizeHint.h = std::max(
-                    _sizeHint.h,
+                sizeHint.h = std::max(
+                    sizeHint.h,
                     static_cast<int>(_iconImage->getHeight()));
             }
-            _sizeHint.w +=
+            sizeHint.w +=
                 p.size.margin * 2 +
                 p.size.border * 4;
-            _sizeHint.h +=
+            sizeHint.h +=
                 p.size.margin * 2 +
                 p.size.border * 4;
+            _setSizeHint(sizeHint);
         }
 
         void ToolButton::clipEvent(const Box2I& clipRect, bool clipped)
@@ -169,10 +170,10 @@ namespace tg
             IButton::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
             const bool enabled = isEnabled();
 
-            if (_keyFocus)
+            if (hasKeyFocus())
             {
                 event.render->drawMesh(
                     border(g, p.size.border * 2),
@@ -188,13 +189,13 @@ namespace tg
                     event.style->getColorRole(colorRole));
             }
 
-            if (_mouse.press && contains(_geometry, _mouse.pos))
+            if (_isMousePressed() && contains(g, _getMousePos()))
             {
                 event.render->drawRect(
                     Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                     event.style->getColorRole(ColorRole::Pressed));
             }
-            else if (_mouse.inside)
+            else if (_isMouseInside())
             {
                 event.render->drawRect(
                     Box2F(g2.x(), g2.y(), g2.w(), g2.h()),

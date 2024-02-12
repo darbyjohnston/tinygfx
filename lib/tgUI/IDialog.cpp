@@ -77,22 +77,23 @@ namespace tg
         {
             IPopup::setGeometry(value);
             TG_P();
-            if (!_children.empty())
+            const auto& children = getChildren();
+            if (!children.empty())
             {
                 const Box2I g = margin(value, -p.size.margin);
-                const Size2I& sizeHint = _children.front()->getSizeHint();
+                const Size2I& sizeHint = children.front()->getSizeHint();
                 V2I size;
                 size.x = std::min(sizeHint.w, g.w());
                 size.y = std::min(sizeHint.h, g.h());
-                if (Stretch::Expanding == _children.front()->getHStretch())
+                if (Stretch::Expanding == children.front()->getHStretch())
                 {
                     size.x = g.w();
                 }
-                if (Stretch::Expanding == _children.front()->getVStretch())
+                if (Stretch::Expanding == children.front()->getVStretch())
                 {
                     size.y = g.h();
                 }
-                _children.front()->setGeometry(Box2I(
+                children.front()->setGeometry(Box2I(
                     g.x() + g.w() / 2 - size.x / 2,
                     g.y() + g.h() / 2 - size.y / 2,
                     size.x,
@@ -120,9 +121,10 @@ namespace tg
         {
             IPopup::drawEvent(drawRect, event);
             TG_P();
-            if (!_children.empty())
+            const auto& children = getChildren();
+            if (!children.empty())
             {
-                const Box2I g = _children.front()->getGeometry();
+                const Box2I g = children.front()->getGeometry();
                 const Box2I g2(
                     g.min.x - p.size.shadow,
                     g.min.y,

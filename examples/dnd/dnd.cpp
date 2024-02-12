@@ -70,7 +70,7 @@ namespace tg
             void DragAndDropWidget::setGeometry(const Box2I& value)
             {
                 IWidget::setGeometry(value);
-                _label->setGeometry(_geometry);
+                _label->setGeometry(getGeometry());
             }
 
             void DragAndDropWidget::sizeHintEvent(const SizeHintEvent& event)
@@ -78,7 +78,7 @@ namespace tg
                 IWidget::sizeHintEvent(event);
                 _border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
                 _dragLength = event.style->getSizeRole(SizeRole::DragLength, event.displayScale);
-                _sizeHint = _label->getSizeHint();
+                _setSizeHint(_label->getSizeHint());
             }
 
             void DragAndDropWidget::drawEvent(
@@ -86,7 +86,7 @@ namespace tg
                 const DrawEvent& event)
             {
                 IWidget::drawEvent(drawRect, event);
-                const Box2I& g = _geometry;
+                const Box2I& g = getGeometry();
 
                 event.render->drawMesh(
                     border(g, _border),
@@ -97,13 +97,13 @@ namespace tg
                     Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                     event.style->getColorRole(ColorRole::Button));
 
-                if (_mouse.press && contains(_geometry, _mouse.pos))
+                if (_isMousePressed() && contains(g, _getMousePos()))
                 {
                     event.render->drawRect(
                         Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                         event.style->getColorRole(ColorRole::Pressed));
                 }
-                else if (_mouse.inside)
+                else if (_isMouseInside())
                 {
                     event.render->drawRect(
                         Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
@@ -123,26 +123,27 @@ namespace tg
             void DragAndDropWidget::mouseEnterEvent()
             {
                 IWidget::mouseEnterEvent();
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
 
             void DragAndDropWidget::mouseLeaveEvent()
             {
                 IWidget::mouseLeaveEvent();
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
 
             void DragAndDropWidget::mouseMoveEvent(MouseMoveEvent& event)
             {
                 IWidget::mouseMoveEvent(event);
-                if (_mouse.press)
+                if (_isMousePressed())
                 {
-                    const float length = core::length(event.pos - _mouse.pressPos);
+                    const float length = core::length(event.pos - _getMousePressPos());
                     if (length > _dragLength)
                     {
                         event.dndData = std::make_shared<DragAndDropData>(_number);
-                        const int w = _geometry.w();
-                        const int h = _geometry.h();
+                        const Box2I& g = getGeometry();
+                        const int w = g.w();
+                        const int h = g.h();
                         event.dndCursor = Image::create(w, h, ImageType::RGBA_U8);
                         uint8_t* p = event.dndCursor->getData();
                         for (int y = 0; y < h; ++y)
@@ -156,7 +157,7 @@ namespace tg
                                 p += 4;
                             }
                         }
-                        event.dndCursorHotspot = _mouse.pos - _geometry.min;
+                        event.dndCursorHotspot = _getMousePos() - g.min;
                     }
                 }
             }
@@ -164,27 +165,27 @@ namespace tg
             void DragAndDropWidget::mousePressEvent(MouseClickEvent& event)
             {
                 IWidget::mousePressEvent(event);
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
 
             void DragAndDropWidget::mouseReleaseEvent(MouseClickEvent& event)
             {
                 IWidget::mouseReleaseEvent(event);
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
 
             void DragAndDropWidget::dragEnterEvent(DragAndDropEvent& event)
             {
                 event.accept = true;
                 _dropTarget = true;
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
 
             void DragAndDropWidget::dragLeaveEvent(DragAndDropEvent& event)
             {
                 event.accept = true;
                 _dropTarget = false;
-                _updates |= Update::Draw;
+                _setDrawUpdate();
             }
 
             void DragAndDropWidget::dropEvent(DragAndDropEvent& event)
@@ -194,8 +195,8 @@ namespace tg
                     event.accept = true;
                     _number = data->getNumber();
                     _textUpdate();
-                    _updates |= Update::Size;
-                    _updates |= Update::Draw;
+                    _setSizeUpdate();
+                    _setDrawUpdate();
                 }
             }
 

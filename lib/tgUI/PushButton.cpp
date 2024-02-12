@@ -80,8 +80,8 @@ namespace tg
             if (changed)
             {
                 p.size.textInit = true;
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
         }
 
@@ -93,8 +93,8 @@ namespace tg
             if (changed)
             {
                 p.size.textInit = true;
-                _updates |= Update::Size;
-                _updates |= Update::Draw;
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
         }
 
@@ -122,27 +122,28 @@ namespace tg
                 p.draw.glyphs.clear();
             }
 
-            _sizeHint = Size2I();
+            Size2I sizeHint;
             if (!_text.empty())
             {
-                _sizeHint.w = p.size.textSize.w + p.size.margin2 * 2;
-                _sizeHint.h = p.size.fontMetrics.lineHeight;
+                sizeHint.w = p.size.textSize.w + p.size.margin2 * 2;
+                sizeHint.h = p.size.fontMetrics.lineHeight;
             }
             if (_iconImage)
             {
-                _sizeHint.w += _iconImage->getWidth();
+                sizeHint.w += _iconImage->getWidth();
                 if (!_text.empty())
                 {
-                    _sizeHint.w += p.size.spacing;
+                    sizeHint.w += p.size.spacing;
                 }
-                _sizeHint.h = std::max(_sizeHint.h, _iconImage->getHeight());
+                sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
             }
-            _sizeHint.w +=
+            sizeHint.w +=
                 p.size.margin * 2 +
                 p.size.border * 4;
-            _sizeHint.h +=
+            sizeHint.h +=
                 p.size.margin2 * 2 +
                 p.size.border * 4;
+            _setSizeHint(sizeHint);
         }
 
         void PushButton::clipEvent(const Box2I& clipRect, bool clipped)
@@ -162,11 +163,11 @@ namespace tg
             IButton::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = _geometry;
+            const Box2I& g = getGeometry();
             const bool enabled = isEnabled();
 
             // Draw the border.
-            if (_keyFocus)
+            if (hasKeyFocus())
             {
                 event.render->drawMesh(
                     border(g, p.size.border * 2),
@@ -191,13 +192,13 @@ namespace tg
             }
 
             // Draw the pressed and hover states.
-            if (_mouse.press && contains(_geometry, _mouse.pos))
+            if (_isMousePressed() && contains(g, _getMousePos()))
             {
                 event.render->drawMesh(
                     mesh,
                     event.style->getColorRole(ColorRole::Pressed));
             }
-            else if (_mouse.inside)
+            else if (_isMouseInside())
             {
                 event.render->drawMesh(
                     mesh,
