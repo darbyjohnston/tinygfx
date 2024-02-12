@@ -140,22 +140,22 @@ namespace tg
 
         inline bool IWidget::_isMouseInside() const
         {
-            return _mouse.inside;
+            return _mouseInside;
         }
 
         inline const core::V2I& IWidget::_getMousePos() const
         {
-            return _mouse.pos;
+            return _mousePos;
         }
 
         inline bool IWidget::_isMousePressed() const
         {
-            return _mouse.press;
+            return _mousePress;
         }
 
         inline const core::V2I& IWidget::_getMousePressPos() const
         {
-            return _mouse.pressPos;
+            return _mousePressPos;
         }
     }
 }

@@ -67,8 +67,8 @@ namespace tg
             IWidget::_init(context, "tg::ui::MDIWidget", parent);
             TG_P();
 
-            _setMouseHover(true);
-            _setMousePress(true);
+            _setMouseHoverEnabled(true);
+            _setMousePressEnabled(true);
 
             p.titleLabel = Label::create(context);
             p.titleLabel->setText(title);

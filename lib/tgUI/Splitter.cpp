@@ -46,8 +46,8 @@ namespace tg
             IWidget::_init(context, "tg::ui::Splitter", parent);
             TG_P();
             setStretch(Stretch::Expanding);
-            _setMouseHover(true);
-            _setMousePress(true);
+            _setMouseHoverEnabled(true);
+            _setMousePressEnabled(true);
             p.orientation = orientation;
         }
 

@@ -74,8 +74,8 @@ namespace tg
             if (value == p.editable)
                 return;
             p.editable = value;
-            _setMouseHover(p.editable);
-            _setMousePress(p.editable);
+            _setMouseHoverEnabled(p.editable);
+            _setMousePressEnabled(p.editable);
         }
 
         void ColorSwatch::setCallback(const std::function<void(const Color4F&)>& value)

@@ -43,8 +43,8 @@ namespace tg
 
             setAcceptsKeyFocus(true);
             setHStretch(Stretch::Expanding);
-            _setMouseHover(true);
-            _setMousePress(true);
+            _setMouseHoverEnabled(true);
+            _setMousePressEnabled(true);
 
             p.model = model;
             if (!p.model)

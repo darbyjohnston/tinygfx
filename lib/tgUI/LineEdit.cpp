@@ -135,8 +135,8 @@ namespace tg
             IWidget::_init(context, "tg::ui::LineEdit", parent);
             TG_P();
             setAcceptsKeyFocus(true);
-            _setMouseHover(true);
-            _setMousePress(true);
+            _setMouseHoverEnabled(true);
+            _setMousePressEnabled(true);
             _textUpdate();
         }
 

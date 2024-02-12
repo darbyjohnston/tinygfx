@@ -41,8 +41,8 @@ namespace tg
             {
                 IWidget::_init(context, "tg::examples::dnd::DragAndDropWidget", parent);
 
-                _setMouseHover(true);
-                _setMousePress(true);
+                _setMouseHoverEnabled(true);
+                _setMousePressEnabled(true);
 
                 _number = number;
 

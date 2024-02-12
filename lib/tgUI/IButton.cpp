@@ -31,8 +31,8 @@ namespace tg
             const std::shared_ptr<IWidget>& parent)
         {
             IWidget::_init(context, objectName, parent);
-            _setMouseHover(true);
-            _setMousePress(true);
+            _setMouseHoverEnabled(true);
+            _setMousePressEnabled(true);
         }
 
         IButton::IButton() :

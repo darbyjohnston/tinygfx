@@ -276,8 +276,8 @@ namespace tg
 
             void _setSizeHint(const core::Size2I&);
 
-            void _setMouseHover(bool);
-            void _setMousePress(bool, int button = -1, int modifiers = -1);
+            void _setMouseHoverEnabled(bool);
+            void _setMousePressEnabled(bool, int button = -1, int modifiers = -1);
             virtual void _releaseMouse();
             bool _isMouseInside() const;
             const core::V2I& _getMousePos() const;
@@ -306,14 +306,10 @@ namespace tg
             bool _mousePressEnabled = false;
             int _mousePressButton = -1;
             int _mousePressModifiers = -1;
-            struct MouseData
-            {
-                bool inside = false;
-                core::V2I pos;
-                bool press = false;
-                core::V2I pressPos;
-            };
-            MouseData _mouse;
+            bool _mouseInside = false;
+            core::V2I _mousePos;
+            bool _mousePress = false;
+            core::V2I _mousePressPos;
             bool _acceptsKeyFocus = false;
             bool _keyFocus = false;
             std::string _toolTip;

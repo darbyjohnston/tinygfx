@@ -323,12 +323,12 @@ namespace tg
 
         void IWidget::mouseEnterEvent()
         {
-            _mouse.inside = true;
+            _mouseInside = true;
         }
 
         void IWidget::mouseLeaveEvent()
         {
-            _mouse.inside = false;
+            _mouseInside = false;
         }
 
         void IWidget::mouseMoveEvent(MouseMoveEvent& event)
@@ -337,7 +337,7 @@ namespace tg
             {
                 event.accept = true;
             }
-            _mouse.pos = event.pos;
+            _mousePos = event.pos;
         }
 
         void IWidget::mousePressEvent(MouseClickEvent& event)
@@ -353,17 +353,17 @@ namespace tg
             if (_mousePressEnabled && button && modifiers)
             {
                 event.accept = true;
-                _mouse.press = true;
-                _mouse.pressPos = event.pos;
+                _mousePress = true;
+                _mousePressPos = event.pos;
             }
         }
 
         void IWidget::mouseReleaseEvent(MouseClickEvent& event)
         {
-            if (_mouse.press)
+            if (_mousePress)
             {
                 event.accept = true;
-                _mouse.press = false;
+                _mousePress = false;
             }
         }
 
@@ -396,12 +396,12 @@ namespace tg
         void IWidget::dropEvent(DragAndDropEvent&)
         {}
 
-        void IWidget::_setMouseHover(bool value)
+        void IWidget::_setMouseHoverEnabled(bool value)
         {
             _mouseHoverEnabled = value;
         }
 
-        void IWidget::_setMousePress(bool value, int button, int modifiers)
+        void IWidget::_setMousePressEnabled(bool value, int button, int modifiers)
         {
             _mousePressEnabled = value;
             _mousePressButton = button;
@@ -410,10 +410,10 @@ namespace tg
 
         void IWidget::_releaseMouse()
         {
-            if (_mouse.inside || _mouse.press)
+            if (_mouseInside || _mousePress)
             {
-                _mouse.inside = false;
-                _mouse.press = false;
+                _mouseInside = false;
+                _mousePress = false;
                 _setDrawUpdate();
             }
         }

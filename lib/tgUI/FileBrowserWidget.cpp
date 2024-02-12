@@ -66,8 +66,8 @@ namespace tg
 
             setHStretch(Stretch::Expanding);
             setVStretch(Stretch::Expanding);
-            _setMouseHover(true);
-            _setMousePress(true);
+            _setMouseHoverEnabled(true);
+            _setMousePressEnabled(true);
 
             p.path = path;
 

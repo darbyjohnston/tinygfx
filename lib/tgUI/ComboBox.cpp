@@ -163,8 +163,8 @@ namespace tg
         {
             IWidget::_init(context, "tg::ui::ComboBox", parent);
             setAcceptsKeyFocus(true);
-            _setMouseHover(true);
-            _setMousePress(true);
+            _setMouseHoverEnabled(true);
+            _setMousePressEnabled(true);
         }
 
         ComboBox::ComboBox() :

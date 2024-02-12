@@ -43,8 +43,8 @@ namespace tg
             IWidget::_init(context, "tg::ui::ScrollBar", parent);
             TG_P();
             setBackgroundRole(ColorRole::Base);
-            _setMouseHover(true);
-            _setMousePress(true);
+            _setMouseHoverEnabled(true);
+            _setMousePressEnabled(true);
             p.orientation = orientation;
         }
 
