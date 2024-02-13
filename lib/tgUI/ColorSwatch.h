@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Color Widgets
+        ///@{
+
         //! Color swatch widget.
         class ColorSwatch : public IWidget
         {
@@ -52,5 +55,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }

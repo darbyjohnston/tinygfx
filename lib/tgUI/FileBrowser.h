@@ -14,6 +14,9 @@ namespace tg
     {
         class RecentFilesModel;
 
+        //! \name File Widgets
+        ///@{
+
         //! Directory sorting.
         enum class FileBrowserSort
         {
@@ -120,5 +123,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }

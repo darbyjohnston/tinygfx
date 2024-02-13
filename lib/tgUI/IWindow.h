@@ -35,6 +35,7 @@ namespace tg
                 bool parentsVisible,
                 bool parentsEnabled,
                 const TickEvent&) override;
+            void sizeHintEvent(const SizeHintEvent&) override;
             void drawOverlayEvent(const core::Box2I&, const DrawEvent&) override;
 
         protected:

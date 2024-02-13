@@ -77,8 +77,8 @@ namespace tg
             "Checked",
             "KeyFocus",
             "Overlay",
-            "ToolTipWindow",
-            "ToolTipText",
+            "TooltipWindow",
+            "TooltipText",
 
             "InOut",
             "VideoCache",
@@ -112,8 +112,8 @@ namespace tg
             out[ColorRole::Checked] = Color4F(.6F, .4F, .2F);
             out[ColorRole::KeyFocus] = Color4F(.6F, .6F, .4F);
             out[ColorRole::Overlay] = Color4F(0.F, 0.F, 0.F, .5F);
-            out[ColorRole::ToolTipWindow] = Color4F(1.F, .95F, .7F);
-            out[ColorRole::ToolTipText] = Color4F(0.F, 0.F, 0.F);
+            out[ColorRole::TooltipWindow] = Color4F(1.F, .95F, .7F);
+            out[ColorRole::TooltipText] = Color4F(0.F, 0.F, 0.F);
 
             out[ColorRole::InOut] = Color4F(1.F, .7F, .2F, .1F);
             out[ColorRole::VideoCache] = Color4F(.2F, .4F, .4F);

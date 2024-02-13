@@ -63,8 +63,8 @@ namespace tg
             Checked,
             KeyFocus,
             Overlay,
-            ToolTipWindow,
-            ToolTipText,
+            TooltipWindow,
+            TooltipText,
 
             InOut,
             VideoCache,

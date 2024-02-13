@@ -12,6 +12,9 @@ namespace tg
     {
         class IWindow;
 
+        //! \name Dialogs
+        ///@{
+
         //! Base class for dialog widgets.
         class IDialog : public IPopup
         {
@@ -45,5 +48,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }

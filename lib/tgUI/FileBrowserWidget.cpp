@@ -77,15 +77,15 @@ namespace tg
 
             p.upButton = ToolButton::create(context);
             p.upButton->setIcon("DirectoryUp");
-            p.upButton->setToolTip("Go up a directory");
+            p.upButton->setTooltip("Go up a directory");
 
             p.reloadButton = ToolButton::create(context);
             p.reloadButton->setIcon("Reload");
-            p.reloadButton->setToolTip("Reload the current directory");
+            p.reloadButton->setTooltip("Reload the current directory");
 
             p.pathEdit = LineEdit::create(context);
             p.pathEdit->setHStretch(Stretch::Expanding);
-            p.pathEdit->setToolTip("The current directory");
+            p.pathEdit->setTooltip("Current directory");
 
             p.pathsWidget = PathsWidget::create(context);
             p.pathsScrollWidget = ScrollWidget::create(context);
@@ -98,6 +98,7 @@ namespace tg
             p.directoryScrollWidget->setVStretch(Stretch::Expanding);
 
             p.searchBox = SearchBox::create(context);
+            p.searchBox->setTooltip("Filter");
 
             std::vector<std::string> extensionsLabels;
             p.extensions.push_back(std::string());
@@ -107,14 +108,14 @@ namespace tg
             {
                 p.extensionsComboBox->setCurrentIndex(extensionsLabels.size() - 1);
             }
-            p.extensionsComboBox->setToolTip("Filter by extension");
+            p.extensionsComboBox->setTooltip("Filter by extension");
 
             p.sortComboBox = ComboBox::create(context, getFileBrowserSortLabels());
-            p.sortComboBox->setToolTip("Sorting");
+            p.sortComboBox->setTooltip("Sorting");
 
             p.reverseSortButton = ToolButton::create(context);
             p.reverseSortButton->setCheckable(true);
-            p.reverseSortButton->setToolTip("Reverse sorting");
+            p.reverseSortButton->setTooltip("Reverse sorting");
 
             p.okButton = PushButton::create(context);
             p.okButton->setText("Ok");

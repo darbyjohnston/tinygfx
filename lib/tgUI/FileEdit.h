@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name File Widgets
+        ///@{
+
         //! File edit widget.
         class FileEdit : public IWidget
         {
@@ -45,5 +48,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }

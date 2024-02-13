@@ -12,6 +12,9 @@ namespace tg
     {
         class Action;
 
+        //! \name Menu Widgets
+        ///@{
+
         //! Menu bar.
         class MenuBar : public IWidget
         {
@@ -44,5 +47,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }

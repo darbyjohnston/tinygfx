@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name MDI Widgets
+        ///@{
+
         //! MDI canvas.
         //!
         //! \todo Add support for maximizing MDI widgets.
@@ -63,5 +66,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }

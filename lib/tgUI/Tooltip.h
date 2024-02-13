@@ -10,11 +10,11 @@ namespace tg
 {
     namespace ui
     {
-        //! \name Text Widgets
+        //! \name Popup Widgets
         ///@{
         
-        //! Tool tip.
-        class ToolTip : public IPopup
+        //! Tooltip.
+        class Tooltip : public IPopup
         {
         protected:
             void _init(
@@ -23,13 +23,13 @@ namespace tg
                 const core::V2I& pos,
                 const std::shared_ptr<IWidget>&);
 
-            ToolTip();
+            Tooltip();
 
         public:
-            virtual ~ToolTip();
+            virtual ~Tooltip();
 
             //! Create a new tooltip.
-            static std::shared_ptr<ToolTip> create(
+            static std::shared_ptr<Tooltip> create(
                 const std::shared_ptr<core::Context>&,
                 const std::string& text,
                 const core::V2I& pos,

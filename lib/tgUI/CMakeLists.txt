@@ -45,10 +45,13 @@ set(HEADERS
     LayoutUtil.h
     LineEdit.h
     ListButton.h
+    ListWidget.h
     MDICanvas.h
     MDIWidget.h
     Menu.h
     MenuBar.h
+    MessageDialog.h
+    PieChart.h
     PushButton.h
     RecentFilesModel.h
     RowLayout.h
@@ -61,8 +64,9 @@ set(HEADERS
     StackLayout.h
     Style.h
     StyleInline.h
+    TabBar.h
     ToolButton.h
-    ToolTip.h
+    Tooltip.h
     WidgetOptions.h)
 set(PRIVATE_HEADERS)
 
@@ -116,10 +120,13 @@ set(SOURCE
     LayoutUtil.cpp
     LineEdit.cpp
     ListButton.cpp
+    ListWidget.cpp
     MDICanvas.cpp
     MDIWidget.cpp
     Menu.cpp
     MenuBar.cpp
+    MessageDialog.cpp
+    PieChart.cpp
     PushButton.cpp
     RecentFilesModel.cpp
     RowLayout.cpp
@@ -131,8 +138,9 @@ set(SOURCE
     Splitter.cpp
     StackLayout.cpp
     Style.cpp
+    TabBar.cpp
     ToolButton.cpp
-    ToolTip.cpp
+    Tooltip.cpp
     WidgetOptions.cpp)
 
 set(LIBRARIES_PRIVATE)

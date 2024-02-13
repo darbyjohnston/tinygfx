@@ -52,7 +52,7 @@ namespace tg
 
             p.resetButton = ToolButton::create(context);
             p.resetButton->setIcon("Reset");
-            p.resetButton->setToolTip("Reset to the default value");
+            p.resetButton->setTooltip("Reset to the default value");
 
             p.layout = HorizontalLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(SizeRole::SpacingTool);

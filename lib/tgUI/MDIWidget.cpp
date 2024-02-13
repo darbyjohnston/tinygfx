@@ -77,7 +77,7 @@ namespace tg
 
             p.closeButton = ToolButton::create(context);
             p.closeButton->setIcon("Close");
-            p.closeButton->setToolTip("Close the window");
+            p.closeButton->setTooltip("Close the window");
 
             p.layout = VerticalLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(SizeRole::None);

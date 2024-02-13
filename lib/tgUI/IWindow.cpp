@@ -4,7 +4,7 @@
 
 #include <tgUI/IWindow.h>
 
-#include <tgUI/ToolTip.h>
+#include <tgUI/Tooltip.h>
 #include <tgUI/IClipboard.h>
 
 using namespace tg::core;
@@ -15,8 +15,7 @@ namespace tg
     {
         namespace
         {
-            std::chrono::milliseconds toolTipTimeout(1000);
-            float toolTipDistance = 10.F;
+            std::chrono::milliseconds tooltipTimeout(1000);
         }
 
         struct IWindow::Private
@@ -35,11 +34,17 @@ namespace tg
             V2I dndCursorHotspot;
             std::weak_ptr<IWidget> dndHover;
 
-            std::shared_ptr<ToolTip> toolTip;
-            V2I toolTipPos;
-            std::chrono::steady_clock::time_point toolTipTimer;
+            std::shared_ptr<Tooltip> tooltip;
+            V2I tooltipPos;
+            std::chrono::steady_clock::time_point tooltipTimer;
 
             std::shared_ptr<IClipboard> clipboard;
+
+            struct SizeData
+            {
+                int dl = 0;
+            };
+            SizeData size;
         };
 
         IWindow::IWindow() :
@@ -132,9 +137,9 @@ namespace tg
         {
             IWidget::tickEvent(parentsVisible, parentsEnabled, event);
             TG_P();
-            const auto toolTipTime = std::chrono::steady_clock::now();
-            const auto toolTipDiff = std::chrono::duration_cast<std::chrono::milliseconds>(toolTipTime - p.toolTipTimer);
-            if (toolTipDiff > toolTipTimeout && !p.toolTip)
+            const auto tooltipTime = std::chrono::steady_clock::now();
+            const auto tooltipDiff = std::chrono::duration_cast<std::chrono::milliseconds>(tooltipTime - p.tooltipTimer);
+            if (tooltipDiff > tooltipTimeout && !p.tooltip)
             {
                 if (auto context = _getContext().lock())
                 {
@@ -142,7 +147,7 @@ namespace tg
                     auto widgets = _getUnderCursor(p.cursorPos);
                     while (!widgets.empty())
                     {
-                        text = widgets.front()->getToolTip();
+                        text = widgets.front()->getTooltip();
                         if (!text.empty())
                         {
                             break;
@@ -151,15 +156,21 @@ namespace tg
                     }
                     if (!text.empty())
                     {
-                        p.toolTip = ToolTip::create(
+                        p.tooltip = Tooltip::create(
                             context,
                             text,
                             p.cursorPos,
                             shared_from_this());
-                        p.toolTipPos = p.cursorPos;
+                        p.tooltipPos = p.cursorPos;
                     }
                 }
             }
+        }
+        void IWindow::sizeHintEvent(const SizeHintEvent& event)
+        {
+            IWidget::sizeHintEvent(event);
+            TG_P();
+            p.size.dl = event.style->getSizeRole(SizeRole::DragLength, event.displayScale);
         }
 
         void IWindow::drawOverlayEvent(const Box2I& clipRect, const DrawEvent& event)
@@ -369,15 +380,15 @@ namespace tg
                 _setDrawUpdate();
             }
 
-            if (length(p.cursorPos - p.toolTipPos) > toolTipDistance)
+            if (length(p.cursorPos - p.tooltipPos) > p.size.dl)
             {
-                if (p.toolTip)
+                if (p.tooltip)
                 {
-                    p.toolTip->close();
-                    p.toolTip.reset();
+                    p.tooltip->close();
+                    p.tooltip.reset();
                 }
-                p.toolTipTimer = std::chrono::steady_clock::now();
-                p.toolTipPos = p.cursorPos;
+                p.tooltipTimer = std::chrono::steady_clock::now();
+                p.tooltipPos = p.cursorPos;
             }
         }
 

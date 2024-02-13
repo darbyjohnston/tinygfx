@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/ToolTip.h>
+#include <tgUI/Tooltip.h>
 
 #include <tgUI/DrawUtil.h>
 #include <tgUI/IWindow.h>
@@ -14,7 +14,7 @@ namespace tg
 {
     namespace ui
     {
-        struct ToolTip::Private
+        struct Tooltip::Private
         {
             V2I pos;
 
@@ -31,49 +31,49 @@ namespace tg
             SizeData size;
         };
 
-        void ToolTip::_init(
+        void Tooltip::_init(
             const std::shared_ptr<Context>& context,
             const std::string& text,
             const V2I& pos,
             const std::shared_ptr<IWidget>& window)
         {
-            IPopup::_init(context, "tg::ui::ToolTip", nullptr);
+            IPopup::_init(context, "tg::ui::Tooltip", nullptr);
             TG_P();
 
             p.pos = pos;
 
             p.label = Label::create(context, shared_from_this());
             p.label->setText(text);
-            p.label->setTextRole(ColorRole::ToolTipText);
+            p.label->setTextRole(ColorRole::TooltipText);
             p.label->setMarginRole(SizeRole::MarginSmall);
 
             setParent(window);
         }
 
-        ToolTip::ToolTip() :
+        Tooltip::Tooltip() :
             _p(new Private)
         {}
 
-        ToolTip::~ToolTip()
+        Tooltip::~Tooltip()
         {}
 
-        std::shared_ptr<ToolTip> ToolTip::create(
+        std::shared_ptr<Tooltip> Tooltip::create(
             const std::shared_ptr<Context>& context,
             const std::string& text,
             const V2I& pos,
             const std::shared_ptr<IWidget>& window)
         {
-            auto out = std::shared_ptr<ToolTip>(new ToolTip);
+            auto out = std::shared_ptr<Tooltip>(new Tooltip);
             out->_init(context, text, pos, window);
             return out;
         }
 
-        void ToolTip::close()
+        void Tooltip::close()
         {
             setParent(nullptr);
         }
 
-        void ToolTip::setGeometry(const Box2I& value)
+        void Tooltip::setGeometry(const Box2I& value)
         {
             IPopup::setGeometry(value);
             TG_P();
@@ -122,7 +122,7 @@ namespace tg
             p.label->setGeometry(g);
         }
 
-        void ToolTip::sizeHintEvent(const SizeHintEvent& event)
+        void Tooltip::sizeHintEvent(const SizeHintEvent& event)
         {
             IPopup::sizeHintEvent(event);
             TG_P();
@@ -137,7 +137,7 @@ namespace tg
             }
         }
 
-        void ToolTip::drawEvent(
+        void Tooltip::drawEvent(
             const Box2I& drawRect,
             const DrawEvent& event)
         {
@@ -162,7 +162,7 @@ namespace tg
                 
             event.render->drawRect(
                 Box2F(g.x(), g.y(), g.w(), g.h()),
-                event.style->getColorRole(ColorRole::ToolTipWindow));
+                event.style->getColorRole(ColorRole::TooltipWindow));
         }
     }
 }

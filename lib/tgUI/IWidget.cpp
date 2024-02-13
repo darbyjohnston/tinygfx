@@ -266,9 +266,9 @@ namespace tg
             }
         }
 
-        void IWidget::setToolTip(const std::string& value)
+        void IWidget::setTooltip(const std::string& value)
         {
-            _toolTip = value;
+            _tooltip = value;
         }
 
         void IWidget::childAddedEvent(const ChildEvent&)

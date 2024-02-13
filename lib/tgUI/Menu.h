@@ -11,6 +11,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Menu Widgets
+        ///@{
+
         //! Menu.
         //!
         //! \todo Automatically open/close sub menus.
@@ -55,5 +58,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }

@@ -156,7 +156,7 @@ namespace tg
             TG_P();
             auto button = ListButton::create(context, parent);
             button->setText(text);
-            button->setToolTip(toolTip);
+            button->setTooltip(toolTip);
             p.buttons.push_back(button);
             p.buttonGroup->addButton(button);
         }

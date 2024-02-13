@@ -189,11 +189,11 @@ namespace tg
             //! Tool tips.
             ///@{
 
-            //! Get the tool tip.
-            const std::string& getToolTip() const;
+            //! Get the tooltip.
+            const std::string& getTooltip() const;
 
-            //! Set the tool tip.
-            void setToolTip(const std::string&);
+            //! Set the tooltip.
+            void setTooltip(const std::string&);
 
             ///@}
 
@@ -312,7 +312,7 @@ namespace tg
             core::V2I _mousePressPos;
             bool _acceptsKeyFocus = false;
             bool _keyFocus = false;
-            std::string _toolTip;
+            std::string _tooltip;
         };
     }
 }

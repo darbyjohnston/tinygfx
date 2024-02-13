@@ -39,11 +39,11 @@ namespace tg
 
             p.browseButton = ToolButton::create(context);
             p.browseButton->setIcon("FileBrowser");
-            p.browseButton->setToolTip("Show the file browser");
+            p.browseButton->setTooltip("Show the file browser");
 
             p.clearButton = ToolButton::create(context);
             p.clearButton->setIcon("Reset");
-            p.clearButton->setToolTip("Reset the file name");
+            p.clearButton->setTooltip("Reset the file name");
 
             p.layout = HorizontalLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(SizeRole::SpacingTool);

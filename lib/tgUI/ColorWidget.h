@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Color Widgets
+        ///@{
+
         //! Color widget.
         //!
         //! \todo Additional color modes like grayscale, hsv, etc.
@@ -49,5 +52,7 @@ namespace tg
 
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }

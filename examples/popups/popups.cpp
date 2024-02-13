@@ -89,9 +89,9 @@ namespace tg
                 auto groupBox = GroupBox::create(context, "Combo Boxes", scrollLayout);
                 auto vLayout = VerticalLayout::create(context, groupBox);
                 auto comboBox = ComboBox::create(context, getEndianLabels(), vLayout);
-                comboBox->setToolTip("Endian types");
+                comboBox->setTooltip("Endian types");
                 comboBox = ComboBox::create(context, getImageTypeLabels(), vLayout);
-                comboBox->setToolTip("Image types");
+                comboBox->setTooltip("Image types");
 
                 // Create color swatches.
                 groupBox = GroupBox::create(context, "Color Popups", scrollLayout);

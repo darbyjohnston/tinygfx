@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Actions
+        ///@{
+
         //! Action.
         struct Action
         {
@@ -61,5 +64,7 @@ namespace tg
             std::function<void(bool)> checkedCallback;
             std::string               toolTip;
         };
+
+        ///@}
     }
 }

@@ -32,11 +32,10 @@ namespace tg
 
             p.lineEdit = LineEdit::create(context);
             p.lineEdit->setHStretch(Stretch::Expanding);
-            p.lineEdit->setToolTip("Search");
 
             p.clearButton = ToolButton::create(context);
             p.clearButton->setIcon("Reset");
-            p.clearButton->setToolTip("Clear the search");
+            p.clearButton->setTooltip("Clear the search");
 
             p.layout = HorizontalLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(SizeRole::SpacingTool);

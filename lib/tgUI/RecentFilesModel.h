@@ -18,7 +18,7 @@ namespace tg
 
     namespace ui
     {
-        //! \name File Browser
+        //! \name File Widgets
         ///@{
         
         //! Recent files model.

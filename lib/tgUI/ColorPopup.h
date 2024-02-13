@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name Color Widgets
+        ///@{
+
         //! Color popup.
         class ColorPopup : public IWidgetPopup
         {
@@ -36,5 +39,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }

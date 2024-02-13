@@ -12,6 +12,9 @@ namespace tg
     {
         class IWindow;
 
+        //! \name Popup Widgets
+        ///@{
+
         //! Base class for popup widgets.
         class IWidgetPopup : public IPopup
         {
@@ -53,5 +56,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }

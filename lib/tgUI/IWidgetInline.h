@@ -113,9 +113,9 @@ namespace tg
             return _keyFocus;
         }
 
-        inline const std::string& IWidget::getToolTip() const
+        inline const std::string& IWidget::getTooltip() const
         {
-            return _toolTip;
+            return _tooltip;
         }
 
         inline const std::weak_ptr<core::Context>& IWidget::_getContext() const

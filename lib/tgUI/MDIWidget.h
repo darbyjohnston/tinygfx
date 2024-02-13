@@ -10,6 +10,9 @@ namespace tg
 {
     namespace ui
     {
+        //! \name MDI Widgets
+        ///@{
+
         //! MDI resize directions.
         enum class MDIResize
         {
@@ -83,5 +86,7 @@ namespace tg
         private:
             TG_PRIVATE();
         };
+
+        ///@}
     }
 }
