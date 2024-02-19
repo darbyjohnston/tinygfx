@@ -373,13 +373,25 @@ namespace tg
             switch (imageOptions.alphaBlend)
             {
             case AlphaBlend::None:
+#if defined(TINYGFX_API_GL_4_1)
                 glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ONE, GL_ZERO);
+#elif defined(TINYGFX_API_GLES_2)
+                glBlendFunc(GL_ONE, GL_ZERO);
+#endif // TINYGFX_API_GL_4_1
                 break;
             case AlphaBlend::Straight:
+#if defined(TINYGFX_API_GL_4_1)
                 glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+#elif defined(TINYGFX_API_GLES_2)
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+#endif // TINYGFX_API_GL_4_1
                 break;
             case AlphaBlend::Premultiplied:
+#if defined(TINYGFX_API_GL_4_1)
                 glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+#elif defined(TINYGFX_API_GLES_2)
+                glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+#endif // TINYGFX_API_GL_4_1
                 break;
             default: break;
             }
