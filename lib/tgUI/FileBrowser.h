@@ -43,6 +43,8 @@ namespace tg
         };
 
         //! File browser.
+        //!
+        //! \todo Add back and forward buttons.
         class FileBrowser : public IDialog
         {
         protected:
