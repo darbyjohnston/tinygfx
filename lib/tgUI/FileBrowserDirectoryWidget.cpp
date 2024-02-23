@@ -201,9 +201,9 @@ namespace tg
                 const FileBrowserOptions& options,
                 std::vector<FileInfo>& out)
             {
-                for (const auto& i : std::filesystem::directory_iterator(value))
+                try
                 {
-                    try
+                    for (const auto& i : std::filesystem::directory_iterator(value))
                     {
                         const auto& path = i.path();
                         const std::string fileName = path.filename().string();
@@ -239,9 +239,10 @@ namespace tg
                                 std::filesystem::last_write_time(path) });
                         }
                     }
-                    catch (const std::exception&)
-                    {}
                 }
+                catch (const std::exception&)
+                {}
+
                 std::function<int(const FileInfo& a, const FileInfo& b)> sort;
                 switch (options.sort)
                 {
