@@ -41,6 +41,8 @@ namespace tg
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:
+            void _textUpdate();
+            
             TG_PRIVATE();
         };
 

@@ -17,7 +17,7 @@ namespace tg
         struct SearchBox::Private
         {
             std::shared_ptr<LineEdit> lineEdit;
-            std::shared_ptr<ToolButton> clearButton;
+            std::shared_ptr<ToolButton> button;
             std::shared_ptr<HorizontalLayout> layout;
 
             std::function<void(const std::string&)> callback;
@@ -33,30 +33,30 @@ namespace tg
             p.lineEdit = LineEdit::create(context);
             p.lineEdit->setHStretch(Stretch::Expanding);
 
-            p.clearButton = ToolButton::create(context);
-            p.clearButton->setIcon("Reset");
-            p.clearButton->setTooltip("Clear the search");
+            p.button = ToolButton::create(context);
 
             p.layout = HorizontalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(SizeRole::SpacingTool);
+            p.layout->setSpacingRole(SizeRole::None);
             p.lineEdit->setParent(p.layout);
-            p.clearButton->setParent(p.layout);
+            p.button->setParent(p.layout);
 
+            _textUpdate();
+            
             p.lineEdit->setTextChangedCallback(
                 [this](const std::string& value)
                 {
-                    _p->clearButton->setEnabled(!value.empty());
+                    _textUpdate();
                     if (_p->callback)
                     {
                         _p->callback(value);
                     }
                 });
 
-            p.clearButton->setClickedCallback(
+            p.button->setClickedCallback(
                 [this]
                 {
                     _p->lineEdit->clearText();
-                    _p->clearButton->setEnabled(false);
+                    _textUpdate();
                     if (_p->callback)
                     {
                         _p->callback(std::string());
@@ -83,7 +83,7 @@ namespace tg
         void SearchBox::setText(const std::string& value)
         {
             _p->lineEdit->setText(value);
-            _p->clearButton->setEnabled(!value.empty());
+            _textUpdate();
         }
 
         void SearchBox::setCallback(const std::function<void(const std::string&)>& value)
@@ -102,5 +102,13 @@ namespace tg
             IWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
+        
+        void SearchBox::_textUpdate()
+        {
+            TG_P();
+            const std::string& text = p.lineEdit->getText();
+            p.button->setEnabled(!text.empty());
+            p.button->setIcon(text.empty() ? "Search" : "Clear");
+       }
     }
 }
