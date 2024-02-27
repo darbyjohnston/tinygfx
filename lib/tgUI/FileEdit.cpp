@@ -43,7 +43,7 @@ namespace tg
 
             p.clearButton = ToolButton::create(context);
             p.clearButton->setIcon("Reset");
-            p.clearButton->setTooltip("Reset the file name");
+            p.clearButton->setTooltip("Clear the file name");
 
             p.layout = HorizontalLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(SizeRole::SpacingTool);

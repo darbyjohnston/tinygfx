@@ -56,21 +56,25 @@ namespace tg
         IWindow::~IWindow()
         {}
 
-        void IWindow::setKeyFocus(const std::shared_ptr<IWidget>&value)
+        void IWindow::setKeyFocus(const std::shared_ptr<IWidget>& value)
         {
             TG_P();
             if (value == p.keyFocus.lock())
                 return;
             if (auto widget = p.keyFocus.lock())
             {
+                p.keyFocus.reset();
                 widget->keyFocusEvent(false);
                 _setDrawUpdate();
             }
-            p.keyFocus = value;
-            if (auto widget = p.keyFocus.lock())
+            if (value && value->acceptsKeyFocus())
             {
-                widget->keyFocusEvent(true);
-                _setDrawUpdate();
+                p.keyFocus = value;
+                if (auto widget = p.keyFocus.lock())
+                {
+                    widget->keyFocusEvent(true);
+                    _setDrawUpdate();
+                }
             }
         }
 
@@ -144,7 +148,7 @@ namespace tg
                 if (auto context = _getContext().lock())
                 {
                     std::string text;
-                    auto widgets = _getUnderCursor(p.cursorPos);
+                    auto widgets = _getUnderCursor(UnderCursor::Tooltip, p.cursorPos);
                     while (!widgets.empty())
                     {
                         text = widgets.front()->getTooltip();
@@ -275,6 +279,7 @@ namespace tg
             int modifiers)
         {
             TG_P();
+            _closeTooltip();
             p.keyEvent.key = key;
             p.keyEvent.modifiers = modifiers;
             p.keyEvent.pos = p.cursorPos;
@@ -299,7 +304,7 @@ namespace tg
                 // Send event to the hovered widget.
                 if (!p.keyEvent.accept)
                 {
-                    auto widgets = _getUnderCursor(p.cursorPos);
+                    auto widgets = _getUnderCursor(UnderCursor::Hover, p.cursorPos);
                     for (auto i = widgets.begin(); i != widgets.end(); ++i)
                     {
                         (*i)->keyPressEvent(p.keyEvent);
@@ -336,9 +341,8 @@ namespace tg
         void IWindow::_text(const std::string& value)
         {
             TG_P();
+            _closeTooltip();
             TextEvent event(value);
-
-            // Send event to the focused widget.
             if (auto widget = p.keyFocus.lock())
             {
                 while (widget)
@@ -349,20 +353,6 @@ namespace tg
                         break;
                     }
                     widget = widget->getParent().lock();
-                }
-            }
-
-            // Send event to the hovered widget.
-            if (!event.accept)
-            {
-                auto widgets = _getUnderCursor(p.cursorPos);
-                for (auto i = widgets.begin(); i != widgets.end(); ++i)
-                {
-                    (*i)->textEvent(event);
-                    if (event.accept)
-                    {
-                        break;
-                    }
                 }
             }
         }
@@ -395,7 +385,7 @@ namespace tg
                         p.cursorPosPrev,
                         p.dndData);
                     auto hover = p.dndHover.lock();
-                    auto widgets = _getUnderCursor(p.cursorPos);
+                    auto widgets = _getUnderCursor(UnderCursor::Hover, p.cursorPos);
                     std::shared_ptr<IWidget> widget;
                     while (!widgets.empty())
                     {
@@ -461,26 +451,21 @@ namespace tg
 
             if (length(p.cursorPos - p.tooltipPos) > p.size.dl)
             {
-                if (p.tooltip)
-                {
-                    p.tooltip->close();
-                    p.tooltip.reset();
-                }
-                p.tooltipTimer = std::chrono::steady_clock::now();
-                p.tooltipPos = p.cursorPos;
+                _closeTooltip();
             }
         }
 
         void IWindow::_mouseButton(int button, bool press, int modifiers)
         {
             TG_P();
+            _closeTooltip();
             p.mouseClickEvent.button = button;
             p.mouseClickEvent.modifiers = modifiers;
             p.mouseClickEvent.pos = p.cursorPos;
             p.mouseClickEvent.accept = false;
             if (press)
             {
-                auto widgets = _getUnderCursor(p.cursorPos);
+                auto widgets = _getUnderCursor(UnderCursor::Hover, p.cursorPos);
                 auto i = widgets.begin();
                 for (; i != widgets.end(); ++i)
                 {
@@ -537,8 +522,9 @@ namespace tg
         void IWindow::_scroll(const V2F& value, int modifiers)
         {
             TG_P();
+            _closeTooltip();
             ScrollEvent event(value, modifiers, p.cursorPos);
-            auto widgets = _getUnderCursor(p.cursorPos);
+            auto widgets = _getUnderCursor(UnderCursor::Hover, p.cursorPos);
             for (auto i = widgets.begin(); i != widgets.end(); ++i)
             {
                 (*i)->scrollEvent(event);
@@ -574,28 +560,31 @@ namespace tg
         void IWindow::_drop(const std::vector<std::string>&)
         {}
 
-        std::list<std::shared_ptr<IWidget> > IWindow::_getUnderCursor(const V2I& pos)
+        std::list<std::shared_ptr<IWidget> > IWindow::_getUnderCursor(
+            UnderCursor type,
+            const V2I& pos)
         {
             TG_P();
             std::list<std::shared_ptr<IWidget> > out;
-            _getUnderCursor(shared_from_this(), pos, out);
+            _getUnderCursor(type, shared_from_this(), pos, out);
             return out;
         }
 
         void IWindow::_getUnderCursor(
+            UnderCursor type,
             const std::shared_ptr<IWidget>& widget,
             const V2I& pos,
             std::list<std::shared_ptr<IWidget> >& out)
         {
             if (!widget->isClipped() &&
-                widget->isEnabled() &&
+                (UnderCursor::Tooltip == type ? true : widget->isEnabled()) &&
                 contains(widget->getGeometry(), pos))
             {
                 for (auto i = widget->getChildren().rbegin();
                     i != widget->getChildren().rend();
                     ++i)
                 {
-                    _getUnderCursor(*i, pos, out);
+                    _getUnderCursor(type, *i, pos, out);
                 }
                 out.push_back(widget);
             }
@@ -636,7 +625,7 @@ namespace tg
 
         void IWindow::_hoverUpdate(MouseMoveEvent& event)
         {
-            auto widgets = _getUnderCursor(event.pos);
+            auto widgets = _getUnderCursor(UnderCursor::Hover, event.pos);
             while (!widgets.empty())
             {
                 if (widgets.front()->hasMouseHover())
@@ -729,6 +718,18 @@ namespace tg
                 }
             }
             return out;
+        }
+
+        void IWindow::_closeTooltip()
+        {
+            TG_P();
+            if (p.tooltip)
+            {
+                p.tooltip->close();
+                p.tooltip.reset();
+            }
+            p.tooltipTimer = std::chrono::steady_clock::now();
+            p.tooltipPos = p.cursorPos;
         }
     }
 }

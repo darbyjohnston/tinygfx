@@ -65,8 +65,16 @@ namespace tg
             virtual void _drop(const std::vector<std::string>&);
 
         private:
-            std::list<std::shared_ptr<IWidget> > _getUnderCursor(const core::V2I&);
+            enum class UnderCursor
+            {
+                Hover,
+                Tooltip
+            };
+            std::list<std::shared_ptr<IWidget> > _getUnderCursor(
+                UnderCursor,
+                const core::V2I&);
             void _getUnderCursor(
+                UnderCursor,
                 const std::shared_ptr<IWidget>&,
                 const core::V2I&,
                 std::list<std::shared_ptr<IWidget> >&);
@@ -79,6 +87,8 @@ namespace tg
                 std::list<std::shared_ptr<IWidget> >&);
             std::shared_ptr<IWidget> _nextKeyFocus(const std::shared_ptr<IWidget>&);
             std::shared_ptr<IWidget> _prevKeyFocus(const std::shared_ptr<IWidget>&);
+
+            void _closeTooltip();
 
             TG_PRIVATE();
         };

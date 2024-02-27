@@ -450,97 +450,63 @@ namespace tg
         void LineEdit::keyPressEvent(KeyEvent& event)
         {
             TG_P();
-            switch (event.key)
+            if (hasKeyFocus())
             {
-            case Key::Up:
-            case Key::Down:
-            case Key::PageUp:
-            case Key::PageDown:
-            case Key::Tab:
-                break;
-            default: event.accept = true; break;
-            }
-            switch (event.key)
-            {
-            case Key::A:
-                if (event.modifiers & static_cast<int>(ui::KeyModifier::Control))
+                switch (event.key)
                 {
-                    p.selection.clear();
-                    p.selection.select(0, p.text.size());
-                    _setDrawUpdate();
-                }
-                break;
-            case Key::C:
-                if (event.modifiers & static_cast<int>(ui::KeyModifier::Control))
-                {
-                    if (p.selection.isValid())
+                case Key::A:
+                    event.accept = true;
+                    if (event.modifiers & static_cast<int>(ui::KeyModifier::Control))
+                    {
+                        p.selection.clear();
+                        p.selection.select(0, p.text.size());
+                        _setDrawUpdate();
+                    }
+                    break;
+                case Key::C:
+                    event.accept = true;
+                    if (event.modifiers & static_cast<int>(ui::KeyModifier::Control))
+                    {
+                        if (p.selection.isValid())
+                        {
+                            if (auto window = getWindow())
+                            {
+                                if (auto clipboard = window->getClipboard())
+                                {
+                                    const auto selection = p.selection.getSorted();
+                                    const std::string text = p.text.substr(
+                                        selection.first,
+                                        selection.second - selection.first);
+                                    clipboard->setText(text);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case Key::V:
+                    event.accept = true;
+                    if (event.modifiers & static_cast<int>(ui::KeyModifier::Control))
                     {
                         if (auto window = getWindow())
                         {
                             if (auto clipboard = window->getClipboard())
                             {
-                                const auto selection = p.selection.getSorted();
-                                const std::string text = p.text.substr(
-                                    selection.first,
-                                    selection.second - selection.first);
-                                clipboard->setText(text);
-                            }
-                        }
-                    }
-                }
-                break;
-            case Key::V:
-                if (event.modifiers & static_cast<int>(ui::KeyModifier::Control))
-                {
-                    if (auto window = getWindow())
-                    {
-                        if (auto clipboard = window->getClipboard())
-                        {
-                            const std::string text = clipboard->getText();
-                            if (p.selection.isValid())
-                            {
-                                const auto selection = p.selection.getSorted();
-                                p.text.replace(
-                                    selection.first,
-                                    selection.second - selection.first,
-                                    text);
-                                p.selection.clear();
-                                p.cursorPos = selection.first + text.size();
-                            }
-                            else
-                            {
-                                p.text.insert(p.cursorPos, text);
-                                p.cursorPos += text.size();
-                            }
-                            if (p.textChangedCallback)
-                            {
-                                p.textChangedCallback(p.text);
-                            }
-                            _textUpdate();
-                        }
-                    }
-                }
-                break;
-            case Key::X:
-                if (event.modifiers & static_cast<int>(ui::KeyModifier::Control))
-                {
-                    if (p.selection.isValid())
-                    {
-                        if (auto window = getWindow())
-                        {
-                            if (auto clipboard = window->getClipboard())
-                            {
-                                const auto selection = p.selection.getSorted();
-                                const std::string text = p.text.substr(
-                                    selection.first,
-                                    selection.second - selection.first);
-                                clipboard->setText(text);
-                                p.text.replace(
-                                    selection.first,
-                                    selection.second - selection.first,
-                                    "");
-                                p.selection.clear();
-                                p.cursorPos = selection.first;
+                                const std::string text = clipboard->getText();
+                                if (p.selection.isValid())
+                                {
+                                    const auto selection = p.selection.getSorted();
+                                    p.text.replace(
+                                        selection.first,
+                                        selection.second - selection.first,
+                                        text);
+                                    p.selection.clear();
+                                    p.cursorPos = selection.first + text.size();
+                                }
+                                else
+                                {
+                                    p.text.insert(p.cursorPos, text);
+                                    p.cursorPos += text.size();
+                                }
                                 if (p.textChangedCallback)
                                 {
                                     p.textChangedCallback(p.text);
@@ -549,150 +515,186 @@ namespace tg
                             }
                         }
                     }
-                }
-                break;
-            case Key::Left:
-                if (p.cursorPos > 0)
-                {
-                    if (event.modifiers & static_cast<int>(ui::KeyModifier::Shift))
+                    break;
+                case Key::X:
+                    event.accept = true;
+                    if (event.modifiers & static_cast<int>(ui::KeyModifier::Control))
                     {
-                        p.selection.select(p.cursorPos, p.cursorPos - 1);
+                        if (p.selection.isValid())
+                        {
+                            if (auto window = getWindow())
+                            {
+                                if (auto clipboard = window->getClipboard())
+                                {
+                                    const auto selection = p.selection.getSorted();
+                                    const std::string text = p.text.substr(
+                                        selection.first,
+                                        selection.second - selection.first);
+                                    clipboard->setText(text);
+                                    p.text.replace(
+                                        selection.first,
+                                        selection.second - selection.first,
+                                        "");
+                                    p.selection.clear();
+                                    p.cursorPos = selection.first;
+                                    if (p.textChangedCallback)
+                                    {
+                                        p.textChangedCallback(p.text);
+                                    }
+                                    _textUpdate();
+                                }
+                            }
+                        }
                     }
-                    else
+                    break;
+                case Key::Left:
+                    event.accept = true;
+                    if (p.cursorPos > 0)
                     {
+                        if (event.modifiers & static_cast<int>(ui::KeyModifier::Shift))
+                        {
+                            p.selection.select(p.cursorPos, p.cursorPos - 1);
+                        }
+                        else
+                        {
+                            p.selection.clear();
+                        }
+
+                        p.cursorPos--;
+                        p.cursorVisible = true;
+                        p.cursorTimer = std::chrono::steady_clock::now();
+
+                        _setDrawUpdate();
+                    }
+                    break;
+                case Key::Right:
+                    event.accept = true;
+                    if (p.cursorPos < p.text.size())
+                    {
+                        if (event.modifiers & static_cast<int>(ui::KeyModifier::Shift))
+                        {
+                            p.selection.select(p.cursorPos, p.cursorPos + 1);
+                        }
+                        else
+                        {
+                            p.selection.clear();
+                        }
+
+                        p.cursorPos++;
+                        p.cursorVisible = true;
+                        p.cursorTimer = std::chrono::steady_clock::now();
+
+                        _setDrawUpdate();
+                    }
+                    break;
+                case Key::Home:
+                    event.accept = true;
+                    if (p.cursorPos > 0)
+                    {
+                        if (event.modifiers & static_cast<int>(ui::KeyModifier::Shift))
+                        {
+                            p.selection.select(p.cursorPos, 0);
+                        }
+                        else
+                        {
+                            p.selection.clear();
+                        }
+
+                        p.cursorPos = 0;
+                        p.cursorVisible = true;
+                        p.cursorTimer = std::chrono::steady_clock::now();
+
+                        _setDrawUpdate();
+                    }
+                    break;
+                case Key::End:
+                    event.accept = true;
+                    if (p.cursorPos < p.text.size())
+                    {
+                        if (event.modifiers & static_cast<int>(ui::KeyModifier::Shift))
+                        {
+                            p.selection.select(p.cursorPos, p.text.size());
+                        }
+                        else
+                        {
+                            p.selection.clear();
+                        }
+
+                        p.cursorPos = p.text.size();
+                        p.cursorVisible = true;
+                        p.cursorTimer = std::chrono::steady_clock::now();
+
+                        _setDrawUpdate();
+                    }
+                    break;
+                case Key::Backspace:
+                    event.accept = true;
+                    if (p.selection.isValid())
+                    {
+                        const auto selection = p.selection.getSorted();
+                        p.text.erase(
+                            selection.first,
+                            selection.second - selection.first);
                         p.selection.clear();
+                        p.cursorPos = selection.first;
+                        if (p.textChangedCallback)
+                        {
+                            p.textChangedCallback(p.text);
+                        }
+                        _textUpdate();
                     }
-
-                    p.cursorPos--;
-                    p.cursorVisible = true;
-                    p.cursorTimer = std::chrono::steady_clock::now();
-                    
-                    _setDrawUpdate();
-                }
-                break;
-            case Key::Right:
-                if (p.cursorPos < p.text.size())
-                {
-                    if (event.modifiers & static_cast<int>(ui::KeyModifier::Shift))
+                    else if (p.cursorPos > 0)
                     {
-                        p.selection.select(p.cursorPos, p.cursorPos + 1);
+                        const auto i = p.text.begin() + p.cursorPos - 1;
+                        p.text.erase(i);
+                        p.cursorPos--;
+                        if (p.textChangedCallback)
+                        {
+                            p.textChangedCallback(p.text);
+                        }
+                        _textUpdate();
                     }
-                    else
+                    break;
+                case Key::Delete:
+                    event.accept = true;
+                    if (p.selection.isValid())
                     {
+                        const auto selection = p.selection.getSorted();
+                        p.text.erase(
+                            selection.first,
+                            selection.second - selection.first);
                         p.selection.clear();
+                        p.cursorPos = selection.first;
+                        if (p.textChangedCallback)
+                        {
+                            p.textChangedCallback(p.text);
+                        }
+                        _textUpdate();
                     }
-
-                    p.cursorPos++;
-                    p.cursorVisible = true;
-                    p.cursorTimer = std::chrono::steady_clock::now();
-
-                    _setDrawUpdate();
-                }
-                break;
-            case Key::Home:
-                if (p.cursorPos > 0)
-                {
-                    if (event.modifiers & static_cast<int>(ui::KeyModifier::Shift))
+                    else if (p.cursorPos < p.text.size())
                     {
-                        p.selection.select(p.cursorPos, 0);
+                        const auto i = p.text.begin() + p.cursorPos;
+                        p.text.erase(i);
+                        if (p.textChangedCallback)
+                        {
+                            p.textChangedCallback(p.text);
+                        }
+                        _textUpdate();
                     }
-                    else
+                    break;
+                case Key::Enter:
+                    event.accept = true;
+                    if (p.textCallback)
                     {
-                        p.selection.clear();
+                        p.textCallback(p.text);
                     }
-
-                    p.cursorPos = 0;
-                    p.cursorVisible = true;
-                    p.cursorTimer = std::chrono::steady_clock::now();
-
-                    _setDrawUpdate();
-                }
-                break;
-            case Key::End:
-                if (p.cursorPos < p.text.size())
-                {
-                    if (event.modifiers & static_cast<int>(ui::KeyModifier::Shift))
-                    {
-                        p.selection.select(p.cursorPos, p.text.size());
-                    }
-                    else
-                    {
-                        p.selection.clear();
-                    }
-
-                    p.cursorPos = p.text.size();
-                    p.cursorVisible = true;
-                    p.cursorTimer = std::chrono::steady_clock::now();
-
-                    _setDrawUpdate();
-                }
-                break;
-            case Key::Backspace:
-                if (p.selection.isValid())
-                {
-                    const auto selection = p.selection.getSorted();
-                    p.text.erase(
-                        selection.first,
-                        selection.second - selection.first);
-                    p.selection.clear();
-                    p.cursorPos = selection.first;
-                    if (p.textChangedCallback)
-                    {
-                        p.textChangedCallback(p.text);
-                    }
-                    _textUpdate();
-                }
-                else if (p.cursorPos > 0)
-                {
-                    const auto i = p.text.begin() + p.cursorPos - 1;
-                    p.text.erase(i);
-                    p.cursorPos--;
-                    if (p.textChangedCallback)
-                    {
-                        p.textChangedCallback(p.text);
-                    }
-                    _textUpdate();
-                }
-                break;
-            case Key::Delete:
-                if (p.selection.isValid())
-                {
-                    const auto selection = p.selection.getSorted();
-                    p.text.erase(
-                        selection.first,
-                        selection.second - selection.first);
-                    p.selection.clear();
-                    p.cursorPos = selection.first;
-                    if (p.textChangedCallback)
-                    {
-                        p.textChangedCallback(p.text);
-                    }
-                    _textUpdate();
-                }
-                else if (p.cursorPos < p.text.size())
-                {
-                    const auto i = p.text.begin() + p.cursorPos;
-                    p.text.erase(i);
-                    if (p.textChangedCallback)
-                    {
-                        p.textChangedCallback(p.text);
-                    }
-                    _textUpdate();
-                }
-                break;
-            case Key::Enter:
-                if (p.textCallback)
-                {
-                    p.textCallback(p.text);
-                }
-                break;
-            case Key::Escape:
-                if (hasKeyFocus())
-                {
+                    break;
+                case Key::Escape:
+                    event.accept = true;
                     releaseKeyFocus();
+                    break;
+                default: break;
                 }
-                break;
-            default: break;
             }
         }
 

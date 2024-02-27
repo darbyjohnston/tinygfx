@@ -13,6 +13,7 @@
 #include <tgGL/Shader.h>
 #endif // TINYGFX_API_GLES_2
 
+#include <tgUI/IClipboard.h>
 #include <tgUI/IconLibrary.h>
 #include <tgUI/Style.h>
 
@@ -35,6 +36,40 @@ namespace tg
     {
         namespace
         {
+            class Clipboard : public IClipboard
+            {
+            protected:
+                Clipboard()
+                {}
+
+            public:
+                virtual ~Clipboard()
+                {}
+
+                static std::shared_ptr<Clipboard> create(
+                    const std::shared_ptr<Context>& context,
+                    GLFWwindow* glfwWindow)
+                {
+                    auto out = std::shared_ptr<Clipboard>(new Clipboard);
+                    out->_init(context);
+                    out->_glfwWindow = glfwWindow;
+                    return out;
+                }
+
+                std::string getText() const override
+                {
+                    return glfwGetClipboardString(_glfwWindow);
+                }
+
+                void setText(const std::string& value) override
+                {
+                    glfwSetClipboardString(_glfwWindow, value.c_str());
+                }
+
+            private:
+                GLFWwindow* _glfwWindow = nullptr;
+            };
+
             int fromGLFWModifiers(int value)
             {
                 int out = 0;
@@ -287,6 +322,8 @@ namespace tg
             p.bufferSize = p.window->getFrameBufferSize();
             p.contentScale = p.window->getContentScale();
             p.render = gl::Render::create(context);
+
+            setClipboard(Clipboard::create(context, p.window->getGLFW()));
 
             _setSizeUpdate();
             _setDrawUpdate();

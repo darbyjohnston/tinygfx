@@ -254,5 +254,22 @@ namespace tg
                     event.style->getColorRole(p.popupRole));
             }
         }
+
+        void IWidgetPopup::keyPressEvent(KeyEvent& event)
+        {
+            if (0 == event.modifiers)
+            {
+                if (Key::Escape == event.key)
+                {
+                    event.accept = true;
+                    close();
+                }
+            }
+        }
+
+        void IWidgetPopup::keyReleaseEvent(KeyEvent& event)
+        {
+            event.accept = true;
+        }
     }
 }

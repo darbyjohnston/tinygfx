@@ -280,5 +280,22 @@ namespace tg
                     event.style->getColorRole(p.popupRole));
             }
         }
+
+        void IMenuPopup::keyPressEvent(KeyEvent& event)
+        {
+            if (0 == event.modifiers)
+            {
+                if (Key::Escape == event.key)
+                {
+                    event.accept = true;
+                    close();
+                }
+            }
+        }
+
+        void IMenuPopup::keyReleaseEvent(KeyEvent& event)
+        {
+            event.accept = true;
+        }
     }
 }

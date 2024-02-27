@@ -143,5 +143,22 @@ namespace tg
                     event.style->getColorRole(ColorRole::Window));
             }
         }
+
+        void IDialog::keyPressEvent(KeyEvent& event)
+        {
+            if (0 == event.modifiers)
+            {
+                if (Key::Escape == event.key)
+                {
+                    event.accept = true;
+                    close();
+                }
+            }
+        }
+
+        void IDialog::keyReleaseEvent(KeyEvent& event)
+        {
+            event.accept = true;
+        }
     }
 }
