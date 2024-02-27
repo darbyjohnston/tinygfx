@@ -185,7 +185,7 @@ namespace tg
         void readWord(const std::shared_ptr<FileIO>&, char*, size_t maxLen = cStringSize);
 
         //! Read a line from a file.
-        //! \todo Should we handle comments like readWord()?
+        //! \todo Should this handle comments like readWord()?
         void readLine(const std::shared_ptr<FileIO>&, char*, size_t maxLen = cStringSize);
 
         //! Read all the lines from a file.
