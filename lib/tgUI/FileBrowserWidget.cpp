@@ -84,11 +84,11 @@ namespace tg
             p.upButton->setTooltip("Go up a directory");
 
             p.backButton = ToolButton::create(context);
-            p.backButton->setIcon("DirectoryUp");
+            p.backButton->setIcon("DirectoryBack");
             p.backButton->setTooltip("Go back a directory");
 
             p.forwardButton = ToolButton::create(context);
-            p.forwardButton->setIcon("DirectoryUp");
+            p.forwardButton->setIcon("DirectoryForward");
             p.forwardButton->setTooltip("Go forward a directory");
 
             p.reloadButton = ToolButton::create(context);

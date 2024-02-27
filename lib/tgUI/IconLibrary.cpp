@@ -28,6 +28,10 @@ namespace
 #include <Icons/Decrement_96.h>
 #include <Icons/Directory_192.h>
 #include <Icons/Directory_96.h>
+#include <Icons/DirectoryBack_192.h>
+#include <Icons/DirectoryBack_96.h>
+#include <Icons/DirectoryForward_192.h>
+#include <Icons/DirectoryForward_96.h>
 #include <Icons/DirectoryUp_192.h>
 #include <Icons/DirectoryUp_96.h>
 #include <Icons/Empty_192.h>
@@ -150,6 +154,8 @@ namespace tg
             p.iconData[std::make_pair("Copy", 96)] = Copy_96_png;
             p.iconData[std::make_pair("Decrement", 96)] = Decrement_96_png;
             p.iconData[std::make_pair("Directory", 96)] = Directory_96_png;
+            p.iconData[std::make_pair("DirectoryBack", 96)] = DirectoryBack_96_png;
+            p.iconData[std::make_pair("DirectoryForward", 96)] = DirectoryForward_96_png;
             p.iconData[std::make_pair("DirectoryUp", 96)] = DirectoryUp_96_png;
             p.iconData[std::make_pair("Empty", 96)] = Empty_96_png;
             p.iconData[std::make_pair("File", 96)] = File_96_png;
@@ -186,6 +192,8 @@ namespace tg
             p.iconData[std::make_pair("Copy", 192)] = Copy_192_png;
             p.iconData[std::make_pair("Decrement", 192)] = Decrement_192_png;
             p.iconData[std::make_pair("Directory", 192)] = Directory_192_png;
+            p.iconData[std::make_pair("DirectoryBack", 192)] = DirectoryBack_192_png;
+            p.iconData[std::make_pair("DirectoryForward", 192)] = DirectoryForward_192_png;
             p.iconData[std::make_pair("DirectoryUp", 192)] = DirectoryUp_192_png;
             p.iconData[std::make_pair("Empty", 192)] = Empty_192_png;
             p.iconData[std::make_pair("File", 192)] = File_192_png;
