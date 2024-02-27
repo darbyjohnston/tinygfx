@@ -317,11 +317,11 @@ namespace tg
                     auto keyFocus = p.keyFocus.lock();
                     if (modifiers == static_cast<int>(KeyModifier::Shift))
                     {
-                        keyFocus = _keyFocusPrev(keyFocus);
+                        keyFocus = _prevKeyFocus(keyFocus);
                     }
                     else
                     {
-                        keyFocus = _keyFocusNext(keyFocus);
+                        keyFocus = _nextKeyFocus(keyFocus);
                     }
                     setKeyFocus(keyFocus);
                 }
@@ -648,7 +648,24 @@ namespace tg
             _setHover(!widgets.empty() ? widgets.front() : nullptr);
         }
 
-        std::shared_ptr<IWidget> IWindow::_keyFocusNext(const std::shared_ptr<IWidget>& value)
+        void IWindow::_getKeyFocus(
+            const std::shared_ptr<IWidget>& widget,
+            std::list<std::shared_ptr<IWidget> >& out)
+        {
+            if (widget->acceptsKeyFocus())
+            {
+                out.push_back(widget);
+            }
+            for (const auto& child : widget->getChildren())
+            {
+                if (!child->isClipped() && child->isEnabled())
+                {
+                    _getKeyFocus(child, out);
+                }
+            }
+        }
+
+        std::shared_ptr<IWidget> IWindow::_nextKeyFocus(const std::shared_ptr<IWidget>& value)
         {
             TG_P();
             std::shared_ptr<IWidget> out;
@@ -681,7 +698,7 @@ namespace tg
             return out;
         }
 
-        std::shared_ptr<IWidget> IWindow::_keyFocusPrev(const std::shared_ptr<IWidget>& value)
+        std::shared_ptr<IWidget> IWindow::_prevKeyFocus(const std::shared_ptr<IWidget>& value)
         {
             TG_P();
             std::shared_ptr<IWidget> out;
@@ -712,23 +729,6 @@ namespace tg
                 }
             }
             return out;
-        }
-
-        void IWindow::_getKeyFocus(
-            const std::shared_ptr<IWidget>& widget,
-            std::list<std::shared_ptr<IWidget> >& out)
-        {
-            if (widget->acceptsKeyFocus())
-            {
-                out.push_back(widget);
-            }
-            for (const auto& child : widget->getChildren())
-            {
-                if (!child->isClipped() && child->isEnabled())
-                {
-                    _getKeyFocus(child, out);
-                }
-            }
         }
     }
 }
