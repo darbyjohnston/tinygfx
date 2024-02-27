@@ -89,7 +89,7 @@ namespace tg
             p.labels.push_back(label);
 
             // File last modification time.
-            // \todo format is available in C++20
+            // \todo std::format is available in C++20.
             //p.labels.push_back(std::format("{}", fileInfo.time));
         }
 
