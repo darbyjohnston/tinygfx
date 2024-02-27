@@ -39,6 +39,17 @@ namespace tg
             void drawOverlayEvent(const core::Box2I&, const DrawEvent&) override;
 
         protected:
+            bool _hasSizeUpdate(const std::shared_ptr<IWidget>&) const;
+            void _sizeHintEventRecursive(
+                const std::shared_ptr<IWidget>&,
+                const SizeHintEvent&);
+
+            bool _hasDrawUpdate(const std::shared_ptr<IWidget>&) const;
+            void _drawEventRecursive(
+                const std::shared_ptr<IWidget>&,
+                const core::Box2I&,
+                const DrawEvent&);
+
             bool _key(Key, bool press, int modifiers);
             void _text(const std::string&);
             void _cursorEnter(bool enter);

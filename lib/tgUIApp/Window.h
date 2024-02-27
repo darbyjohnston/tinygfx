@@ -48,17 +48,6 @@ namespace tg
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:
-            bool _hasSizeUpdate(const std::shared_ptr<IWidget>&) const;
-            void _sizeHintEventRecursive(
-                const std::shared_ptr<IWidget>&,
-                const SizeHintEvent&);
-
-            bool _hasDrawUpdate(const std::shared_ptr<IWidget>&) const;
-            void _drawEventRecursive(
-                const std::shared_ptr<IWidget>&,
-                const core::Box2I&,
-                const DrawEvent&);
-
             TG_PRIVATE();
         };
     }

@@ -190,6 +190,85 @@ namespace tg
             }
         }
 
+        bool IWindow::_hasSizeUpdate(const std::shared_ptr<IWidget>& widget) const
+        {
+            bool out = widget->getUpdates() & Update::Size;
+            if (out)
+            {
+                //std::cout << "Size update: " << widget->getObjectName() << std::endl;
+            }
+            else
+            {
+                for (const auto& child : widget->getChildren())
+                {
+                    out |= _hasSizeUpdate(child);
+                }
+            }
+            return out;
+        }
+
+        void IWindow::_sizeHintEventRecursive(
+            const std::shared_ptr<IWidget>& widget,
+            const SizeHintEvent& event)
+        {
+            for (const auto& child : widget->getChildren())
+            {
+                _sizeHintEventRecursive(child, event);
+            }
+            widget->sizeHintEvent(event);
+        }
+
+        bool IWindow::_hasDrawUpdate(const std::shared_ptr<IWidget>& widget) const
+        {
+            bool out = false;
+            if (!widget->isClipped())
+            {
+                out = widget->getUpdates() & Update::Draw;
+                if (out)
+                {
+                    //std::cout << "Draw update: " << widget->getObjectName() << std::endl;
+                }
+                else
+                {
+                    for (const auto& child : widget->getChildren())
+                    {
+                        out |= _hasDrawUpdate(child);
+                    }
+                }
+            }
+            return out;
+        }
+
+        void IWindow::_drawEventRecursive(
+            const std::shared_ptr<IWidget>& widget,
+            const Box2I& drawRect,
+            const DrawEvent& event)
+        {
+            const Box2I& g = widget->getGeometry();
+            if (!widget->isClipped() && g.w() > 0 && g.h() > 0)
+            {
+                event.render->setClipRect(drawRect);
+                widget->drawEvent(drawRect, event);
+                const Box2I childrenClipRect = intersect(
+                    widget->getChildrenClipRect(),
+                    drawRect);
+                event.render->setClipRect(childrenClipRect);
+                for (const auto& child : widget->getChildren())
+                {
+                    const Box2I& childGeometry = child->getGeometry();
+                    if (intersects(childGeometry, childrenClipRect))
+                    {
+                        _drawEventRecursive(
+                            child,
+                            intersect(childGeometry, childrenClipRect),
+                            event);
+                    }
+                }
+                event.render->setClipRect(drawRect);
+                widget->drawOverlayEvent(drawRect, event);
+            }
+        }
+
         bool IWindow::_key(
             Key key,
             bool press,
