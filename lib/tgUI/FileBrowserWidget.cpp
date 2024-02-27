@@ -29,13 +29,16 @@ namespace tg
     {
         struct FileBrowserWidget::Private
         {
-            std::string path;
+            std::vector<std::string> paths;
+            int currentPath = -1;
             FileBrowserOptions options;
             std::vector<std::string> extensions;
             std::shared_ptr<RecentFilesModel> recentFilesModel;
 
             std::shared_ptr<Label> titleLabel;
             std::shared_ptr<ToolButton> upButton;
+            std::shared_ptr<ToolButton> forwardButton;
+            std::shared_ptr<ToolButton> backButton;
             std::shared_ptr<ToolButton> reloadButton;
             std::shared_ptr<LineEdit> pathEdit;
             std::shared_ptr<PathsWidget> pathsWidget;
@@ -69,7 +72,8 @@ namespace tg
             _setMouseHoverEnabled(true);
             _setMousePressEnabled(true);
 
-            p.path = path;
+            p.paths.push_back(path);
+            p.currentPath = 0;
 
             p.titleLabel = Label::create(context, "File Browser");
             p.titleLabel->setMarginRole(SizeRole::MarginSmall);
@@ -78,6 +82,14 @@ namespace tg
             p.upButton = ToolButton::create(context);
             p.upButton->setIcon("DirectoryUp");
             p.upButton->setTooltip("Go up a directory");
+
+            p.backButton = ToolButton::create(context);
+            p.backButton->setIcon("DirectoryUp");
+            p.backButton->setTooltip("Go back a directory");
+
+            p.forwardButton = ToolButton::create(context);
+            p.forwardButton->setIcon("DirectoryUp");
+            p.forwardButton->setTooltip("Go forward a directory");
 
             p.reloadButton = ToolButton::create(context);
             p.reloadButton->setIcon("Reload");
@@ -134,6 +146,8 @@ namespace tg
             auto hLayout = HorizontalLayout::create(context, vLayout);
             hLayout->setSpacingRole(SizeRole::SpacingSmall);
             p.upButton->setParent(hLayout);
+            p.backButton->setParent(hLayout);
+            p.forwardButton->setParent(hLayout);
             p.reloadButton->setParent(hLayout);
             p.pathEdit->setParent(hLayout);
             p.splitter = Splitter::create(context, Orientation::Horizontal, vLayout);
@@ -158,8 +172,36 @@ namespace tg
             p.upButton->setClickedCallback(
                 [this]
                 {
-                    _p->path = std::filesystem::path(_p->path).parent_path().string();
-                    _pathUpdate();
+                    if (_p->currentPath >= 0 && _p->currentPath < _p->paths.size())
+                    {
+
+                        const std::filesystem::path path(_p->paths[_p->currentPath]);
+                        const std::filesystem::path parentPath(path.parent_path());
+                        if (parentPath != path)
+                        {
+                            _setPath(parentPath.string());
+                        }
+                    }
+                });
+
+            p.backButton->setClickedCallback(
+                [this]
+                {
+                    if (_p->currentPath >= 1)
+                    {
+                        --_p->currentPath;
+                        _pathUpdate();
+                    }
+                });
+
+            p.forwardButton->setClickedCallback(
+                [this]
+                {
+                    if (_p->currentPath < static_cast<int>(_p->paths.size()) - 1)
+                    {
+                        ++_p->currentPath;
+                        _pathUpdate();
+                    }
                 });
 
             p.reloadButton->setClickedCallback(
@@ -171,15 +213,13 @@ namespace tg
             p.pathEdit->setTextCallback(
                 [this](const std::string& value)
                 {
-                    _p->path = value;
-                    _pathUpdate();
+                    _setPath(value);
                 });
 
             p.pathsWidget->setCallback(
                 [this](const std::string& value)
                 {
-                    _p->path = value;
-                    _pathUpdate();
+                    _setPath(value);
                 });
 
             p.directoryWidget->setCallback(
@@ -188,8 +228,7 @@ namespace tg
                     TG_P();
                     if (std::filesystem::is_directory(value))
                     {
-                        p.path = value;
-                        _pathUpdate();
+                        _setPath(value);
                     }
                     else
                     {
@@ -259,13 +298,16 @@ namespace tg
                 [this]
                 {
                     TG_P();
-                    if (p.recentFilesModel)
+                    if (p.currentPath >= 0 && p.currentPath < p.paths.size())
                     {
-                        p.recentFilesModel->addRecent(p.path);
-                    }
-                    if (p.callback)
-                    {
-                        p.callback(p.path);
+                        if (p.recentFilesModel)
+                        {
+                            p.recentFilesModel->addRecent(p.paths[p.currentPath]);
+                        }
+                        if (p.callback)
+                        {
+                            p.callback(p.paths[p.currentPath]);
+                        }
                     }
                 });
 
@@ -307,9 +349,12 @@ namespace tg
             _p->cancelCallback = value;
         }
 
-        const std::string& FileBrowserWidget::getPath() const
+        std::string FileBrowserWidget::getPath() const
         {
-            return _p->path;
+            TG_P();
+            return p.currentPath >= 0 && p.currentPath < p.paths.size() ?
+                p.paths[p.currentPath] :
+                std::string();
         }
         
         const FileBrowserOptions& FileBrowserWidget::getOptions() const
@@ -350,11 +395,30 @@ namespace tg
             _setSizeHint(_p->layout->getSizeHint());
         }
 
+        void FileBrowserWidget::_setPath(const std::string& value)
+        {
+            TG_P();
+            while (p.currentPath < static_cast<int>(p.paths.size()) - 1)
+            {
+                p.paths.pop_back();
+            }
+            if (p.paths.empty() ||
+                (!p.paths.empty() && value != p.paths[p.paths.size() - 1]))
+            {
+                p.paths.push_back(value);
+                p.currentPath++;
+                _pathUpdate();
+            }
+        }
+
         void FileBrowserWidget::_pathUpdate()
         {
             TG_P();
-            p.pathEdit->setText(p.path);
-            p.directoryWidget->setPath(p.path);
+            p.backButton->setEnabled(p.currentPath > 0);
+            p.forwardButton->setEnabled(p.currentPath < static_cast<int>(p.paths.size()) - 1);
+            const std::string path = getPath();
+            p.pathEdit->setText(path);
+            p.directoryWidget->setPath(path);
             p.directoryScrollWidget->setScrollPos(V2I());
         }
         

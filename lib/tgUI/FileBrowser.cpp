@@ -81,7 +81,7 @@ namespace tg
             _p->widget->setCallback(value);
         }
 
-        const std::string& FileBrowser::getPath() const
+        std::string FileBrowser::getPath() const
         {
             return _p->widget->getPath();
         }

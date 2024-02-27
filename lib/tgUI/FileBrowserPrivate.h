@@ -148,7 +148,7 @@ namespace tg
 
             void setCancelCallback(const std::function<void(void)>&);
 
-            const std::string& getPath() const;
+            std::string getPath() const;
 
             const FileBrowserOptions& getOptions() const;
 
@@ -162,6 +162,8 @@ namespace tg
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:
+            void _setPath(const std::string&);
+
             void _pathUpdate();
             void _optionsUpdate();
 

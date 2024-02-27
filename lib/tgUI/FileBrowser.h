@@ -43,8 +43,6 @@ namespace tg
         };
 
         //! File browser.
-        //!
-        //! \todo Add back and forward buttons.
         class FileBrowser : public IDialog
         {
         protected:
@@ -68,7 +66,7 @@ namespace tg
             void setCallback(const std::function<void(const std::string&)>&);
 
             //! Get the path.
-            const std::string& getPath() const;
+            std::string getPath() const;
 
             //! Get the options.
             const FileBrowserOptions& getOptions() const;
