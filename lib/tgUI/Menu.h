@@ -15,8 +15,6 @@ namespace tg
         ///@{
 
         //! Menu.
-        //!
-        //! \todo Automatically open/close sub menus.
         class Menu : public IMenuPopup
         {
         protected:
@@ -55,7 +53,13 @@ namespace tg
             //! Handle keyboard shortcuts.
             bool shortcut(Key, int);
 
+            void open(
+                const std::shared_ptr<IWindow>&,
+                const core::Box2I& buttonGeometry) override;
+
         private:
+            void _accept();
+
             TG_PRIVATE();
         };
 

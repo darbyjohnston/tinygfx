@@ -75,6 +75,33 @@ namespace tg
                     [](bool value) { std::cout << "Action 8: " << value << std::endl; }));
                 _menuBar->addMenu("Menu 2", menu);
 
+                menu = Menu::create(context);
+                menu->addItem(std::make_shared<Action>(
+                    "Action 9",
+                    [] { std::cout << "Action 9" << std::endl; }));
+                auto subMenu = menu->addSubMenu("Sub Menu 1");
+                subMenu->addItem(std::make_shared<Action>(
+                    "Action 10",
+                    [] { std::cout << "Action 10" << std::endl; }));
+                subMenu = menu->addSubMenu("Sub Menu 2");
+                subMenu->addItem(std::make_shared<Action>(
+                    "Action 11",
+                    [] { std::cout << "Action 11" << std::endl; }));
+                subMenu->addItem(std::make_shared<Action>(
+                    "Action 12",
+                    [] { std::cout << "Action 12" << std::endl; }));
+                subMenu = menu->addSubMenu("Sub Menu 3");
+                subMenu->addItem(std::make_shared<Action>(
+                    "Action 13",
+                    [] { std::cout << "Action 13" << std::endl; }));
+                subMenu->addItem(std::make_shared<Action>(
+                    "Action 14",
+                    [] { std::cout << "Action 14" << std::endl; }));
+                subMenu->addItem(std::make_shared<Action>(
+                    "Action 15",
+                    [] { std::cout << "Action 15" << std::endl; }));
+                _menuBar->addMenu("Menu 3", menu);
+
                 // Create the scroll widget.
                 auto scrollWidget = ScrollWidget::create(
                     context,

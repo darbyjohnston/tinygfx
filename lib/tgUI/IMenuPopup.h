@@ -37,7 +37,7 @@ namespace tg
             virtual ~IMenuPopup() = 0;
 
             //! Open the popup.
-            void open(
+            virtual void open(
                 const std::shared_ptr<IWindow>&,
                 const core::Box2I& buttonGeometry);
 

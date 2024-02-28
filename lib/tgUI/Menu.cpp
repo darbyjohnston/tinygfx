@@ -486,6 +486,8 @@ namespace tg
         {
             std::list<std::shared_ptr<Action> > items;
             std::map<std::shared_ptr<Action>, std::shared_ptr<MenuButton> > buttons;
+            std::weak_ptr<Menu> parentMenu;
+            std::shared_ptr<Menu> openSubMenu;
             std::shared_ptr<VerticalLayout> layout;
         };
 
@@ -526,6 +528,17 @@ namespace tg
                 button->setText(item->text);
                 button->setIcon(item->icon);
                 button->setShortcut(item->shortcut, item->shortcutModifiers);
+                button->setHoveredCallback(
+                    [this](bool value)
+                    {
+                        if (value)
+                        {
+                            if (_p->openSubMenu)
+                            {
+                                _p->openSubMenu->close();
+                            }
+                        }
+                    });
                 button->setClickedCallback(
                     [this, item]
                     {
@@ -533,7 +546,7 @@ namespace tg
                         {
                             item->callback();
                         }
-                        close();
+                        _accept();
                     });
                 button->setCheckable(item->checkable);
                 button->setChecked(item->checked);
@@ -545,7 +558,7 @@ namespace tg
                         {
                             item->checkedCallback(value);
                         }
-                        close();
+                        _accept();
                     });
                 button->setParent(p.layout);
                 p.buttons[item] = button;
@@ -585,23 +598,45 @@ namespace tg
             {
                 out = Menu::create(context);
                 out->setPopupStyle(MenuPopupStyle::SubMenu);
+                out->_p->parentMenu = std::dynamic_pointer_cast<Menu>(shared_from_this());
 
                 auto button = MenuButton::create(context);
                 button->setText(text);
                 button->setSubMenuIcon("SubMenuArrow");
+                button->setHoveredCallback(
+                    [this, out, button](bool value)
+                    {
+                        if (value && !out->isOpen())
+                        {
+                            if (_p->openSubMenu)
+                            {
+                                _p->openSubMenu->close();
+                            }
+                            _p->openSubMenu = out;
+                            out->open(getWindow(), button->getGeometry());
+                        }
+                    });
                 button->setPressedCallback(
                     [this, out, button]
                     {
                         if (!out->isOpen())
                         {
+                            if (_p->openSubMenu)
+                            {
+                                _p->openSubMenu->close();
+                            }
+                            _p->openSubMenu = out;
                             out->open(getWindow(), button->getGeometry());
-                        }
-                        else
-                        {
-                            out->close();
                         }
                     });
                 button->setParent(p.layout);
+
+                out->setCloseCallback(
+                    [this, button]
+                    {
+                        _p->openSubMenu.reset();
+                        button->takeKeyFocus();
+                    });
             }
             return out;
         }
@@ -650,6 +685,32 @@ namespace tg
                 }
             }
             return out;
+        }
+        
+        void Menu::open(
+            const std::shared_ptr<IWindow>& window,
+            const core::Box2I& buttonGeometry)
+        {
+            IMenuPopup::open(window, buttonGeometry);
+            TG_P();
+            if (!p.items.empty())
+            {
+                auto i = p.buttons.find(p.items.front());
+                if (i != p.buttons.end())
+                {
+                    i->second->takeKeyFocus();
+                }
+            }
+        }
+
+        void Menu::_accept()
+        {
+            TG_P();
+            close();
+            if (auto parentMenu = p.parentMenu.lock())
+            {
+                parentMenu->_accept();
+            }
         }
     }
 }
