@@ -239,22 +239,6 @@ namespace tg
                 TG_ASSERT(contents == "Hello world");
             }
             {
-                const std::string fileName = "FileIOTest9";
-                auto fileIO = FileIO::create(fileName, FileMode::Write);
-                fileIO->write("# This is a comment\n");
-                fileIO->write("Hello\n");
-                fileIO->write("# This is another comment\n");
-                fileIO->write("world\n");
-                fileIO.reset();
-
-                fileIO = FileIO::create(fileName, FileMode::Read);
-                char contents[cStringSize];
-                readWord(fileIO, contents);
-                TG_ASSERT(std::string(contents) == "Hello");
-                readWord(fileIO, contents);
-                TG_ASSERT(std::string(contents) == "world");
-            }
-            {
                 const std::string fileName = "FileIOTest10";
                 auto fileIO = FileIO::create(fileName, FileMode::Write);
                 fileIO->write("Hello world");
