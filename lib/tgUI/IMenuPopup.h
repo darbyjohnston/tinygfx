@@ -15,8 +15,8 @@ namespace tg
         //! \name Menu Widgets
         ///@{
 
-        //! Popup style.
-        enum class MenuPopupStyle
+        //! Menu popup type.
+        enum class MenuPopup
         {
             Menu,
             SubMenu
@@ -50,8 +50,8 @@ namespace tg
             //! Set the close callback.
             void setCloseCallback(const std::function<void(void)>&);
 
-            //! Set the popup style.
-            void setPopupStyle(MenuPopupStyle);
+            //! Set the popup type.
+            void setPopup(MenuPopup);
 
             //! Set the popup color role.
             void setPopupRole(ColorRole);

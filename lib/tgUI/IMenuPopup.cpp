@@ -16,19 +16,19 @@ namespace tg
     {
         namespace
         {
-            class ContainerWidget : public IWidget
+            class MenuPopupWidget : public IWidget
             {
             protected:
                 void _init(
                     const std::shared_ptr<Context>&,
                     const std::shared_ptr<IWidget>& parent = nullptr);
 
-                ContainerWidget();
+                MenuPopupWidget();
 
             public:
-                virtual ~ContainerWidget();
+                virtual ~MenuPopupWidget();
 
-                static std::shared_ptr<ContainerWidget> create(
+                static std::shared_ptr<MenuPopupWidget> create(
                     const std::shared_ptr<Context>&,
                     const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -36,31 +36,31 @@ namespace tg
                 void sizeHintEvent(const SizeHintEvent&) override;
             };
 
-            void ContainerWidget::_init(
+            void MenuPopupWidget::_init(
                 const std::shared_ptr<Context>& context,
                 const std::shared_ptr<IWidget>& parent)
             {
-                IWidget::_init(context, "tg::ui::ContainerWidget", parent);
+                IWidget::_init(context, "tg::ui::MenuPopupWidget", parent);
                 _setMouseHoverEnabled(true);
                 _setMousePressEnabled(true);
             }
 
-            ContainerWidget::ContainerWidget()
+            MenuPopupWidget::MenuPopupWidget()
             {}
 
-            ContainerWidget::~ContainerWidget()
+            MenuPopupWidget::~MenuPopupWidget()
             {}
 
-            std::shared_ptr<ContainerWidget> ContainerWidget::create(
+            std::shared_ptr<MenuPopupWidget> MenuPopupWidget::create(
                 const std::shared_ptr<Context>& context,
                 const std::shared_ptr<IWidget>& parent)
             {
-                auto out = std::shared_ptr<ContainerWidget>(new ContainerWidget);
+                auto out = std::shared_ptr<MenuPopupWidget>(new MenuPopupWidget);
                 out->_init(context, parent);
                 return out;
             }
 
-            void ContainerWidget::setGeometry(const Box2I& value)
+            void MenuPopupWidget::setGeometry(const Box2I& value)
             {
                 IWidget::setGeometry(value);
                 const auto& children = getChildren();
@@ -70,7 +70,7 @@ namespace tg
                 }
             }
 
-            void ContainerWidget::sizeHintEvent(const SizeHintEvent& value)
+            void MenuPopupWidget::sizeHintEvent(const SizeHintEvent& value)
             {
                 IWidget::sizeHintEvent(value);
                 const auto& children = getChildren();
@@ -83,14 +83,14 @@ namespace tg
 
         struct IMenuPopup::Private
         {
-            MenuPopupStyle popupStyle = MenuPopupStyle::Menu;
+            MenuPopup popup = MenuPopup::Menu;
             ColorRole popupRole = ColorRole::Window;
             Box2I buttonGeometry;
             bool open = false;
             std::function<void(void)> closeCallback;
             std::shared_ptr<IWidget> widget;
             std::shared_ptr<ScrollWidget> scrollWidget;
-            std::shared_ptr<ContainerWidget> containerWidget;
+            std::shared_ptr<MenuPopupWidget> menuPopupWidget;
 
             struct SizeData
             {
@@ -113,8 +113,8 @@ namespace tg
                 context,
                 ScrollType::Menu);
             
-            p.containerWidget = ContainerWidget::create(context, shared_from_this());
-            p.scrollWidget->setParent(p.containerWidget);
+            p.menuPopupWidget = MenuPopupWidget::create(context, shared_from_this());
+            p.scrollWidget->setParent(p.menuPopupWidget);
         }
 
         IMenuPopup::IMenuPopup() :
@@ -156,10 +156,10 @@ namespace tg
             _p->closeCallback = value;
         }
 
-        void IMenuPopup::setPopupStyle(MenuPopupStyle value)
+        void IMenuPopup::setPopup(MenuPopup value)
         {
             TG_P();
-            p.popupStyle = value;
+            p.popup = value;
         }
 
         void IMenuPopup::setPopupRole(ColorRole value)
@@ -182,11 +182,11 @@ namespace tg
         {
             IPopup::setGeometry(value);
             TG_P();
-            Size2I sizeHint = p.containerWidget->getSizeHint();
+            Size2I sizeHint = p.menuPopupWidget->getSizeHint();
             std::list<Box2I> boxes;
-            switch (p.popupStyle)
+            switch (p.popup)
             {
-            case MenuPopupStyle::Menu:
+            case MenuPopup::Menu:
                 boxes.push_back(Box2I(
                     p.buttonGeometry.min.x,
                     p.buttonGeometry.max.y + 1,
@@ -208,7 +208,7 @@ namespace tg
                     std::max(sizeHint.w, p.buttonGeometry.w()),
                     sizeHint.h));
                 break;
-            case MenuPopupStyle::SubMenu:
+            case MenuPopup::SubMenu:
                 boxes.push_back(Box2I(
                     p.buttonGeometry.max.x,
                     p.buttonGeometry.min.y,
@@ -242,7 +242,7 @@ namespace tg
                         area(b.intersected.size());
                 });
             Box2I g = intersect.front().intersected;
-            p.containerWidget->setGeometry(g);
+            p.menuPopupWidget->setGeometry(g);
         }
 
         void IMenuPopup::sizeHintEvent(const SizeHintEvent& event)
@@ -263,7 +263,7 @@ namespace tg
         {
             IPopup::drawEvent(drawRect, event);
             TG_P();
-            const Box2I& g = p.containerWidget->getGeometry();
+            const Box2I& g = p.menuPopupWidget->getGeometry();
             if (g.size().isValid())
             {
                 const Box2I g2(

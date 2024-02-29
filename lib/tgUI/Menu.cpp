@@ -597,7 +597,7 @@ namespace tg
             if (auto context = _getContext().lock())
             {
                 out = Menu::create(context);
-                out->setPopupStyle(MenuPopupStyle::SubMenu);
+                out->setPopup(MenuPopup::SubMenu);
                 out->_p->parentMenu = std::dynamic_pointer_cast<Menu>(shared_from_this());
 
                 auto button = MenuButton::create(context);
