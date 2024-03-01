@@ -182,7 +182,7 @@ namespace tg
         std::string read(const std::shared_ptr<FileIO>&);
 
         //! Read a line from a file.
-        void readLine(const std::shared_ptr<FileIO>&, char*, size_t maxLen = cStringSize);
+        std::string readLine(const std::shared_ptr<FileIO>&);
 
         //! Read all the lines from a file.
         std::vector<std::string> readLines(const std::string& fileName);

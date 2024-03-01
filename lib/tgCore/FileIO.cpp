@@ -164,10 +164,9 @@ namespace tg
             return out;
         }
 
-        void readLine(const std::shared_ptr<FileIO>& io, char* out, size_t maxLen)
+        std::string readLine(const std::shared_ptr<FileIO>& io)
         {
-            TG_ASSERT(maxLen);
-            size_t i = 0;
+            std::string out;
             if (!io->isEOF())
             {
                 char c = 0;
@@ -177,15 +176,14 @@ namespace tg
                     if (c != '\n' &&
                         c != '\r')
                     {
-                        out[i++] = c;
+                        out.push_back(c);
                     }
                 } while (
                     c != '\n' &&
                     c != '\r' &&
-                    !io->isEOF() &&
-                    i < (maxLen - 1));
+                    !io->isEOF());
             }
-            out[i] = 0;
+            return out;
         }
 
         std::vector<std::string> readLines(const std::string& fileName)
@@ -194,9 +192,7 @@ namespace tg
             auto io = FileIO::create(fileName, FileMode::Read);
             while (!io->isEOF())
             {
-                char buf[cStringSize] = "";
-                readLine(io, buf, cStringSize);
-                out.push_back(buf);
+                out.push_back(readLine(io));
             }
             return out;
         }

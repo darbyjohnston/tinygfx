@@ -245,9 +245,8 @@ namespace tg
                 fileIO.reset();
 
                 fileIO = FileIO::create(fileName, FileMode::Read);
-                char contents[cStringSize];
-                readLine(fileIO, contents);
-                TG_ASSERT(std::string(contents) == "Hello world");
+                std::string line = readLine(fileIO);
+                TG_ASSERT(line == "Hello world");
             }
             {
                 const std::string fileName = "FileIOTest11";
