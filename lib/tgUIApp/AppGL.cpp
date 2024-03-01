@@ -41,6 +41,7 @@ namespace tg
             std::shared_ptr<FontSystem> fontSystem;
             std::shared_ptr<Style> style;
             std::shared_ptr<IconLibrary> iconLibrary;
+            bool running = true;
             std::list<std::shared_ptr<Window> > windows;
             std::list<int> tickTimes;
             std::shared_ptr<Timer> logTimer;
@@ -112,6 +113,11 @@ namespace tg
                 p.windows.erase(i);
             }
         }
+
+        void App::exit()
+        {
+            _p->running = false;
+        }
         
         int App::run()
         {
@@ -120,7 +126,7 @@ namespace tg
             if (0 == exit)
             {
                 auto t0 = std::chrono::steady_clock::now();                
-                while (!p.windows.empty())
+                while (p.running && !p.windows.empty())
                 {
                     glfwPollEvents();
 

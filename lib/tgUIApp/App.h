@@ -46,6 +46,9 @@ namespace tg
             //! Remove a window.
             void removeWindow(const std::shared_ptr<Window>&);
 
+            //! Exit the application.
+            void exit();
+
             int run() override;
 
         private:
