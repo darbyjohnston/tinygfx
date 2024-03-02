@@ -79,6 +79,10 @@ namespace tg
                 value->_setSizeUpdate();
                 value->_setDrawUpdate();
             }
+            else if (hasKeyFocus())
+            {
+                releaseKeyFocus();
+            }
         }
 
         void IWidget::moveToFront(const std::shared_ptr<IWidget>& value)
