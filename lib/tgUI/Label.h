@@ -56,8 +56,6 @@ namespace tg
             void drawEvent(const core::Box2I&, const DrawEvent&) override;
 
         private:
-            void _textUpdate();
-
             TG_PRIVATE();
         };
         

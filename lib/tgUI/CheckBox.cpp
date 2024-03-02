@@ -198,10 +198,10 @@ namespace tg
                 }
                 const V2F pos(
                     g3.x() + p.size.checkBox + p.size.spacing + p.size.margin,
-                    g3.y() + g3.h() / 2 - p.size.textSize.h / 2 +
-                    p.size.fontMetrics.ascender);
+                    g3.y() + g3.h() / 2 - p.size.textSize.h / 2);
                 event.render->drawText(
                     p.draw.glyphs,
+                    p.size.fontMetrics,
                     pos,
                     event.style->getColorRole(enabled ?
                         ColorRole::Text :

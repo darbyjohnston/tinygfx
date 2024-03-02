@@ -273,9 +273,8 @@ namespace tg
             {
                 event.render->drawText(
                     label.glyphs,
-                    V2F(
-                        c.x + label.pos.x,
-                        c.y + label.pos.y + p.size.fontMetrics.ascender),
+                    p.size.fontMetrics,
+                    V2F(c.x + label.pos.x, c.y + label.pos.y),
                     event.style->getColorRole(ColorRole::Text));
             }
 
@@ -302,14 +301,13 @@ namespace tg
                         pos.y + label.pos.y));
                 event.render->drawText(
                     label.glyphs,
-                    V2F(
-                        pos.x +
+                    p.size.fontMetrics,
+                    V2F(pos.x +
                         label.pos.x +
                         p.size.fontMetrics.lineHeight +
                         p.size.spacing,
                         pos.y +
-                        label.pos.y +
-                        p.size.fontMetrics.ascender),
+                        label.pos.y),
                     event.style->getColorRole(ColorRole::Text));
             }
         }

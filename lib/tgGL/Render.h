@@ -85,6 +85,7 @@ namespace tg
                 const core::V2F& pos = core::V2F()) override;
             void drawText(
                 const std::vector<std::shared_ptr<core::Glyph> >&,
+                const core::FontMetrics&,
                 const core::V2F& position,
                 const core::Color4F& = core::Color4F(1.F, 1.F, 1.F, 1.F)) override;
             void drawImage(

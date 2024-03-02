@@ -114,6 +114,7 @@ namespace tg
             //! Draw text.
             virtual void drawText(
                 const std::vector<std::shared_ptr<Glyph> >&,
+                const core::FontMetrics&,
                 const V2F& position,
                 const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F)) = 0;
 

@@ -189,13 +189,13 @@ namespace tg
         {
             TG_P();
             FontMetrics out;
-            const auto i = p.ftFaces.find(info.family);
-            if (i != p.ftFaces.end())
+            const auto ftFaceIt = p.ftFaces.find(info.family);
+            if (ftFaceIt != p.ftFaces.end())
             {
-                FT_Error ftError = FT_Set_Pixel_Sizes(i->second, 0, info.size);
-                out.ascender = i->second->size->metrics.ascender / 64;
-                out.descender = i->second->size->metrics.descender / 64;
-                out.lineHeight = i->second->size->metrics.height / 64;
+                FT_Error ftError = FT_Set_Pixel_Sizes(ftFaceIt->second, 0, info.size);
+                out.ascender = ftFaceIt->second->size->metrics.ascender / 64;
+                out.descender = ftFaceIt->second->size->metrics.descender / 64;
+                out.lineHeight = ftFaceIt->second->size->metrics.height / 64;
             }
             return out;
         }
@@ -259,35 +259,36 @@ namespace tg
             std::shared_ptr<Glyph> out;
             if (!glyphCache.get(GlyphInfo(code, fontInfo), out))
             {
-                const auto i = ftFaces.find(fontInfo.family);
-                if (i != ftFaces.end())
+                out = std::make_shared<Glyph>();
+                out->info = GlyphInfo(code, fontInfo);
+
+                const auto ftFaceIt = ftFaces.find(fontInfo.family);
+                if (ftFaceIt != ftFaces.end())
                 {
                     FT_Error ftError = FT_Set_Pixel_Sizes(
-                        i->second,
+                        ftFaceIt->second,
                         0,
                         static_cast<int>(fontInfo.size));
                     if (ftError)
                     {
                         throw std::runtime_error("Cannot set pixel sizes");
                     }
-                    if (auto ftGlyphIndex = FT_Get_Char_Index(i->second, code))
+                    if (auto ftGlyphIndex = FT_Get_Char_Index(ftFaceIt->second, code))
                     {
-                        ftError = FT_Load_Glyph(i->second, ftGlyphIndex, FT_LOAD_FORCE_AUTOHINT);
+                        ftError = FT_Load_Glyph(ftFaceIt->second, ftGlyphIndex, FT_LOAD_FORCE_AUTOHINT);
                         if (ftError)
                         {
                             throw std::runtime_error("Cannot load glyph");
                         }
                         FT_Render_Mode renderMode = FT_RENDER_MODE_NORMAL;
                         uint8_t renderModeChannels = 1;
-                        ftError = FT_Render_Glyph(i->second->glyph, renderMode);
+                        ftError = FT_Render_Glyph(ftFaceIt->second->glyph, renderMode);
                         if (ftError)
                         {
                             throw std::runtime_error("Cannot render glyph");
                         }
 
-                        out = std::make_shared<Glyph>();
-                        out->info = GlyphInfo(code, fontInfo);
-                        auto ftBitmap = i->second->glyph->bitmap;
+                        auto ftBitmap = ftFaceIt->second->glyph->bitmap;
                         const ImageInfo imageInfo(ftBitmap.width, ftBitmap.rows, ImageType::L_U8);
                         out->image = Image::create(imageInfo);
                         for (size_t y = 0; y < ftBitmap.rows; ++y)
@@ -299,14 +300,14 @@ namespace tg
                                 dataP[x] = bitmapP[x];
                             }
                         }
-                        out->offset = V2I(i->second->glyph->bitmap_left, i->second->glyph->bitmap_top);
-                        out->advance = i->second->glyph->advance.x / 64;
-                        out->lsbDelta = i->second->glyph->lsb_delta;
-                        out->rsbDelta = i->second->glyph->rsb_delta;
-
-                        glyphCache.add(out->info, out);
+                        out->offset = V2I(ftFaceIt->second->glyph->bitmap_left, ftFaceIt->second->glyph->bitmap_top);
+                        out->advance = ftFaceIt->second->glyph->advance.x / 64;
+                        out->lsbDelta = ftFaceIt->second->glyph->lsb_delta;
+                        out->rsbDelta = ftFaceIt->second->glyph->rsb_delta;
                     }
                 }
+
+                glyphCache.add(out->info, out);
             }
             return out;
         }
@@ -317,11 +318,6 @@ namespace tg
             {
                 return ' ' == c || '\t' == c;
             }
-
-            constexpr bool isNewline(tg_char_t c)
-            {
-                return '\n' == c || '\r' == c;
-            }
         }
 
         void FontSystem::Private::measure(
@@ -331,12 +327,12 @@ namespace tg
             Size2I& size,
             std::vector<Box2I>* glyphGeom)
         {
-            const auto i = ftFaces.find(fontInfo.family);
-            if (i != ftFaces.end())
+            const auto ftFaceIt = ftFaces.find(fontInfo.family);
+            if (ftFaceIt != ftFaces.end())
             {
                 V2I pos;
                 FT_Error ftError = FT_Set_Pixel_Sizes(
-                    i->second,
+                    ftFaceIt->second,
                     0,
                     static_cast<int>(fontInfo.size));
                 if (ftError)
@@ -344,14 +340,15 @@ namespace tg
                     throw std::runtime_error("Cannot set pixel sizes");
                 }
 
-                const int h = i->second->size->metrics.height / 64;
+                const int h = ftFaceIt->second->size->metrics.height / 64;
                 pos.y = h;
                 auto textLine = utf32.end();
                 int textLineX = 0;
                 int32_t rsbDeltaPrev = 0;
-                for (auto j = utf32.begin(); j != utf32.end(); ++j)
+                for (auto utf32It = utf32.begin(); utf32It != utf32.end(); ++utf32It)
                 {
-                    const auto glyph = getGlyph(*j, fontInfo);
+                    const auto glyph = getGlyph(*utf32It, fontInfo);
+
                     if (glyphGeom)
                     {
                         Box2I box;
@@ -386,21 +383,26 @@ namespace tg
                         rsbDeltaPrev = 0;
                     }
 
-                    if (isNewline(*j))
+                    if ('\n' == *utf32It)
                     {
                         size.w = std::max(size.w, pos.x);
                         pos.x = 0;
                         pos.y += h;
                         rsbDeltaPrev = 0;
+                        auto crIt = utf32It + 1;
+                        if (crIt != utf32.end() && '\r' == *crIt)
+                        {
+                            ++utf32It;
+                        }
                     }
                     else if (
                         maxLineWidth > 0 &&
                         pos.x > 0 &&
-                        pos.x + (!isSpace(*j) ? x : 0) >= maxLineWidth)
+                        pos.x + (!isSpace(*utf32It) ? x : 0) >= maxLineWidth)
                     {
                         if (textLine != utf32.end())
                         {
-                            j = textLine;
+                            utf32It = textLine;
                             textLine = utf32.end();
                             size.w = std::max(size.w, textLineX);
                             pos.x = 0;
@@ -416,9 +418,9 @@ namespace tg
                     }
                     else
                     {
-                        if (isSpace(*j) && j != utf32.begin())
+                        if (isSpace(*utf32It) && utf32It != utf32.begin())
                         {
-                            textLine = j;
+                            textLine = utf32It;
                             textLineX = pos.x;
                         }
                         pos.x += x;

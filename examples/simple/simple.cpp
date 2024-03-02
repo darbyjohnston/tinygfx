@@ -45,9 +45,9 @@ namespace tg
                 const auto fontMetrics = event.fontSystem->getMetrics(fontInfo);
                 event.render->drawText(
                     textGlyphs,
+                    fontMetrics,
                     center(Box2F(g.x(), g.y(), g.w(), g.h())) -
-                    V2F(textSize.w, textSize.h) / 2.F +
-                    V2F(0.F, fontMetrics.ascender),
+                    V2F(textSize.w, textSize.h) / 2.F,
                     Color4F(1.F, 1.F, 1.F));
             }
         }

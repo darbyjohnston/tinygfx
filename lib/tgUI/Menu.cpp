@@ -403,10 +403,10 @@ namespace tg
                     }
                     const V2F pos(
                         x + _size.margin,
-                        g2.y() + g2.h() / 2 - _size.textSize.h / 2 +
-                        _size.fontMetrics.ascender);
+                        g2.y() + g2.h() / 2 - _size.textSize.h / 2);
                     event.render->drawText(
                         _draw.textGlyphs,
+                        _size.fontMetrics,
                         pos,
                         event.style->getColorRole(enabled ?
                             ColorRole::Text :
@@ -422,10 +422,10 @@ namespace tg
                     }
                     const V2F pos(
                         g2.max.x - _size.margin - _size.shortcutSize.w,
-                        g2.y() + g2.h() / 2 - _size.shortcutSize.h / 2 +
-                        _size.fontMetrics.ascender);
+                        g2.y() + g2.h() / 2 - _size.shortcutSize.h / 2);
                     event.render->drawText(
                         _draw.shortcutGlyphs,
+                        _size.fontMetrics,
                         pos,
                         event.style->getColorRole(enabled ?
                             ColorRole::Text :

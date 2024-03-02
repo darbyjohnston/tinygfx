@@ -172,7 +172,8 @@ namespace tg
             }
             event.render->drawText(
                 p.draw.glyphs,
-                V2F(g.x(), g.y() + p.size.fontMetrics.ascender),
+                p.size.fontMetrics,
+                V2F(g.x(), g.y()),
                 event.style->getColorRole(ColorRole::Text));
 
             const Box2I g2(

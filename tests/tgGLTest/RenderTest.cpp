@@ -152,8 +152,9 @@ namespace tg
                 std::string text = "Hello world";
                 auto fontSystem = context->getSystem<FontSystem>();
                 FontInfo fontInfo;
+                auto fontMetrics = fontSystem->getMetrics(fontInfo);
                 auto glyphs = fontSystem->getGlyphs(text, fontInfo);
-                render->drawText(glyphs, V2F(100.F, 100.F));
+                render->drawText(glyphs, fontMetrics, V2F(100.F, 100.F));
                 
                 std::vector<ImageOptions> imageOptionsList;
                 for (auto i : getInputVideoLevelsEnums())

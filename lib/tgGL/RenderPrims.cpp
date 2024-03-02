@@ -207,6 +207,7 @@ namespace tg
 
         void Render::drawText(
             const std::vector<std::shared_ptr<Glyph> >& glyphs,
+            const FontMetrics& fontMetrics,
             const V2F& pos,
             const Color4F& color)
         {
@@ -232,6 +233,7 @@ namespace tg
             p.stats.glyphCount += glyphCount;
 
             int x = 0;
+            int y = 0;
             int32_t rsbDeltaPrev = 0;
             TriMesh2F mesh;
             mesh.v.resize(glyphCount * 4);
@@ -239,74 +241,88 @@ namespace tg
             mesh.triangles.resize(glyphCount * 2);
             size_t v = 0;
             size_t t = 0;
-            for (const auto& glyph : glyphs)
+            for (auto glyphIt = glyphs.begin(); glyphIt != glyphs.end(); ++glyphIt)
             {
-                if (glyph)
+                if (*glyphIt)
                 {
-                    if (rsbDeltaPrev - glyph->lsbDelta > 32)
+                    if ('\n' == (*glyphIt)->info.code)
                     {
-                        x -= 1;
-                    }
-                    else if (rsbDeltaPrev - glyph->lsbDelta < -31)
-                    {
-                        x += 1;
-                    }
-                    rsbDeltaPrev = glyph->rsbDelta;
-
-                    if (glyph->image && glyph->image->isValid())
-                    {
-                        BoxPackID id = boxPackInvalidID;
-                        const auto i = p.glyphIDs.find(glyph->info);
-                        if (i != p.glyphIDs.end())
+                        auto crIt = glyphIt + 1;
+                        if (crIt != glyphs.end() && '\r' == (*glyphIt)->info.code)
                         {
-                            id = i->second;
+                            ++crIt;
                         }
-                        TextureAtlasItem item;
-                        if (boxPackInvalidID == id ||
-                            !p.glyphTextureAtlas->getItem(id, item))
-                        {
-                            p.glyphTextureAtlas->addItem(glyph->image, item);
-                            p.glyphIDs[glyph->info] = item.id;
-                        }
-
-                        const V2I& offset = glyph->offset;
-                        const Box2I box(
-                            pos.x + x + offset.x,
-                            pos.y - offset.y,
-                            glyph->image->getWidth(),
-                            glyph->image->getHeight());
-                        const auto& min = box.min;
-                        const auto& max = box.max;
-
-                        mesh.v[v + 0].x = min.x;
-                        mesh.v[v + 0].y = min.y;
-                        mesh.v[v + 1].x = max.x + 1;
-                        mesh.v[v + 1].y = min.y;
-                        mesh.v[v + 2].x = max.x + 1;
-                        mesh.v[v + 2].y = max.y + 1;
-                        mesh.v[v + 3].x = min.x;
-                        mesh.v[v + 3].y = max.y + 1;
-                        mesh.t[v + 0].x = item.textureU.min();
-                        mesh.t[v + 0].y = item.textureV.min();
-                        mesh.t[v + 1].x = item.textureU.max();
-                        mesh.t[v + 1].y = item.textureV.min();
-                        mesh.t[v + 2].x = item.textureU.max();
-                        mesh.t[v + 2].y = item.textureV.max();
-                        mesh.t[v + 3].x = item.textureU.min();
-                        mesh.t[v + 3].y = item.textureV.max();
-
-                        mesh.triangles[t + 0].v[0] = { v + 1, v + 1 };
-                        mesh.triangles[t + 0].v[1] = { v + 2, v + 2 };
-                        mesh.triangles[t + 0].v[2] = { v + 3, v + 3 };
-                        mesh.triangles[t + 1].v[0] = { v + 3, v + 3 };
-                        mesh.triangles[t + 1].v[1] = { v + 4, v + 4 };
-                        mesh.triangles[t + 1].v[2] = { v + 1, v + 1 };
-
-                        v += 4;
-                        t += 2;
+                        x = 0;
+                        y += fontMetrics.lineHeight;
+                        rsbDeltaPrev = 0;
                     }
+                    else
+                    {
+                        if (rsbDeltaPrev - (*glyphIt)->lsbDelta > 32)
+                        {
+                            x -= 1;
+                        }
+                        else if (rsbDeltaPrev - (*glyphIt)->lsbDelta < -31)
+                        {
+                            x += 1;
+                        }
+                        rsbDeltaPrev = (*glyphIt)->rsbDelta;
 
-                    x += glyph->advance;
+                        if ((*glyphIt)->image && (*glyphIt)->image->isValid())
+                        {
+                            BoxPackID id = boxPackInvalidID;
+                            const auto j = p.glyphIDs.find((*glyphIt)->info);
+                            if (j != p.glyphIDs.end())
+                            {
+                                id = j->second;
+                            }
+                            TextureAtlasItem item;
+                            if (boxPackInvalidID == id ||
+                                !p.glyphTextureAtlas->getItem(id, item))
+                            {
+                                p.glyphTextureAtlas->addItem((*glyphIt)->image, item);
+                                p.glyphIDs[(*glyphIt)->info] = item.id;
+                            }
+
+                            const V2I& offset = (*glyphIt)->offset;
+                            const Box2I box(
+                                pos.x + x + offset.x,
+                                pos.y + y + fontMetrics.ascender - offset.y,
+                                (*glyphIt)->image->getWidth(),
+                                (*glyphIt)->image->getHeight());
+                            const auto& min = box.min;
+                            const auto& max = box.max;
+
+                            mesh.v[v + 0].x = min.x;
+                            mesh.v[v + 0].y = min.y;
+                            mesh.v[v + 1].x = max.x + 1;
+                            mesh.v[v + 1].y = min.y;
+                            mesh.v[v + 2].x = max.x + 1;
+                            mesh.v[v + 2].y = max.y + 1;
+                            mesh.v[v + 3].x = min.x;
+                            mesh.v[v + 3].y = max.y + 1;
+                            mesh.t[v + 0].x = item.textureU.min();
+                            mesh.t[v + 0].y = item.textureV.min();
+                            mesh.t[v + 1].x = item.textureU.max();
+                            mesh.t[v + 1].y = item.textureV.min();
+                            mesh.t[v + 2].x = item.textureU.max();
+                            mesh.t[v + 2].y = item.textureV.max();
+                            mesh.t[v + 3].x = item.textureU.min();
+                            mesh.t[v + 3].y = item.textureV.max();
+
+                            mesh.triangles[t + 0].v[0] = { v + 1, v + 1 };
+                            mesh.triangles[t + 0].v[1] = { v + 2, v + 2 };
+                            mesh.triangles[t + 0].v[2] = { v + 3, v + 3 };
+                            mesh.triangles[t + 1].v[0] = { v + 3, v + 3 };
+                            mesh.triangles[t + 1].v[1] = { v + 4, v + 4 };
+                            mesh.triangles[t + 1].v[2] = { v + 1, v + 1 };
+
+                            v += 4;
+                            t += 2;
+                        }
+
+                        x += (*glyphIt)->advance;
+                    }
                 }
             }
             _drawTextMesh(mesh);

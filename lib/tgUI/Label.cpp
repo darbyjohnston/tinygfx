@@ -17,7 +17,6 @@ namespace tg
         struct Label::Private
         {
             std::string text;
-            std::vector<std::string> lines;
             ColorRole textRole = ColorRole::Text;
             SizeRole marginRole = SizeRole::None;
             FontRole fontRole = FontRole::Label;
@@ -37,7 +36,7 @@ namespace tg
 
             struct DrawData
             {
-                std::vector<std::vector<std::shared_ptr<Glyph> > > glyphs;
+                std::vector<std::shared_ptr<Glyph> > glyphs;
             };
             DrawData draw;
         };
@@ -85,7 +84,6 @@ namespace tg
             p.text = value;
             p.size.textInit = true;
             p.draw.glyphs.clear();
-            _textUpdate();
             _setSizeUpdate();
             _setDrawUpdate();
         }
@@ -178,34 +176,13 @@ namespace tg
 
             if (!p.text.empty() && p.draw.glyphs.empty())
             {
-                for (const auto& line : p.lines)
-                {
-                    p.draw.glyphs.push_back(event.fontSystem->getGlyphs(line, p.size.fontInfo));
-                }
+                p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
             }
-            V2I pos = g.min;
-            for (const auto& glyphs : p.draw.glyphs)
-            {
-                event.render->drawText(
-                    glyphs,
-                    V2F(pos.x, pos.y + p.size.fontMetrics.ascender),
-                    event.style->getColorRole(p.textRole));
-                pos.y += p.size.fontMetrics.lineHeight;
-            }
-        }
-        
-        void Label::_textUpdate()
-        {
-            TG_P();
-            const auto lines = split(
-                p.text,
-                { '\n', '\r' },
-                SplitOptions::KeepEmpty);
-            p.lines.clear();
-            for (const auto& line : lines)
-            {
-                p.lines.push_back(line);
-            }
+            event.render->drawText(
+                p.draw.glyphs,
+                p.size.fontMetrics,
+                V2F(g.min.x, g.min.y),
+                event.style->getColorRole(p.textRole));
         }
     }
 }

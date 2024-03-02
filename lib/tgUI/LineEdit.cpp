@@ -357,8 +357,7 @@ namespace tg
 
             V2F pos(
                 g3.x(),
-                g3.y() + g3.h() / 2 - p.size.fontMetrics.lineHeight / 2 +
-                p.size.fontMetrics.ascender);
+                g3.y() + g3.h() / 2 - p.size.fontMetrics.lineHeight / 2);
             if (!p.text.empty() && p.draw.glyphs.empty())
             {
                 p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
@@ -366,6 +365,7 @@ namespace tg
             }
             event.render->drawText(
                 p.draw.glyphs,
+                p.size.fontMetrics,
                 pos,
                 event.style->getColorRole(enabled ?
                     ColorRole::Text :

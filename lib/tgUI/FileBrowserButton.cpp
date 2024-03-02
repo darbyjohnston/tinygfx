@@ -259,10 +259,10 @@ namespace tg
                 }
                 const V2F pos(
                     x,
-                    g2.y() + g2.h() / 2 - p.size.fontMetrics.lineHeight / 2 +
-                    p.size.fontMetrics.ascender);
+                    g2.y() + g2.h() / 2 - p.size.fontMetrics.lineHeight / 2);
                 event.render->drawText(
                     p.draw.glyphs[i],
+                    p.size.fontMetrics,
                     pos,
                     event.style->getColorRole(enabled ?
                         ColorRole::Text :

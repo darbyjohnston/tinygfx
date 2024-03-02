@@ -105,13 +105,13 @@ namespace tg
             //! Get font metrics.
             FontMetrics getMetrics(const FontInfo&);
 
-            //! Get the size of text.
+            //! Get the size of the given string.
             Size2I getSize(
                 const std::string&,
                 const FontInfo&,
                 int maxLineWidth = 0);
 
-            //! Get the character boxes.
+            //! Get the character boxes for the given string.
             std::vector<Box2I> getBox(
                 const std::string&,
                 const FontInfo&,
@@ -122,7 +122,7 @@ namespace tg
             //! \name Glyphs
             ///@{
 
-            //! Get glyphs.
+            //! Get the glyphs for the given string.
             std::vector<std::shared_ptr<Glyph> > getGlyphs(
                 const std::string&,
                 const FontInfo&);
