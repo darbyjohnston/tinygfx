@@ -122,7 +122,6 @@ namespace tg
             p.buttonGeometry = buttonGeometry;
             p.open = true;
             setParent(window);
-            takeKeyFocus();
         }
 
         bool IWidgetPopup::isOpen() const

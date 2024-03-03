@@ -38,10 +38,6 @@ namespace tg
 
                 void setCallback(const std::function<void(int)>&);
 
-                void open(
-                    const std::shared_ptr<IWindow>&,
-                    const core::Box2I& buttonGeometry) override;
-
             private:
                 std::shared_ptr<ButtonGroup> _buttonGroup;
                 std::shared_ptr<VerticalLayout> _layout;
@@ -107,18 +103,6 @@ namespace tg
             void ComboBoxMenu::setCallback(const std::function<void(int)>& value)
             {
                 _callback = value;
-            }
-
-            void ComboBoxMenu::open(
-                const std::shared_ptr<IWindow>& window,
-                const core::Box2I& buttonGeometry)
-            {
-                IMenuPopup::open(window, buttonGeometry);
-                auto buttons = _buttonGroup->getButtons();
-                if (!buttons.empty())
-                {
-                    buttons.front()->takeKeyFocus();
-                }
             }
         }
 

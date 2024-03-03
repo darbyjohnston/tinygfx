@@ -53,9 +53,6 @@ namespace tg
             //! Handle keyboard shortcuts.
             bool shortcut(Key, int);
 
-            void open(
-                const std::shared_ptr<IWindow>&,
-                const core::Box2I& buttonGeometry) override;
             void close() override;
 
         private:

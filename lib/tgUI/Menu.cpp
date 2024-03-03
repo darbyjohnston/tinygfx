@@ -688,19 +688,6 @@ namespace tg
             }
             return out;
         }
-        
-        void Menu::open(
-            const std::shared_ptr<IWindow>& window,
-            const core::Box2I& buttonGeometry)
-        {
-            IMenuPopup::open(window, buttonGeometry);
-            TG_P();
-            const auto& children = p.layout->getChildren();
-            if (!children.empty())
-            {
-                children.front()->takeKeyFocus();
-            }
-        }
 
         void Menu::close()
         {

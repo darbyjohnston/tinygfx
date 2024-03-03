@@ -31,6 +31,8 @@ namespace tg
             void setClipboard(const std::shared_ptr<IClipboard>&);
 
             void setVisible(bool) override;
+            void childAddedEvent(const ChildEvent&) override;
+            void childRemovedEvent(const ChildEvent&) override;
             void tickEvent(
                 bool parentsVisible,
                 bool parentsEnabled,

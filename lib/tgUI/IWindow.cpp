@@ -133,6 +133,24 @@ namespace tg
                 _clipEventRecursive(shared_from_this(), getGeometry(), true);
             }
         }
+
+        void IWindow::childAddedEvent(const ChildEvent& event)
+        {
+            IWidget::childAddedEvent(event);
+            TG_P();
+            setKeyFocus(_nextKeyFocus(event.child));
+        }
+
+        void IWindow::childRemovedEvent(const ChildEvent& event)
+        {
+            IWidget::childRemovedEvent(event);
+            TG_P();
+            const auto& children = getChildren();
+            if (!children.empty())
+            {
+                setKeyFocus(_nextKeyFocus(children.back()));
+            }
+        }
         
         void IWindow::tickEvent(
             bool parentsVisible,
@@ -674,10 +692,6 @@ namespace tg
                         {
                             out = *i;
                         }
-                        else
-                        {
-                            out = widgets.front();
-                        }
                     }
                     if (!out)
                     {
@@ -706,10 +720,6 @@ namespace tg
                         if (i != widgets.rend())
                         {
                             out = *i;
-                        }
-                        else
-                        {
-                            out = widgets.back();
                         }
                     }
                     if (!out)
