@@ -2,17 +2,14 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include "textedit.h"
+#include "Window.h"
+
+#include "App.h"
 
 #include <tgUI/FileBrowser.h>
 #include <tgUI/Menu.h>
 #include <tgUI/RowLayout.h>
 #include <tgUI/ScrollWidget.h>
-
-#include <tgBaseApp/CmdLine.h>
-
-#include <tgCore/Format.h>
-#include <tgCore/FileIO.h>
 
 using namespace tg::core;
 using namespace tg::ui;
@@ -30,13 +27,10 @@ namespace tg
                 const Size2I& size)
             {
                 ui::Window::_init(context, name, size);
-
-                auto layout = VerticalLayout::create(context, shared_from_this());
-                layout->setSpacingRole(SizeRole::None);
                     
-                auto fileMenu = Menu::create(context);
+                _menus["File"] = Menu::create(context);
                 auto appWeak = std::weak_ptr<App>(app);
-                fileMenu->addItem(std::make_shared<Action>(
+                _actions["File/Open"] = std::make_shared<Action>(
                     "Open",
                     "FileOpen",
                     Key::O,
@@ -58,8 +52,9 @@ namespace tg
                                     });
                             }
                         }
-                    }));
-                fileMenu->addItem(std::make_shared<Action>(
+                    });
+                _menus["File"]->addItem(_actions["File/Open"]);
+                _actions["File/Close"] = std::make_shared<Action>(
                     "Close",
                     "FileClose",
                     Key::E,
@@ -67,9 +62,10 @@ namespace tg
                     [this]
                     {
                         _textWidget->setText(std::string());
-                    }));
-                fileMenu->addDivider();
-                fileMenu->addItem(std::make_shared<Action>(
+                    });
+                _menus["File"]->addItem(_actions["File/Close"]);
+                _menus["File"]->addDivider();
+                _actions["File/Exit"] = std::make_shared<Action>(
                     "Exit",
                     Key::Q,
                     static_cast<int>(KeyModifier::Control),
@@ -79,16 +75,58 @@ namespace tg
                         {
                             app->exit();
                         }
-                    }));
+                    });
+                _menus["File"]->addItem(_actions["File/Exit"]);
+
+                _menus["Edit"] = Menu::create(context);
+                _menus["Edit/Font"] = _menus["Edit"]->addSubMenu("Font");
+                _actions["Edit/Font/Monospace"] = std::make_shared<Action>(
+                    "Monospace",
+                    [appWeak]
+                    {
+                        if (auto app = appWeak.lock())
+                        {
+                            app->setFont(FontRole::Mono);
+                        }
+                    });
+                _menus["Edit/Font"]->addItem(_actions["Edit/Font/Monospace"]);
+                _actions["Edit/Font/Regular"] = std::make_shared<Action>(
+                    "Regular",
+                    [appWeak]
+                    {
+                        if (auto app = appWeak.lock())
+                        {
+                            app->setFont(FontRole::Label);
+                        }
+                    });
+                _menus["Edit/Font"]->addItem(_actions["Edit/Font/Regular"]);
+
+                auto layout = VerticalLayout::create(context, shared_from_this());
+                layout->setSpacingRole(SizeRole::None);
 
                 _menuBar = MenuBar::create(context, layout);
-                _menuBar->addMenu("File", fileMenu);
+                _menuBar->addMenu("File", _menus["File"]);
+                _menuBar->addMenu("Edit", _menus["Edit"]);
 
                 _textWidget = Label::create(context);
-                _textWidget->setMarginRole(SizeRole::Margin);
+                _textWidget->setMarginRole(SizeRole::MarginInside);
+                _textWidget->setVAlign(VAlign::Top);
                 auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, layout);
                 scrollWidget->setStretch(Stretch::Expanding);
                 scrollWidget->setWidget(_textWidget);
+
+                _fontObserver = ValueObserver<FontRole>::create(
+                    app->observeFont(),
+                    [this](FontRole value)
+                    {
+                        _menus["Edit/Font"]->setItemChecked(
+                            _actions["Edit/Font/Monospace"],
+                            FontRole::Mono == value);
+                        _menus["Edit/Font"]->setItemChecked(
+                            _actions["Edit/Font/Regular"],
+                            FontRole::Label == value);
+                        _textWidget->setFontRole(value);
+                    });
 
                 _textObserver = ValueObserver<std::string>::create(
                     app->observeText(),
@@ -121,92 +159,6 @@ namespace tg
             {
                 event.accept = true;
             }
-
-            void App::_init(
-                const std::shared_ptr<Context>& context,
-                std::vector<std::string>& argv)
-            {
-                ui::App::_init(
-                    context,
-                    argv,
-                    "textedit",
-                    "Text edit example",
-                    {
-                        app::CmdLineValueArg<std::string>::create(
-                            _fileName,
-                            "input",
-                            "Input file name.",
-                            true)
-                    });
-
-                _text = ObservableValue<std::string>::create();
-
-                if (!_fileName.empty())
-                {
-                    open(_fileName);
-                }
-
-                context->getSystem<tg::ui::FileBrowserSystem>()->setNativeFileDialog(false);
-
-                _window = Window::create(
-                    context,
-                    std::dynamic_pointer_cast<App>(shared_from_this()),
-                    "textedit",
-                    Size2I(1280, 720));
-                addWindow(_window);
-
-                _window->show();
-            }
-
-            App::App()
-            {}
-
-            App::~App()
-            {}
-
-            std::shared_ptr<App> App::create(
-                const std::shared_ptr<Context>& context,
-                std::vector<std::string>& argv)
-            {
-                auto out = std::shared_ptr<App>(new App);
-                out->_init(context, argv);
-                return out;
-            }
-
-            void App::open(const std::string& fileName)
-            {
-                try
-                {
-                    auto fileIO = FileIO::create(fileName, FileMode::Read);
-                    const std::string text = read(fileIO);
-                    _text->setIfChanged(text);
-                }
-                catch (const std::exception&)
-                {}
-            }
-
-            std::shared_ptr<core::IObservableValue<std::string> > App::observeText() const
-            {
-                return _text;
-            }
         }
     }
 }
-
-TG_MAIN()
-{
-    int r = 0;
-    try
-    {
-        auto context = Context::create();
-        auto args = tg::app::convert(argc, argv);
-        auto app = tg::examples::textedit::App::create(context, args);
-        r = app->run();
-    }
-    catch (const std::exception& e)
-    {
-        std::cout << "ERROR: " << e.what() << std::endl;
-    }
-    return r;
-}
-

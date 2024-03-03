@@ -37,6 +37,9 @@ namespace tg
             //! Set the object name.
             void setObjectName(const std::string&);
 
+            //! Get the object path.
+            std::string getObjectPath() const;
+
             //! Set the background role.
             void setBackgroundRole(ColorRole);
 

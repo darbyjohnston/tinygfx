@@ -21,6 +21,7 @@ namespace tg
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,
+                const std::string& title,
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -32,6 +33,36 @@ namespace tg
             //! Create a new widget.
             static std::shared_ptr<MessageDialog> create(
                 const std::shared_ptr<core::Context>&,
+                const std::string& title,
+                const std::string& text,
+                const std::shared_ptr<IWidget>& parent = nullptr);
+
+            //! Set the callback.
+            void setCallback(const std::function<void(void)>&);
+
+        private:
+            TG_PRIVATE();
+        };
+
+        //! Confirmation dialog.
+        class ConfirmDialog : public IDialog
+        {
+        protected:
+            void _init(
+                const std::shared_ptr<core::Context>&,
+                const std::string& title,
+                const std::string& text,
+                const std::shared_ptr<IWidget>& parent);
+
+            ConfirmDialog();
+
+        public:
+            virtual ~ConfirmDialog();
+
+            //! Create a new widget.
+            static std::shared_ptr<ConfirmDialog> create(
+                const std::shared_ptr<core::Context>&,
+                const std::string& title,
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -55,8 +86,15 @@ namespace tg
             static std::shared_ptr<MessageDialogSystem> create(
                 const std::shared_ptr<core::Context>&);
 
-            //! Open the message dialog.
-            void open(
+            //! Open a message dialog.
+            void message(
+                const std::string& title,
+                const std::string& text,
+                const std::shared_ptr<IWindow>&);
+
+            //! Open a confirmation dialog.
+            void confirm(
+                const std::string& title,
                 const std::string& text,
                 const std::shared_ptr<IWindow>&,
                 const std::function<void(bool)>&);

@@ -47,34 +47,34 @@ namespace tg
                 switch (type)
                 {
                 case ErrorType::Open:
-                    out = Format("{0}: Cannot open file").arg(fileName);
+                    out = Format("Cannot open file: {0}").arg(fileName);
                     break;
                 case ErrorType::OpenTemp:
                     out = Format("Cannot open temporary file");
                     break;
                 case ErrorType::MemoryMap:
-                    out = Format("{0}: Cannot memory map").arg(fileName);
+                    out = Format("Cannot memory map file: {0}").arg(fileName);
                     break;
                 case ErrorType::Close:
-                    out = Format("{0}: Cannot close").arg(fileName);
+                    out = Format("Cannot close file: {0}").arg(fileName);
                     break;
                 case ErrorType::CloseMemoryMap:
-                    out = Format("{0}: Cannot unmap").arg(fileName);
+                    out = Format("Cannot unmap file: {0}").arg(fileName);
                     break;
                 case ErrorType::Read:
-                    out = Format("{0}: Cannot read").arg(fileName);
+                    out = Format("Cannot read file: {0}").arg(fileName);
                     break;
                 case ErrorType::ReadMemoryMap:
-                    out = Format("{0}: Cannot read memory map").arg(fileName);
+                    out = Format("Cannot read memory mapped file: {0}").arg(fileName);
                     break;
                 case ErrorType::Write:
-                    out = Format("{0}: Cannot write").arg(fileName);
+                    out = Format("Cannot write file: {0}").arg(fileName);
                     break;
                 case ErrorType::Seek:
-                    out = Format("{0}: Cannot seek").arg(fileName);
+                    out = Format("Cannot seek file: {0}").arg(fileName);
                     break;
                 case ErrorType::SeekMemoryMap:
-                    out = Format("{0}: Cannot seek memory map").arg(fileName);
+                    out = Format("Cannot seek memory mapped file: {0}").arg(fileName);
                     break;
                 default: break;
                 }

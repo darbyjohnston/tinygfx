@@ -1,11 +1,4 @@
-set(HEADERS
-    filebrowser.h)
-set(PRIVATE_HEADERS)
-
-set(SOURCE
-    filebrowser.cpp)
-
-add_executable(filebrowser ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+add_executable(filebrowser filebrowser.h filebrowser.cpp)
 target_link_libraries(filebrowser tgUIApp)
 set_target_properties(filebrowser PROPERTIES FOLDER examples)
 

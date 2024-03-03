@@ -1,11 +1,4 @@
-set(HEADERS
-    simple.h)
-set(PRIVATE_HEADERS)
-
-set(SOURCE
-    simple.cpp)
-
-add_executable(simple ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+add_executable(simple simple.h simple.cpp)
 target_link_libraries(simple tgUIApp)
 set_target_properties(simple PROPERTIES FOLDER examples)
 

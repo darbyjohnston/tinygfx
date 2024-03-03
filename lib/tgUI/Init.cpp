@@ -5,6 +5,7 @@
 #include <tgUI/Init.h>
 
 #include <tgUI/FileBrowser.h>
+#include <tgUI/MessageDialog.h>
 
 #include <tgCore/Context.h>
 
@@ -19,6 +20,10 @@ namespace tg
             if (!context->getSystem<FileBrowserSystem>())
             {
                 context->addSystem(FileBrowserSystem::create(context));
+            }
+            if (!context->getSystem<MessageDialogSystem>())
+            {
+                context->addSystem(MessageDialogSystem::create(context));
             }
         }
     }

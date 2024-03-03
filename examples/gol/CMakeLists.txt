@@ -1,11 +1,4 @@
-set(HEADERS
-    gol.h)
-set(PRIVATE_HEADERS)
-
-set(SOURCE
-    gol.cpp)
-
-add_executable(gol ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+add_executable(gol gol.h gol.cpp)
 target_link_libraries(gol tgUIApp)
 set_target_properties(gol PROPERTIES FOLDER examples)
 

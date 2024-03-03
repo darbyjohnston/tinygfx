@@ -57,6 +57,7 @@ namespace tg
             {
                 auto button = ListButton::create(context);
                 button->setText(text);
+                button->setLabelMarginRole(SizeRole::MarginSmall);
                 p.buttons.push_back(button);
                 button->setParent(p.layout);
                 auto menuWeak = std::weak_ptr<Menu>(menu);

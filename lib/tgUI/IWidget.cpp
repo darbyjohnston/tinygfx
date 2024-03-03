@@ -6,6 +6,8 @@
 
 #include <tgUI/IWindow.h>
 
+#include <tgCore/String.h>
+
 using namespace tg::core;
 
 namespace tg
@@ -42,6 +44,19 @@ namespace tg
             _objectName = value;
         }
 
+        std::string IWidget::getObjectPath() const
+        {
+            std::vector<std::string> names;
+            auto widget = shared_from_this();
+            while (widget)
+            {
+                names.push_back(widget->getObjectName());
+                widget = widget->getParent().lock();
+            }
+            std::reverse(names.begin(), names.end());
+            return join(names, '/');
+        }
+
         void IWidget::setBackgroundRole(ColorRole value)
         {
             if (value == _backgroundRole)
@@ -52,6 +67,11 @@ namespace tg
 
         void IWidget::setParent(const std::shared_ptr<IWidget>& value)
         {
+            if (!value)
+            {
+                _releaseMouse();
+                releaseKeyFocus();
+            }
             if (auto parent = _parent.lock())
             {
                 auto i = std::find(
@@ -78,10 +98,6 @@ namespace tg
                 value->childAddedEvent(event);
                 value->_setSizeUpdate();
                 value->_setDrawUpdate();
-            }
-            else if (hasKeyFocus())
-            {
-                releaseKeyFocus();
             }
         }
 
@@ -268,6 +284,10 @@ namespace tg
                     window->setKeyFocus(nullptr);
                 }
             }
+            for (const auto& child : _children)
+            {
+                child->releaseKeyFocus();
+            }
         }
 
         void IWidget::setTooltip(const std::string& value)
@@ -419,6 +439,10 @@ namespace tg
                 _mouseInside = false;
                 _mousePress = false;
                 _setDrawUpdate();
+            }
+            for (const auto& child : _children)
+            {
+                child->_releaseMouse();
             }
         }
     }

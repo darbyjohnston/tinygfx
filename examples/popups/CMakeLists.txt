@@ -1,11 +1,4 @@
-set(HEADERS
-    popups.h)
-set(PRIVATE_HEADERS)
-
-set(SOURCE
-    popups.cpp)
-
-add_executable(popups ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+add_executable(popups popups.h popups.cpp)
 target_link_libraries(popups tgUIApp)
 set_target_properties(popups PROPERTIES FOLDER examples)
 

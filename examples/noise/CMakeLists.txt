@@ -1,11 +1,4 @@
-set(HEADERS
-    noise.h)
-set(PRIVATE_HEADERS)
-
-set(SOURCE
-    noise.cpp)
-
-add_executable(noise ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+add_executable(noise noise.h noise.cpp)
 target_link_libraries(noise tgUIApp)
 set_target_properties(noise PROPERTIES FOLDER examples)
 

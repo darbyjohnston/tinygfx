@@ -1,11 +1,4 @@
-set(HEADERS
-    charts.h)
-set(PRIVATE_HEADERS)
-
-set(SOURCE
-    charts.cpp)
-
-add_executable(charts ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+add_executable(charts charts.h charts.cpp)
 target_link_libraries(charts tgUIApp)
 set_target_properties(charts PROPERTIES FOLDER examples)
 

@@ -1,11 +1,15 @@
 set(HEADERS
-    textedit.h)
-set(PRIVATE_HEADERS)
+    App.h
+    TextWidget.h
+    Window.h)
 
 set(SOURCE
-    textedit.cpp)
+    App.cpp
+    TextWidget.cpp
+    Window.cpp
+    main.cpp)
 
-add_executable(textedit ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+add_executable(textedit ${HEADERS} ${SOURCE})
 target_link_libraries(textedit tgUIApp)
 set_target_properties(textedit PROPERTIES FOLDER examples)
 

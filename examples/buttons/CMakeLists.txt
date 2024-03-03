@@ -1,11 +1,4 @@
-set(HEADERS
-    buttons.h)
-set(PRIVATE_HEADERS)
-
-set(SOURCE
-    buttons.cpp)
-
-add_executable(buttons ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+add_executable(buttons buttons.h buttons.cpp)
 target_link_libraries(buttons tgUIApp)
 set_target_properties(buttons PROPERTIES FOLDER examples)
 

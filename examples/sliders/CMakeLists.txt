@@ -1,11 +1,4 @@
-set(HEADERS
-    sliders.h)
-set(PRIVATE_HEADERS)
-
-set(SOURCE
-    sliders.cpp)
-
-add_executable(sliders ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+add_executable(sliders sliders.h sliders.cpp)
 target_link_libraries(sliders tgUIApp)
 set_target_properties(sliders PROPERTIES FOLDER examples)
 

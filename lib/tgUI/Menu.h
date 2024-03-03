@@ -56,6 +56,7 @@ namespace tg
             void open(
                 const std::shared_ptr<IWindow>&,
                 const core::Box2I& buttonGeometry) override;
+            void close() override;
 
         private:
             void _accept();

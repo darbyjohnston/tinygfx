@@ -4,13 +4,10 @@
 
 #pragma once
 
-#include <tgUIApp/App.h>
 #include <tgUIApp/Window.h>
 
 #include <tgUI/Label.h>
 #include <tgUI/MenuBar.h>
-
-#include <tgCore/ObservableValue.h>
 
 namespace tg
 {
@@ -44,35 +41,12 @@ namespace tg
                 void keyReleaseEvent(ui::KeyEvent&) override;
 
             private:
+                std::map<std::string, std::shared_ptr<ui::Action> > _actions;
+                std::map<std::string, std::shared_ptr<ui::Menu> > _menus;
                 std::shared_ptr<ui::MenuBar> _menuBar;
                 std::shared_ptr<ui::Label> _textWidget;
+                std::shared_ptr<core::ValueObserver<ui::FontRole> > _fontObserver;
                 std::shared_ptr<core::ValueObserver<std::string> > _textObserver;
-            };
-
-            class App : public ui::App
-            {
-            protected:
-                void _init(
-                    const std::shared_ptr<core::Context>&,
-                    std::vector<std::string>& argv);
-
-                App();
-
-            public:
-                virtual ~App();
-
-                static std::shared_ptr<App> create(
-                    const std::shared_ptr<core::Context>&,
-                    std::vector<std::string>& argv);
-
-                void open(const std::string&);
-
-                std::shared_ptr<core::IObservableValue<std::string> > observeText() const;
-
-            private:
-                std::string _fileName;
-                std::shared_ptr<core::ObservableValue<std::string> > _text;
-                std::shared_ptr<Window> _window;
             };
         }
     }

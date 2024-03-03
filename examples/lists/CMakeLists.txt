@@ -1,11 +1,4 @@
-set(HEADERS
-    lists.h)
-set(PRIVATE_HEADERS)
-
-set(SOURCE
-    lists.cpp)
-
-add_executable(lists ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+add_executable(lists lists.h lists.cpp)
 target_link_libraries(lists tgUIApp)
 set_target_properties(lists PROPERTIES FOLDER examples)
 

@@ -170,6 +170,7 @@ namespace tg
                 }
             }
         }
+
         void IWindow::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
