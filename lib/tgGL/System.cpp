@@ -7,6 +7,8 @@
 #include <tgGL/GL.h>
 
 #include <tgCore/Context.h>
+#include <tgCore/Format.h>
+#include <tgCore/LogSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -50,6 +52,15 @@ namespace tg
                 //throw std::runtime_error("Cannot initialize GLFW");
             }
             p.glfwInit = true;
+            if (auto logSystem = context->getSystem<LogSystem>())
+            {
+                logSystem->print(
+                    "tg::gl::System",
+                    Format("GLFW version: {0}.{1}.{2}").
+                    arg(glfwMajor).
+                    arg(glfwMinor).
+                    arg(glfwRevision));
+            }
         }
 
         System::~System()

@@ -9,6 +9,8 @@
 
 #include <tgCore/Box.h>
 #include <tgCore/Context.h>
+#include <tgCore/Format.h>
+#include <tgCore/LogSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -122,9 +124,9 @@ namespace tg
                 throw std::runtime_error("Cannot create window");
             }
 
-            glfwGetWindowSize(_p->glfwWindow, &p.size[0], &p.size[1]);
-            glfwGetFramebufferSize(_p->glfwWindow, &p.frameBufferSize[0], &p.frameBufferSize[1]);
-            glfwGetWindowContentScale(_p->glfwWindow, &p.contentScale[0], &p.contentScale[1]);
+            glfwGetWindowSize(p.glfwWindow, &p.size[0], &p.size[1]);
+            glfwGetFramebufferSize(p.glfwWindow, &p.frameBufferSize[0], &p.frameBufferSize[1]);
+            glfwGetWindowContentScale(p.glfwWindow, &p.contentScale[0], &p.contentScale[1]);
 
             glfwSetWindowUserPointer(p.glfwWindow, this);
             glfwSetWindowSizeCallback(p.glfwWindow, _sizeCallback);
@@ -147,6 +149,23 @@ namespace tg
             const int glMajor = glfwGetWindowAttrib(p.glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);
             const int glMinor = glfwGetWindowAttrib(p.glfwWindow, GLFW_CONTEXT_VERSION_MINOR);
             const int glRevision = glfwGetWindowAttrib(p.glfwWindow, GLFW_CONTEXT_REVISION);
+            if (auto logSystem = context->getSystem<LogSystem>())
+            {
+                logSystem->print(
+                    "tg::gl::Window",
+                    Format(
+                        "New window:\n"
+                        "    Size: {0}\n"
+                        "    Frame buffer: {1}\n"
+                        "    Content scale: {2}\n"
+                        "    OpenGL version: {3}.{4}.{5}").
+                    arg(p.size).
+                    arg(p.frameBufferSize).
+                    arg(p.contentScale).
+                    arg(glMajor).
+                    arg(glMinor).
+                    arg(glRevision));
+            }
         }
         
         Window::~Window()
