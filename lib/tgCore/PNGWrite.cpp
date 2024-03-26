@@ -126,7 +126,7 @@ namespace tg
                     p.f = nullptr;
                 }
 #else // _WINDOWS
-                p.f = fopen(path.srting().c_str(), "wb");
+                p.f = fopen(path.string().c_str(), "wb");
 #endif // _WINDOWS
                 if (!p.f)
                 {
