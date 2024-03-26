@@ -51,38 +51,38 @@ namespace tg
             
             std::string getErrorMessage(
                 ErrorType          type,
-                const std::string& fileName,
+                const std::string& path,
                 const std::string& message  = std::string())
             {
                 std::string out;
                 switch (type)
                 {
                 case ErrorType::Open:
-                    out = Format("Cannot open file: {0}").arg(fileName);
+                    out = Format("Cannot open file: {0}").arg(path);
                     break;
                 case ErrorType::MemoryMap:
-                    out = Format("Cannot memory map file: {0}").arg(fileName);
+                    out = Format("Cannot memory map file: {0}").arg(path);
                     break;
                 case ErrorType::Close:
-                    out = Format("Cannot close file: {0}").arg(fileName);
+                    out = Format("Cannot close file: {0}").arg(path);
                     break;
                 case ErrorType::CloseMemoryMap:
-                    out = Format("Cannot unmap file: {0}").arg(fileName);
+                    out = Format("Cannot unmap file: {0}").arg(path);
                     break;
                 case ErrorType::Read:
-                    out = Format("Cannot read file: {0}").arg(fileName);
+                    out = Format("Cannot read file: {0}").arg(path);
                     break;
                 case ErrorType::ReadMemoryMap:
-                    out = Format("Cannot read memory mapped file: {0}").arg(fileName);
+                    out = Format("Cannot read memory mapped file: {0}").arg(path);
                     break;
                 case ErrorType::Write:
-                    out = Format("Cannot write file: {0}").arg(fileName);
+                    out = Format("Cannot write file: {0}").arg(path);
                     break;
                 case ErrorType::Seek:
-                    out = Format("Cannot seek file: {0}").arg(fileName);
+                    out = Format("Cannot seek file: {0}").arg(path);
                     break;
                 case ErrorType::SeekMemoryMap:
-                    out = Format("Cannot seek memory mapped file: {0}").arg(fileName);
+                    out = Format("Cannot seek memory mapped file: {0}").arg(path);
                     break;
                 default: break;
                 }
@@ -99,17 +99,17 @@ namespace tg
         {
             void setPos(size_t, bool seek);
             
-            std::string    fileName;
-            FileMode       mode = FileMode::First;
-            FileRead       readType = FileRead::First;
-            size_t         pos = 0;
-            size_t         size = 0;
-            bool           endianConversion = false;
-            int            f = -1;
-            void*          mMap = reinterpret_cast<void*>(-1);
-            const uint8_t* memoryStart = nullptr;
-            const uint8_t* memoryEnd = nullptr;
-            const uint8_t* memoryP = nullptr;
+            std::filesystem::path path;
+            FileMode              mode = FileMode::First;
+            FileRead              readType = FileRead::First;
+            size_t                pos = 0;
+            size_t                size = 0;
+            bool                  endianConversion = false;
+            int                   f = -1;
+            void*                 mMap = reinterpret_cast<void*>(-1);
+            const uint8_t*        memoryStart = nullptr;
+            const uint8_t*        memoryEnd = nullptr;
+            const uint8_t*        memoryP = nullptr;
         };
 
         FileIO::FileIO() :
@@ -122,11 +122,11 @@ namespace tg
         }
         
         std::shared_ptr<FileIO> FileIO::create(
-            const std::string& fileName,
+            const std::filesystem::path& path,
             const InMemoryFile& memory)
         {
             auto out = std::shared_ptr<FileIO>(new FileIO);
-            out->_p->fileName = fileName;
+            out->_p->path = path;
             out->_p->mode = FileMode::Read;
             out->_p->readType = FileRead::Normal;
             out->_p->size = memory.size;
@@ -141,9 +141,9 @@ namespace tg
             return _p->f != -1 || _p->memoryStart;
         }
 
-        const std::string& FileIO::getFileName() const
+        const std::filesystem::path& FileIO::getPath() const
         {
-            return _p->fileName;
+            return _p->path;
         }
 
         size_t FileIO::getSize() const
@@ -209,7 +209,8 @@ namespace tg
             
             if (!p.memoryStart && -1 == p.f)
             {
-                throw std::runtime_error(getErrorMessage(ErrorType::Read, p.fileName));
+                throw std::runtime_error(
+                    getErrorMessage(ErrorType::Read, p.path.string()));
             }
                 
             switch (p.mode)
@@ -221,7 +222,8 @@ namespace tg
                     const uint8_t* memoryP = p.memoryP + size * wordSize;
                     if (memoryP > p.memoryEnd)
                     {
-                        throw std::runtime_error(getErrorMessage(ErrorType::ReadMemoryMap, p.fileName));
+                        throw std::runtime_error(
+                            getErrorMessage(ErrorType::ReadMemoryMap, p.path.string()));
                     }
                     if (p.endianConversion && wordSize > 1)
                     {
@@ -238,11 +240,13 @@ namespace tg
                     const ssize_t r = ::read(p.f, in, size * wordSize);
                     if (-1 == r)
                     {
-                        throw std::runtime_error(getErrorMessage(ErrorType::Read, p.fileName, getErrorString()));
+                        throw std::runtime_error(
+                            getErrorMessage(ErrorType::Read, p.path.string(), getErrorString()));
                     }
                     else if (r != size * wordSize)
                     {
-                        throw std::runtime_error(getErrorMessage(ErrorType::Read, p.fileName));
+                        throw std::runtime_error(
+                            getErrorMessage(ErrorType::Read, p.path.string()));
                     }
                     if (p.endianConversion && wordSize > 1)
                     {
@@ -256,11 +260,13 @@ namespace tg
                 const ssize_t r = ::read(p.f, in, size * wordSize);
                 if (-1 == r)
                 {
-                    throw std::runtime_error(getErrorMessage(ErrorType::Read, p.fileName, getErrorString()));
+                    throw std::runtime_error(
+                        getErrorMessage(ErrorType::Read, p.path.string(), getErrorString()));
                 }
                 else if (r != size * wordSize)
                 {
-                    throw std::runtime_error(getErrorMessage(ErrorType::Read, p.fileName));
+                    throw std::runtime_error(
+                        getErrorMessage(ErrorType::Read, p.path.string()));
                 }
                 if (p.endianConversion && wordSize > 1)
                 {
@@ -279,7 +285,8 @@ namespace tg
             
             if (-1 == p.f)
             {
-                throw std::runtime_error(getErrorMessage(ErrorType::Write, p.fileName));
+                throw std::runtime_error(
+                    getErrorMessage(ErrorType::Write, p.path.string()));
             }
 
             const uint8_t* inP = reinterpret_cast<const uint8_t*>(in);
@@ -292,14 +299,15 @@ namespace tg
             }
             if (::write(p.f, inP, size * wordSize) == -1)
             {
-                throw std::runtime_error(getErrorMessage(ErrorType::Write, p.fileName, getErrorString()));
+                throw std::runtime_error(
+                    getErrorMessage(ErrorType::Write, p.path.string(), getErrorString()));
             }
             p.pos += size * wordSize;
             p.size = std::max(p.pos, p.size);
         }
 
         void FileIO::_open(
-            const std::string& fileName,
+            const std::filesystem::path& path,
             FileMode mode,
             FileRead readType)
         {
@@ -329,18 +337,19 @@ namespace tg
                 break;
             default: break;
             }
-            p.f = ::open(fileName.c_str(), openFlags, openMode);
+            p.f = ::open(path.string().c_str(), openFlags, openMode);
             if (-1 == p.f)
             {
-                throw std::runtime_error(getErrorMessage(ErrorType::Open, fileName, getErrorString()));
+                throw std::runtime_error(
+                    getErrorMessage(ErrorType::Open, path.string(), getErrorString()));
             }
 
             // File information.
-            p.fileName = fileName;
+            p.path     = path;
             p.mode     = mode;
             p.readType = readType;
             p.pos      = 0;
-            p.size     = std::filesystem::file_size(fileName);
+            p.size     = std::filesystem::file_size(path);
             
             // Memory mapping.
             if (FileRead::MemoryMapped == p.readType &&
@@ -351,7 +360,8 @@ namespace tg
                 madvise(p.mMap, p.size, MADV_SEQUENTIAL | MADV_SEQUENTIAL);
                 if (p.mMap == (void*)-1)
                 {
-                    throw std::runtime_error(getErrorMessage(ErrorType::MemoryMap, fileName, getErrorString()));
+                    throw std::runtime_error(
+                        getErrorMessage(ErrorType::MemoryMap, path.string(), getErrorString()));
                 }
                 p.memoryStart = reinterpret_cast<const uint8_t*>(p.mMap);
                 p.memoryEnd   = p.memoryStart + p.size;
@@ -365,8 +375,6 @@ namespace tg
             
             bool out = true;
             
-            p.fileName = std::string();
-
             if (p.mMap != (void*)-1)
             {
                 int r = munmap(p.mMap, p.size);
@@ -375,7 +383,7 @@ namespace tg
                     out = false;
                     if (error)
                     {
-                        *error = getErrorMessage(ErrorType::CloseMemoryMap, p.fileName, getErrorString());
+                        *error = getErrorMessage(ErrorType::CloseMemoryMap, p.path.string(), getErrorString());
                     }
                 }
                 p.mMap = (void*)-1;
@@ -391,12 +399,13 @@ namespace tg
                     out = false;
                     if (error)
                     {
-                        *error = getErrorMessage(ErrorType::Close, p.fileName, getErrorString());
+                        *error = getErrorMessage(ErrorType::Close, p.path.string(), getErrorString());
                     }
                 }
                 p.f = -1;
             }
 
+            p.path = std::filesystem::path();
             p.mode = FileMode::First;
             p.pos  = 0;
             p.size = 0;
@@ -422,14 +431,16 @@ namespace tg
                     }
                     if (memoryP > memoryEnd)
                     {
-                        throw std::runtime_error(getErrorMessage(ErrorType::SeekMemoryMap, fileName));
+                        throw std::runtime_error(
+                            getErrorMessage(ErrorType::SeekMemoryMap, path.string()));
                     }
                 }
                 else
                 {
                     if (::lseek(f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t)-1)
                     {
-                        throw std::runtime_error(getErrorMessage(ErrorType::Seek, fileName, getErrorString()));
+                        throw std::runtime_error(
+                            getErrorMessage(ErrorType::Seek, path.string(), getErrorString()));
                     }
                 }
                 break;
@@ -440,7 +451,8 @@ namespace tg
             {
                 if (::lseek(f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t)-1)
                 {
-                    throw std::runtime_error(getErrorMessage(ErrorType::Seek, fileName, getErrorString()));
+                    throw std::runtime_error(
+                        getErrorMessage(ErrorType::Seek, path.string(), getErrorString()));
                 }
                 break;
             }
@@ -456,11 +468,12 @@ namespace tg
             }
         }
 
-        void truncateFile(const std::string& fileName, size_t size)
+        void truncateFile(const std::filesystem::path& path, size_t size)
         {
-            if (::truncate(fileName.c_str(), size) != 0)
+            if (::truncate(path.string().c_str(), size) != 0)
             {
-                throw std::runtime_error(getErrorMessage(ErrorType::Write, fileName, getErrorString()));
+                throw std::runtime_error(
+                    getErrorMessage(ErrorType::Write, path.string(), getErrorString()));
             }                
         }
     }

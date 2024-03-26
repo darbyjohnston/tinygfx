@@ -21,9 +21,9 @@ namespace tg
 {
     namespace core
     {
-        std::string getUserPath(UserPath value)
+        std::filesystem::path getUserPath(UserPath value)
         {
-            std::string out;
+            std::filesystem::path out;
 #if defined(__APPLE__)
             OSType folderType = kDesktopFolderType;
             switch (value)
@@ -52,7 +52,7 @@ namespace tg
                 switch (value)
                 {
                 case UserPath::Home:
-                    out = std::string(buf->pw_dir);
+                    out = std::filesystem::path(buf->pw_dir);
                     break;
                 case UserPath::Desktop:
                     out = std::filesystem::path(buf->pw_dir) / std::filesystem::path("Desktop");
@@ -70,11 +70,10 @@ namespace tg
             return out;
         }
 
-        std::vector<std::string> getDrives()
+        std::vector<std::filesystem::path> getDrives()
         {
-            std::vector<std::string> out;
+            std::vector<std::filesystem::path> out;
             out.push_back(std::filesystem::path("/"));
-            std::vector<std::string> list;
 #if defined(__APPLE__)
             for (const auto& i : std::filesystem::directory_iterator("/Volumes"))
             {
