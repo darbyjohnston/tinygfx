@@ -43,7 +43,7 @@ namespace tg
                             {
                                 fileBrowserSystem->open(
                                     getWindow(),
-                                    [appWeak](const std::string& value)
+                                    [appWeak](const std::filesystem::path& value)
                                     {
                                         if (auto app = appWeak.lock())
                                         {

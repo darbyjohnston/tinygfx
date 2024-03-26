@@ -6,6 +6,8 @@
 
 #include <tgUI/IWidget.h>
 
+#include <filesystem>
+
 namespace tg
 {
     namespace ui
@@ -32,13 +34,13 @@ namespace tg
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Set the path.
-            void setPath(const std::string&);
+            void setPath(const std::filesystem::path&);
 
             //! Get the path.
-            const std::string& getPath() const;
+            const std::filesystem::path& getPath() const;
 
             //! Set the callback.
-            void setCallback(const std::function<void(const std::string&)>&);
+            void setCallback(const std::function<void(const std::filesystem::path&)>&);
 
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;

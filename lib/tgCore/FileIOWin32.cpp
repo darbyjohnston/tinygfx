@@ -8,8 +8,6 @@
 #include <tgCore/Format.h>
 #include <tgCore/Memory.h>
 
-#include <filesystem>
-
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif // WIN32_LEAN_AND_MEAN
@@ -40,41 +38,41 @@ namespace tg
 
             std::string getErrorMessage(
                 ErrorType          type,
-                const std::string& fileName,
+                const std::string& path,
                 const std::string& message = std::string())
             {
                 std::string out;
                 switch (type)
                 {
                 case ErrorType::Open:
-                    out = Format("Cannot open file: {0}").arg(fileName);
+                    out = Format("Cannot open file: {0}").arg(path);
                     break;
                 case ErrorType::OpenTemp:
                     out = Format("Cannot open temporary file");
                     break;
                 case ErrorType::MemoryMap:
-                    out = Format("Cannot memory map file: {0}").arg(fileName);
+                    out = Format("Cannot memory map file: {0}").arg(path);
                     break;
                 case ErrorType::Close:
-                    out = Format("Cannot close file: {0}").arg(fileName);
+                    out = Format("Cannot close file: {0}").arg(path);
                     break;
                 case ErrorType::CloseMemoryMap:
-                    out = Format("Cannot unmap file: {0}").arg(fileName);
+                    out = Format("Cannot unmap file: {0}").arg(path);
                     break;
                 case ErrorType::Read:
-                    out = Format("Cannot read file: {0}").arg(fileName);
+                    out = Format("Cannot read file: {0}").arg(path);
                     break;
                 case ErrorType::ReadMemoryMap:
-                    out = Format("Cannot read memory mapped file: {0}").arg(fileName);
+                    out = Format("Cannot read memory mapped file: {0}").arg(path);
                     break;
                 case ErrorType::Write:
-                    out = Format("Cannot write file: {0}").arg(fileName);
+                    out = Format("Cannot write file: {0}").arg(path);
                     break;
                 case ErrorType::Seek:
-                    out = Format("Cannot seek file: {0}").arg(fileName);
+                    out = Format("Cannot seek file: {0}").arg(path);
                     break;
                 case ErrorType::SeekMemoryMap:
-                    out = Format("Cannot seek memory mapped file: {0}").arg(fileName);
+                    out = Format("Cannot seek memory mapped file: {0}").arg(path);
                     break;
                 default: break;
                 }
@@ -91,17 +89,17 @@ namespace tg
         {
             void setPos(size_t, bool seek);
 
-            std::string    fileName;
-            FileMode       mode = FileMode::First;
-            FileRead       readType = FileRead::First;
-            size_t         pos = 0;
-            size_t         size = 0;
-            bool           endianConversion = false;
-            HANDLE         f = INVALID_HANDLE_VALUE;
-            void*          mMap = nullptr;
-            const uint8_t* memoryStart = nullptr;
-            const uint8_t* memoryEnd = nullptr;
-            const uint8_t* memoryP = nullptr;
+            std::filesystem::path path;
+            FileMode              mode = FileMode::First;
+            FileRead              readType = FileRead::First;
+            size_t                pos = 0;
+            size_t                size = 0;
+            bool                  endianConversion = false;
+            HANDLE                f = INVALID_HANDLE_VALUE;
+            void*                 mMap = nullptr;
+            const uint8_t*        memoryStart = nullptr;
+            const uint8_t*        memoryEnd = nullptr;
+            const uint8_t*        memoryP = nullptr;
         };
 
         FileIO::FileIO() :
@@ -114,11 +112,11 @@ namespace tg
         }
 
         std::shared_ptr<FileIO> FileIO::create(
-            const std::string& fileName,
+            const std::filesystem::path& path,
             const InMemoryFile& memory)
         {
             auto out = std::shared_ptr<FileIO>(new FileIO);
-            out->_p->fileName = fileName;
+            out->_p->path = path;
             out->_p->mode = FileMode::Read;
             out->_p->readType = FileRead::Normal;
             out->_p->size = memory.size;
@@ -133,9 +131,9 @@ namespace tg
             return _p->f != INVALID_HANDLE_VALUE || _p->memoryStart;
         }
 
-        const std::string& FileIO::getFileName() const
+        const std::filesystem::path& FileIO::getPath() const
         {
-            return _p->fileName;
+            return _p->path;
         }
 
         size_t FileIO::getSize() const
@@ -201,7 +199,8 @@ namespace tg
 
             if (!p.memoryStart && !p.f)
             {
-                throw std::runtime_error(getErrorMessage(ErrorType::Read, p.fileName));
+                throw std::runtime_error(
+                    getErrorMessage(ErrorType::Read, p.path.string()));
             }
 
             switch (p.mode)
@@ -213,7 +212,8 @@ namespace tg
                     const uint8_t* memoryP = p.memoryP + size * wordSize;
                     if (memoryP > p.memoryEnd)
                     {
-                        throw std::runtime_error(getErrorMessage(ErrorType::ReadMemoryMap, p.fileName));
+                        throw std::runtime_error(
+                            getErrorMessage(ErrorType::ReadMemoryMap, p.path.string()));
                     }
                     if (p.endianConversion && wordSize > 1)
                     {
@@ -230,7 +230,8 @@ namespace tg
                     DWORD n;
                     if (!::ReadFile(p.f, in, static_cast<DWORD>(size * wordSize), &n, 0))
                     {
-                        throw std::runtime_error(getErrorMessage(ErrorType::Read, p.fileName, getLastError()));
+                        throw std::runtime_error(
+                            getErrorMessage(ErrorType::Read, p.path.string(), getLastError()));
                     }
                     if (p.endianConversion && wordSize > 1)
                     {
@@ -245,7 +246,7 @@ namespace tg
                 if (!::ReadFile(p.f, in, static_cast<DWORD>(size * wordSize), &n, 0))
                 {
                     throw std::runtime_error(
-                        getErrorMessage(ErrorType::Read, p.fileName, getLastError()));
+                        getErrorMessage(ErrorType::Read, p.path.string(), getLastError()));
                 }
                 if (p.endianConversion && wordSize > 1)
                 {
@@ -264,7 +265,8 @@ namespace tg
 
             if (!p.f)
             {
-                throw std::runtime_error(getErrorMessage(ErrorType::Write, p.fileName));
+                throw std::runtime_error(
+                    getErrorMessage(ErrorType::Write, p.path.string()));
             }
 
             const uint8_t* inP = reinterpret_cast<const uint8_t*>(in);
@@ -280,22 +282,20 @@ namespace tg
             if (!::WriteFile(p.f, inP, static_cast<DWORD>(size * wordSize), &n, 0))
             {
                 throw std::runtime_error(
-                    getErrorMessage(ErrorType::Write, p.fileName, getLastError()));
+                    getErrorMessage(ErrorType::Write, p.path.string(), getLastError()));
             }
             p.pos += size * wordSize;
             p.size = std::max(p.pos, p.size);
         }
 
         void FileIO::_open(
-            const std::string& fileName,
+            const std::filesystem::path& path,
             FileMode mode,
             FileRead readType)
         {
             TG_P();
 
             _close();
-
-            const std::wstring fileNameW = toWide(fileName);
 
             // Open the file.
             DWORD desiredAccess = 0;
@@ -329,7 +329,7 @@ namespace tg
             try
             {
                 p.f = CreateFileW(
-                    fileNameW.c_str(),
+                    path.wstring().c_str(),
                     desiredAccess,
                     shareMode,
                     0,
@@ -344,13 +344,13 @@ namespace tg
             if (INVALID_HANDLE_VALUE == p.f)
             {
                 throw std::runtime_error(
-                    getErrorMessage(ErrorType::Open, fileName, getLastError()));
+                    getErrorMessage(ErrorType::Open, path.string(), getLastError()));
             }
-            p.fileName = fileName;
+            p.path = path;
             p.mode = mode;
             p.readType = readType;
             p.pos = 0;
-            p.size = std::filesystem::file_size(fileName);
+            p.size = std::filesystem::file_size(path);
 
             // Memory mapping.
             if (FileRead::MemoryMapped == p.readType &&
@@ -361,14 +361,14 @@ namespace tg
                 if (!p.mMap)
                 {
                     throw std::runtime_error(
-                        getErrorMessage(ErrorType::MemoryMap, fileName, getLastError()));
+                        getErrorMessage(ErrorType::MemoryMap, path.string(), getLastError()));
                 }
 
                 p.memoryStart = reinterpret_cast<const uint8_t*>(MapViewOfFile(p.mMap, FILE_MAP_READ, 0, 0, 0));
                 if (!p.memoryStart)
                 {
                     throw std::runtime_error(
-                        getErrorMessage(ErrorType::MemoryMap, fileName));
+                        getErrorMessage(ErrorType::MemoryMap, path.string()));
                 }
 
                 p.memoryEnd = p.memoryStart + p.size;
@@ -388,8 +388,6 @@ namespace tg
 
             bool out = true;
 
-            p.fileName = std::string();
-
             if (p.mMap)
             {
                 if (p.memoryStart)
@@ -400,7 +398,7 @@ namespace tg
                         if (error)
                         {
                             *error = getErrorMessage(
-                                ErrorType::CloseMemoryMap, p.fileName, getLastError());
+                                ErrorType::CloseMemoryMap, p.path.string(), getLastError());
                         }
                     }
                     p.memoryStart = nullptr;
@@ -412,7 +410,7 @@ namespace tg
                     if (error)
                     {
                         *error = getErrorMessage(
-                            ErrorType::Close, p.fileName, getLastError());
+                            ErrorType::Close, p.path.string(), getLastError());
                     }
                 }
                 p.mMap = nullptr;
@@ -426,6 +424,7 @@ namespace tg
                 p.f = INVALID_HANDLE_VALUE;
             }
 
+            p.path = std::filesystem::path();
             p.mode = FileMode::First;
             p.pos = 0;
             p.size = 0;
@@ -451,7 +450,8 @@ namespace tg
                     }
                     if (memoryP > memoryEnd)
                     {
-                        throw std::runtime_error(getErrorMessage(ErrorType::SeekMemoryMap, fileName));
+                        throw std::runtime_error(
+                            getErrorMessage(ErrorType::SeekMemoryMap, path.string()));
                     }
                 }
                 else
@@ -464,7 +464,8 @@ namespace tg
                         0,
                         !seek ? FILE_BEGIN : FILE_CURRENT))
                     {
-                        throw std::runtime_error(getErrorMessage(ErrorType::Seek, fileName, getLastError()));
+                        throw std::runtime_error(
+                            getErrorMessage(ErrorType::Seek, path.string(), getLastError()));
                     }
                 }
                 break;
@@ -482,7 +483,7 @@ namespace tg
                     !seek ? FILE_BEGIN : FILE_CURRENT))
                 {
                     throw std::runtime_error(
-                        getErrorMessage(ErrorType::Seek, fileName, getLastError()));
+                        getErrorMessage(ErrorType::Seek, path.string(), getLastError()));
                 }
                 break;
             }
@@ -499,13 +500,13 @@ namespace tg
             }
         }
 
-        void truncateFile(const std::string& fileName, size_t size)
+        void truncateFile(const std::filesystem::path& path, size_t size)
         {
             HANDLE h = INVALID_HANDLE_VALUE;
             try
             {
                 h = CreateFileW(
-                    toWide(fileName).c_str(),
+                    path.wstring().c_str(),
                     GENERIC_WRITE,
                     0,
                     0,
@@ -520,7 +521,7 @@ namespace tg
             if (INVALID_HANDLE_VALUE == h)
             {
                 throw std::runtime_error(
-                    getErrorMessage(ErrorType::Open, fileName, getLastError()));
+                    getErrorMessage(ErrorType::Open, path.string(), getLastError()));
             }
             LARGE_INTEGER v;
             v.QuadPart = size;
@@ -532,13 +533,13 @@ namespace tg
             {
                 CloseHandle(h);
                 throw std::runtime_error(
-                    getErrorMessage(ErrorType::Seek, fileName, getLastError()));
+                    getErrorMessage(ErrorType::Seek, path.string(), getLastError()));
             }
             if (!::SetEndOfFile(h))
             {
                 CloseHandle(h);
                 throw std::runtime_error(
-                    getErrorMessage(ErrorType::Write, fileName, getLastError()));
+                    getErrorMessage(ErrorType::Write, path.string(), getLastError()));
             }
             CloseHandle(h);
         }

@@ -103,10 +103,10 @@ namespace tg
             };
 
             ImageWriter::ImageWriter(
-                const std::string& fileName,
+                const std::filesystem::path& path,
                 const core::ImageInfo&,
                 const Options& options) :
-                IImageWriter(fileName, options),
+                IImageWriter(path, options),
                 _p(new Private)
             {
                 TG_P();
@@ -117,20 +117,20 @@ namespace tg
                     pngWarningFunc);
                 if (!p.png)
                 {
-                    throw std::runtime_error(Format("{0}: Cannot open").arg(fileName));
+                    throw std::runtime_error(Format("{0}: Cannot open").arg(path.string()));
                 }
 
 #if defined(_WINDOWS)
-                if (_wfopen_s(&p.f, toWide(fileName).c_str(), L"wb") != 0)
+                if (_wfopen_s(&p.f, path.wstring().c_str(), L"wb") != 0)
                 {
                     p.f = nullptr;
                 }
 #else // _WINDOWS
-                p.f = fopen(fileName.c_str(), "wb");
+                p.f = fopen(path.srting().c_str(), "wb");
 #endif // _WINDOWS
                 if (!p.f)
                 {
-                    throw std::runtime_error(Format("{0}: Cannot open").arg(fileName));
+                    throw std::runtime_error(Format("{0}: Cannot open").arg(path.string()));
                 }
             }
             
@@ -140,7 +140,7 @@ namespace tg
                 const ImageInfo& info = image->getInfo();
                 if (!open(p.f, p.png, &p.pngInfo, info))
                 {
-                    throw std::runtime_error(Format("{0}: Cannot open").arg(_fileName));
+                    throw std::runtime_error(Format("{0}: Cannot open").arg(_path.string()));
                 }
 
                 size_t scanlineByteCount = 0;
@@ -162,12 +162,12 @@ namespace tg
                 {
                     if (!scanline(p.png, data))
                     {
-                        throw std::runtime_error(Format("{0}: Cannot write scanline: {1}").arg(_fileName).arg(y));
+                        throw std::runtime_error(Format("{0}: Cannot write scanline: {1}").arg(_path.string()).arg(y));
                     }
                 }
                 if (!end(p.png, p.pngInfo))
                 {
-                    throw std::runtime_error(Format("{0}: Cannot close").arg(_fileName));
+                    throw std::runtime_error(Format("{0}: Cannot close").arg(_path.string()));
                 }
             }
 

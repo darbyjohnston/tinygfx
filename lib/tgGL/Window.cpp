@@ -536,12 +536,12 @@ namespace tg
             }
         }
 
-        void Window::_dropCallback(GLFWwindow* glfwWindow, int count, const char** fileNames)
+        void Window::_dropCallback(GLFWwindow* glfwWindow, int count, const char** paths)
         {
             Window* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
             if (window->_p->dropCallback)
             {
-                window->_p->dropCallback(count, fileNames);
+                window->_p->dropCallback(count, paths);
             }
         }
     }

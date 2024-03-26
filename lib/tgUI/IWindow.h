@@ -6,6 +6,8 @@
 
 #include <tgUI/IWidget.h>
 
+#include <filesystem>
+
 namespace tg
 {
     namespace ui
@@ -64,7 +66,7 @@ namespace tg
                 const core::Box2I&,
                 bool clipped);
 
-            virtual void _drop(const std::vector<std::string>&);
+            virtual void _drop(const std::vector<std::filesystem::path>&);
 
         private:
             enum class UnderCursor

@@ -28,12 +28,12 @@ namespace tg
             "MemoryMapped");
 
         std::shared_ptr<FileIO> FileIO::create(
-            const std::string& fileName,
+            const std::filesystem::path& path,
             FileMode mode,
             FileRead readType)
         {
             auto out = std::shared_ptr<FileIO>(new FileIO);
-            out->_open(fileName, mode, readType);
+            out->_open(path, mode, readType);
             return out;
         }
 
@@ -186,10 +186,10 @@ namespace tg
             return out;
         }
 
-        std::vector<std::string> readLines(const std::string& fileName)
+        std::vector<std::string> readLines(const std::filesystem::path& path)
         {
             std::vector<std::string> out;
-            auto io = FileIO::create(fileName, FileMode::Read);
+            auto io = FileIO::create(path, FileMode::Read);
             while (!io->isEOF())
             {
                 out.push_back(readLine(io));
@@ -197,9 +197,9 @@ namespace tg
             return out;
         }
 
-        void writeLines(const std::string& fileName, const std::vector<std::string>& lines)
+        void writeLines(const std::filesystem::path& path, const std::vector<std::string>& lines)
         {
-            auto io = FileIO::create(fileName, FileMode::Write);
+            auto io = FileIO::create(path, FileMode::Write);
             for (const auto& line : lines)
             {
                 io->write(line);

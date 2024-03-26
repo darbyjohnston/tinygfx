@@ -28,7 +28,7 @@ namespace tg
         {
         public:
             IImageReader(
-                const std::string& fileName,
+                const std::filesystem::path&,
                 const core::InMemoryFile*,
                 const Options&);
             
@@ -41,7 +41,7 @@ namespace tg
             virtual std::shared_ptr<core::Image> read() = 0;
 
         protected:
-            std::string _fileName;
+            std::filesystem::path _path;
         };
 
         //! Base class for image writers.
@@ -49,7 +49,7 @@ namespace tg
         {
         public:
             IImageWriter(
-                const std::string& fileName,
+                const std::filesystem::path&,
                 const Options&);
 
             virtual ~IImageWriter() = 0;
@@ -58,7 +58,7 @@ namespace tg
             virtual void write(const std::shared_ptr<core::Image>&) = 0;
 
         protected:
-            std::string _fileName;
+            std::filesystem::path _path;
         };
         
         //! Base class for image I/O plugins.
@@ -75,25 +75,25 @@ namespace tg
             const std::string& getName() const;
             
             virtual bool canRead(
-                const std::string& fileName,
+                const std::filesystem::path&,
                 const Options& = Options());
 
             virtual std::shared_ptr<IImageReader> read(
-                const std::string& fileName,
+                const std::filesystem::path&,
                 const Options& = Options());
             
             virtual std::shared_ptr<IImageReader> read(
-                const std::string& fileName,
+                const std::filesystem::path&,
                 const core::InMemoryFile&,
                 const Options& = Options());
 
             virtual bool canWrite(
-                const std::string& fileName,
+                const std::filesystem::path&,
                 const core::ImageInfo&,
                 const Options& = Options());
 
             virtual std::shared_ptr<IImageWriter> write(
-                const std::string& fileName,
+                const std::filesystem::path&,
                 const core::ImageInfo&,
                 const Options& = Options());
                 
@@ -121,18 +121,18 @@ namespace tg
             
             //! Get an image reader.
             std::shared_ptr<IImageReader> read(
-                const std::string& fileName,
+                const std::filesystem::path&,
                 const Options& = Options());
 
             //! Get an image reader.
             std::shared_ptr<IImageReader> read(
-                const std::string& fileName,
+                const std::filesystem::path&,
                 const core::InMemoryFile&,
                 const Options& = Options());
             
             //! Get an image writer.
             std::shared_ptr<IImageWriter> write(
-                const std::string& fileName,
+                const std::filesystem::path&,
                 const core::ImageInfo&,
                 const Options& = Options());
 

@@ -41,7 +41,7 @@ namespace tg
 
         void FileBrowser::_init(
             const std::shared_ptr<Context>& context,
-            const std::string& path,
+            const std::filesystem::path& path,
             const std::shared_ptr<IWidget>& parent)
         {
             IDialog::_init(context, "tg::ui::FileBrowser", parent);
@@ -68,7 +68,7 @@ namespace tg
 
         std::shared_ptr<FileBrowser> FileBrowser::create(
             const std::shared_ptr<Context>& context,
-            const std::string& path,
+            const std::filesystem::path& path,
             const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
@@ -76,12 +76,12 @@ namespace tg
             return out;
         }
 
-        void FileBrowser::setCallback(const std::function<void(const std::string&)>& value)
+        void FileBrowser::setCallback(const std::function<void(const std::filesystem::path&)>& value)
         {
             _p->widget->setCallback(value);
         }
 
-        std::string FileBrowser::getPath() const
+        std::filesystem::path FileBrowser::getPath() const
         {
             return _p->widget->getPath();
         }

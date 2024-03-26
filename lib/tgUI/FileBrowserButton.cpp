@@ -60,11 +60,12 @@ namespace tg
             setIcon(fileInfo.isDir ? "Directory" : "File");
 
             // File name.
-            p.labels.push_back(fileInfo.fileName);
+            p.labels.push_back(fileInfo.path.filename().string());
 
             // File extension.
-            p.labels.push_back(
-                !fileInfo.isDir ? fileInfo.extension : std::string());
+            p.labels.push_back(!fileInfo.isDir ?
+                fileInfo.path.extension().string() :
+                std::string());
 
             // File size.
             std::string label;

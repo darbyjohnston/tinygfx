@@ -309,12 +309,12 @@ namespace tg
                     _text(utf32Convert.to_bytes(c));
                 });
             p.window->setDropCallback(
-                [this](int count, const char** fileNames)
+                [this](int count, const char** paths)
                 {
-                    std::vector<std::string> tmp;
+                    std::vector<std::filesystem::path> tmp;
                     for (int i = 0; i < count; ++i)
                     {
-                        tmp.push_back(fileNames[i]);
+                        tmp.push_back(paths[i]);
                     }
                     _drop(tmp);
                 });

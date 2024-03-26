@@ -165,10 +165,10 @@ namespace tg
             };
 
             ImageReader::ImageReader(
-                const std::string& fileName,
+                const std::filesystem::path& path,
                 const InMemoryFile* memory,
                 const Options& options) :
-                IImageReader(fileName, memory, options),
+                IImageReader(path, memory, options),
                 _p(new Private)
             {
                 TG_P();
@@ -186,16 +186,16 @@ namespace tg
                 else
                 {
 #if defined(_WINDOWS)
-                    if (_wfopen_s(&p.f, toWide(fileName).c_str(), L"rb") != 0)
+                    if (_wfopen_s(&p.f, path.wstring().c_str(), L"rb") != 0)
                     {
                         p.f = nullptr;
                     }
 #else // _WINDOWS
-                    p.f = fopen(fileName.c_str(), "rb");
+                    p.f = fopen(path.string().c_str(), "rb");
 #endif // _WINDOWS
                     if (!p.f)
                     {
-                        throw std::runtime_error(Format("{0}: Cannot open").arg(fileName));
+                        throw std::runtime_error(Format("{0}: Cannot open").arg(path.string()));
                     }
                 }
 
@@ -214,7 +214,7 @@ namespace tg
                     channels,
                     bitDepth))
                 {
-                    throw std::runtime_error(Format("{0}: Cannot open").arg(fileName));
+                    throw std::runtime_error(Format("{0}: Cannot open").arg(path.string()));
                 }
                 p.scanlineSize = width * channels * bitDepth / 8;
 
@@ -257,7 +257,7 @@ namespace tg
                 }
                 if (ImageType::None == type)
                 {
-                    throw std::runtime_error(Format("{0}: Cannot open").arg(fileName));
+                    throw std::runtime_error(Format("{0}: Cannot open").arg(path.string()));
                 }
 
                 p.info = ImageInfo(width, height, type);

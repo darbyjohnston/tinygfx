@@ -6,8 +6,8 @@
 
 #include <tgCore/Util.h>
 
+#include <filesystem>
 #include <iostream>
-#include <string>
 #include <vector>
 
 namespace tg
@@ -18,7 +18,7 @@ namespace tg
         ///@{
 
         //! Get the list of file system drives.
-        std::vector<std::string> getDrives();
+        std::vector<std::filesystem::path> getDrives();
 
         //! User paths.
         enum class UserPath
@@ -34,7 +34,7 @@ namespace tg
         TG_ENUM(UserPath);
 
         //! Get a user path.
-        std::string getUserPath(UserPath);
+        std::filesystem::path getUserPath(UserPath);
         
         ///@}
     }

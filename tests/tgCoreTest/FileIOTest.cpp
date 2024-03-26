@@ -48,10 +48,10 @@ namespace tg
             for (auto fileRead : getFileReadEnums())
             {
                 {
-                    const std::string fileName = "FileIOTest";
-                    auto fileIO = FileIO::create(fileName, FileMode::Write);
+                    const std::filesystem::path path = "FileIOTest";
+                    auto fileIO = FileIO::create(path, FileMode::Write);
                     TG_ASSERT(fileIO->isOpen());
-                    TG_ASSERT(fileName == fileIO->getFileName());
+                    TG_ASSERT(path == fileIO->getPath());
                     TG_ASSERT(0 == fileIO->getPos());
                     fileIO->write("Hello");
                     fileIO->setPos(0);
@@ -64,11 +64,11 @@ namespace tg
                     TG_ASSERT(fileIO->isEOF());
                     fileIO.reset();
                     
-                    fileIO = FileIO::create(fileName, FileMode::Append);
+                    fileIO = FileIO::create(path, FileMode::Append);
                     fileIO->write(" world");
                     fileIO.reset();
 
-                    fileIO = FileIO::create(fileName, FileMode::Read, fileRead);
+                    fileIO = FileIO::create(path, FileMode::Read, fileRead);
                     const size_t size = fileIO->getSize();
                     TG_ASSERT(11 == size);
                     if (FileRead::MemoryMapped == fileRead)
@@ -96,7 +96,7 @@ namespace tg
                     fileIO.reset();
 
                     InMemoryFile memoryRead((uint8_t*)contents.data(), contents.size());
-                    fileIO = FileIO::create(fileName, memoryRead);
+                    fileIO = FileIO::create(path, memoryRead);
                     std::string contents2;
                     while (!fileIO->isEOF())
                     {
@@ -107,8 +107,8 @@ namespace tg
                     TG_ASSERT(contents2 == "Hello world");
                 }
                 {
-                    const std::string fileName = "FileIOTest2";
-                    auto fileIO = FileIO::create(fileName, FileMode::Write);
+                    const std::filesystem::path path = "FileIOTest2";
+                    auto fileIO = FileIO::create(path, FileMode::Write);
                     int8_t i8 = 1;
                     uint8_t u8 = 2;
                     int16_t i16 = 3;
@@ -125,7 +125,7 @@ namespace tg
                     fileIO->writeF32(f);
                     fileIO.reset();
 
-                    fileIO = FileIO::create(fileName, FileMode::Read, fileRead);
+                    fileIO = FileIO::create(path, FileMode::Read, fileRead);
                     int8_t i8b = 1;
                     uint8_t u8b = 2;
                     int16_t i16b = 3;
@@ -149,8 +149,8 @@ namespace tg
                     TG_ASSERT(f == fb);
                 }
                 {
-                    const std::string fileName = "FileIOTest3";
-                    auto fileIO = FileIO::create(fileName, FileMode::Write);
+                    const std::filesystem::path path = "FileIOTest3";
+                    auto fileIO = FileIO::create(path, FileMode::Write);
                     uint32_t u32 = 1;
                     TG_ASSERT(!fileIO->hasEndianConversion());
                     fileIO->setEndianConversion(true);
@@ -158,20 +158,20 @@ namespace tg
                     fileIO->writeU32(u32);
                     fileIO.reset();
 
-                    fileIO = FileIO::create(fileName, FileMode::Read, fileRead);
+                    fileIO = FileIO::create(path, FileMode::Read, fileRead);
                     uint32_t u32b = 0;
                     fileIO->readU32(&u32b, 1);
                     TG_ASSERT(u32 != u32b);
                     fileIO.reset();
 
-                    fileIO = FileIO::create(fileName, FileMode::Read, fileRead);
+                    fileIO = FileIO::create(path, FileMode::Read, fileRead);
                     fileIO->setEndianConversion(true);
                     u32b = 0;
                     fileIO->readU32(&u32b, 1);
                     TG_ASSERT(u32 == u32b);
                     fileIO.reset();
 
-                    fileIO = FileIO::create(fileName, FileMode::ReadWrite, fileRead);
+                    fileIO = FileIO::create(path, FileMode::ReadWrite, fileRead);
                     fileIO->setEndianConversion(true);
                     u32b = 0;
                     fileIO->readU32(&u32b, 1);
@@ -179,8 +179,8 @@ namespace tg
                 }
                 try
                 {
-                    const std::string fileName = "FileIOTest4";
-                    auto fileIO = FileIO::create(fileName, FileMode::Read, fileRead);
+                    const std::filesystem::path path = "FileIOTest4";
+                    auto fileIO = FileIO::create(path, FileMode::Read, fileRead);
                     TG_ASSERT(false);
                 }
                 catch (const std::exception&)
@@ -189,11 +189,11 @@ namespace tg
 #if !defined(_WINDOWS)
                 try
                 {
-                    const std::string fileName = "FileIOTest5";
-                    auto fileIO = FileIO::create(fileName, FileMode::Write);
+                    const std::filesystem::path path = "FileIOTest5";
+                    auto fileIO = FileIO::create(path, FileMode::Write);
                     fileIO.reset();
 
-                    fileIO = FileIO::create(fileName, FileMode::Read, fileRead);
+                    fileIO = FileIO::create(path, FileMode::Read, fileRead);
                     uint8_t u8 = 0;
                     fileIO->readU8(&u8, 1);
                     TG_ASSERT(false);
@@ -202,11 +202,11 @@ namespace tg
                 {}
                 try
                 {
-                    const std::string fileName = "FileIOTest6";
-                    auto fileIO = FileIO::create(fileName, FileMode::Write);
+                    const std::filesystem::path path = "FileIOTest6";
+                    auto fileIO = FileIO::create(path, FileMode::Write);
                     fileIO.reset();
 
-                    fileIO = FileIO::create(fileName, FileMode::ReadWrite, fileRead);
+                    fileIO = FileIO::create(path, FileMode::ReadWrite, fileRead);
                     uint8_t u8 = 0;
                     fileIO->readU8(&u8, 1);
                     TG_ASSERT(false);
@@ -216,8 +216,8 @@ namespace tg
 #endif
                 try
                 {
-                    const std::string fileName = "FileIOTest7";
-                    auto fileIO = FileIO::create(fileName, FileMode::Read, fileRead);
+                    const std::filesystem::path path = "FileIOTest7";
+                    auto fileIO = FileIO::create(path, FileMode::Read, fileRead);
                     fileIO->writeU8(1);
                     TG_ASSERT(false);
                 }
@@ -229,41 +229,41 @@ namespace tg
         void FileIOTest::_functions()
         {
             {
-                const std::string fileName = "FileIOTest8";
-                auto fileIO = FileIO::create(fileName, FileMode::Write);
+                const std::filesystem::path path = "FileIOTest8";
+                auto fileIO = FileIO::create(path, FileMode::Write);
                 fileIO->write("Hello world");
                 fileIO.reset();
 
-                fileIO = FileIO::create(fileName, FileMode::Read);
+                fileIO = FileIO::create(path, FileMode::Read);
                 std::string contents = read(fileIO);
                 TG_ASSERT(contents == "Hello world");
             }
             {
-                const std::string fileName = "FileIOTest10";
-                auto fileIO = FileIO::create(fileName, FileMode::Write);
+                const std::filesystem::path path = "FileIOTest10";
+                auto fileIO = FileIO::create(path, FileMode::Write);
                 fileIO->write("Hello world");
                 fileIO.reset();
 
-                fileIO = FileIO::create(fileName, FileMode::Read);
+                fileIO = FileIO::create(path, FileMode::Read);
                 std::string line = readLine(fileIO);
                 TG_ASSERT(line == "Hello world");
             }
             {
-                const std::string fileName = "FileIOTest11";
+                const std::filesystem::path path = "FileIOTest11";
                 std::vector<std::string> contents;
                 contents.push_back("Hello");
                 contents.push_back("World");
-                writeLines(fileName, contents);
-                TG_ASSERT(contents == readLines(fileName));
+                writeLines(path, contents);
+                TG_ASSERT(contents == readLines(path));
             }
             {
-                const std::string fileName = "FileIOTest12";
-                auto fileIO = FileIO::create(fileName, FileMode::Write);
+                const std::filesystem::path path = "FileIOTest12";
+                auto fileIO = FileIO::create(path, FileMode::Write);
                 fileIO->write("Hello world");
                 fileIO.reset();
 
-                truncateFile(fileName, 5);
-                fileIO = FileIO::create(fileName, FileMode::ReadWrite);
+                truncateFile(path, 5);
+                fileIO = FileIO::create(path, FileMode::ReadWrite);
                 std::string contents = read(fileIO);
                 TG_ASSERT(contents == "Hello");
             }

@@ -32,10 +32,10 @@ namespace tg
                     "textedit",
                     "Text edit example",
                     {
-                        app::CmdLineValueArg<std::string>::create(
-                            _fileName,
+                        app::CmdLineValueArg<std::filesystem::path>::create(
+                            _path,
                             "input",
-                            "Input file name.",
+                            "Input path.",
                             true)
                     });
 
@@ -51,9 +51,9 @@ namespace tg
                     Size2I(1280, 720));
                 addWindow(_window);
 
-                if (!_fileName.empty())
+                if (!_path.empty())
                 {
-                    open(_fileName);
+                    open(_path);
                 }
 
                 _window->show();
@@ -83,11 +83,11 @@ namespace tg
                 return _text;
             }
 
-            void App::open(const std::string& fileName)
+            void App::open(const std::filesystem::path& path)
             {
                 try
                 {
-                    auto fileIO = FileIO::create(fileName, FileMode::Read);
+                    auto fileIO = FileIO::create(path, FileMode::Read);
                     const std::string text = read(fileIO);
                     _text->setIfChanged(text);
                 }

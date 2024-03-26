@@ -19,13 +19,13 @@ namespace tg
     {        
         struct DirectoryWidget::Private
         {
-            std::string path;
+            std::filesystem::path path;
             FileBrowserOptions options;
             std::vector<FileInfo> fileInfo;
             std::vector<std::shared_ptr<Button> > buttons;
             std::shared_ptr<ButtonGroup> buttonGroup;
             std::shared_ptr<VerticalLayout> layout;
-            std::function<void(const std::string&)> callback;
+            std::function<void(const std::filesystem::path&)> callback;
 
             struct SizeData
             {
@@ -84,12 +84,12 @@ namespace tg
             return out;
         }
 
-        void DirectoryWidget::setPath(const std::string& value)
+        void DirectoryWidget::setPath(const std::filesystem::path& path)
         {
             TG_P();
-            if (value == p.path)
+            if (path == p.path)
                 return;
-            p.path = value;
+            p.path = path;
             _directoryUpdate();
         }
 
@@ -98,7 +98,7 @@ namespace tg
             _directoryUpdate();
         }
 
-        void DirectoryWidget::setCallback(const std::function<void(const std::string&)>& value)
+        void DirectoryWidget::setCallback(const std::function<void(const std::filesystem::path&)>& value)
         {
             _p->callback = value;
         }
@@ -197,13 +197,13 @@ namespace tg
         namespace
         {
             void list(
-                const std::string& value,
+                const std::filesystem::path& path,
                 const FileBrowserOptions& options,
                 std::vector<FileInfo>& out)
             {
                 try
                 {
-                    for (const auto& i : std::filesystem::directory_iterator(value))
+                    for (const auto& i : std::filesystem::directory_iterator(path))
                     {
                         const auto& path = i.path();
                         const std::string fileName = path.filename().string();
@@ -231,9 +231,7 @@ namespace tg
                         if (keep)
                         {
                             out.push_back({
-                                path.string(),
-                                fileName,
-                                extension,
+                                path,
                                 isDir,
                                 isDir ? 0 : std::filesystem::file_size(path),
                                 std::filesystem::last_write_time(path) });
@@ -249,13 +247,13 @@ namespace tg
                 case FileBrowserSort::Name:
                     sort = [](const FileInfo& a, const FileInfo& b)
                     {
-                        return a.fileName < b.fileName;
+                        return a.path.filename() < b.path.filename();
                     };
                     break;
                 case FileBrowserSort::Extension:
                     sort = [](const FileInfo& a, const FileInfo& b)
                     {
-                        return a.extension < b.extension;
+                        return a.path.extension() < b.path.extension();
                     };
                     break;
                 case FileBrowserSort::Size:

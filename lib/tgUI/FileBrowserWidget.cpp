@@ -29,7 +29,7 @@ namespace tg
     {
         struct FileBrowserWidget::Private
         {
-            std::vector<std::string> paths;
+            std::vector<std::filesystem::path> paths;
             int currentPath = -1;
             FileBrowserOptions options;
             std::vector<std::string> extensions;
@@ -54,14 +54,14 @@ namespace tg
             std::shared_ptr<Splitter> splitter;
             std::shared_ptr<VerticalLayout> layout;
 
-            std::function<void(const std::string&)> callback;
+            std::function<void(const std::filesystem::path&)> callback;
             std::function<void(void)> cancelCallback;
             std::function<void(const FileBrowserOptions&)> optionsCallback;
         };
 
         void FileBrowserWidget::_init(
             const std::shared_ptr<Context>& context,
-            const std::string& path,
+            const std::filesystem::path& path,
             const std::shared_ptr<IWidget>& parent)
         {
             IWidget::_init(context, "tg::ui::FileBrowserWidget", parent);
@@ -217,13 +217,13 @@ namespace tg
                 });
 
             p.pathsWidget->setCallback(
-                [this](const std::string& value)
+                [this](const std::filesystem::path& value)
                 {
                     _setPath(value);
                 });
 
             p.directoryWidget->setCallback(
-                [this](const std::string& value)
+                [this](const std::filesystem::path& value)
                 {
                     TG_P();
                     if (std::filesystem::is_directory(value))
@@ -331,7 +331,7 @@ namespace tg
 
         std::shared_ptr<FileBrowserWidget> FileBrowserWidget::create(
             const std::shared_ptr<Context>& context,
-            const std::string& path,
+            const std::filesystem::path& path,
             const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<FileBrowserWidget>(new FileBrowserWidget);
@@ -339,7 +339,7 @@ namespace tg
             return out;
         }
 
-        void FileBrowserWidget::setCallback(const std::function<void(const std::string&)>& value)
+        void FileBrowserWidget::setCallback(const std::function<void(const std::filesystem::path&)>& value)
         {
             _p->callback = value;
         }
@@ -349,12 +349,12 @@ namespace tg
             _p->cancelCallback = value;
         }
 
-        std::string FileBrowserWidget::getPath() const
+        std::filesystem::path FileBrowserWidget::getPath() const
         {
             TG_P();
             return p.currentPath >= 0 && p.currentPath < p.paths.size() ?
                 p.paths[p.currentPath] :
-                std::string();
+                std::filesystem::path();
         }
         
         const FileBrowserOptions& FileBrowserWidget::getOptions() const
@@ -395,7 +395,7 @@ namespace tg
             _setSizeHint(_p->layout->getSizeHint());
         }
 
-        void FileBrowserWidget::_setPath(const std::string& value)
+        void FileBrowserWidget::_setPath(const std::filesystem::path& value)
         {
             TG_P();
             while (p.currentPath < static_cast<int>(p.paths.size()) - 1)
@@ -416,8 +416,8 @@ namespace tg
             TG_P();
             p.backButton->setEnabled(p.currentPath > 0);
             p.forwardButton->setEnabled(p.currentPath < static_cast<int>(p.paths.size()) - 1);
-            const std::string path = getPath();
-            p.pathEdit->setText(path);
+            const std::filesystem::path path = getPath();
+            p.pathEdit->setText(path.string());
             p.directoryWidget->setPath(path);
             p.directoryScrollWidget->setScrollPos(V2I());
         }

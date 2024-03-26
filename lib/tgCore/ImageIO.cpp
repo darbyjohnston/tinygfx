@@ -23,19 +23,19 @@ namespace tg
         }
         
         IImageReader::IImageReader(
-            const std::string& fileName,
+            const std::filesystem::path& path,
             const InMemoryFile*,
             const Options&) :
-            _fileName(fileName)
+            _path(path)
         {}
         
         IImageReader::~IImageReader()
         {}
 
         IImageWriter::IImageWriter(
-            const std::string& fileName,
+            const std::filesystem::path& path,
             const Options&) :
-            _fileName(fileName)
+            _path(path)
         {}
 
         IImageWriter::~IImageWriter()
@@ -54,21 +54,21 @@ namespace tg
         }
             
         bool IImagePlugin::canRead(
-            const std::string&,
+            const std::filesystem::path&,
             const Options&)
         {
             return false;
         }
             
         std::shared_ptr<IImageReader> IImagePlugin::read(
-            const std::string&,
+            const std::filesystem::path&,
             const Options&)
         {
             return nullptr;
         }
         
         std::shared_ptr<IImageReader> IImagePlugin::read(
-            const std::string&,
+            const std::filesystem::path&,
             const InMemoryFile&,
             const Options&)
         {
@@ -76,7 +76,7 @@ namespace tg
         }
             
         bool IImagePlugin::canWrite(
-            const std::string&,
+            const std::filesystem::path&,
             const ImageInfo&,
             const Options&)
         {
@@ -84,7 +84,7 @@ namespace tg
         }
 
         std::shared_ptr<IImageWriter> IImagePlugin::write(
-            const std::string&,
+            const std::filesystem::path&,
             const ImageInfo&,
             const Options&)
         {
@@ -116,15 +116,15 @@ namespace tg
         }
 
         std::shared_ptr<IImageReader> ImageIO::read(
-            const std::string& fileName,
+            const std::filesystem::path& path,
             const Options& options)
         {
             std::shared_ptr<IImageReader> out;
             for (const auto& plugin : _plugins)
             {
-                if (plugin->canRead(fileName, options))
+                if (plugin->canRead(path, options))
                 {
-                    out = plugin->read(fileName, options);
+                    out = plugin->read(path, options);
                     break;
                 }
             }
@@ -132,16 +132,16 @@ namespace tg
         }
 
         std::shared_ptr<IImageReader> ImageIO::read(
-            const std::string& fileName,
+            const std::filesystem::path& path,
             const InMemoryFile& memory,
             const Options& options)
         {
             std::shared_ptr<IImageReader> out;
             for (const auto& plugin : _plugins)
             {
-                if (plugin->canRead(fileName, options))
+                if (plugin->canRead(path, options))
                 {
-                    out = plugin->read(fileName, memory, options);
+                    out = plugin->read(path, memory, options);
                     break;
                 }
             }
@@ -149,16 +149,16 @@ namespace tg
         }
         
         std::shared_ptr<IImageWriter> ImageIO::write(
-            const std::string& fileName,
+            const std::filesystem::path& path,
             const core::ImageInfo& info,
             const Options& options)
         {
             std::shared_ptr<IImageWriter> out;
             for (const auto& plugin : _plugins)
             {
-                if (plugin->canWrite(fileName, info, options))
+                if (plugin->canWrite(path, info, options))
                 {
-                    out = plugin->write(fileName, info, options);
+                    out = plugin->write(path, info, options);
                     break;
                 }
             }

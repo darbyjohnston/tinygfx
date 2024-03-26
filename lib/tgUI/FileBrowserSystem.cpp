@@ -23,7 +23,7 @@ namespace tg
         struct FileBrowserSystem::Private
         {
             bool native = true;
-            std::string path;
+            std::filesystem::path path;
             FileBrowserOptions options;
             std::shared_ptr<FileBrowser> fileBrowser;
             std::shared_ptr<RecentFilesModel> recentFilesModel;
@@ -34,7 +34,7 @@ namespace tg
             _p(new Private)
         {
             TG_P();
-            p.path = std::filesystem::current_path().string();
+            p.path = std::filesystem::current_path();
             p.recentFilesModel = RecentFilesModel::create(context);
 #if defined(TINYGFX_NFD)
             NFD::Init();
@@ -55,7 +55,7 @@ namespace tg
 
         void FileBrowserSystem::open(
             const std::shared_ptr<IWindow>& window,
-            const std::function<void(const std::string&)>& callback)
+            const std::function<void(const std::filesystem::path&)>& callback)
         {
             TG_P();
             bool native = p.native;
@@ -85,7 +85,7 @@ namespace tg
                     p.fileBrowser->setOptions(p.options);
                     p.fileBrowser->open(window);
                     p.fileBrowser->setCallback(
-                        [this, callback](const std::string& value)
+                        [this, callback](const std::filesystem::path& value)
                         {
                             callback(value);
                             _p->fileBrowser->close();
@@ -110,12 +110,12 @@ namespace tg
             _p->native = value;
         }
 
-        const std::string& FileBrowserSystem::getPath() const
+        const std::filesystem::path& FileBrowserSystem::getPath() const
         {
             return _p->path;
         }
 
-        void FileBrowserSystem::setPath(const std::string& value)
+        void FileBrowserSystem::setPath(const std::filesystem::path& value)
         {
             _p->path = value;
         }

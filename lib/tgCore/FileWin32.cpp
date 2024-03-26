@@ -21,9 +21,9 @@ namespace tg
 {
     namespace core
     {
-        std::string getUserPath(UserPath value)
+        std::filesystem::path getUserPath(UserPath value)
         {
-            std::string out;
+            std::filesystem::path out;
             KNOWNFOLDERID id;
             memset(&id, 0, sizeof(KNOWNFOLDERID));
             switch (value)
@@ -45,9 +45,9 @@ namespace tg
             return out;
         }
 
-        std::vector<std::string> getDrives()
+        std::vector<std::filesystem::path> getDrives()
         {
-            std::vector<std::string> out;
+            std::vector<std::filesystem::path> out;
             if (DWORD result = GetLogicalDriveStringsW(0, NULL))
             {
                 std::vector<WCHAR> buf(result);

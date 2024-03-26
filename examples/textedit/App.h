@@ -10,6 +10,8 @@
 
 #include <tgCore/ObservableValue.h>
 
+#include <filesystem>
+
 namespace tg
 {
     namespace examples
@@ -40,10 +42,10 @@ namespace tg
 
                 std::shared_ptr<core::IObservableValue<std::string> > observeText() const;
 
-                void open(const std::string&);
+                void open(const std::filesystem::path&);
 
             private:
-                std::string _fileName;
+                std::filesystem::path _path;
                 std::shared_ptr<core::ObservableValue<ui::FontRole> > _font;
                 std::shared_ptr<core::ObservableValue<std::string> > _text;
                 std::shared_ptr<Window> _window;

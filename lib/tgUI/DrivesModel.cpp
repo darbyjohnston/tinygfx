@@ -25,11 +25,11 @@ namespace tg
 
         struct DrivesModel::Private
         {
-            std::shared_ptr<ObservableList<std::string> > drives;
+            std::shared_ptr<ObservableList<std::filesystem::path> > drives;
 
             struct Mutex
             {
-                std::vector<std::string> drives;
+                std::vector<std::filesystem::path> drives;
                 std::mutex mutex;
             };
             Mutex mutex;
@@ -43,7 +43,7 @@ namespace tg
         {
             TG_P();
 
-            p.drives = ObservableList<std::string>::create();
+            p.drives = ObservableList<std::filesystem::path>::create();
 
             p.running = true;
             p.thread = std::thread(
@@ -68,7 +68,7 @@ namespace tg
                 [this]
                 {
                     TG_P();
-                    std::vector<std::string> drives;
+                    std::vector<std::filesystem::path> drives;
                     {
                         std::lock_guard<std::mutex> lock(p.mutex.mutex);
                         drives = p.mutex.drives;
@@ -99,7 +99,7 @@ namespace tg
             return out;
         }
 
-        std::shared_ptr<IObservableList<std::string> > DrivesModel::observeDrives() const
+        std::shared_ptr<IObservableList<std::filesystem::path> > DrivesModel::observeDrives() const
         {
             return _p->drives;
         }

@@ -13,14 +13,14 @@ namespace tg
         struct RecentFilesModel::Private
         {
             std::shared_ptr<ObservableValue<size_t> > recentMax;
-            std::shared_ptr<ObservableList<std::string> > recent;
+            std::shared_ptr<ObservableList<std::filesystem::path> > recent;
         };
 
         void RecentFilesModel::_init(const std::shared_ptr<Context>& context)
         {
             TG_P();
             p.recentMax = ObservableValue<size_t>::create(10);
-            p.recent = ObservableList<std::string>::create();
+            p.recent = ObservableList<std::filesystem::path>::create();
         }
 
         RecentFilesModel::RecentFilesModel() :
@@ -65,17 +65,17 @@ namespace tg
             }
         }
 
-        const std::vector<std::string>& RecentFilesModel::getRecent() const
+        const std::vector<std::filesystem::path>& RecentFilesModel::getRecent() const
         {
             return _p->recent->get();
         }
 
-        std::shared_ptr<IObservableList<std::string> > RecentFilesModel::observeRecent() const
+        std::shared_ptr<IObservableList<std::filesystem::path> > RecentFilesModel::observeRecent() const
         {
             return _p->recent;
         }
 
-        void RecentFilesModel::setRecent(const std::vector<std::string>& value)
+        void RecentFilesModel::setRecent(const std::vector<std::filesystem::path>& value)
         {
             TG_P();
             auto recent = value;
@@ -86,7 +86,7 @@ namespace tg
             p.recent->setIfChanged(recent);
         }
 
-        void RecentFilesModel::addRecent(const std::string& value)
+        void RecentFilesModel::addRecent(const std::filesystem::path& value)
         {
             TG_P();
             auto recent = p.recent->get();

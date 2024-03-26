@@ -20,7 +20,7 @@ namespace tg
             {
             public:
                 ImageReader(
-                    const std::string& fileName,
+                    const std::filesystem::path&,
                     const core::InMemoryFile*,
                     const Options&);
                 
@@ -38,7 +38,7 @@ namespace tg
             {
             public:
                 ImageWriter(
-                    const std::string& fileName,
+                    const std::filesystem::path&,
                     const core::ImageInfo&,
                     const Options&);
 
@@ -59,21 +59,21 @@ namespace tg
                 virtual ~ImagePlugin();
 
                 bool canRead(
-                    const std::string& fileName,
+                    const std::filesystem::path&,
                     const Options& = Options()) override;
                 std::shared_ptr<IImageReader> read(
-                    const std::string& fileName,
+                    const std::filesystem::path&,
                     const Options& = Options()) override;
                 std::shared_ptr<IImageReader> read(
-                    const std::string& fileName,
+                    const std::filesystem::path&,
                     const core::InMemoryFile&,
                     const Options& = Options()) override;
                 bool canWrite(
-                    const std::string& fileName,
+                    const std::filesystem::path&,
                     const core::ImageInfo&,
                     const Options& = Options()) override;
                 std::shared_ptr<IImageWriter> write(
-                    const std::string& fileName,
+                    const std::filesystem::path&,
                     const core::ImageInfo&,
                     const Options& = Options()) override;
             };

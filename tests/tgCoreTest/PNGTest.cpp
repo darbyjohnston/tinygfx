@@ -52,7 +52,7 @@ namespace tg
                     ImageType::RGBA_U16,
                     ImageType::None
                 };
-                for (auto size : sizes)
+                for (const auto& size : sizes)
                 {
                     for (auto imageType : imageTypes)
                     {
@@ -61,20 +61,20 @@ namespace tg
                             const ImageInfo info(size, imageType);
                             auto image = Image::create(info);
                             image->zero();
-                            const std::string fileName = Format(
+                            const std::filesystem::path path = Format(
                                 "PNGTest_{0}_{1}_{2}.png").
                                 arg(size.w).
                                 arg(size.h).
-                                arg(imageType);
+                                arg(imageType).str();
 
-                            auto write = io->write(fileName, info);
+                            auto write = io->write(path, info);
                             if (write)
                             {
                                 write->write(image);
                                 write.reset();
                             }
 
-                            auto read = io->read(fileName);
+                            auto read = io->read(path);
                             auto info2 = read->getInfo();
                             TG_ASSERT(info.size == info2.size);
                             TG_ASSERT(info.type == info2.type);
@@ -82,10 +82,10 @@ namespace tg
                             TG_ASSERT(image2);
                             read.reset();
                             
-                            auto fileIO = FileIO::create(fileName, FileMode::Read);
+                            auto fileIO = FileIO::create(path, FileMode::Read);
                             const size_t size = fileIO->getSize();
                             InMemoryFile memory(fileIO->getMemoryStart(), size);
-                            read = io->read(fileName, memory);
+                            read = io->read(path, memory);
                             info2 = read->getInfo();
                             TG_ASSERT(info.size == info2.size);
                             TG_ASSERT(info.type == info2.type);
@@ -93,8 +93,8 @@ namespace tg
                             TG_ASSERT(image2);
                             read.reset();
                             
-                            truncateFile(fileName, 0);
-                            read = io->read(fileName);
+                            truncateFile(path, 0);
+                            read = io->read(path);
                             image2 = read->read();
                             TG_ASSERT(false);
                         }

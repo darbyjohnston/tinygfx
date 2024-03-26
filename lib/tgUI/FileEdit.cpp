@@ -17,12 +17,12 @@ namespace tg
     {
         struct FileEdit::Private
         {
-            std::string path;
+            std::filesystem::path path;
             std::shared_ptr<LineEdit> lineEdit;
             std::shared_ptr<ToolButton> browseButton;
             std::shared_ptr<ToolButton> clearButton;
             std::shared_ptr<HorizontalLayout> layout;
-            std::function<void(const std::string&)> callback;
+            std::function<void(const std::filesystem::path&)> callback;
         };
 
         void FileEdit::_init(
@@ -95,21 +95,21 @@ namespace tg
             return out;
         }
 
-        void FileEdit::setPath(const std::string& value)
+        void FileEdit::setPath(const std::filesystem::path& value)
         {
             TG_P();
             if (value == p.path)
                 return;
             p.path = value;
-            p.lineEdit->setText(value);
+            p.lineEdit->setText(value.string());
         }
 
-        const std::string& FileEdit::getPath() const
+        const std::filesystem::path& FileEdit::getPath() const
         {
             return _p->path;
         }
 
-        void FileEdit::setCallback(const std::function<void(const std::string&)>& value)
+        void FileEdit::setCallback(const std::function<void(const std::filesystem::path&)>& value)
         {
             _p->callback = value;
         }
@@ -135,10 +135,10 @@ namespace tg
                 {
                     fileBrowserSystem->open(
                         getWindow(),
-                        [this](const std::string& value)
+                        [this](const std::filesystem::path& value)
                         {
                             _p->path = value;
-                            _p->lineEdit->setText(_p->path);
+                            _p->lineEdit->setText(_p->path.string());
                             if (_p->callback)
                             {
                                 _p->callback(_p->path);

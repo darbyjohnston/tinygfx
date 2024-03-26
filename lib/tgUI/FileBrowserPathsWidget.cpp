@@ -24,18 +24,18 @@ namespace tg
         struct PathsWidget::Private
         {
             std::shared_ptr<DrivesModel> drivesModel;
-            std::vector<std::string> drives;
+            std::vector<std::filesystem::path> drives;
             std::shared_ptr<RecentFilesModel> recentFilesModel;
-            std::vector<std::string> recent;
-            std::vector<std::string> paths;
+            std::vector<std::filesystem::path> recent;
+            std::vector<std::filesystem::path> paths;
             std::vector<std::shared_ptr<ListButton> > buttons;
             std::shared_ptr<ButtonGroup> buttonGroup;
             std::map<std::string, std::shared_ptr<Bellows> > bellows;
             std::map<std::string, std::shared_ptr<VerticalLayout> > layouts;
             std::shared_ptr<VerticalLayout> layout;
-            std::function<void(const std::string&)> callback;
-            std::shared_ptr<ListObserver<std::string> > drivesObserver;
-            std::shared_ptr<ListObserver<std::string> > recentObserver;
+            std::function<void(const std::filesystem::path&)> callback;
+            std::shared_ptr<ListObserver<std::filesystem::path> > drivesObserver;
+            std::shared_ptr<ListObserver<std::filesystem::path> > recentObserver;
         };
 
         void PathsWidget::_init(
@@ -80,7 +80,7 @@ namespace tg
                     TG_P();
                     if (value >= 0 && value < p.paths.size())
                     {
-                        const std::string& path = p.paths[value];
+                        const std::filesystem::path& path = p.paths[value];
                         if (p.callback)
                         {
                             p.callback(path);
@@ -88,9 +88,9 @@ namespace tg
                     }
                 });
 
-            p.drivesObserver = ListObserver<std::string>::create(
+            p.drivesObserver = ListObserver<std::filesystem::path>::create(
                 p.drivesModel->observeDrives(),
-                [this](const std::vector<std::string>& value)
+                [this](const std::vector<std::filesystem::path>& value)
                 {
                     _p->drives = value;
                     _pathsUpdate();
@@ -113,7 +113,7 @@ namespace tg
             return out;
         }
 
-        void PathsWidget::setCallback(const std::function<void(const std::string&)>& value)
+        void PathsWidget::setCallback(const std::function<void(const std::filesystem::path&)>& value)
         {
             _p->callback = value;
         }
@@ -125,9 +125,9 @@ namespace tg
             p.recentFilesModel = value;
             if (p.recentFilesModel)
             {
-                p.recentObserver = ListObserver<std::string>::create(
+                p.recentObserver = ListObserver<std::filesystem::path>::create(
                     p.recentFilesModel->observeRecent(),
-                    [this](const std::vector<std::string>& value)
+                    [this](const std::vector<std::filesystem::path>& value)
                     {
                         _p->recent = value;
                         _pathsUpdate();
@@ -181,20 +181,20 @@ namespace tg
             {
                 for (const auto& i : p.drives)
                 {
-                    _createButton(context, i, std::string(), p.layouts["Drives"]);
+                    _createButton(context, i.string(), std::string(), p.layouts["Drives"]);
                     p.paths.push_back(i);
                 }
 
-                const std::string currentPath = std::filesystem::current_path().string();
-                _createButton(context, "Current", currentPath, p.layouts["Shortcuts"]);
+                const std::filesystem::path currentPath = std::filesystem::current_path();
+                _createButton(context, "Current", currentPath.string(), p.layouts["Shortcuts"]);
                 p.paths.push_back(currentPath);
                 for (auto userPath : getUserPathEnums())
                 {
-                    const std::string path = getUserPath(userPath);
+                    const std::filesystem::path path = getUserPath(userPath);
                     _createButton(
                         context,
-                        std::filesystem::path(path).filename().string(),
-                        path,
+                        path.filename().string(),
+                        path.string(),
                         p.layouts["Shortcuts"]);
                     p.paths.push_back(path);
                 }
@@ -203,10 +203,10 @@ namespace tg
                 {
                     _createButton(
                         context,
-                        std::filesystem::path(recent).filename().string(),
-                        recent,
+                        recent.filename().string(),
+                        recent.string(),
                         p.layouts["Recent"]);
-                    p.paths.push_back(std::filesystem::path(recent).parent_path().string());
+                    p.paths.push_back(recent.parent_path());
                 }
             }
         }

@@ -7,6 +7,7 @@
 #include <tgCore/String.h>
 #include <tgCore/Util.h>
 
+#include <filesystem>
 #include <memory>
 
 namespace tg
@@ -66,13 +67,13 @@ namespace tg
 
             //! Create a new file I/O object.
             static std::shared_ptr<FileIO> create(
-                const std::string& fileName,
+                const std::filesystem::path&,
                 FileMode,
                 FileRead = FileRead::MemoryMapped);
 
             //! Create a read-only file I/O object from memory.
             static std::shared_ptr<FileIO> create(
-                const std::string& fileName,
+                const std::filesystem::path&,
                 const InMemoryFile&);
 
             //! Get whether the file is open.
@@ -81,8 +82,8 @@ namespace tg
             //! \name Information
             ///@{
 
-            //! Get the file name.
-            const std::string& getFileName() const;
+            //! Get the file path.
+            const std::filesystem::path& getPath() const;
 
             //! Get the file size.
             size_t getSize() const;
@@ -172,7 +173,7 @@ namespace tg
             ///@}
 
         private:
-            void _open(const std::string& fileName, FileMode, FileRead);
+            void _open(const std::filesystem::path&, FileMode, FileRead);
             bool _close(std::string* error = nullptr);
 
             TG_PRIVATE();
@@ -185,13 +186,13 @@ namespace tg
         std::string readLine(const std::shared_ptr<FileIO>&);
 
         //! Read all the lines from a file.
-        std::vector<std::string> readLines(const std::string& fileName);
+        std::vector<std::string> readLines(const std::filesystem::path&);
 
         //! Write lines to a file.
-        void writeLines(const std::string& fileName, const std::vector<std::string>&);
+        void writeLines(const std::filesystem::path&, const std::vector<std::string>&);
 
         //! Truncate a file.
-        void truncateFile(const std::string& fileName, size_t);
+        void truncateFile(const std::filesystem::path&, size_t);
         
         ///@}
     }

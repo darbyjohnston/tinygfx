@@ -20,39 +20,39 @@ namespace tg
             {}
             
             bool ImagePlugin::canRead(
-                const std::string& fileName,
+                const std::filesystem::path& path,
                 const Options&)
             {
                 return compare(
-                    std::filesystem::path(fileName).extension().string(),
+                    path.extension().string(),
                     ".png",
                     Compare::CaseInsensitive);
             }
 
             std::shared_ptr<IImageReader> ImagePlugin::read(
-                const std::string& fileName,
+                const std::filesystem::path& path,
                 const Options& options)
             {
                 return std::shared_ptr<ImageReader>(
-                    new ImageReader(fileName, nullptr, options));
+                    new ImageReader(path, nullptr, options));
             }
 
             std::shared_ptr<IImageReader> ImagePlugin::read(
-                const std::string& fileName,
+                const std::filesystem::path& path,
                 const InMemoryFile& memory,
                 const Options& options)
             {
                 return std::shared_ptr<ImageReader>(
-                    new ImageReader(fileName, &memory, options));
+                    new ImageReader(path, &memory, options));
             }
 
             bool ImagePlugin::canWrite(
-                const std::string& fileName,
+                const std::filesystem::path& path,
                 const ImageInfo& info,
                 const Options&)
             {
                 return compare(
-                    std::filesystem::path(fileName).extension().string(),
+                    path.extension().string(),
                     ".png",
                     Compare::CaseInsensitive) &&
                     (
@@ -68,12 +68,12 @@ namespace tg
             }
 
             std::shared_ptr<IImageWriter> ImagePlugin::write(
-                const std::string& fileName,
+                const std::filesystem::path& path,
                 const core::ImageInfo& info,
                 const Options& options)
             {
                 return std::shared_ptr<ImageWriter>(
-                    new ImageWriter(fileName, info, options));
+                    new ImageWriter(path, info, options));
             }
         }
     }

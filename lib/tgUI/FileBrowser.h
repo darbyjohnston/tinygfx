@@ -8,6 +8,8 @@
 
 #include <tgCore/ISystem.h>
 
+#include <filesystem>
+
 namespace tg
 {
     namespace ui
@@ -48,7 +50,7 @@ namespace tg
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,
-                const std::string& path,
+                const std::filesystem::path&,
                 const std::shared_ptr<IWidget>& parent);
 
             FileBrowser();
@@ -59,14 +61,14 @@ namespace tg
             //! Create a new dialog.
             static std::shared_ptr<FileBrowser> create(
                 const std::shared_ptr<core::Context>&,
-                const std::string& path,
+                const std::filesystem::path&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Set the callback.
-            void setCallback(const std::function<void(const std::string&)>&);
+            void setCallback(const std::function<void(const std::filesystem::path&)>&);
 
             //! Get the path.
-            std::string getPath() const;
+            std::filesystem::path getPath() const;
 
             //! Get the options.
             const FileBrowserOptions& getOptions() const;
@@ -97,7 +99,7 @@ namespace tg
             //! Open the file browser.
             void open(
                 const std::shared_ptr<IWindow>&,
-                const std::function<void(const std::string&)>&);
+                const std::function<void(const std::filesystem::path&)>&);
 
             //! Get whether the native file dialog is used.
             bool isNativeFileDialog() const;
@@ -106,10 +108,10 @@ namespace tg
             void setNativeFileDialog(bool);
 
             //! Get the path.
-            const std::string& getPath() const;
+            const std::filesystem::path& getPath() const;
 
             //! Set the path.
-            void setPath(const std::string&);
+            void setPath(const std::filesystem::path&);
 
             //! Get the options.
             const FileBrowserOptions& getOptions() const;

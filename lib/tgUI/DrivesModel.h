@@ -6,7 +6,7 @@
 
 #include <tgCore/ObservableList.h>
 
-#include <string>
+#include <filesystem>
 
 namespace tg
 {
@@ -38,7 +38,7 @@ namespace tg
                 const std::shared_ptr<core::Context>&);
 
             //! Observe the list of drives.
-            std::shared_ptr<core::IObservableList<std::string> > observeDrives() const;
+            std::shared_ptr<core::IObservableList<std::filesystem::path> > observeDrives() const;
 
         private:
             TG_PRIVATE();

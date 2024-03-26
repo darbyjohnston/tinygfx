@@ -7,7 +7,7 @@
 #include <tgCore/ObservableList.h>
 #include <tgCore/ObservableValue.h>
 
-#include <string>
+#include <filesystem>
 
 namespace tg
 {
@@ -48,16 +48,16 @@ namespace tg
             void setRecentMax(size_t);
 
             //! Get the list of recent files.
-            const std::vector<std::string>& getRecent() const;
+            const std::vector<std::filesystem::path>& getRecent() const;
 
             //! Observe the list of recent files.
-            std::shared_ptr<core::IObservableList<std::string> > observeRecent() const;
+            std::shared_ptr<core::IObservableList<std::filesystem::path> > observeRecent() const;
 
             //! Set the recent files.
-            void setRecent(const std::vector<std::string>&);
+            void setRecent(const std::vector<std::filesystem::path>&);
 
             //! Add a recent file.
-            void addRecent(const std::string&);
+            void addRecent(const std::filesystem::path&);
 
         private:
             TG_PRIVATE();

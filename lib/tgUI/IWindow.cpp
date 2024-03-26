@@ -576,7 +576,7 @@ namespace tg
             }
         }
 
-        void IWindow::_drop(const std::vector<std::string>&)
+        void IWindow::_drop(const std::vector<std::filesystem::path>&)
         {}
 
         std::list<std::shared_ptr<IWidget> > IWindow::_getUnderCursor(
