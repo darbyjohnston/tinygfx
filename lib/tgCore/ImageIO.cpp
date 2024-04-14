@@ -92,7 +92,7 @@ namespace tg
         }
 
         ImageIO::ImageIO(const std::shared_ptr<Context>& context) :
-            ISystem(context, "tg::io::ImageIO")
+            ISystem(context, "tg::core::ImageIO")
         {
             _plugins.push_front(std::shared_ptr<IImagePlugin>(new png::ImagePlugin));
         }

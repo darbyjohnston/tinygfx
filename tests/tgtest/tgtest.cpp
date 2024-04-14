@@ -141,7 +141,7 @@ namespace tg
 
         App::~App()
         {}
-        
+
         std::shared_ptr<App> App::create(
             const std::shared_ptr<Context>& context,
             std::vector<std::string>& argv)

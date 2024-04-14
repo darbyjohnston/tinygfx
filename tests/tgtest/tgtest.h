@@ -22,10 +22,10 @@ namespace tg
 
         public:
             virtual ~App();
-            
+
             static std::shared_ptr<App> create(
                 const std::shared_ptr<core::Context>&,
-                std::vector<std::string>& argv);
+                std::vector<std::string>&);
 
             int run() override;
             

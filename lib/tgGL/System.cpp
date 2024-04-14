@@ -39,7 +39,7 @@ namespace tg
             _p(new Private)
         {
             TG_P();
-            
+
             // Initialize GLFW.
             glfwSetErrorCallback(glfwErrorCallback);
             int glfwMajor = 0;

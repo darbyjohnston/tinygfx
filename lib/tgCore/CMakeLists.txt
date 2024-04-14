@@ -105,7 +105,7 @@ else()
 endif()
 
 add_library(tgCore ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(tgCore 
+target_link_libraries(tgCore
     PUBLIC nlohmann_json::nlohmann_json
     PRIVATE Freetype::Freetype PNG ZLIB::ZLIB)
 set_target_properties(tgCore PROPERTIES FOLDER lib)

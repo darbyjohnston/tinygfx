@@ -4,6 +4,9 @@
 
 #include <tgCore/ISystem.h>
 
+#include <tgCore/Context.h>
+#include <tgCore/LogSystem.h>
+
 namespace tg
 {
     namespace core
@@ -13,10 +16,23 @@ namespace tg
             const std::string& name) :
             _context(context),
             _name(name)
-        {}
+        {
+            if (auto logSystem = context->getSystem<LogSystem>())
+            {
+                logSystem->print(_name, "Create...");
+            }
+        }
 
         ISystem::~ISystem()
-        {}
+        {
+            if (auto context = _context.lock())
+            {
+                if (auto logSystem = context->getSystem<LogSystem>())
+                {
+                    logSystem->print(_name, "Destroy...");
+                }
+            }
+        }
 
         void ISystem::tick()
         {}

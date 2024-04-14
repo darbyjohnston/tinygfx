@@ -20,7 +20,7 @@ namespace tg
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,
-                std::vector<std::string>& argv,
+                std::vector<std::string>&,
                 const std::string& name,
                 const std::string& summary,
                 const std::vector<std::shared_ptr<app::ICmdLineArg> >& = {},
@@ -34,7 +34,7 @@ namespace tg
             //! Create a new application.
             static std::shared_ptr<App> create(
                 const std::shared_ptr<core::Context>&,
-                std::vector<std::string>& argv,
+                std::vector<std::string>&,
                 const std::string& name,
                 const std::string& summary,
                 const std::vector<std::shared_ptr<app::ICmdLineArg> >& = {},
