@@ -6,9 +6,8 @@ set(SOURCE
     Size.cpp
     bindings.cpp)
 
-add_library(tgCorePy SHARED ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(tgCorePy tgCore Python3::Python)
-set_target_properties(tgCorePy PROPERTIES SUFFIX ".pyd")
+pybind11_add_module(tgCorePy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
+target_link_libraries(tgCorePy PRIVATE tgCore)
 set_target_properties(tgCorePy PROPERTIES FOLDER python)
 set_target_properties(tgCorePy PROPERTIES PUBLIC_HEADER "${HEADERS}")
 

@@ -10,9 +10,8 @@ set(SOURCE
     WidgetOptions.cpp
     bindings.cpp)
 
-add_library(tgUIPy SHARED ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(tgUIPy tgUI Python3::Python)
-set_target_properties(tgUIPy PROPERTIES SUFFIX ".pyd")
+pybind11_add_module(tgUIPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
+target_link_libraries(tgUIPy PRIVATE tgUI)
 set_target_properties(tgUIPy PROPERTIES FOLDER python)
 set_target_properties(tgUIPy PROPERTIES PUBLIC_HEADER "${HEADERS}")
 

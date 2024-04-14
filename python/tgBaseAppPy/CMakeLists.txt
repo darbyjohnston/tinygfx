@@ -5,9 +5,8 @@ set(SOURCE
     IApp.cpp
     bindings.cpp)
 
-add_library(tgBaseAppPy SHARED ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(tgBaseAppPy tgBaseApp Python3::Python)
-set_target_properties(tgBaseAppPy PROPERTIES SUFFIX ".pyd")
+pybind11_add_module(tgBaseAppPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
+target_link_libraries(tgBaseAppPy PRIVATE tgBaseApp)
 set_target_properties(tgBaseAppPy PROPERTIES FOLDER python)
 set_target_properties(tgBaseAppPy PROPERTIES PUBLIC_HEADER "${HEADERS}")
 

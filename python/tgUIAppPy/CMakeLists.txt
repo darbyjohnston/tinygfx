@@ -5,9 +5,8 @@ set(SOURCE
     Window.cpp
     bindings.cpp)
 
-add_library(tgUIAppPy SHARED ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(tgUIAppPy tgUIApp Python3::Python)
-set_target_properties(tgUIAppPy PROPERTIES SUFFIX ".pyd")
+pybind11_add_module(tgUIAppPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
+target_link_libraries(tgUIAppPy PRIVATE tgUIApp)
 set_target_properties(tgUIAppPy PROPERTIES FOLDER python)
 set_target_properties(tgUIAppPy PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
