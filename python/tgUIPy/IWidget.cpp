@@ -11,7 +11,7 @@ using namespace tg::core;
 using namespace tg::ui;
 namespace py = pybind11;
 
-void bindIWidget(py::module_& m)
+void pyIWidget(py::module_& m)
 {
     py::class_<IWidget, std::shared_ptr<IWidget> >(m, "IWidget");
 }

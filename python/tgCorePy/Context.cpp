@@ -10,7 +10,7 @@
 using namespace tg::core;
 namespace py = pybind11;
 
-void bindContext(py::module_& m)
+void pyContext(py::module_& m)
 {
     py::class_<Context, std::shared_ptr<Context> >(m, "Context")
         .def("create", &Context::create)

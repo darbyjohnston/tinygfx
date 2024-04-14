@@ -107,6 +107,7 @@ if(TINYGFX_NFD)
 endif()
 
 if(TINYGFX_PYTHON)
+    include_directories(python)
     add_definitions(-DTINYGFX_PYTHON)
     find_package(Python3 REQUIRED Interpreter Development)
     find_package(pybind11 REQUIRED)

@@ -1,12 +1,13 @@
-set(HEADERS)
+set(HEADERS
+    bindings.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
     App.cpp
     Window.cpp
     bindings.cpp)
 
-pybind11_add_module(tgUIAppPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(tgUIAppPy PRIVATE tgUIApp)
+add_library(tgUIAppPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
+target_link_libraries(tgUIAppPy tgUIApp Python3::Python)
 set_target_properties(tgUIAppPy PROPERTIES FOLDER python)
 set_target_properties(tgUIAppPy PROPERTIES PUBLIC_HEADER "${HEADERS}")
 

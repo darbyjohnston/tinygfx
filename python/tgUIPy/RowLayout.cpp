@@ -11,7 +11,7 @@ using namespace tg::core;
 using namespace tg::ui;
 namespace py = pybind11;
 
-void bindRowLayout(py::module_& m)
+void pyRowLayout(py::module_& m)
 {
     py::class_<RowLayout, IWidget, std::shared_ptr<RowLayout> >(m, "RowLayout")
         .def_static(

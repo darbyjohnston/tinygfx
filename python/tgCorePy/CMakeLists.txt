@@ -1,4 +1,5 @@
-set(HEADERS)
+set(HEADERS
+    bindings.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
     Context.cpp
@@ -6,8 +7,8 @@ set(SOURCE
     Size.cpp
     bindings.cpp)
 
-pybind11_add_module(tgCorePy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(tgCorePy PRIVATE tgCore)
+add_library(tgCorePy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
+target_link_libraries(tgCorePy tgCore Python3::Python)
 set_target_properties(tgCorePy PROPERTIES FOLDER python)
 set_target_properties(tgCorePy PROPERTIES PUBLIC_HEADER "${HEADERS}")
 

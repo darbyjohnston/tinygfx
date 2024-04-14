@@ -10,15 +10,16 @@
 using namespace tg::core;
 namespace py = pybind11;
 
-void bindContext(py::module_&);
-void bindOS(py::module_&);
-void bindSize(py::module_&);
+void pySize(py::module_&);
+void pyContext(py::module_&);
+void pyOS(py::module_&);
 
-PYBIND11_MODULE(tgCorePy, m)
+void tgCorePy(py::module_& m)
 {
-    m.doc() = "Core functionality";
-    m.def("init", &init, "Initialize the library.");
-    bindContext(m);
-    bindOS(m);
-    bindSize(m);
+    auto sm = m.def_submodule("tgCore");
+    sm.doc() = "Core functionality";
+    sm.def("init", &init, "Initialize the library.");
+    pySize(sm);
+    pyContext(sm);
+    pyOS(sm);
 }

@@ -9,7 +9,7 @@
 using namespace tg::core;
 namespace py = pybind11;
 
-void bindOS(py::module_& m)
+void pyOS(py::module_& m)
 {
     py::class_<SystemInfo>(m, "SystemInfo")
         .def_readwrite("name", &SystemInfo::name)

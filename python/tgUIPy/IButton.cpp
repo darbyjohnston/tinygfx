@@ -11,7 +11,7 @@ using namespace tg::core;
 using namespace tg::ui;
 namespace py = pybind11;
 
-void bindIButton(py::module_& m)
+void pyIButton(py::module_& m)
 {
     py::class_<IButton, IWidget, std::shared_ptr<IButton> >(m, "IButton");
 }

@@ -9,7 +9,7 @@
 using namespace tg::core;
 namespace py = pybind11;
 
-void bindSize(py::module_& m)
+void pySize(py::module_& m)
 {
     py::class_<Size2I>(m, "Size2I")
         .def(py::init<>())

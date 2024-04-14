@@ -11,23 +11,24 @@
 using namespace tg::ui;
 namespace py = pybind11;
 
-void bindIButton(py::module_&);
-void bindIWidget(py::module_&);
-void bindIWindow(py::module_&);
-void bindPushButton(py::module_&);
-void bindRowLayout(py::module_&);
-void bindStyle(py::module_&);
-void bindWidgetOptions(py::module_&);
+void pyIButton(py::module_&);
+void pyIWidget(py::module_&);
+void pyIWindow(py::module_&);
+void pyPushButton(py::module_&);
+void pyRowLayout(py::module_&);
+void pyStyle(py::module_&);
+void pyWidgetOptions(py::module_&);
 
-PYBIND11_MODULE(tgUIPy, m)
+void tgUIPy(py::module_& m)
 {
-    m.doc() = "User interface";
-    m.def("init", &init, "Initialize the library.");
-    bindStyle(m);
-    bindWidgetOptions(m);
-    bindIWidget(m);
-    bindIButton(m);
-    bindIWindow(m);
-    bindPushButton(m);
-    bindRowLayout(m);
+    auto sm = m.def_submodule("tgUI");
+    sm.doc() = "User interface";
+    sm.def("init", &init, "Initialize the library.");
+    pyStyle(sm);
+    pyWidgetOptions(sm);
+    pyIWidget(sm);
+    pyIButton(sm);
+    pyIWindow(sm);
+    pyPushButton(sm);
+    pyRowLayout(sm);
 }

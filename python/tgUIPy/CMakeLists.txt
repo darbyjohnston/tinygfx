@@ -1,4 +1,5 @@
-set(HEADERS)
+set(HEADERS
+    bindings.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
     IButton.cpp
@@ -10,8 +11,8 @@ set(SOURCE
     WidgetOptions.cpp
     bindings.cpp)
 
-pybind11_add_module(tgUIPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(tgUIPy PRIVATE tgUI)
+add_library(tgUIPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
+target_link_libraries(tgUIPy tgUI Python3::Python)
 set_target_properties(tgUIPy PROPERTIES FOLDER python)
 set_target_properties(tgUIPy PROPERTIES PUBLIC_HEADER "${HEADERS}")
 

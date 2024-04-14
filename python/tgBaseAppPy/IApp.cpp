@@ -12,7 +12,7 @@ using namespace tg::core;
 using namespace tg::app;
 namespace py = pybind11;
 
-void bindIApp(py::module_& m)
+void pyIApp(py::module_& m)
 {
     py::class_<IApp, std::shared_ptr<IApp> >(m, "IApp")
         .def("getExit", &IApp::getExit)

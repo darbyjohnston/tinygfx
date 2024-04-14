@@ -6,12 +6,13 @@
 
 namespace py = pybind11;
 
-void bindApp(py::module_&);
-void bindWindow(py::module_&);
+void pyApp(py::module_&);
+void pyWindow(py::module_&);
 
-PYBIND11_MODULE(tgUIAppPy, m)
+void tgUIAppPy(py::module_& m)
 {
-    m.doc() = "User interface applications";
-    bindApp(m);
-    bindWindow(m);
+    auto sm = m.def_submodule("tgUIApp");
+    sm.doc() = "User interface applications";
+    pyApp(sm);
+    pyWindow(sm);
 }

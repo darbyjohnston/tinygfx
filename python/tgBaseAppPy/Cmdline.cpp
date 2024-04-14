@@ -11,7 +11,7 @@ using namespace tg::core;
 using namespace tg::app;
 namespace py = pybind11;
 
-void bindCmdline(py::module_& m)
+void pyCmdline(py::module_& m)
 {
     py::class_<ICmdLineOption, std::shared_ptr<ICmdLineOption> >(m, "ICmdLineOption");
     py::class_<ICmdLineArg, std::shared_ptr<ICmdLineArg> >(m, "ICmdLineArg");

@@ -11,7 +11,7 @@ using namespace tg::core;
 using namespace tg::ui;
 namespace py = pybind11;
 
-void bindPushButton(py::module_& m)
+void pyPushButton(py::module_& m)
 {
     py::class_<PushButton, IButton, std::shared_ptr<PushButton> >(m, "PushButton")
         .def_static(

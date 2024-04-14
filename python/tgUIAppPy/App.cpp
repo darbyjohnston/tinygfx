@@ -18,7 +18,7 @@ using namespace tg::ui;
 using namespace pybind11::literals;
 namespace py = pybind11;
 
-void bindApp(py::module_& m)
+void pyApp(py::module_& m)
 {
     py::class_<App, IApp, std::shared_ptr<App> >(m, "App")
         .def_static("create",

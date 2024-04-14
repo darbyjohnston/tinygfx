@@ -10,7 +10,7 @@ using namespace tg::core;
 using namespace tg::ui;
 namespace py = pybind11;
 
-void bindWidgetOptions(py::module_& m)
+void pyWidgetOptions(py::module_& m)
 {
     py::enum_<Orientation>(m, "Orientation")
         .value("Horizontal", Orientation::Horizontal)

@@ -6,12 +6,13 @@
 
 namespace py = pybind11;
 
-void bindCmdline(py::module_&);
-void bindIApp(py::module_&);
+void pyCmdline(py::module_&);
+void pyIApp(py::module_&);
 
-PYBIND11_MODULE(tgBaseAppPy, m)
+void tgBaseAppPy(py::module_& m)
 {
-    m.doc() = "Applications";
-    bindCmdline(m);
-    bindIApp(m);
+    auto sm = m.def_submodule("tgBaseApp");
+    sm.doc() = "Applications";
+    pyCmdline(sm);
+    pyIApp(sm);
 }

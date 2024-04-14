@@ -10,7 +10,7 @@ using namespace tg::core;
 using namespace tg::ui;
 namespace py = pybind11;
 
-void bindStyle(py::module_& m)
+void pyStyle(py::module_& m)
 {
     py::enum_<SizeRole>(m, "SizeRole")
         .value("None", SizeRole::None)
