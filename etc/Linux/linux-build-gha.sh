@@ -25,6 +25,7 @@ cmake ../etc/SuperBuild \
     -DCMAKE_INSTALL_PREFIX=$PWD/install \
     -DCMAKE_PREFIX_PATH=$PWD/install \
     -DTINYGFX_API=$TINYGFX_API \
+    -DTINYGFX_PYTHON=$TINYGFX_PYTHON \
     -DTINYGFX_TESTS=$TINYGFX_TESTS \
     -DTINYGFX_GCOV=$TINYGFX_GCOV
 cmake --build . -j 4 --config $BUILD_TYPE
