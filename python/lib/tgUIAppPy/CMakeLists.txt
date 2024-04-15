@@ -8,7 +8,7 @@ set(SOURCE
 
 add_library(tgUIAppPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
 target_link_libraries(tgUIAppPy tgUIApp Python3::Python)
-set_target_properties(tgUIAppPy PROPERTIES FOLDER python)
+set_target_properties(tgUIAppPy PROPERTIES FOLDER python/lib)
 set_target_properties(tgUIAppPy PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
 install(TARGETS tgUIAppPy

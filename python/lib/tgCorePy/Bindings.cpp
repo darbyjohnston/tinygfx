@@ -25,6 +25,8 @@ namespace tg
             context(sm);
             os(sm);
             size(sm);
+            vector(sm);
+            box(sm);
         }
     }
 }

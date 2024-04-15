@@ -18,14 +18,11 @@ namespace tg
         void pushButton(py::module_& m)
         {
             py::class_<PushButton, IButton, std::shared_ptr<PushButton> >(m, "PushButton")
-                .def_static(
-                    "create",
-                    py::overload_cast<
-                    const std::shared_ptr<core::Context>&,
-                    const std::string&,
-                    const std::shared_ptr<IWidget>&>(&PushButton::create),
+                .def(
+                    py::init(py::overload_cast<
+                        const std::shared_ptr<core::Context>&,
+                        const std::shared_ptr<IWidget>&>(&PushButton::create)),
                     py::arg("context"),
-                    py::arg("text"),
                     py::arg("parent") = nullptr);
         }
     }

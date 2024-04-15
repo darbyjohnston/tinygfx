@@ -18,9 +18,8 @@ namespace tg
         void window(py::module_& m)
         {
             py::class_<ui::Window, ui::IWindow, std::shared_ptr<ui::Window> >(m, "Window")
-                .def_static(
-                    "create",
-                    &ui::Window::create,
+                .def(
+                    py::init(&ui::Window::create),
                     py::arg("context"),
                     py::arg("name"),
                     py::arg("size"))

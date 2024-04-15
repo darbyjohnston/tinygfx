@@ -65,15 +65,6 @@ namespace tg
             Overlay,
             TooltipWindow,
             TooltipText,
-
-            InOut,
-            VideoCache,
-            AudioCache,
-            VideoClip,
-            VideoGap,
-            AudioClip,
-            AudioGap,
-            Transition,
             
             Red,
             Green,

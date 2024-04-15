@@ -18,9 +18,8 @@ namespace tg
         void rowLayout(py::module_& m)
         {
             py::class_<RowLayout, IWidget, std::shared_ptr<RowLayout> >(m, "RowLayout")
-                .def_static(
-                    "create",
-                    &RowLayout::create,
+                .def(
+                    py::init(&RowLayout::create),
                     py::arg("context"),
                     py::arg("orientation"),
                     py::arg("parent") = nullptr)
@@ -28,16 +27,14 @@ namespace tg
                 .def("setSpacingRole", &RowLayout::setSpacingRole);
 
             py::class_<VerticalLayout, RowLayout, std::shared_ptr<VerticalLayout> >(m, "VerticalLayout")
-                .def_static(
-                    "create",
-                    &VerticalLayout::create,
+                .def(
+                    py::init(&VerticalLayout::create),
                     py::arg("context"),
                     py::arg("parent") = nullptr);
 
             py::class_<HorizontalLayout, RowLayout, std::shared_ptr<HorizontalLayout> >(m, "HorizontalLayout")
-                .def_static(
-                    "create",
-                    &HorizontalLayout::create,
+                .def(
+                    py::init(&HorizontalLayout::create),
                     py::arg("context"),
                     py::arg("parent") = nullptr);
         }

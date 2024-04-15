@@ -21,6 +21,7 @@ endif()
 set(TINYGFX_NFD ${TINYGFX_NFD_DEFAULT} CACHE BOOL "Enable support for native file dialogs")
 set(TINYGFX_PYTHON OFF CACHE BOOL "Enable support for Python")
 set(TINYGFX_TESTS ON CACHE BOOL "Enable tests")
+set(TINYGFX_EXAMPLES ON CACHE BOOL "Enable examples")
 set(TINYGFX_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 set(TINYGFX_GPROF FALSE CACHE BOOL "Enable gprof code profiling")
 
@@ -69,7 +70,10 @@ endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-include_directories(lib etc tests)
+include_directories(lib etc)
+if(TINYGFX_TESTS)
+    include_directories(tests)
+endif()
 
 #-------------------------------------------------------------------------------
 # Dependencies
@@ -107,7 +111,10 @@ if(TINYGFX_NFD)
 endif()
 
 if(TINYGFX_PYTHON)
-    include_directories(python)
+    include_directories(python/lib)
+    if(TINYGFX_TESTS)
+        include_directories(python/tests)
+    endif()
     add_definitions(-DTINYGFX_PYTHON)
     find_package(Python3 REQUIRED Interpreter Development)
     find_package(pybind11 REQUIRED)
@@ -117,10 +124,13 @@ endif()
 # Subdirectories
 
 add_subdirectory(lib)
+add_subdirectory(bin)
 if(TINYGFX_PYTHON)
     add_subdirectory(python)
 endif()
-add_subdirectory(bin)
-add_subdirectory(examples)
-add_subdirectory(tests)
-
+if(TINYGFX_TESTS)
+    add_subdirectory(tests)
+endif()
+if(TINYGFX_EXAMPLES)
+    add_subdirectory(examples)
+endif()

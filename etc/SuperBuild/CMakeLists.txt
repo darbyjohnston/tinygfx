@@ -19,6 +19,7 @@ endif()
 set(TINYGFX_NFD ${TINYGFX_NFD_DEFAULT} CACHE BOOL "Enable support for native file dialogs")
 set(TINYGFX_PYTHON OFF CACHE BOOL "Enable support for Python")
 set(TINYGFX_TESTS ON CACHE BOOL "Enable tests")
+set(TINYGFX_EXAMPLES ON CACHE BOOL "Enable examples")
 set(TINYGFX_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 set(TINYGFX_GPROF FALSE CACHE BOOL "Enable gprof code profiling")
 

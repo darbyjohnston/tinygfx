@@ -18,7 +18,7 @@ namespace tg
         void context(py::module_& m)
         {
             py::class_<Context, std::shared_ptr<Context> >(m, "Context")
-                .def("create", &Context::create)
+                .def(py::init(&Context::create))
                 .def("tick", &Context::tick);
         }
     }

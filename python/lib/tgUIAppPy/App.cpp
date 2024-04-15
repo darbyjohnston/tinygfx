@@ -24,8 +24,8 @@ namespace tg
         void app(py::module_& m)
         {
             py::class_<ui::App, app::IApp, std::shared_ptr<ui::App> >(m, "App")
-                .def_static("create",
-                    &ui::App::create,
+                .def(
+                    py::init(&ui::App::create),
                     py::arg("context"),
                     py::arg("argv"),
                     py::arg("name"),

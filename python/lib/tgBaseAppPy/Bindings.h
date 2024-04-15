@@ -6,11 +6,11 @@
 
 namespace tg
 {
-    namespace core
+    namespace app
     {
         void bind(pybind11::module_&);
-        void context(pybind11::module_&);
-        void os(pybind11::module_&);
-        void size(pybind11::module_&);
+
+        void cmdLine(pybind11::module_&);
+        void iApp(pybind11::module_&);
     }
 }

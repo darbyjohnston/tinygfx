@@ -28,8 +28,15 @@ namespace tg
             iWidget(sm);
             iButton(sm);
             iWindow(sm);
+
+            buttonGroup(sm);
+            checkBox(sm);
+            groupBox(sm);
             pushButton(sm);
             rowLayout(sm);
+            scrollArea(sm);
+            scrollWidget(sm);
+            toolButton(sm);
         }
     }
 }
