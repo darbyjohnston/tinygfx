@@ -4,7 +4,7 @@
 
 #include <tgBaseAppPy/Bindings.h>
 
-#include <tgBaseApp/Cmdline.h>
+#include <tgBaseApp/CmdLine.h>
 #include <tgBaseApp/IApp.h>
 
 #include <pybind11/pybind11.h>

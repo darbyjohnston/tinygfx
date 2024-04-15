@@ -3,7 +3,7 @@ set(HEADERS
 set(HEADERS_PRIVATE)
 set(SOURCE
     Bindings.cpp
-    Cmdline.cpp
+    CmdLine.cpp
     IApp.cpp)
 
 add_library(tgBaseAppPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
