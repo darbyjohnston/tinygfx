@@ -10,6 +10,7 @@ add_library(tgUIAppPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
 target_link_libraries(tgUIAppPy tgUIApp Python3::Python)
 set_target_properties(tgUIAppPy PROPERTIES FOLDER python)
 set_target_properties(tgUIAppPy PROPERTIES PUBLIC_HEADER "${HEADERS}")
+set_target_properties(tgUIAppPy PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 install(TARGETS tgUIAppPy
     ARCHIVE DESTINATION lib
