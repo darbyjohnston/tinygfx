@@ -2,17 +2,23 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
+#include <tgUIAppPy/Bindings.h>
+
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
 
-void pyApp(py::module_&);
-void pyWindow(py::module_&);
-
-void tgUIAppPy(py::module_& m)
+namespace tg
 {
-    auto sm = m.def_submodule("tgUIApp");
-    sm.doc() = "User interface applications";
-    pyApp(sm);
-    pyWindow(sm);
+    namespace ui_app
+    {
+        void bind(py::module_& m)
+        {
+            auto sm = m.def_submodule("tgUIApp");
+            sm.doc() = "User interface applications";
+
+            app(sm);
+            window(sm);
+        }
+    }
 }

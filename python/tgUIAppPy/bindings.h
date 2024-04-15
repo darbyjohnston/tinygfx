@@ -4,4 +4,12 @@
 
 #include <pybind11/pybind11.h>
 
-void tgUIAppPy(pybind11::module_&);
+namespace tg
+{
+    namespace ui_app
+    {
+        void app(pybind11::module_&);
+        void bind(pybind11::module_&);
+        void window(pybind11::module_&);
+    }
+}

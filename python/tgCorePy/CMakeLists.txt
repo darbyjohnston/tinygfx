@@ -1,11 +1,11 @@
 set(HEADERS
-    bindings.h)
+    Bindings.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
+    Bindings.cpp
     Context.cpp
     OS.cpp
-    Size.cpp
-    bindings.cpp)
+    Size.cpp)
 
 add_library(tgCorePy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
 target_link_libraries(tgCorePy tgCore Python3::Python)

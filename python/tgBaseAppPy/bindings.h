@@ -4,4 +4,12 @@
 
 #include <pybind11/pybind11.h>
 
-void tgBaseAppPy(pybind11::module_&);
+namespace tg
+{
+    namespace app
+    {
+        void bind(pybind11::module_&);
+        void cmdLine(pybind11::module_&);
+        void iApp(pybind11::module_&);
+    }
+}

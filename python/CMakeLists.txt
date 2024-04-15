@@ -3,7 +3,7 @@ add_subdirectory(tgCorePy)
 add_subdirectory(tgUIAppPy)
 add_subdirectory(tgUIPy)
 
-pybind11_add_module(tinygfx bindings.cpp)
+pybind11_add_module(tinygfx Bindings.cpp)
 target_link_libraries(tinygfx PRIVATE tgUIAppPy tgUIPy tgBaseAppPy tgCorePy)
 set_target_properties(tinygfx PROPERTIES FOLDER python)
 set_target_properties(tinygfx PROPERTIES PUBLIC_HEADER "${HEADERS}")

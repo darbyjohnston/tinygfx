@@ -4,4 +4,17 @@
 
 #include <pybind11/pybind11.h>
 
-void tgUIPy(pybind11::module_&);
+namespace tg
+{
+    namespace ui
+    {
+        void bind(pybind11::module_&);
+        void iButton(pybind11::module_&);
+        void iWidget(pybind11::module_&);
+        void iWindow(pybind11::module_&);
+        void pushButton(pybind11::module_&);
+        void rowLayout(pybind11::module_&);
+        void style(pybind11::module_&);
+        void widgetOptions(pybind11::module_&);
+    }
+}

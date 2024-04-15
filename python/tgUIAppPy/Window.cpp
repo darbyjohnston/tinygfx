@@ -2,23 +2,29 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
+#include <tgUIAppPy/Bindings.h>
+
 #include <tgUIApp/Window.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-using namespace tg::core;
-using namespace tg::ui;
 namespace py = pybind11;
 
-void pyWindow(py::module_& m)
+namespace tg
 {
-    py::class_<Window, IWindow, std::shared_ptr<Window> >(m, "Window")
-        .def_static(
-            "create",
-            &Window::create,
-            py::arg("context"),
-            py::arg("name"),
-            py::arg("size"))
-        .def("show", &Window::show);
+    namespace ui_app
+    {
+        void window(py::module_& m)
+        {
+            py::class_<ui::Window, ui::IWindow, std::shared_ptr<ui::Window> >(m, "Window")
+                .def_static(
+                    "create",
+                    &ui::Window::create,
+                    py::arg("context"),
+                    py::arg("name"),
+                    py::arg("size"))
+                .def("show", &ui::Window::show);
+        }
+    }
 }

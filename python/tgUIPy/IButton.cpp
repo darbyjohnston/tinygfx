@@ -2,16 +2,22 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
+#include <tgUIPy/Bindings.h>
+
 #include <tgUI/IButton.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-using namespace tg::core;
-using namespace tg::ui;
 namespace py = pybind11;
 
-void pyIButton(py::module_& m)
+namespace tg
 {
-    py::class_<IButton, IWidget, std::shared_ptr<IButton> >(m, "IButton");
+    namespace ui
+    {
+        void iButton(py::module_& m)
+        {
+            py::class_<IButton, IWidget, std::shared_ptr<IButton> >(m, "IButton");
+        }
+    }
 }

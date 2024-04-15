@@ -2,8 +2,8 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgCorePy/bindings.h>
-#include <tgBaseAppPy/bindings.h>
+#include <tgCorePy/Bindings.h>
+#include <tgBaseAppPy/Bindings.h>
 #include <tgUIPy/bindings.h>
 #include <tgUIAppPy/bindings.h>
 
@@ -14,8 +14,8 @@ namespace py = pybind11;
 PYBIND11_MODULE(tinygfx, m)
 {
     m.doc() = "Small experiments with graphics programming";
-    tgCorePy(m);
-    tgBaseAppPy(m);
-    tgUIPy(m);
-    tgUIAppPy(m);
+    tg::core::bind(m);
+    tg::app::bind(m);
+    tg::ui::bind(m);
+    tg::ui_app::bind(m);
 }

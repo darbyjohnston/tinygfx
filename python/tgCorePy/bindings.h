@@ -4,4 +4,13 @@
 
 #include <pybind11/pybind11.h>
 
-void tgCorePy(pybind11::module_&);
+namespace tg
+{
+    namespace core
+    {
+        void bind(pybind11::module_&);
+        void context(pybind11::module_&);
+        void os(pybind11::module_&);
+        void size(pybind11::module_&);
+    }
+}

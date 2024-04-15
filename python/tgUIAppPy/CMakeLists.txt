@@ -1,10 +1,10 @@
 set(HEADERS
-    bindings.h)
+    Bindings.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
     App.cpp
-    Window.cpp
-    bindings.cpp)
+    Bindings.cpp
+    Window.cpp)
 
 add_library(tgUIAppPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
 target_link_libraries(tgUIAppPy tgUIApp Python3::Python)

@@ -2,17 +2,24 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
+#include <tgCorePy/Bindings.h>
+
 #include <tgCore/Size.h>
 
 #include <pybind11/pybind11.h>
 
-using namespace tg::core;
 namespace py = pybind11;
 
-void pySize(py::module_& m)
+namespace tg
 {
-    py::class_<Size2I>(m, "Size2I")
-        .def(py::init<>())
-        .def(py::init<int, int>())
-        .def_readwrite("e", &Size2I::e);
+    namespace core
+    {
+        void size(py::module_& m)
+        {
+            py::class_<Size2I>(m, "Size2I")
+                .def(py::init<>())
+                .def(py::init<int, int>())
+                .def_readwrite("e", &Size2I::e);
+        }
+    }
 }

@@ -2,16 +2,22 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
+#include <tgUIPy/Bindings.h>
+
 #include <tgUI/IWidget.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-using namespace tg::core;
-using namespace tg::ui;
 namespace py = pybind11;
 
-void pyIWidget(py::module_& m)
+namespace tg
 {
-    py::class_<IWidget, std::shared_ptr<IWidget> >(m, "IWidget");
+    namespace ui
+    {
+        void iWidget(py::module_& m)
+        {
+            py::class_<IWidget, std::shared_ptr<IWidget> >(m, "IWidget");
+        }
+    }
 }

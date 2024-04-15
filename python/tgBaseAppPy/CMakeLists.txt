@@ -1,10 +1,10 @@
 set(HEADERS
-    bindings.h)
+    Bindings.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
+    Bindings.cpp
     Cmdline.cpp
-    IApp.cpp
-    bindings.cpp)
+    IApp.cpp)
 
 add_library(tgBaseAppPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
 target_link_libraries(tgBaseAppPy tgBaseApp Python3::Python)

@@ -1,15 +1,15 @@
 set(HEADERS
-    bindings.h)
+    Bindings.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
+    Bindings.cpp
     IButton.cpp
     IWidget.cpp
     IWindow.cpp
     PushButton.cpp
     RowLayout.cpp
     Style.cpp
-    WidgetOptions.cpp
-    bindings.cpp)
+    WidgetOptions.cpp)
 
 add_library(tgUIPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
 target_link_libraries(tgUIPy tgUI Python3::Python)
