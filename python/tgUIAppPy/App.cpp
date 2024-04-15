@@ -7,7 +7,7 @@
 #include <tgUIApp/App.h>
 #include <tgUIApp/Window.h>
 
-#include <tgBaseApp/Cmdline.h>
+#include <tgBaseApp/CmdLine.h>
 
 #include <tgCore/Context.h>
 
