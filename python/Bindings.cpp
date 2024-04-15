@@ -4,8 +4,8 @@
 
 #include <tgCorePy/Bindings.h>
 #include <tgBaseAppPy/Bindings.h>
-#include <tgUIPy/bindings.h>
-#include <tgUIAppPy/bindings.h>
+#include <tgUIPy/Bindings.h>
+#include <tgUIAppPy/Bindings.h>
 
 #include <pybind11/pybind11.h>
 
