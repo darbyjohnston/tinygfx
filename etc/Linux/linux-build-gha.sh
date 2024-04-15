@@ -4,20 +4,6 @@ set -x
 
 BUILD_TYPE=$1
 
-# Update packages
-sudo apt-get update
-
-# Install lcov
-if [[ $TINYGFX_GCOV = "ON" ]]
-then
-    sudo apt-get install lcov
-fi
-
-# Install OpenGL support
-sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev mesa-utils xvfb
-xvfb-run glxinfo
-
-# Build
 mkdir build
 cd build
 cmake ../etc/SuperBuild \

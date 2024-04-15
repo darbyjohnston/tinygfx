@@ -24,7 +24,14 @@ jobs:
       run: |
         echo "$PWD/build/install/bin" >> $GITHUB_PATH
         echo "LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+        sudo apt-get update
         cmake --version
+        if [[ $TINYGFX_GCOV = "ON" ]]
+        then
+            sudo apt-get install lcov
+        fi
+        sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev mesa-utils xvfb
+        xvfb-run glxinfo
 
     - name: Build
       run: bash etc/Linux/linux-build-gha.sh Debug
