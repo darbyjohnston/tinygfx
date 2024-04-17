@@ -180,6 +180,11 @@ namespace tg
             _textUpdate();
         }
 
+        FontRole DoubleEdit::getFontRole() const
+        {
+            return _p->lineEdit->getFontRole();
+        }
+
         void DoubleEdit::setFontRole(FontRole value)
         {
             _p->lineEdit->setFontRole(value);

@@ -60,8 +60,14 @@ namespace tg
             //! Set whether scroll events are enabled.
             void setScrollEventsEnabled(bool);
 
+            //! Get whether the scroll area has a border.
+            bool hasBorder() const;
+
             //! Set whether the scroll area has a border.
             void setBorder(bool);
+
+            //! Get the margin role.
+            SizeRole getMarginRole() const;
 
             //! Set the margin role.
             void setMarginRole(SizeRole);

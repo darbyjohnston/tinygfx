@@ -54,6 +54,11 @@ namespace tg
             return out;
         }
 
+        SizeRole RowLayout::getMarginRole() const
+        {
+            return _p->marginRole;
+        }
+
         void RowLayout::setMarginRole(SizeRole value)
         {
             TG_P();
@@ -62,6 +67,11 @@ namespace tg
             p.marginRole = value;
             _setSizeUpdate();
             _setDrawUpdate();
+        }
+
+        SizeRole RowLayout::getSpacingRole() const
+        {
+            return _p->spacingRole;
         }
 
         void RowLayout::setSpacingRole(SizeRole value)

@@ -173,6 +173,11 @@ namespace tg
             _p->edit->setPrecision(value);
         }
 
+        FontRole FloatEditSlider::getFontRole() const
+        {
+            return _p->edit->getFontRole();
+        }
+
         void FloatEditSlider::setFontRole(FontRole value)
         {
             _p->edit->setFontRole(value);

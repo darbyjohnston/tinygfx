@@ -49,11 +49,17 @@ namespace tg
             //! Set the text changed callback.
             void setTextChangedCallback(const std::function<void(const std::string&)>&);
 
+            //! Get the formatting text.
+            const std::string& getFormat() const;
+
             //! Set the formatting text.
             void setFormat(const std::string&);
 
             //! Set the lost focus callback.
             void setFocusCallback(const std::function<void(bool)>&);
+
+            //! Get the font role.
+            FontRole getFontRole() const;
 
             //! Set the font role.
             void setFontRole(FontRole);

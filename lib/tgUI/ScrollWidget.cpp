@@ -211,9 +211,19 @@ namespace tg
             _p->scrollEventsEnabled = value;
         }
 
+        bool ScrollWidget::hasBorder() const
+        {
+            return _p->scrollArea->hasBorder();
+        }
+
         void ScrollWidget::setBorder(bool value)
         {
             _p->scrollArea->setBorder(value);
+        }
+
+        SizeRole ScrollWidget::getMarginRole() const
+        {
+            return _p->layout->getMarginRole();
         }
 
         void ScrollWidget::setMarginRole(SizeRole value)

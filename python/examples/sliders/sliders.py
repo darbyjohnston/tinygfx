@@ -11,7 +11,7 @@ class Window(tgUIApp.Window):
         
         # Create the layout.
         self.layout = tgUI.VerticalLayout(context)
-        self.layout.setMarginRole(tgUI.SizeRole.Margin)
+        self.layout.marginRole = tgUI.SizeRole.Margin
         self.scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both, self)
         self.scrollWidget.setWidget(self.layout);
         

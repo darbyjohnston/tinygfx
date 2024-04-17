@@ -34,8 +34,14 @@ namespace tg
                 Orientation,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            //! Get the margin role.
+            SizeRole getMarginRole() const;
+
             //! Set the margin role.
             void setMarginRole(SizeRole);
+
+            //! Get the spacing role.
+            SizeRole getSpacingRole() const;
 
             //! Set the spacing role.
             void setSpacingRole(SizeRole);

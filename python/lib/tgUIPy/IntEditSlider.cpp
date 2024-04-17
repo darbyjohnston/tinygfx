@@ -31,7 +31,7 @@ namespace tg
                 .def_property("largeStep", &IntEditSlider::getLargeStep, &IntEditSlider::setLargeStep)
                 .def_property("defaultValue", &IntEditSlider::getDefaultValue, &IntEditSlider::setDefaultValue)
                 .def("getModel", &IntEditSlider::getModel)
-                .def("setFontRole", &IntEditSlider::setFontRole);
+                .def_property("fontRole", &IntEditSlider::getFontRole, &IntEditSlider::setFontRole);
         }
     }
 }

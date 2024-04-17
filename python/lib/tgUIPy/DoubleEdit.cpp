@@ -30,7 +30,8 @@ namespace tg
                 .def_property("step", &DoubleEdit::getStep, &DoubleEdit::setStep)
                 .def_property("largeStep", &DoubleEdit::getLargeStep, &DoubleEdit::setLargeStep)
                 .def("getModel", &DoubleEdit::getModel)
-                .def("setFontRole", &DoubleEdit::setFontRole);
+                .def_property("precision", &DoubleEdit::getPrecision, &DoubleEdit::setPrecision)
+                .def_property("fontRole", &DoubleEdit::getFontRole, &DoubleEdit::setFontRole);
         }
     }
 }

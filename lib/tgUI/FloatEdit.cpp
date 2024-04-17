@@ -175,6 +175,11 @@ namespace tg
             _textUpdate();
         }
 
+        FontRole FloatEdit::getFontRole() const
+        {
+            return _p->lineEdit->getFontRole();
+        }
+
         void FloatEdit::setFontRole(FontRole value)
         {
             _p->lineEdit->setFontRole(value);

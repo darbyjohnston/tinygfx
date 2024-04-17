@@ -64,6 +64,9 @@ namespace tg
             //! Get the model.
             const std::shared_ptr<IntModel>& getModel() const;
 
+            //! Get the font role.
+            FontRole getFontRole() const;
+
             //! Set the font role.
             void setFontRole(FontRole);
 

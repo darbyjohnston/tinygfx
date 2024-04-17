@@ -30,7 +30,8 @@ namespace tg
                 .def_property("step", &FloatEdit::getStep, &FloatEdit::setStep)
                 .def_property("largeStep", &FloatEdit::getLargeStep, &FloatEdit::setLargeStep)
                 .def("getModel", &FloatEdit::getModel)
-                .def("setFontRole", &FloatEdit::setFontRole);
+                .def_property("precision", &FloatEdit::getPrecision, &FloatEdit::setPrecision)
+                .def_property("fontRole", &FloatEdit::getFontRole, &FloatEdit::setFontRole);
         }
     }
 }

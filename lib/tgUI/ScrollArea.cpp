@@ -105,6 +105,11 @@ namespace tg
             return margin(getGeometry(), -_p->size.border);
         }
 
+        bool ScrollArea::hasBorder() const
+        {
+            return _p->border;
+        }
+
         void ScrollArea::setBorder(bool value)
         {
             TG_P();

@@ -30,7 +30,7 @@ namespace tg
                 .def_property("step", &IntEdit::getStep, &IntEdit::setStep)
                 .def_property("largeStep", &IntEdit::getLargeStep, &IntEdit::setLargeStep)
                 .def("getModel", &IntEdit::getModel)
-                .def("setFontRole", &IntEdit::setFontRole);
+                .def_property("fontRole", &IntEdit::getFontRole, &IntEdit::setFontRole);
         }
     }
 }

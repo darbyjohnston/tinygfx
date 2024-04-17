@@ -11,7 +11,7 @@ class Window(tgUIApp.Window):
         
         # Create the layout.
         self.layout = tgUI.VerticalLayout(context)
-        self.layout.setMarginRole(tgUI.SizeRole.Margin)
+        self.layout.marginRole = tgUI.SizeRole.Margin
         self.scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both, self)
         self.scrollWidget.setWidget(self.layout);
         
@@ -30,7 +30,7 @@ class Window(tgUIApp.Window):
         groupBox = tgUI.GroupBox(context, self.layout);
         groupBox.text = "Tool Buttons"
         hLayout = tgUI.HorizontalLayout(context, groupBox)
-        hLayout.setSpacingRole(tgUI.SizeRole.SizeRoleNone)
+        hLayout.spacingRole = tgUI.SizeRole.SizeRoleNone
         self.toolButtonGroup = tgUI.ButtonGroup(context, tgUI.ButtonGroupType.Radio)
         self.toolButtonGroup.setCheckedCallback(lambda index, checked: print("Tool:", index))
         toolIcons = [

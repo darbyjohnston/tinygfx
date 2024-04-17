@@ -70,6 +70,9 @@ namespace tg
             //! Set the display precision.
             void setPrecision(int);
 
+            //! Get the font role.
+            FontRole getFontRole() const;
+
             //! Set the font role.
             void setFontRole(FontRole);
 

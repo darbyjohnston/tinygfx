@@ -163,6 +163,11 @@ namespace tg
             return _p->model;
         }
 
+        FontRole IntEditSlider::getFontRole() const
+        {
+            return _p->edit->getFontRole();
+        }
+
         void IntEditSlider::setFontRole(FontRole value)
         {
             _p->edit->setFontRole(value);

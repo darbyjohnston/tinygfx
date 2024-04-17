@@ -186,6 +186,11 @@ namespace tg
             _p->textChangedCallback = value;
         }
 
+        const std::string& LineEdit::getFormat() const
+        {
+            return _p->format;
+        }
+
         void LineEdit::setFormat(const std::string& value)
         {
             TG_P();
@@ -198,6 +203,11 @@ namespace tg
         void LineEdit::setFocusCallback(const std::function<void(bool)>& value)
         {
             _p->focusCallback = value;
+        }
+
+        FontRole LineEdit::getFontRole() const
+        {
+            return _p->fontRole;
         }
 
         void LineEdit::setFontRole(FontRole value)

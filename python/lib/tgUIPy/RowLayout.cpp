@@ -23,8 +23,8 @@ namespace tg
                     py::arg("context"),
                     py::arg("orientation"),
                     py::arg("parent") = nullptr)
-                .def("setMarginRole", &RowLayout::setMarginRole)
-                .def("setSpacingRole", &RowLayout::setSpacingRole);
+                .def_property("marginRole", &RowLayout::getMarginRole, &RowLayout::setMarginRole)
+                .def_property("spacingRole", &RowLayout::getSpacingRole, &RowLayout::setSpacingRole);
 
             py::class_<VerticalLayout, RowLayout, std::shared_ptr<VerticalLayout> >(m, "VerticalLayout")
                 .def(

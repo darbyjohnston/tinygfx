@@ -159,6 +159,11 @@ namespace tg
             return _p->model;
         }
 
+        FontRole IntEdit::getFontRole() const
+        {
+            return _p->lineEdit->getFontRole();
+        }
+
         void IntEdit::setFontRole(FontRole value)
         {
             _p->lineEdit->setFontRole(value);

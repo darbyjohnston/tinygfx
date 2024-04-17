@@ -21,11 +21,10 @@ namespace tg
             py::class_<IWidget, std::shared_ptr<IWidget> >(m, "IWidget")
                 .def_property("objectName", &IWidget::getObjectName, &IWidget::setObjectName)
                 .def("getObjectPath", &IWidget::getObjectPath)
-                .def("setBackgroundColor", &IWidget::setBackgroundRole)
+                .def_property("backgroundColor", &IWidget::getBackgroundRole, &IWidget::setBackgroundRole)
                 .def("getUpdates", &IWidget::getUpdates)
 
-                .def("getParent", &IWidget::getParent)
-                .def("setParent", &IWidget::setParent)
+                .def_property("parent", &IWidget::getParent, &IWidget::setParent)
                 .def("getChildren", &IWidget::getChildren)
                 .def("moveToFront", &IWidget::moveToFront)
                 .def("moveToBack", &IWidget::moveToBack)

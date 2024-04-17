@@ -173,6 +173,11 @@ namespace tg
             _p->edit->setPrecision(value);
         }
 
+        FontRole DoubleEditSlider::getFontRole() const
+        {
+            return _p->edit->getFontRole();
+        }
+
         void DoubleEditSlider::setFontRole(FontRole value)
         {
             _p->edit->setFontRole(value);

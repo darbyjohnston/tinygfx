@@ -57,6 +57,9 @@ namespace tg
             //! Set the scroll position callback.
             void setScrollPosCallback(const std::function<void(const core::V2I&)>&);
 
+            //! Get whether the scroll area has a border.
+            bool hasBorder() const;
+
             //! Set whether the scroll area has a border.
             void setBorder(bool);
 

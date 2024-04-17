@@ -23,10 +23,14 @@ namespace tg
                     py::arg("context"),
                     py::arg("type"),
                     py::arg("parent") = nullptr)
-                .def(
-                    "setWidget",
-                    &ScrollWidget::setWidget,
-                    py::arg("widget"));
+                .def("setWidget", &ScrollWidget::setWidget)
+                .def("getViewport", &ScrollWidget::getViewport)
+                .def_property("scrollPos", &ScrollWidget::getScrollPos, &ScrollWidget::setScrollPos)
+                .def("setScrollPosCallback", &ScrollWidget::setScrollPosCallback)
+                .def_property("scrollBarsVisible", &ScrollWidget::areScrollBarsVisible, &ScrollWidget::setScrollBarsVisible)
+                .def("setScrollEventsEnabled", &ScrollWidget::setScrollEventsEnabled)
+                .def_property("border", &ScrollWidget::hasBorder, &ScrollWidget::setBorder)
+                .def_property("marginRole", &ScrollWidget::getMarginRole, &ScrollWidget::setMarginRole);
         }
     }
 }

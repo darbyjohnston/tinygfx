@@ -11,6 +11,11 @@ namespace tg
             return _objectName;
         }
 
+        inline ColorRole IWidget::getBackgroundRole() const
+        {
+            return _backgroundRole;
+        }
+
         inline int IWidget::getUpdates() const
         {
             return _updates;
