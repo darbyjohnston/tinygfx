@@ -17,7 +17,7 @@ class Window(tgUIApp.Window):
         
         # Create integer sliders.
         groupBox = tgUI.GroupBox(context, self.layout);
-        groupBox.setText("Integer sliders")
+        groupBox.text = "Integer sliders"
         vLayout = tgUI.VerticalLayout(context, groupBox)
         intEditSlider = tgUI.IntEditSlider(context, None, vLayout)
         intEditSlider.setCallback(lambda value: print("Int:", value))
@@ -30,7 +30,7 @@ class Window(tgUIApp.Window):
         
         # Create float sliders.
         groupBox = tgUI.GroupBox(context, self.layout);
-        groupBox.setText("Float sliders")
+        groupBox.text = "Float sliders"
         vLayout = tgUI.VerticalLayout(context, groupBox)
         floatEditSlider = tgUI.FloatEditSlider(context, None, vLayout)
         floatEditSlider.setCallback(lambda value: print("Float:", value))
@@ -43,7 +43,7 @@ class Window(tgUIApp.Window):
         
         # Create double sliders.
         groupBox = tgUI.GroupBox(context, self.layout);
-        groupBox.setText("Double sliders")
+        groupBox.text = "Double sliders"
         vLayout = tgUI.VerticalLayout(context, groupBox)
         doubleEditSlider = tgUI.DoubleEditSlider(context, None, vLayout)
         doubleEditSlider.setCallback(lambda value: print("Double:", value))

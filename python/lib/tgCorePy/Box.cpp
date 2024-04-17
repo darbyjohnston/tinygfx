@@ -7,6 +7,7 @@
 #include <tgCore/Box.h>
 
 #include <pybind11/pybind11.h>
+#include <pybind11/operators.h>
 
 namespace py = pybind11;
 
@@ -19,9 +20,49 @@ namespace tg
             py::class_<Box2I>(m, "Box2I")
                 .def(py::init<>())
                 .def(py::init<V2I, V2I>())
+                .def(py::init<V2I, Size2I>())
                 .def(py::init<int, int, int, int>())
                 .def_readwrite("min", &Box2I::min)
-                .def_readwrite("max", &Box2I::max);
+                .def_readwrite("max", &Box2I::max)
+                .def("x", &Box2I::x)
+                .def("y", &Box2I::y)
+                .def("size", &Box2I::size)
+                .def("w", &Box2I::w)
+                .def("h", &Box2I::h)
+                .def(pybind11::self == pybind11::self)
+                .def(pybind11::self != pybind11::self);
+
+            py::class_<Box2F>(m, "Box2F")
+                .def(py::init<>())
+                .def(py::init<V2F, V2F>())
+                .def(py::init<V2F, Size2F>())
+                .def(py::init<float, float, float, float>())
+                .def_readwrite("min", &Box2F::min)
+                .def_readwrite("max", &Box2F::max)
+                .def("x", &Box2F::x)
+                .def("y", &Box2F::y)
+                .def("size", &Box2F::size)
+                .def("w", &Box2F::w)
+                .def("h", &Box2F::h)
+                .def(pybind11::self == pybind11::self)
+                .def(pybind11::self != pybind11::self);
+
+            py::class_<Box3F>(m, "Box3F")
+                .def(py::init<>())
+                .def(py::init<V3F, V3F>())
+                .def(py::init<V3F, Size3F>())
+                .def(py::init<float, float, float, float, float, float>())
+                .def_readwrite("min", &Box3F::min)
+                .def_readwrite("max", &Box3F::max)
+                .def("x", &Box3F::x)
+                .def("y", &Box3F::y)
+                .def("z", &Box3F::z)
+                .def("size", &Box3F::size)
+                .def("w", &Box3F::w)
+                .def("h", &Box3F::h)
+                .def("d", &Box3F::d)
+                .def(pybind11::self == pybind11::self)
+                .def(pybind11::self != pybind11::self);
         }
     }
 }

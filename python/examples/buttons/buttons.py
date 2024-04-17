@@ -17,18 +17,18 @@ class Window(tgUIApp.Window):
         
         # Create push buttons
         groupBox = tgUI.GroupBox(context, self.layout);
-        groupBox.setText("Push Buttons")
+        groupBox.text = "Push Buttons"
         hLayout = tgUI.HorizontalLayout(context, groupBox)
         pushButton = tgUI.PushButton(context, hLayout)
-        pushButton.setText("Push")
+        pushButton.text = "Push"
         pushButton.setClickedCallback(lambda: print("Push"))
         pushButton = tgUI.PushButton(context, hLayout)
-        pushButton.setText("Disabled")
+        pushButton.text = "Disabled"
         pushButton.enabled = False
         
         # Create tool buttons
         groupBox = tgUI.GroupBox(context, self.layout);
-        groupBox.setText("Tool Buttons")
+        groupBox.text = "Tool Buttons"
         hLayout = tgUI.HorizontalLayout(context, groupBox)
         hLayout.setSpacingRole(tgUI.SizeRole.SizeRoleNone)
         self.toolButtonGroup = tgUI.ButtonGroup(context, tgUI.ButtonGroupType.Radio)
@@ -42,22 +42,22 @@ class Window(tgUIApp.Window):
             toolButton = tgUI.ToolButton(context, hLayout)
             toolButton.checkable = True
             toolButton.checked = 0 == i
-            toolButton.setIcon(toolIcons[i])
+            toolButton.icon = toolIcons[i]
             self.toolButtonGroup.addButton(toolButton)
         toolButton = tgUI.ToolButton(context, hLayout)
-        toolButton.setText("Disabled")
+        toolButton.text = "Disabled"
         toolButton.enabled = False
         self.toolButtonGroup.addButton(toolButton)
         
         # Create check boxes
         groupBox = tgUI.GroupBox(context, self.layout);
-        groupBox.setText("Check Boxes")
+        groupBox.text = "Check Boxes"
         vLayout = tgUI.VerticalLayout(context, groupBox)
         checkBox = tgUI.CheckBox(context, vLayout)
-        checkBox.setText("Check")
+        checkBox.text = "Check"
         checkBox.setCheckedCallback(lambda checked: print("Check:", checked))
         checkBox = tgUI.CheckBox(context, vLayout)
-        checkBox.setText("Disabled")
+        checkBox.text = "Disabled"
         checkBox.enabled = False
 
 context = tgCore.Context()

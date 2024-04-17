@@ -10,6 +10,8 @@ namespace tg
 {
     namespace ui
     {
+        class MDICanvas;
+
         //! \name MDI Widgets
         ///@{
 
@@ -51,6 +53,9 @@ namespace tg
                 const std::string& title,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            //! Get the title.
+            const std::string& getTitle() const;
+
             //! Set the title.
             void setTitle(const std::string&);
 
@@ -66,15 +71,6 @@ namespace tg
             //! Set the resize callback.
             void setResizeCallback(const std::function<void(MDIResize, const core::V2I&)>&);
 
-            //! Add the margins.
-            core::Box2I addMargins(const core::Box2I&) const;
-
-            //! Remove the margins.
-            core::Box2I removeMargins(const core::Box2I&) const;
-
-            //! Remove the margins.
-            core::Size2I removeMargins(const core::Size2I&) const;
-
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void drawEvent(const core::Box2I&, const DrawEvent&) override;
@@ -84,6 +80,12 @@ namespace tg
             void mouseReleaseEvent(MouseClickEvent&) override;
 
         private:
+            core::Box2I _addMargins(const core::Box2I&) const;
+            core::Box2I _removeMargins(const core::Box2I&) const;
+            core::Size2I _removeMargins(const core::Size2I&) const;
+
+            friend class MDICanvas;
+
             TG_PRIVATE();
         };
 

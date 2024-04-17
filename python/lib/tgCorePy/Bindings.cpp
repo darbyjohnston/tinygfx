@@ -22,8 +22,10 @@ namespace tg
 
             sm.def("init", &init, "Initialize the library.");
 
+            color(sm);
             context(sm);
             os(sm);
+            random(sm);
             range(sm);
             size(sm);
             vector(sm);

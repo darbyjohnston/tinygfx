@@ -5,6 +5,9 @@ set(SOURCE
     Bindings.cpp
     ButtonGroup.cpp
     CheckBox.cpp
+    ColorPopup.cpp
+    ColorSwatch.cpp
+    ColorWidget.cpp
     DoubleEdit.cpp
     DoubleEditSlider.cpp
     DoubleModel.cpp
@@ -15,12 +18,16 @@ set(SOURCE
     FloatSlider.cpp
     GroupBox.cpp
     IButton.cpp
+    IPopup.cpp
     IWidget.cpp
+    IWidgetPopup.cpp
     IWindow.cpp
     IntEdit.cpp
     IntEditSlider.cpp
     IntModel.cpp
     IntSlider.cpp
+    MDICanvas.cpp
+    MDIWidget.cpp
     PushButton.cpp
     RowLayout.cpp
     ScrollArea.cpp

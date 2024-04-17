@@ -145,6 +145,11 @@ namespace tg
             _p->closeCallback = value;
         }
 
+        ColorRole IWidgetPopup::getPopupRole() const
+        {
+            return _p->popupRole;
+        }
+
         void IWidgetPopup::setPopupRole(ColorRole value)
         {
             TG_P();

@@ -10,8 +10,10 @@ namespace tg
     {
         void bind(pybind11::module_&);
 
+        void color(pybind11::module_&);
         void context(pybind11::module_&);
         void os(pybind11::module_&);
+        void random(pybind11::module_&);
         void range(pybind11::module_&);
         void size(pybind11::module_&);
         void vector(pybind11::module_&);

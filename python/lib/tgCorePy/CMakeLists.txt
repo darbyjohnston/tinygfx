@@ -4,8 +4,10 @@ set(HEADERS_PRIVATE)
 set(SOURCE
     Box.cpp
     Bindings.cpp
+    Color.cpp
     Context.cpp
     OS.cpp
+    Random.cpp
     Range.cpp
     Size.cpp
     Vector.cpp)

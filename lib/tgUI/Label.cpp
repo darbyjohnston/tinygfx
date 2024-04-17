@@ -76,6 +76,11 @@ namespace tg
             return out;
         }
 
+        const std::string& Label::getText() const
+        {
+            return _p->text;
+        }
+
         void Label::setText(const std::string& value)
         {
             TG_P();

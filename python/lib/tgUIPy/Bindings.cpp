@@ -27,10 +27,15 @@ namespace tg
             widgetOptions(sm);
             iWidget(sm);
             iWindow(sm);
+            iPopup(sm);
+            iWidgetPopup(sm);
             iButton(sm);
 
             buttonGroup(sm);
             checkBox(sm);
+            colorPopup(sm);
+            colorSwatch(sm);
+            colorWidget(sm);
             doubleEdit(sm);
             doubleEditSlider(sm);
             doubleModel(sm);
@@ -44,6 +49,8 @@ namespace tg
             intEditSlider(sm);
             intModel(sm);
             intSlider(sm);
+            mdiCanvas(sm);
+            mdiWidget(sm);
             pushButton(sm);
             rowLayout(sm);
             scrollArea(sm);

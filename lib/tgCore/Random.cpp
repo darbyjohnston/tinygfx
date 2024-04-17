@@ -27,19 +27,24 @@ namespace tg
         Random::~Random()
         {}
 
-        float Random::get()
+        float Random::getF()
         {
             TG_P();
             std::uniform_int_distribution<uint32_t> uint_dist;
             return uint_dist(*(p.rng)) / static_cast<float>(uint_dist.max());
         }
 
-        float Random::get(float value)
+        float Random::getF(float value)
         {
-            return value * get();
+            return value * getF();
         }
 
-        int Random::get(int value)
+        float Random::getF(float min, float max)
+        {
+            return min + (max - min) * getF();
+        }
+
+        int Random::getI(int value)
         {
             TG_P();
             std::uniform_int_distribution<uint32_t> uint_dist;
@@ -49,12 +54,7 @@ namespace tg
             return static_cast<int>(static_cast<float>(value + 1) * r);
         }
 
-        float Random::get(float min, float max)
-        {
-            return min + (max - min) * get();
-        }
-
-        int Random::get(int min, int max)
+        int Random::getI(int min, int max)
         {
             TG_P();
             std::uniform_int_distribution<uint32_t> uint_dist;

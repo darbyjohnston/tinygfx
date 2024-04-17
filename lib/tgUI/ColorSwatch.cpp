@@ -68,6 +68,11 @@ namespace tg
             _setDrawUpdate();
         }
 
+        bool ColorSwatch::isEditable() const
+        {
+            return _p->editable;
+        }
+
         void ColorSwatch::setEditable(bool value)
         {
             TG_P();
@@ -81,6 +86,11 @@ namespace tg
         void ColorSwatch::setCallback(const std::function<void(const Color4F&)>& value)
         {
             _p->callback = value;
+        }
+
+        SizeRole ColorSwatch::getSizeRole() const
+        {
+            return _p->sizeRole;
         }
 
         void ColorSwatch::setSizeRole(SizeRole value)

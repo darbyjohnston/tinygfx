@@ -169,25 +169,27 @@ namespace tg
             return *this;
         }
 
-        template<typename T>
-        constexpr T aspectRatio(const Size<2, T>& a)
-        {
-            return a.h > T(0) ? (a.w / a.h) : T(0);
-        }
-
         constexpr float aspectRatio(const Size<2, int>& a)
         {
             return a.h > 0 ? (a.w / static_cast<float>(a.h)) : 0.F;
         }
-        
-        template<typename T>
-        constexpr T area(const Size<2, T>& a)
+
+        constexpr float aspectRatio(const Size<2, float>& a)
+        {
+            return a.h > 0.F ? (a.w / a.h) : 0.F;
+        }
+
+        constexpr float area(const Size<2, int>& a)
         {
             return a.w * a.h;
         }
-        
-        template<typename T>
-        constexpr T volume(const Size<3, T>& a)
+
+        constexpr float area(const Size<2, float>& a)
+        {
+            return a.w * a.h;
+        }
+
+        constexpr float volume(const Size<3, float>& a)
         {
             return a.w * a.h * a.d;
         }

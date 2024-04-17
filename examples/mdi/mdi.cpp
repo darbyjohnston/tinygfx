@@ -45,10 +45,10 @@ namespace tg
                 for (size_t i = 0; i < 10; ++i)
                 {
                     auto colorWidget = ColorWidget::create(context);
-                    colorWidget->setColor(Color4F(random.get(), random.get(), random.get()));
+                    colorWidget->setColor(Color4F(random.getF(), random.getF(), random.getF()));
                     canvas->addWidget(
                         Format("Color {0}").arg(i),
-                        V2I(random.get(0, size.w), random.get(0, size.h)),
+                        V2I(random.getI(0, size.w), random.getI(0, size.h)),
                         colorWidget);
                 }
             }

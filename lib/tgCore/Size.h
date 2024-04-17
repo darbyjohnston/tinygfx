@@ -87,15 +87,15 @@ namespace tg
 
         //! Get the aspect ratio of the given size.
         template<typename T>
-        constexpr T aspectRatio(const Size<2, T>&);
+        constexpr float aspectRatio(const Size<2, T>&);
         
         //! Get the area of the given size.
         template<typename T>
-        constexpr T area(const Size<2, T>&);
+        constexpr float area(const Size<2, T>&);
         
         //! Get the volume of the given size.
         template<typename T>
-        constexpr T volume(const Size<3, T>&);
+        constexpr float volume(const Size<3, T>&);
         
         template<int C, typename T>
         Size<C, T> operator + (const Size<C, T>&, T);

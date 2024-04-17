@@ -73,6 +73,11 @@ namespace tg
             return out;
         }
 
+        const std::string& GroupBox::getText() const
+        {
+            return _p->text;
+        }
+
         void GroupBox::setText(const std::string& value)
         {
             TG_P();
@@ -83,6 +88,11 @@ namespace tg
             p.draw.glyphs.clear();
             _setSizeUpdate();
             _setDrawUpdate();
+        }
+
+        FontRole GroupBox::getFontRole() const
+        {
+            return _p->fontRole;
         }
 
         void GroupBox::setFontRole(FontRole value)

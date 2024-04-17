@@ -121,7 +121,7 @@ namespace tg
                         if (auto widget = _p->mouse.widget)
                         {
                             const Box2I& pg = getGeometry();
-                            Box2I g = widget->removeMargins(_p->mouse.geom);
+                            Box2I g = widget->_removeMargins(_p->mouse.geom);
                             g = Box2I(
                                 clamp(
                                     _snapToGridX(g.min.x - pg.min.x + move.x),
@@ -133,7 +133,7 @@ namespace tg
                                     _snapToGridY(pg.max.y + 1 - pg.min.y - g.h())) + pg.min.y,
                                 g.w(),
                                 g.h());
-                            widget->setGeometry(widget->addMargins(g));
+                            widget->setGeometry(widget->_addMargins(g));
                         }
                     });
                 out->setResizeCallback(
@@ -142,8 +142,8 @@ namespace tg
                         if (auto widget = _p->mouse.widget)
                         {
                             const Box2I& pg = getGeometry();
-                            const Size2I sizeHintGrid = _snapToGrid(widget->removeMargins(widget->getSizeHint()));
-                            Box2I g = widget->removeMargins(_p->mouse.geom);
+                            const Size2I sizeHintGrid = _snapToGrid(widget->_removeMargins(widget->getSizeHint()));
+                            Box2I g = widget->_removeMargins(_p->mouse.geom);
                             switch (value)
                             {
                             case MDIResize::North:
@@ -212,7 +212,7 @@ namespace tg
                                 break;
                             default: break;
                             }
-                            widget->setGeometry(widget->addMargins(g));
+                            widget->setGeometry(widget->_addMargins(g));
                         }
                     });
                 p.newWidgets.push_back(std::make_pair(pos, out));
@@ -235,14 +235,14 @@ namespace tg
             {
                 const Size2I& sizeHint = i.second->getSizeHint();
                 p.sizeHints[i.second] = sizeHint;
-                Box2I g = i.second->removeMargins(Box2I(i.first, sizeHint));
-                const Size2I sizeHintGrid = _snapToGrid(i.second->removeMargins(sizeHint));
+                Box2I g = i.second->_removeMargins(Box2I(i.first, sizeHint));
+                const Size2I sizeHintGrid = _snapToGrid(i.second->_removeMargins(sizeHint));
                 g = Box2I(
                     _snapToGridX(g.min.x),
                     _snapToGridY(g.min.y),
                     sizeHintGrid.w,
                     sizeHintGrid.h);
-                i.second->setGeometry(i.second->addMargins(g));
+                i.second->setGeometry(i.second->_addMargins(g));
             }
             p.newWidgets.clear();
             
@@ -251,7 +251,7 @@ namespace tg
             {
                 if (auto mdi = std::dynamic_pointer_cast<MDIWidget>(child))
                 {
-                    Box2I g = mdi->removeMargins(mdi->getGeometry());
+                    Box2I g = mdi->_removeMargins(mdi->getGeometry());
 
                     // Add the parent offset.
                     g.min = g.min + offset;
@@ -263,7 +263,7 @@ namespace tg
                     if (i != p.sizeHints.end() && i->second != sizeHint)
                     {
                         p.sizeHints[mdi] = sizeHint;
-                        const Size2I sizeHintGrid = _snapToGrid(mdi->removeMargins(sizeHint));
+                        const Size2I sizeHintGrid = _snapToGrid(mdi->_removeMargins(sizeHint));
                         g = Box2I(
                             g.min.x,
                             g.min.y,
@@ -277,7 +277,7 @@ namespace tg
                         g.max.x > pg.max.x ||
                         g.max.y > pg.max.y)
                     {
-                        const Size2I sizeHintGrid = _snapToGrid(mdi->removeMargins(sizeHint));
+                        const Size2I sizeHintGrid = _snapToGrid(mdi->_removeMargins(sizeHint));
                         g.min.x = clamp(
                             _snapToGridX(g.min.x - pg.min.x),
                             0,
@@ -296,7 +296,7 @@ namespace tg
                             _snapToGridX(pg.max.y + 1 - pg.min.y)) - 1 + pg.min.y;
                     }
 
-                    mdi->setGeometry(mdi->addMargins(g));
+                    mdi->setGeometry(mdi->_addMargins(g));
                 }
             }
         }

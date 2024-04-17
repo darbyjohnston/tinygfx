@@ -4,7 +4,7 @@
 
 #include <tgCorePy/Bindings.h>
 
-#include <tgCore/Size.h>
+#include <tgCore/Color.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
@@ -16,71 +16,81 @@ namespace tg
 {
     namespace core
     {
-        void size(py::module_& m)
+        void color(py::module_& m)
         {
-            py::class_<Size2I>(m, "Size2I")
+            py::class_<Color1F>(m, "Color1F")
                 .def(py::init<>())
-                .def(py::init<int, int>())
+                .def(py::init<float>())
                 .def(
                     "__setitem__",
-                    [](Size2I& self, unsigned index, int v)
+                    [](Color1F& self, unsigned index, float v)
                     {
                         self.e.at(index) = v;
                     })
                 .def(
                     "__getitem__",
-                    [](Size2I& self, unsigned index)
+                    [](Color1F& self, unsigned index)
                     {
                         return self.e.at(index);
                     })
-                .def("isValid", &Size2I::isValid)
                 .def(pybind11::self == pybind11::self)
                 .def(pybind11::self != pybind11::self);
 
-            py::class_<Size2F>(m, "Size2F")
+            py::class_<Color2F>(m, "Color2F")
                 .def(py::init<>())
+                .def(py::init<float>())
                 .def(py::init<float, float>())
                 .def(
                     "__setitem__",
-                    [](Size2F& self, unsigned index, float v)
+                    [](Color2F& self, unsigned index, float v)
                     {
                         self.e.at(index) = v;
                     })
                 .def(
                     "__getitem__",
-                    [](Size2F& self, unsigned index)
+                    [](Color2F& self, unsigned index)
                     {
                         return self.e.at(index);
                     })
-                .def("isValid", &Size2F::isValid)
                 .def(pybind11::self == pybind11::self)
                 .def(pybind11::self != pybind11::self);
 
-            py::class_<Size3F>(m, "Size3F")
+            py::class_<Color3F>(m, "Color3F")
                 .def(py::init<>())
                 .def(py::init<float, float, float>())
                 .def(
                     "__setitem__",
-                    [](Size3F& self, unsigned index, float v)
+                    [](Color3F& self, unsigned index, float v)
                     {
                         self.e.at(index) = v;
                     })
                 .def(
                     "__getitem__",
-                    [](Size3F& self, unsigned index)
+                    [](Color3F& self, unsigned index)
                     {
                         return self.e.at(index);
                     })
-                .def("isValid", &Size3F::isValid)
                 .def(pybind11::self == pybind11::self)
                 .def(pybind11::self != pybind11::self);
-                    
-            //! \todo These cause linker errors?
-            /*m.def("aspectRatio", &aspectRatio<Size2I>);
-            m.def("aspectRatio", &aspectRatio<Size2F>);
-            m.def("area", &area<Size2I>);
-            m.def("area", &area<Size2F>);
-            m.def("volume", &area<Size3F>);*/
+
+            py::class_<Color4F>(m, "Color4F")
+                .def(py::init<>())
+                .def(py::init<float, float, float>())
+                .def(py::init<float, float, float, float>())
+                .def(
+                    "__setitem__",
+                    [](Color4F& self, unsigned index, float v)
+                    {
+                        self.e.at(index) = v;
+                    })
+                .def(
+                    "__getitem__",
+                    [](Color4F& self, unsigned index)
+                    {
+                        return self.e.at(index);
+                    })
+                .def(pybind11::self == pybind11::self)
+                .def(pybind11::self != pybind11::self);
         }
     }
 }

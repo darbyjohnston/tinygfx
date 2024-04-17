@@ -24,8 +24,8 @@ namespace tg
                         const std::shared_ptr<IWidget>&>(&GroupBox::create)),
                     py::arg("context"),
                     py::arg("parent") = nullptr)
-                .def("setText", &GroupBox::setText)
-                .def("setFontRole", &GroupBox::setFontRole);
+                .def_property("text", &GroupBox::getText, &GroupBox::setText)
+                .def_property("fontRole", &GroupBox::getFontRole, &GroupBox::setFontRole);
         }
     }
 }

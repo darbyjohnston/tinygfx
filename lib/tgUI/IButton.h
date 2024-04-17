@@ -39,20 +39,38 @@ namespace tg
             //! Set whether the button is checked.
             void setChecked(bool);
 
+            //! Get the text.
+            const std::string& getText() const;
+
             //! Set the text.
             virtual void setText(const std::string&);
+
+            //! Get the font role.
+            FontRole getFontRole() const;
 
             //! Set the font role.
             virtual void setFontRole(FontRole);
 
+            //! Get the icon.
+            const std::string& getIcon() const;
+
             //! Set the icon.
             void setIcon(const std::string&);
+
+            //! Get the checked icon.
+            const std::string& getCheckedIcon() const;
 
             //! Set the checked icon.
             void setCheckedIcon(const std::string&);
 
+            //! Get the button color role.
+            ColorRole getButtonRole() const;
+
             //! Set the button color role.
             void setButtonRole(ColorRole);
+
+            //! Get the checked color role.
+            ColorRole getCheckedRole() const;
 
             //! Set the checked color role.
             void setCheckedRole(ColorRole);

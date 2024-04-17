@@ -115,6 +115,11 @@ namespace tg
             return out;
         }
 
+        const std::string& MDIWidget::getTitle() const
+        {
+            return _p->titleLabel->getText();
+        }
+
         void MDIWidget::setTitle(const std::string& value)
         {
             _p->titleLabel->setText(value);
@@ -149,27 +154,6 @@ namespace tg
         void MDIWidget::setResizeCallback(const std::function<void(MDIResize, const V2I&)>& value)
         {
             _p->resizeCallback = value;
-        }
-
-        Box2I MDIWidget::addMargins(const Box2I& value) const
-        {
-            TG_P();
-            const int margin = std::max(p.size.handle, p.size.shadow);
-            return core::margin(value, margin, p.size.handle, margin, margin);
-        }
-
-        Box2I MDIWidget::removeMargins(const Box2I& value) const
-        {
-            TG_P();
-            const int margin = std::max(p.size.handle, p.size.shadow);
-            return core::margin(value, -margin, -p.size.handle, -margin, -margin);
-        }
-
-        Size2I MDIWidget::removeMargins(const Size2I& value) const
-        {
-            TG_P();
-            const int margin = std::max(p.size.handle, p.size.shadow);
-            return Size2I(value.w - margin * 2, value.h - p.size.handle - margin);
         }
 
         void MDIWidget::setGeometry(const Box2I& value)
@@ -348,6 +332,27 @@ namespace tg
             {
                 p.pressCallback(false);
             }
+        }
+
+        Box2I MDIWidget::_addMargins(const Box2I& value) const
+        {
+            TG_P();
+            const int margin = std::max(p.size.handle, p.size.shadow);
+            return core::margin(value, margin, p.size.handle, margin, margin);
+        }
+
+        Box2I MDIWidget::_removeMargins(const Box2I& value) const
+        {
+            TG_P();
+            const int margin = std::max(p.size.handle, p.size.shadow);
+            return core::margin(value, -margin, -p.size.handle, -margin, -margin);
+        }
+
+        Size2I MDIWidget::_removeMargins(const Size2I& value) const
+        {
+            TG_P();
+            const int margin = std::max(p.size.handle, p.size.shadow);
+            return Size2I(value.w - margin * 2, value.h - p.size.handle - margin);
         }
     }
 }

@@ -74,6 +74,11 @@ namespace tg
             _setDrawUpdate();
         }
 
+        const std::string& IButton::getText() const
+        {
+            return _text;
+        }
+
         void IButton::setText(const std::string& value)
         {
             if (value == _text)
@@ -81,6 +86,11 @@ namespace tg
             _text = value;
             _setSizeUpdate();
             _setDrawUpdate();
+        }
+
+        FontRole IButton::getFontRole() const
+        {
+            return _fontRole;
         }
 
         void IButton::setFontRole(FontRole value)
@@ -92,12 +102,22 @@ namespace tg
             _setDrawUpdate();
         }
 
+        const std::string& IButton::getIcon() const
+        {
+            return _icon;
+        }
+
         void IButton::setIcon(const std::string& icon)
         {
             TG_P();
             _icon = icon;
             p.iconInit = true;
             _iconImage.reset();
+        }
+
+        const std::string& IButton::getCheckedIcon() const
+        {
+            return _checkedIcon;
         }
 
         void IButton::setCheckedIcon(const std::string& icon)
@@ -108,12 +128,22 @@ namespace tg
             _checkedIconImage.reset();
         }
 
+        ColorRole IButton::getButtonRole() const
+        {
+            return _buttonRole;
+        }
+
         void IButton::setButtonRole(ColorRole value)
         {
             if (value == _buttonRole)
                 return;
             _buttonRole = value;
             _setDrawUpdate();
+        }
+
+        ColorRole IButton::getCheckedRole() const
+        {
+            return _checkedRole;
         }
 
         void IButton::setCheckedRole(ColorRole value)

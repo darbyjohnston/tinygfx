@@ -43,11 +43,14 @@ namespace tg
             //! Set the close callback.
             void setCloseCallback(const std::function<void(void)>&);
 
-            //! Set the popup color role.
-            void setPopupRole(ColorRole);
-
             //! Set the widget.
             void setWidget(const std::shared_ptr<IWidget>&);
+
+            //! Get the popup color role.
+            ColorRole getPopupRole() const;
+
+            //! Set the popup color role.
+            void setPopupRole(ColorRole);
 
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;

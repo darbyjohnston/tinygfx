@@ -7,6 +7,7 @@
 #include <tgCore/Range.h>
 
 #include <pybind11/pybind11.h>
+#include <pybind11/operators.h>
 
 namespace py = pybind11;
 
@@ -20,19 +21,25 @@ namespace tg
                 .def(py::init<>())
                 .def(py::init<int, int>())
                 .def("min", &RangeI::min)
-                .def("max", &RangeI::max);
+                .def("max", &RangeI::max)
+                .def(pybind11::self == pybind11::self)
+                .def(pybind11::self != pybind11::self);
 
             py::class_<RangeF>(m, "RangeF")
                 .def(py::init<>())
                 .def(py::init<float, float>())
                 .def("min", &RangeF::min)
-                .def("max", &RangeF::max);
+                .def("max", &RangeF::max)
+                .def(pybind11::self == pybind11::self)
+                .def(pybind11::self != pybind11::self);
 
             py::class_<RangeD>(m, "RangeD")
                 .def(py::init<>())
                 .def(py::init<double, double>())
                 .def("min", &RangeD::min)
-                .def("max", &RangeD::max);
+                .def("max", &RangeD::max)
+                .def(pybind11::self == pybind11::self)
+                .def(pybind11::self != pybind11::self);
         }
     }
 }

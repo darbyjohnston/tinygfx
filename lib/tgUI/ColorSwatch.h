@@ -37,11 +37,17 @@ namespace tg
             //! Set the color.
             void setColor(const core::Color4F&);
 
+            //! Get whether the color is editable.
+            bool isEditable() const;
+
             //! Set whether the color is editable.
             void setEditable(bool);
 
             //! Set the color callback.
             void setCallback(const std::function<void(const core::Color4F&)>&);
+
+            //! Get the size role.
+            SizeRole getSizeRole() const;
 
             //! Set the size role.
             void setSizeRole(SizeRole);

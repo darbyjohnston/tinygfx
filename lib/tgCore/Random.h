@@ -22,23 +22,23 @@ namespace tg
             ~Random();
 
             //! Get a random number between zero and one.
-            float get();
+            float getF();
 
             //! Get a random number between zero and the given value.
-            float get(float);
+            float getF(float);
+
+            //! Get a random number between two values.
+            float getF(float min, float max);
 
             //! Get a random number between zero and the given value.
-            int get(int);
+            int getI(int);
 
             //! Get a random number between two values.
-            float get(float min, float max);
-
-            //! Get a random number between two values.
-            int get(int min, int max);
+            int getI(int min, int max);
 
             //! Get a random item from a list.
             template<typename T>
-            const T& get(const std::vector<T>&);
+            const T& getItem(const std::vector<T>&);
 
             //! Seed the random value generator.
             void setSeed(unsigned int);
