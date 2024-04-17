@@ -134,9 +134,19 @@ namespace tg
             _p->model->setRange(value);
         }
 
+        int IntEdit::getStep() const
+        {
+            return _p->model->getStep();
+        }
+
         void IntEdit::setStep(int value)
         {
             _p->model->setStep(value);
+        }
+
+        int IntEdit::getLargeStep() const
+        {
+            return _p->model->getLargeStep();
         }
 
         void IntEdit::setLargeStep(int value)

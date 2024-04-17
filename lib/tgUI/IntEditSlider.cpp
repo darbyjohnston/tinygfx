@@ -128,14 +128,29 @@ namespace tg
             _p->model->setRange(value);
         }
 
+        int IntEditSlider::getStep() const
+        {
+            return _p->model->getStep();
+        }
+
         void IntEditSlider::setStep(int value)
         {
             _p->model->setStep(value);
         }
 
+        int IntEditSlider::getLargeStep() const
+        {
+            return _p->model->getLargeStep();
+        }
+
         void IntEditSlider::setLargeStep(int value)
         {
             _p->model->setLargeStep(value);
+        }
+
+        int IntEditSlider::getDefaultValue() const
+        {
+            return _p->model->getDefaultValue();
         }
 
         void IntEditSlider::setDefaultValue(int value)

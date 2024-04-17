@@ -141,9 +141,19 @@ namespace tg
             _p->model->setRange(value);
         }
 
+        double DoubleEdit::getStep() const
+        {
+            return _p->model->getStep();
+        }
+
         void DoubleEdit::setStep(double value)
         {
             _p->model->setStep(value);
+        }
+
+        double DoubleEdit::getLargeStep() const
+        {
+            return _p->model->getLargeStep();
         }
 
         void DoubleEdit::setLargeStep(double value)
@@ -154,6 +164,11 @@ namespace tg
         const std::shared_ptr<DoubleModel>& DoubleEdit::getModel() const
         {
             return _p->model;
+        }
+
+        int DoubleEdit::getPrecision() const
+        {
+            return _p->precision;
         }
 
         void DoubleEdit::setPrecision(int value)

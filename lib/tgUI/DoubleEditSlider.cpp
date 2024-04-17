@@ -128,14 +128,29 @@ namespace tg
             _p->model->setRange(value);
         }
 
+        double DoubleEditSlider::getStep() const
+        {
+            return _p->model->getStep();
+        }
+
         void DoubleEditSlider::setStep(double value)
         {
             _p->model->setStep(value);
         }
 
+        double DoubleEditSlider::getLargeStep() const
+        {
+            return _p->model->getLargeStep();
+        }
+
         void DoubleEditSlider::setLargeStep(double value)
         {
             _p->model->setLargeStep(value);
+        }
+
+        double DoubleEditSlider::getDefaultValue() const
+        {
+            return _p->model->getDefaultValue();
         }
 
         void DoubleEditSlider::setDefaultValue(double value)
@@ -146,6 +161,11 @@ namespace tg
         const std::shared_ptr<DoubleModel>& DoubleEditSlider::getModel() const
         {
             return _p->model;
+        }
+        
+        int DoubleEditSlider::getPrecision() const
+        {
+            return _p->edit->getPrecision();
         }
 
         void DoubleEditSlider::setPrecision(int value)

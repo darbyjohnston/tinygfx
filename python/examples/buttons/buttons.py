@@ -9,6 +9,7 @@ class Window(tgUIApp.Window):
     def __init__(self, context, name, size):
         tgUIApp.Window.__init__(self, context, name, size)
         
+        # Create the layout.
         self.layout = tgUI.VerticalLayout(context)
         self.layout.setMarginRole(tgUI.SizeRole.Margin)
         self.scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both, self)

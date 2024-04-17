@@ -31,17 +31,17 @@ namespace tg
             {
                 ui::Window::_init(context, name, size);
 
-                // Create the scroll widget.
+                // Create the layout.
+                auto layout = VerticalLayout::create(context);
+                layout->setMarginRole(SizeRole::Margin);
                 auto scrollWidget = ScrollWidget::create(
                     context,
                     ScrollType::Both,
                     shared_from_this());
-                auto scrollLayout = VerticalLayout::create(context);
-                scrollLayout->setMarginRole(SizeRole::Margin);
-                scrollWidget->setWidget(scrollLayout);
+                scrollWidget->setWidget(layout);
 
                 // Create integer sliders.
-                auto groupBox = GroupBox::create(context, "Integer Sliders", scrollLayout);
+                auto groupBox = GroupBox::create(context, "Integer Sliders", layout);
                 auto vLayout = VerticalLayout::create(context, groupBox);
                 auto intEditSlider = IntEditSlider::create(context, nullptr, vLayout);
                 intEditSlider->setCallback(
@@ -65,7 +65,7 @@ namespace tg
                     });
 
                 // Create float sliders.
-                groupBox = GroupBox::create(context, "Float Sliders", scrollLayout);
+                groupBox = GroupBox::create(context, "Float Sliders", layout);
                 vLayout = VerticalLayout::create(context, groupBox);
                 auto floatEditSlider = FloatEditSlider::create(context, nullptr, vLayout);
                 floatEditSlider->setCallback(
@@ -89,7 +89,7 @@ namespace tg
                     });
 
                 // Create double sliders.
-                groupBox = GroupBox::create(context, "Double Sliders", scrollLayout);
+                groupBox = GroupBox::create(context, "Double Sliders", layout);
                 vLayout = VerticalLayout::create(context, groupBox);
                 auto doubleEditSlider = DoubleEditSlider::create(context, nullptr, vLayout);
                 doubleEditSlider->setCallback(

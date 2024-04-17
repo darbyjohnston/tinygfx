@@ -5,10 +5,22 @@ set(SOURCE
     Bindings.cpp
     ButtonGroup.cpp
     CheckBox.cpp
+    DoubleEdit.cpp
+    DoubleEditSlider.cpp
+    DoubleModel.cpp
+    DoubleSlider.cpp
+    FloatEdit.cpp
+    FloatEditSlider.cpp
+    FloatModel.cpp
+    FloatSlider.cpp
     GroupBox.cpp
     IButton.cpp
     IWidget.cpp
     IWindow.cpp
+    IntEdit.cpp
+    IntEditSlider.cpp
+    IntModel.cpp
+    IntSlider.cpp
     PushButton.cpp
     RowLayout.cpp
     ScrollArea.cpp

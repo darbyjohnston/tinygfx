@@ -49,11 +49,20 @@ namespace tg
             //! Set the range.
             void setRange(const core::RangeI&);
 
+            //! Get the step.
+            int getStep() const;
+
             //! Set the step.
             void setStep(int);
 
+            //! Get the large step.
+            int getLargeStep() const;
+
             //! Set the large step.
             void setLargeStep(int);
+
+            //! Get the default value.
+            int getDefaultValue() const;
 
             //! Set the default value.
             void setDefaultValue(int);

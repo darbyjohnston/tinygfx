@@ -128,14 +128,29 @@ namespace tg
             _p->model->setRange(value);
         }
 
+        float FloatEditSlider::getStep() const
+        {
+            return _p->model->getStep();
+        }
+
         void FloatEditSlider::setStep(float value)
         {
             _p->model->setStep(value);
         }
 
+        float FloatEditSlider::getLargeStep() const
+        {
+            return _p->model->getLargeStep();
+        }
+
         void FloatEditSlider::setLargeStep(float value)
         {
             _p->model->setLargeStep(value);
+        }
+
+        float FloatEditSlider::getDefaultValue() const
+        {
+            return _p->model->getDefaultValue();
         }
 
         void FloatEditSlider::setDefaultValue(float value)
@@ -146,6 +161,11 @@ namespace tg
         const std::shared_ptr<FloatModel>& FloatEditSlider::getModel() const
         {
             return _p->model;
+        }
+
+        int FloatEditSlider::getPrecision() const
+        {
+            return _p->edit->getPrecision();
         }
 
         void FloatEditSlider::setPrecision(int value)

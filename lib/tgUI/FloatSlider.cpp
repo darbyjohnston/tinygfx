@@ -115,14 +115,29 @@ namespace tg
             _p->model->setRange(value);
         }
 
+        float FloatSlider::getStep() const
+        {
+            return _p->model->getStep();
+        }
+
         void FloatSlider::setStep(float value)
         {
             _p->model->setStep(value);
         }
 
+        float FloatSlider::getLargeStep() const
+        {
+            return _p->model->getLargeStep();
+        }
+
         void FloatSlider::setLargeStep(float value)
         {
             _p->model->setLargeStep(value);
+        }
+
+        float FloatSlider::getDefaultValue() const
+        {
+            return _p->model->getDefaultValue();
         }
 
         void FloatSlider::setDefaultValue(float value)

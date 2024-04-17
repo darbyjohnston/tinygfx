@@ -136,9 +136,19 @@ namespace tg
             _p->model->setRange(value);
         }
 
+        float FloatEdit::getStep() const
+        {
+            return _p->model->getStep();
+        }
+
         void FloatEdit::setStep(float value)
         {
             _p->model->setStep(value);
+        }
+
+        float FloatEdit::getLargeStep() const
+        {
+            return _p->model->getLargeStep();
         }
 
         void FloatEdit::setLargeStep(float value)
@@ -149,6 +159,11 @@ namespace tg
         const std::shared_ptr<FloatModel>& FloatEdit::getModel() const
         {
             return _p->model;
+        }
+
+        int FloatEdit::getPrecision() const
+        {
+            return _p->precision;
         }
 
         void FloatEdit::setPrecision(int value)

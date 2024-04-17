@@ -24,6 +24,7 @@ namespace tg
 
             context(sm);
             os(sm);
+            range(sm);
             size(sm);
             vector(sm);
             box(sm);

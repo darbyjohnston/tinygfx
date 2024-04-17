@@ -49,14 +49,23 @@ namespace tg
             //! Set the range.
             void setRange(const core::RangeD&);
 
+            //! Get the step.
+            double getStep() const;
+
             //! Set the step.
             void setStep(double);
+
+            //! Get the large step.
+            double getLargeStep() const;
 
             //! Set the large step.
             void setLargeStep(double);
 
             //! Get the model.
             const std::shared_ptr<DoubleModel>& getModel() const;
+
+            //! Get the display precision.
+            int getPrecision() const;
 
             //! Set the display precision.
             void setPrecision(int);

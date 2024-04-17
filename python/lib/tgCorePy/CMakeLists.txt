@@ -6,6 +6,7 @@ set(SOURCE
     Bindings.cpp
     Context.cpp
     OS.cpp
+    Range.cpp
     Size.cpp
     Vector.cpp)
 

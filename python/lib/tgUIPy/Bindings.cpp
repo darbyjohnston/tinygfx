@@ -26,12 +26,24 @@ namespace tg
             style(sm);
             widgetOptions(sm);
             iWidget(sm);
-            iButton(sm);
             iWindow(sm);
+            iButton(sm);
 
             buttonGroup(sm);
             checkBox(sm);
+            doubleEdit(sm);
+            doubleEditSlider(sm);
+            doubleModel(sm);
+            doubleSlider(sm);
+            floatEdit(sm);
+            floatEditSlider(sm);
+            floatModel(sm);
+            floatSlider(sm);
             groupBox(sm);
+            intEdit(sm);
+            intEditSlider(sm);
+            intModel(sm);
+            intSlider(sm);
             pushButton(sm);
             rowLayout(sm);
             scrollArea(sm);

@@ -49,11 +49,20 @@ namespace tg
             //! Set the range.
             void setRange(const core::RangeF&);
 
+            //! Get the step.
+            float getStep() const;
+
             //! Set the step.
             void setStep(float);
 
+            //! Get the large step.
+            float getLargeStep() const;
+
             //! Set the large step.
             void setLargeStep(float);
+
+            //! Get the default value.
+            float getDefaultValue() const;
 
             //! Set the default value.
             void setDefaultValue(float);
