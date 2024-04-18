@@ -26,7 +26,7 @@ namespace tg
             Vector<C, T> min;
             Vector<C, T> max;
             
-            Size<C, T> size() const;
+            constexpr Size<C, T> size() const;
         };
 
         //! Two-dimensional box.
@@ -45,7 +45,7 @@ namespace tg
             constexpr T x() const;
             constexpr T y() const;
 
-            Size<2, T> size() const;
+            constexpr Size<2, T> size() const;
             constexpr T w() const;
             constexpr T h() const;
         };
@@ -67,7 +67,7 @@ namespace tg
             constexpr T y() const;
             constexpr T z() const;
 
-            Size<3, T> size() const;
+            constexpr Size<3, T> size() const;
             constexpr T w() const;
             constexpr T h() const;
             constexpr T d() const;
@@ -83,11 +83,11 @@ namespace tg
 
         //! Get the area of a box.
         template<typename T>
-        T area(const Box<2, T>&);
+        float area(const Box<2, T>&);
 
         //! Get the volume of a box.
         template<typename T>
-        T volume(const Box<3, T>&);
+        float volume(const Box<3, T>&);
 
         //! Does the box contain another box?
         template<typename T>

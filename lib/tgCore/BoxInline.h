@@ -19,7 +19,7 @@ namespace tg
         {}
                 
         template<int C, typename T>
-        inline Size<C, T> Box<C, T>::size() const
+        constexpr Size<C, T> Box<C, T>::size() const
         {
             Size<C, T> out;
             for (int c = 0; c < C; ++c)
@@ -72,7 +72,7 @@ namespace tg
         }
         
         template<typename T>
-        inline Size<2, T> Box<2, T>::size() const
+        constexpr Size<2, T> Box<2, T>::size() const
         {
             return Size<2, T>(
                 max.x - min.x,
@@ -80,7 +80,7 @@ namespace tg
         }
 
         template<>
-        inline Size<2, int> Box<2, int>::size() const
+        constexpr Size<2, int> Box<2, int>::size() const
         {
             return Size<2, int>(
                 max.x - min.x + 1,
@@ -136,7 +136,7 @@ namespace tg
         }
         
         template<typename T>
-        inline Size<3, T> Box<3, T>::size() const
+        constexpr Size<3, T> Box<3, T>::size() const
         {
             return Size<3, T>(
                 max.x - min.x,
@@ -174,13 +174,13 @@ namespace tg
         }
 
         template<typename T>
-        inline T area(const Box<2, T>& a)
+        inline float area(const Box<2, T>& a)
         {
             return core::area(a.size());
         }
 
         template<typename T>
-        inline T volume(const Box<3, T>& a)
+        inline float volume(const Box<3, T>& a)
         {
             return core::volume(a.size());
         }
