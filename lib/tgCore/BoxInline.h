@@ -13,7 +13,7 @@ namespace tg
         {}
 
         template<int C, typename T>
-        inline Box<C, T>::Box(const Vector<C, T>& min, const Size<C, T>& size) :
+        constexpr Box<C, T>::Box(const Vector<C, T>& min, const Size<C, T>& size) :
             min(min),
             max(min + Vector<C, T>(size))
         {}
@@ -36,13 +36,13 @@ namespace tg
         {}
 
         template<typename T>
-        inline Box<2, T>::Box(const Vector<2, T>& min, const Size<2, T>& size) :
+        constexpr Box<2, T>::Box(const Vector<2, T>& min, const Size<2, T>& size) :
             min(min),
             max(min + Vector<2, T>(size))
         {}
 
         template<>
-        inline Box<2, int>::Box(const Vector<2, int>& min, const Size<2, int>& size) :
+        constexpr Box<2, int>::Box(const Vector<2, int>& min, const Size<2, int>& size) :
             min(min),
             max(min + Vector<2, int>(size) - 1)
         {}
@@ -106,7 +106,7 @@ namespace tg
         {}
 
         template<typename T>
-        inline Box<3, T>::Box(const Vector<3, T>& min, const Size<3, T>& size) :
+        constexpr Box<3, T>::Box(const Vector<3, T>& min, const Size<3, T>& size) :
             min(min),
             max(min + Vector<3, T>(size))
         {}
@@ -163,7 +163,7 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline Vector<C, T> center(const Box<C, T>& a)
+        constexpr Vector<C, T> center(const Box<C, T>& a)
         {
             Vector<C, T> out;
             for (int c = 0; c < C; ++c)
@@ -174,19 +174,19 @@ namespace tg
         }
 
         template<typename T>
-        inline float area(const Box<2, T>& a)
+        constexpr float area(const Box<2, T>& a)
         {
             return core::area(a.size());
         }
 
         template<typename T>
-        inline float volume(const Box<3, T>& a)
+        constexpr float volume(const Box<3, T>& a)
         {
             return core::volume(a.size());
         }
 
         template<>
-        inline bool contains(const Box<2, int>& a, const Box<2, int>& b)
+        constexpr bool contains(const Box<2, int>& a, const Box<2, int>& b)
         {
             return
                 b.min.x >= a.min.x && b.max.x <= a.max.x &&
@@ -194,7 +194,7 @@ namespace tg
         }
 
         template<>
-        inline bool contains(const Box<2, float>& a, const Box<2, float>& b)
+        constexpr bool contains(const Box<2, float>& a, const Box<2, float>& b)
         {
             return
                 b.min.x >= a.min.x && b.max.x <= a.max.x &&
@@ -202,7 +202,7 @@ namespace tg
         }
 
         template<>
-        inline bool contains(const Box<2, int>& a, const Vector<2, int>& b)
+        constexpr bool contains(const Box<2, int>& a, const Vector<2, int>& b)
         {
             return
                 b.x >= a.min.x && b.x < a.max.x &&
@@ -210,7 +210,7 @@ namespace tg
         }
 
         template<>
-        inline bool contains(const Box<2, float>& a, const Vector<2, float>& b)
+        constexpr bool contains(const Box<2, float>& a, const Vector<2, float>& b)
         {
             return
                 b.x >= a.min.x && b.x <= a.max.x &&
@@ -218,7 +218,7 @@ namespace tg
         }
 
         template<>
-        inline bool intersects(const Box<2, int>& a, const Box<2, int>& b)
+        constexpr bool intersects(const Box<2, int>& a, const Box<2, int>& b)
         {
             return !(
                 b.max.x < a.min.x ||
@@ -228,7 +228,7 @@ namespace tg
         }
 
         template<>
-        inline bool intersects(const Box<2, float>& a, const Box<2, float>& b)
+        constexpr bool intersects(const Box<2, float>& a, const Box<2, float>& b)
         {
             return !(
                 b.max.x < a.min.x ||
@@ -238,7 +238,7 @@ namespace tg
         }
 
         template<typename T>
-        inline Box<2, T> intersect(const Box<2, T>& a, const Box<2, T>& b)
+        constexpr Box<2, T> intersect(const Box<2, T>& a, const Box<2, T>& b)
         {
             return Box<2, T>(
                 Vector<2, T>(
@@ -250,7 +250,7 @@ namespace tg
         }
 
         template<typename T>
-        inline Box<2, T> expand(const Box<2, T>& a, const Box<2, T>& b)
+        constexpr Box<2, T> expand(const Box<2, T>& a, const Box<2, T>& b)
         {
             return Box<2, T>(
                 Vector<2, T>(
@@ -262,7 +262,7 @@ namespace tg
         }
 
         template<typename T>
-        inline Box<2, T> expand(const Box<2, T>& a, const Vector<2, T>& b)
+        constexpr Box<2, T> expand(const Box<2, T>& a, const Vector<2, T>& b)
         {
             return Box<2, T>(
                 Vector<2, T>(
@@ -274,7 +274,7 @@ namespace tg
         }
 
         template<typename T>
-        inline Box<2, T> margin(const Box<2, T>& a, const Vector<2, T>& b)
+        constexpr Box<2, T> margin(const Box<2, T>& a, const Vector<2, T>& b)
         {
             return Box<2, T>(
                 Vector<2, T>(a.min.x - b.x, a.min.y - b.y),
@@ -282,7 +282,7 @@ namespace tg
         }
 
         template<typename T>
-        inline Box<2, T> margin(const Box<2, T>& a, T b)
+        constexpr Box<2, T> margin(const Box<2, T>& a, T b)
         {
             return Box<2, T>(
                 Vector<2, T>(a.min.x - b, a.min.y - b),
@@ -290,7 +290,7 @@ namespace tg
         }
 
         template<typename T>
-        inline Box<2, T> margin(const Box<2, T>& a, T x0, T y0, T x1, T y1)
+        constexpr Box<2, T> margin(const Box<2, T>& a, T x0, T y0, T x1, T y1)
         {
             return Box<2, T>(
                 Vector<2, T>(a.min.x - x0, a.min.y - y0),
@@ -298,13 +298,13 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline bool operator == (const Box<C, T>& a, const Box<C, T>& b)
+        constexpr bool operator == (const Box<C, T>& a, const Box<C, T>& b)
         {
             return a.min == b.min && a.max == b.max;
         }
         
         template<int C, typename T>
-        inline bool operator != (const Box<C, T>& a, const Box<C, T>& b)
+        constexpr bool operator != (const Box<C, T>& a, const Box<C, T>& b)
         {
             return !(a == b);
         }

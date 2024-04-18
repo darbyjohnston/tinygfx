@@ -9,7 +9,7 @@ namespace tg
     namespace core
     {
         template<int C, typename T>
-        inline Vector<C, T>::Vector()
+        constexpr Vector<C, T>::Vector()
         {
             for (int c = 0; c < C; ++c)
             {
@@ -18,7 +18,7 @@ namespace tg
         }
         
         template<int C, typename T>
-        inline Vector<C, T>::Vector(const Size<C, T>& size)
+        constexpr Vector<C, T>::Vector(const Size<C, T>& size)
         {
             for (int c = 0; c < C; ++c)
             {
@@ -254,7 +254,7 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline T dot(const Vector<C, T>& v0, const Vector<C, T>& v1)
+        constexpr T dot(const Vector<C, T>& v0, const Vector<C, T>& v1)
         {
             T out = T(0);
             for (int c = 0; c < C; ++c)
@@ -277,7 +277,7 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline Vector<C, T> operator + (const Vector<C, T>& v0, const Vector<C, T>& v1)
+        constexpr Vector<C, T> operator + (const Vector<C, T>& v0, const Vector<C, T>& v1)
         {
             Vector<C, T> out;
             for (int c = 0; c < C; ++c)
@@ -288,7 +288,7 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline Vector<C, T> operator + (const Vector<C, T>& v, T s)
+        constexpr Vector<C, T> operator + (const Vector<C, T>& v, T s)
         {
             Vector<C, T> out;
             for (int c = 0; c < C; ++c)
@@ -299,7 +299,7 @@ namespace tg
         }
         
         template<int C, typename T>
-        inline Vector<C, T> operator - (const Vector<C, T>& v0, const Vector<C, T>& v1)
+        constexpr Vector<C, T> operator - (const Vector<C, T>& v0, const Vector<C, T>& v1)
         {
             Vector<C, T> out;
             for (int c = 0; c < C; ++c)
@@ -310,7 +310,7 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline Vector<C, T> operator - (const Vector<C, T>& v, T s)
+        constexpr Vector<C, T> operator - (const Vector<C, T>& v, T s)
         {
             Vector<C, T> out;
             for (int c = 0; c < C; ++c)
@@ -321,7 +321,7 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline Vector<C, T> operator * (const Vector<C, T>& v, T s)
+        constexpr Vector<C, T> operator * (const Vector<C, T>& v, T s)
         {
             Vector<C, T> out;
             for (int c = 0; c < C; ++c)
@@ -332,7 +332,7 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline Vector<C, T> operator / (const Vector<C, T>& v, T s)
+        constexpr Vector<C, T> operator / (const Vector<C, T>& v, T s)
         {
             Vector<C, T> out;
             for (int c = 0; c < C; ++c)
@@ -343,7 +343,7 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline bool operator == (const Vector<C, T>& a, const Vector<C, T>& b)
+        constexpr bool operator == (const Vector<C, T>& a, const Vector<C, T>& b)
         {
             bool out = true;
             for (int c = 0; c < C; ++c)
@@ -354,7 +354,7 @@ namespace tg
         }
         
         template<int C, typename T>
-        inline bool operator != (const Vector<C, T>& a, const Vector<C, T>& b)
+        constexpr bool operator != (const Vector<C, T>& a, const Vector<C, T>& b)
         {
             return !(a == b);
         }

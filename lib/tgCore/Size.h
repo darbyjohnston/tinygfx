@@ -98,18 +98,18 @@ namespace tg
         constexpr float volume(const Size<3, T>&);
         
         template<int C, typename T>
-        Size<C, T> operator + (const Size<C, T>&, T);
+        constexpr Size<C, T> operator + (const Size<C, T>&, T);
         template<int C, typename T>
-        Size<C, T> operator - (const Size<C, T>&, T);
+        constexpr Size<C, T> operator - (const Size<C, T>&, T);
         template<int C, typename T>
-        Size<C, T> operator * (const Size<C, T>&, T);
+        constexpr Size<C, T> operator * (const Size<C, T>&, T);
         template<int C, typename T>
-        Size<C, T> operator / (const Size<C, T>&, T);
+        constexpr Size<C, T> operator / (const Size<C, T>&, T);
         
         template<int C, typename T>
-        bool operator == (const Size<C, T>&, const Size<C, T>&);
+        constexpr bool operator == (const Size<C, T>&, const Size<C, T>&);
         template<int C, typename T>
-        bool operator != (const Size<C, T>&, const Size<C, T>&);
+        constexpr bool operator != (const Size<C, T>&, const Size<C, T>&);
         
         template<int C, typename T>
         std::ostream& operator << (std::ostream&, const Size<C, T>&);

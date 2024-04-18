@@ -195,7 +195,7 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline Size<C, T> operator + (const Size<C, T>& a, T b)
+        constexpr Size<C, T> operator + (const Size<C, T>& a, T b)
         {
             Size<C, T> out;
             for (int c = 0; c < C; ++c)
@@ -206,7 +206,7 @@ namespace tg
         }
         
         template<int C, typename T>
-        inline Size<C, T> operator - (const Size<C, T>& a, T b)
+        constexpr Size<C, T> operator - (const Size<C, T>& a, T b)
         {
             Size<C, T> out;
             for (int c = 0; c < C; ++c)
@@ -217,7 +217,7 @@ namespace tg
         }
         
         template<int C, typename T>
-        inline Size<C, T> operator * (const Size<C, T>& a, T b)
+        constexpr Size<C, T> operator * (const Size<C, T>& a, T b)
         {
             Size<C, T> out;
             for (int c = 0; c < C; ++c)
@@ -228,7 +228,7 @@ namespace tg
         }
         
         template<int C, typename T>
-        inline Size<C, T> operator / (const Size<C, T>& a, T b)
+        constexpr Size<C, T> operator / (const Size<C, T>& a, T b)
         {
             Size<C, T> out;
             for (int c = 0; c < C; ++c)
@@ -239,7 +239,7 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline bool operator == (const Size<C, T>& a, const Size<C, T>& b)
+        constexpr bool operator == (const Size<C, T>& a, const Size<C, T>& b)
         {
             bool out = true;
             for (int c = 0; c < C; ++c)
@@ -250,7 +250,7 @@ namespace tg
         }
         
         template<int C, typename T>
-        inline bool operator != (const Size<C, T>& a, const Size<C, T>& b)
+        constexpr bool operator != (const Size<C, T>& a, const Size<C, T>& b)
         {
             return !(a == b);
         }

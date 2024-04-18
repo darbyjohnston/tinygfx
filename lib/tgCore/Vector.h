@@ -18,8 +18,8 @@ namespace tg
         class Vector
         {
         public:
-            Vector();
-            explicit Vector(const Size<C, T>&);
+            constexpr Vector();
+            explicit constexpr Vector(const Size<C, T>&);
             
             constexpr T operator [] (int) const;
             constexpr T& operator [] (int);
@@ -116,7 +116,7 @@ namespace tg
         
         //! Get the vector dot product.
         template<int C, typename T>
-        T dot(const Vector<C, T>&, const Vector<C, T>&);
+        constexpr T dot(const Vector<C, T>&, const Vector<C, T>&);
         
         //! Get a vector perpindicular to the given vector in the clockwise
         //! direction.
@@ -129,24 +129,24 @@ namespace tg
         constexpr Vector<2, T> perpCCW(const Vector<2, T>&);
         
         template<int C, typename T>
-        Vector<C, T> operator + (const Vector<C, T>&, const Vector<C, T>&);
+        constexpr Vector<C, T> operator + (const Vector<C, T>&, const Vector<C, T>&);
         template<int C, typename T>
-        Vector<C, T> operator + (const Vector<C, T>&, T);
+        constexpr Vector<C, T> operator + (const Vector<C, T>&, T);
         
         template<int C, typename T>
-        Vector<C, T> operator - (const Vector<C, T>&, const Vector<C, T>&);
+        constexpr Vector<C, T> operator - (const Vector<C, T>&, const Vector<C, T>&);
         template<int C, typename T>
-        Vector<C, T> operator - (const Vector<C, T>&, T);
+        constexpr Vector<C, T> operator - (const Vector<C, T>&, T);
 
         template<int C, typename T>
-        Vector<C, T> operator * (const Vector<C, T>&, T);
+        constexpr Vector<C, T> operator * (const Vector<C, T>&, T);
         template<int C, typename T>
-        Vector<C, T> operator / (const Vector<C, T>&, T);
+        constexpr Vector<C, T> operator / (const Vector<C, T>&, T);
         
         template<int C, typename T>
-        bool operator == (const Vector<C, T>&, const Vector<C, T>&);
+        constexpr bool operator == (const Vector<C, T>&, const Vector<C, T>&);
         template<int C, typename T>
-        bool operator != (const Vector<C, T>&, const Vector<C, T>&);
+        constexpr bool operator != (const Vector<C, T>&, const Vector<C, T>&);
 
         template<int C, typename T>
         std::ostream& operator << (std::ostream&, const Vector<C, T>&);
