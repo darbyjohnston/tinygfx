@@ -19,7 +19,7 @@ namespace tg
         class Color
         {
         public:
-            Color();
+            constexpr Color();
 
             constexpr T operator [] (int) const;
             constexpr T& operator [] (int);
@@ -128,9 +128,9 @@ namespace tg
         typedef Color<4, float> Color4F;
         
         template<int C, typename T>
-        bool operator == (const Color<C, T>&, const Color<C, T>&);
+        constexpr bool operator == (const Color<C, T>&, const Color<C, T>&);
         template<int C, typename T>
-        bool operator != (const Color<C, T>&, const Color<C, T>&);
+        constexpr bool operator != (const Color<C, T>&, const Color<C, T>&);
                 
         template<int C, typename T>
         std::ostream& operator << (std::ostream&, const Color<C, T>&);

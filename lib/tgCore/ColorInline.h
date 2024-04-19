@@ -7,7 +7,7 @@ namespace tg
     namespace core
     {
         template<int C, typename T>
-        inline Color<C, T>::Color()
+        constexpr Color<C, T>::Color()
         {
             for (int i = 0; i < C; ++i)
             {
@@ -270,7 +270,7 @@ namespace tg
         }
 
         template<int C, typename T>
-        inline bool operator == (const Color<C, T>& a, const Color<C, T>& b)
+        constexpr bool operator == (const Color<C, T>& a, const Color<C, T>& b)
         {
             bool out = true;
             for (int i = 0; i < C; ++i)
@@ -281,7 +281,7 @@ namespace tg
         }
         
         template<int C, typename T>
-        inline bool operator != (const Color<C, T>& a, const Color<C, T>& b)
+        constexpr bool operator != (const Color<C, T>& a, const Color<C, T>& b)
         {
             return !(a == b);
         }

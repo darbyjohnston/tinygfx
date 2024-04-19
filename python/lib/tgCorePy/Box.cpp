@@ -63,6 +63,56 @@ namespace tg
                 .def("d", &Box3F::d)
                 .def(pybind11::self == pybind11::self)
                 .def(pybind11::self != pybind11::self);
+
+            m.def("center", [](const Box2I& v) { return center(v); });
+            m.def("center", [](const Box2F& v) { return center(v); });
+            m.def("center", [](const Box3F& v) { return center(v); });
+
+            m.def("area", [](const Box2I& v) { return area(v); });
+            m.def("area", [](const Box2F& v) { return area(v); });
+
+            m.def("volume", [](const Box3F& v) { return volume(v); });
+
+            m.def("contains",
+                [](const Box2I& a, const Box2I& b) { return contains(a, b); });
+            m.def("contains",
+                [](const Box2F& a, const Box2F& b) { return contains(a, b); });
+            m.def("contains",
+                [](const Box2I& a, const V2I& b) { return contains(a, b); });
+            m.def("contains",
+                [](const Box2F& a, const V2F& b) { return contains(a, b); });
+
+            m.def("intersects",
+                [](const Box2I& a, const Box2I& b) { return intersects(a, b); });
+            m.def("intersects",
+                [](const Box2F& a, const Box2F& b) { return intersects(a, b); });
+
+            m.def("intersect",
+                [](const Box2I& a, const Box2I& b) { return intersect(a, b); });
+            m.def("intersect",
+                [](const Box2F& a, const Box2F& b) { return intersect(a, b); });
+
+            m.def("expand",
+                [](const Box2I& a, const Box2I& b) { return expand(a, b); });
+            m.def("expand",
+                [](const Box2F& a, const Box2F& b) { return expand(a, b); });
+            m.def("expand",
+                [](const Box2I& a, const V2I& b) { return expand(a, b); });
+            m.def("expand",
+                [](const Box2F& a, const V2F& b) { return expand(a, b); });
+
+            m.def("margin",
+                [](const Box2I& v, const V2I& m) { return margin(v, m); });
+            m.def("margin",
+                [](const Box2F& v, const V2F& m) { return margin(v, m); });
+            m.def("margin",
+                [](const Box2I& v, int m) { return margin(v, m); });
+            m.def("margin",
+                [](const Box2F& v, float m) { return margin(v, m); });
+            m.def("margin",
+                [](const Box2I& v, int x0, int y0, int x1, int y1) { return margin(v, x0, y0, x1, y1); });
+            m.def("margin",
+                [](const Box2F& v, float x0, float y0, float x1, float y1) { return margin(v, x0, y0, x1, y1); });
         }
     }
 }

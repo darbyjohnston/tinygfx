@@ -10,6 +10,8 @@
 #include <pybind11/operators.h>
 #include <pybind11/stl.h>
 
+#include <sstream>
+
 namespace py = pybind11;
 
 namespace tg
@@ -21,76 +23,78 @@ namespace tg
             py::class_<Color1F>(m, "Color1F")
                 .def(py::init<>())
                 .def(py::init<float>())
-                .def(
-                    "__setitem__",
-                    [](Color1F& self, unsigned index, float v)
-                    {
-                        self.e.at(index) = v;
-                    })
-                .def(
-                    "__getitem__",
-                    [](Color1F& self, unsigned index)
-                    {
-                        return self.e.at(index);
-                    })
+                .def("__setitem__",
+                    [](Color1F& self, unsigned index, float v) { self.e.at(index) = v; })
+                .def("__getitem__",
+                    [](Color1F& self, unsigned index) { return self.e.at(index); })
+                .def("l", [](Color1F& self) { return self.l; })
                 .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self);
+                .def(pybind11::self != pybind11::self)
+                .def("__repr__", [](const Color1F& v)
+                    {
+                        std::stringstream ss;
+                        ss << v;
+                        return ss.str();
+                    });
 
             py::class_<Color2F>(m, "Color2F")
                 .def(py::init<>())
                 .def(py::init<float>())
                 .def(py::init<float, float>())
-                .def(
-                    "__setitem__",
-                    [](Color2F& self, unsigned index, float v)
-                    {
-                        self.e.at(index) = v;
-                    })
-                .def(
-                    "__getitem__",
-                    [](Color2F& self, unsigned index)
-                    {
-                        return self.e.at(index);
-                    })
+                .def("__setitem__",
+                    [](Color2F& self, unsigned index, float v) { self.e.at(index) = v; })
+                .def("__getitem__",
+                    [](Color2F& self, unsigned index) { return self.e.at(index); })
+                .def("l", [](Color2F& self) { return self.l; })
+                .def("a", [](Color2F& self) { return self.a; })
                 .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self);
+                .def(pybind11::self != pybind11::self)
+                .def("__repr__", [](const Color2F& v)
+                    {
+                        std::stringstream ss;
+                        ss << v;
+                        return ss.str();
+                    });
 
             py::class_<Color3F>(m, "Color3F")
                 .def(py::init<>())
                 .def(py::init<float, float, float>())
-                .def(
-                    "__setitem__",
-                    [](Color3F& self, unsigned index, float v)
-                    {
-                        self.e.at(index) = v;
-                    })
-                .def(
-                    "__getitem__",
-                    [](Color3F& self, unsigned index)
-                    {
-                        return self.e.at(index);
-                    })
+                .def("__setitem__",
+                    [](Color3F& self, unsigned index, float v) { self.e.at(index) = v; })
+                .def("__getitem__",
+                    [](Color3F& self, unsigned index) { return self.e.at(index); })
+                .def("r", [](Color3F& self) { return self.r; })
+                .def("g", [](Color3F& self) { return self.g; })
+                .def("b", [](Color3F& self) { return self.b; })
                 .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self);
+                .def(pybind11::self != pybind11::self)
+                .def("__repr__", [](const Color3F& v)
+                    {
+                        std::stringstream ss;
+                        ss << v;
+                        return ss.str();
+                    });
 
             py::class_<Color4F>(m, "Color4F")
                 .def(py::init<>())
                 .def(py::init<float, float, float>())
                 .def(py::init<float, float, float, float>())
-                .def(
-                    "__setitem__",
-                    [](Color4F& self, unsigned index, float v)
-                    {
-                        self.e.at(index) = v;
-                    })
-                .def(
-                    "__getitem__",
-                    [](Color4F& self, unsigned index)
-                    {
-                        return self.e.at(index);
-                    })
+                .def("__setitem__",
+                    [](Color4F& self, unsigned index, float v) { self.e.at(index) = v; })
+                .def("__getitem__",
+                    [](Color4F& self, unsigned index) { return self.e.at(index); })
+                .def("r", [](Color4F& self) { return self.r; })
+                .def("g", [](Color4F& self) { return self.g; })
+                .def("b", [](Color4F& self) { return self.b; })
+                .def("a", [](Color4F& self) { return self.a; })
                 .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self);
+                .def(pybind11::self != pybind11::self)
+                .def("__repr__", [](const Color4F& v)
+                    {
+                        std::stringstream ss;
+                        ss << v;
+                        return ss.str();
+                    });
         }
     }
 }
