@@ -35,7 +35,7 @@ jobs:
       run: |
         cd build
         cd tinygfx/src/tinygfx-build
-        xvfb-run tests/tgtest/tgtest
+        xvfb-run make test
     
     - name: Code coverage
       if: env.TINYGFX_GCOV == 'ON'
@@ -82,7 +82,7 @@ jobs:
       run: |
         cd build
         cd tinygfx/src/tinygfx-build
-        xvfb-run tests/tgtest/tgtest
+        xvfb-run make test
 
   macos-12-build:
     runs-on: macos-12
@@ -123,7 +123,7 @@ jobs:
         export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
         cd build
         cd tinygfx/src/tinygfx-build
-        tests/tgtest/tgtest
+        make test
 
   macos-14-build:
     runs-on: macos-14
@@ -164,7 +164,7 @@ jobs:
         export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
         cd build
         cd tinygfx/src/tinygfx-build
-        tests/tgtest/tgtest
+        make test
 
   windows-build:
     runs-on: windows-latest
@@ -190,7 +190,7 @@ jobs:
       run: |
         echo %CD%\build\install\bin>> %GITHUB_PATH%
         echo %CD%\build\install\lib>> %GITHUB_PATH%
-        echo %CD%\build\install\lib>> %PYTHONPATH%
+        echo PYTHONPATH=%CD%\build\install\lib >> %GITHUB_ENV%
         echo CTEST_OUTPUT_ON_FAILURE=1 >> %GITHUB_ENV%
         cmake --version
 
@@ -204,5 +204,5 @@ jobs:
       run: |
         cd build
         cd tinygfx\src\tinygfx-build
-        tests\tgtest\Debug\tgtest
+        make test
 
