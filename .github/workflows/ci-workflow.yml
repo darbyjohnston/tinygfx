@@ -204,5 +204,5 @@ jobs:
       run: |
         cd build
         cd tinygfx\src\tinygfx-build
-        cmake --build . --target test
+        cmake --build . --target RUN_TESTS
 
