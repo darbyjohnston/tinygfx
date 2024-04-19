@@ -35,7 +35,7 @@ jobs:
       run: |
         cd build
         cd tinygfx/src/tinygfx-build
-        xvfb-run make test
+        xvfb-run cmake --build . --target test
     
     - name: Code coverage
       if: env.TINYGFX_GCOV == 'ON'
@@ -82,7 +82,7 @@ jobs:
       run: |
         cd build
         cd tinygfx/src/tinygfx-build
-        xvfb-run make test
+        xvfb-run cmake --build . --target test
 
   macos-12-build:
     runs-on: macos-12
@@ -123,7 +123,7 @@ jobs:
         export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
         cd build
         cd tinygfx/src/tinygfx-build
-        make test
+        cmake --build . --target test
 
   macos-14-build:
     runs-on: macos-14
@@ -164,7 +164,7 @@ jobs:
         export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
         cd build
         cd tinygfx/src/tinygfx-build
-        make test
+        cmake --build . --target test
 
   windows-build:
     runs-on: windows-latest
@@ -204,5 +204,5 @@ jobs:
       run: |
         cd build
         cd tinygfx\src\tinygfx-build
-        make test
+        cmake --build . --target test
 
