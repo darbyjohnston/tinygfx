@@ -11,7 +11,7 @@ namespace tg
     namespace core
     {
         template<int R, int C, typename T>
-        inline Matrix<R, C, T>::Matrix()
+        constexpr Matrix<R, C, T>::Matrix()
         {
             for (int r = 0; r < R; ++r)
             {
@@ -315,7 +315,7 @@ namespace tg
         }
         
         template<int R, int C, typename T>
-        inline bool operator == (const Matrix<R, C, T>& a, const Matrix<R, C, T>& b)
+        constexpr bool operator == (const Matrix<R, C, T>& a, const Matrix<R, C, T>& b)
         {
             bool out = true;
             for (int r = 0; r < R; ++r)
@@ -329,7 +329,7 @@ namespace tg
         }
         
         template<int R, int C, typename T>
-        inline bool operator != (const Matrix<R, C, T>& a, const Matrix<R, C, T>& b)
+        constexpr bool operator != (const Matrix<R, C, T>& a, const Matrix<R, C, T>& b)
         {
             return !(a == b);
         }

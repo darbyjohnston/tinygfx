@@ -18,7 +18,7 @@ namespace tg
         class Matrix
         {
         public:
-            Matrix();
+            constexpr Matrix();
 
             constexpr T get(int row, int column) const;
             constexpr void set(int row, int column, T);
@@ -120,9 +120,9 @@ namespace tg
         Vector<4, T> operator * (const Matrix<4, 4, T>&, const Vector<4, T>&);
         
         template<int R, int C, typename T>
-        bool operator == (const Matrix<R, C, T>&, const Matrix<R, C, T>&);        
+        constexpr bool operator == (const Matrix<R, C, T>&, const Matrix<R, C, T>&);
         template<int R, int C, typename T>
-        bool operator != (const Matrix<R, C, T>&, const Matrix<R, C, T>&);
+        constexpr bool operator != (const Matrix<R, C, T>&, const Matrix<R, C, T>&);
 
         template<int R, int C, typename T>
         std::ostream& operator << (std::ostream&, const Matrix<R, C, T>&);
