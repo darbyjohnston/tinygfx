@@ -4,6 +4,7 @@ set -x
 
 sudo apt-get update
 cmake --version
+python --version
 if [[ $TINYGFX_GCOV = "ON" ]]
 then
     sudo apt-get install lcov

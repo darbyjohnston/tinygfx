@@ -27,11 +27,17 @@ namespace tg
                     [](V2I& self, unsigned index, int v) { self.e.at(index) = v; })
                 .def("__getitem__",
                     [](V2I& self, unsigned index) { return self.e.at(index); })
-                .def("x", [](V2I& self) { return self.x; })
-                .def("y", [](V2I& self) { return self.y; })
-                .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self)
-                .def("__repr__", [](const Size2I& v)
+                .def_property("x", [](V2I& self) { return self.x; }, [](V2I& self, int v) { self.x = v; })
+                .def_property("y", [](V2I& self) { return self.y; }, [](V2I& self, int v) { self.y = v; })
+                .def(py::self + py::self)
+                .def(py::self + int())
+                .def(py::self - py::self)
+                .def(py::self - int())
+                .def(py::self * int())
+                .def(py::self / int())
+                .def(py::self == py::self)
+                .def(py::self != py::self)
+                .def("__repr__", [](const V2I& v)
                     {
                         std::stringstream ss;
                         ss << v;
@@ -45,11 +51,17 @@ namespace tg
                     [](V2F& self, unsigned index, float v) { self.e.at(index) = v; })
                 .def("__getitem__",
                     [](V2F& self, unsigned index) { return self.e.at(index); })
-                .def("x", [](V2F& self) { return self.x; })
-                .def("y", [](V2F& self) { return self.y; })
-                .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self)
-                .def("__repr__", [](const Size2I& v)
+                .def_property("x", [](V2F& self) { return self.x; }, [](V2F& self, float v) { self.x = v; })
+                .def_property("y", [](V2F& self) { return self.y; }, [](V2F& self, float v) { self.y = v; })
+                .def(py::self + py::self)
+                .def(py::self + float())
+                .def(py::self - py::self)
+                .def(py::self - float())
+                .def(py::self * float())
+                .def(py::self / float())
+                .def(py::self == py::self)
+                .def(py::self != py::self)
+                .def("__repr__", [](const V2F& v)
                     {
                         std::stringstream ss;
                         ss << v;
@@ -63,12 +75,18 @@ namespace tg
                     [](V3F& self, unsigned index, float v) { self.e.at(index) = v; })
                 .def("__getitem__",
                     [](V3F& self, unsigned index) { return self.e.at(index); })
-                .def("x", [](V3F& self) { return self.x; })
-                .def("y", [](V3F& self) { return self.y; })
-                .def("y", [](V3F& self) { return self.z; })
-                .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self)
-                .def("__repr__", [](const Size2I& v)
+                .def_property("x", [](V3F& self) { return self.x; }, [](V3F& self, float v) { self.x = v; })
+                .def_property("y", [](V3F& self) { return self.y; }, [](V3F& self, float v) { self.y = v; })
+                .def_property("z", [](V3F& self) { return self.z; }, [](V3F& self, float v) { self.z = v; })
+                .def(py::self + py::self)
+                .def(py::self + float())
+                .def(py::self - py::self)
+                .def(py::self - float())
+                .def(py::self * float())
+                .def(py::self / float())
+                .def(py::self == py::self)
+                .def(py::self != py::self)
+                .def("__repr__", [](const V3F& v)
                     {
                         std::stringstream ss;
                         ss << v;
@@ -82,18 +100,42 @@ namespace tg
                     [](V4F& self, unsigned index, float v) { self.e.at(index) = v; })
                 .def("__getitem__",
                     [](V4F& self, unsigned index) { return self.e.at(index); })
-                .def("x", [](V4F& self) { return self.x; })
-                .def("y", [](V4F& self) { return self.y; })
-                .def("y", [](V4F& self) { return self.z; })
-                .def("w", [](V4F& self) { return self.w; })
-                .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self)
-                .def("__repr__", [](const Size2I& v)
+                .def_property("x", [](V4F& self) { return self.x; }, [](V4F& self, float v) { self.x = v; })
+                .def_property("y", [](V4F& self) { return self.y; }, [](V4F& self, float v) { self.y = v; })
+                .def_property("z", [](V4F& self) { return self.z; }, [](V4F& self, float v) { self.z = v; })
+                .def_property("w", [](V4F& self) { return self.w; }, [](V4F& self, float v) { self.w = v; })
+                .def(py::self + py::self)
+                .def(py::self + float())
+                .def(py::self - py::self)
+                .def(py::self - float())
+                .def(py::self * float())
+                .def(py::self / float())
+                .def(py::self == py::self)
+                .def(py::self != py::self)
+                .def("__repr__", [](const V4F& v)
                     {
                         std::stringstream ss;
                         ss << v;
                         return ss.str();
                     });
+
+            m.def("length", [](const V2I& v) { return length(v); });
+            m.def("length", [](const V2F& v) { return length(v); });
+            m.def("length", [](const V3F& v) { return length(v); });
+            m.def("length", [](const V4F& v) { return length(v); });
+
+            m.def("normalize", [](const V2F& v) { return normalize(v); });
+            m.def("normalize", [](const V3F& v) { return normalize(v); });
+            m.def("normalize", [](const V4F& v) { return normalize(v); });
+
+            m.def("dot", [](const V2F& a, const V2F& b) { return dot(a, b); });
+            m.def("dot", [](const V3F& a, const V3F& b) { return dot(a, b); });
+            m.def("dot", [](const V4F& a, const V4F& b) { return dot(a, b); });
+
+            m.def("perpCW", [](const V2I& v) { return perpCW(v); });
+            m.def("perpCW", [](const V2F& v) { return perpCW(v); });
+            m.def("perpCCW", [](const V2I& v) { return perpCCW(v); });
+            m.def("perpCCW", [](const V2F& v) { return perpCCW(v); });
         }
     }
 }

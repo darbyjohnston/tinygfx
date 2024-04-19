@@ -3,6 +3,7 @@
 # All rights reserved.
 
 from tinygfx import *
+
 import sys
 
 class Window(tgUIApp.Window):

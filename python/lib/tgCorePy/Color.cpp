@@ -27,9 +27,9 @@ namespace tg
                     [](Color1F& self, unsigned index, float v) { self.e.at(index) = v; })
                 .def("__getitem__",
                     [](Color1F& self, unsigned index) { return self.e.at(index); })
-                .def("l", [](Color1F& self) { return self.l; })
-                .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self)
+                .def_property("l", [](Color1F& self) { return self.l; }, [](Color1F& self, float v) { self.l = v; })
+                .def(py::self == py::self)
+                .def(py::self != py::self)
                 .def("__repr__", [](const Color1F& v)
                     {
                         std::stringstream ss;
@@ -45,10 +45,10 @@ namespace tg
                     [](Color2F& self, unsigned index, float v) { self.e.at(index) = v; })
                 .def("__getitem__",
                     [](Color2F& self, unsigned index) { return self.e.at(index); })
-                .def("l", [](Color2F& self) { return self.l; })
-                .def("a", [](Color2F& self) { return self.a; })
-                .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self)
+                .def_property("l", [](Color2F& self) { return self.l; }, [](Color2F& self, float v) { self.l = v; })
+                .def_property("a", [](Color2F& self) { return self.a; }, [](Color2F& self, float v) { self.a = v; })
+                .def(py::self == py::self)
+                .def(py::self != py::self)
                 .def("__repr__", [](const Color2F& v)
                     {
                         std::stringstream ss;
@@ -63,11 +63,11 @@ namespace tg
                     [](Color3F& self, unsigned index, float v) { self.e.at(index) = v; })
                 .def("__getitem__",
                     [](Color3F& self, unsigned index) { return self.e.at(index); })
-                .def("r", [](Color3F& self) { return self.r; })
-                .def("g", [](Color3F& self) { return self.g; })
-                .def("b", [](Color3F& self) { return self.b; })
-                .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self)
+                .def_property("r", [](Color3F& self) { return self.r; }, [](Color3F& self, float v) { self.r = v; })
+                .def_property("g", [](Color3F& self) { return self.g; }, [](Color3F& self, float v) { self.g = v; })
+                .def_property("b", [](Color3F& self) { return self.b; }, [](Color3F& self, float v) { self.b = v; })
+                .def(py::self == py::self)
+                .def(py::self != py::self)
                 .def("__repr__", [](const Color3F& v)
                     {
                         std::stringstream ss;
@@ -83,12 +83,12 @@ namespace tg
                     [](Color4F& self, unsigned index, float v) { self.e.at(index) = v; })
                 .def("__getitem__",
                     [](Color4F& self, unsigned index) { return self.e.at(index); })
-                .def("r", [](Color4F& self) { return self.r; })
-                .def("g", [](Color4F& self) { return self.g; })
-                .def("b", [](Color4F& self) { return self.b; })
-                .def("a", [](Color4F& self) { return self.a; })
-                .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self)
+                .def_property("r", [](Color4F& self) { return self.r; }, [](Color4F& self, float v) { self.r = v; })
+                .def_property("g", [](Color4F& self) { return self.g; }, [](Color4F& self, float v) { self.g = v; })
+                .def_property("b", [](Color4F& self) { return self.b; }, [](Color4F& self, float v) { self.b = v; })
+                .def_property("a", [](Color4F& self) { return self.a; }, [](Color4F& self, float v) { self.a = v; })
+                .def(py::self == py::self)
+                .def(py::self != py::self)
                 .def("__repr__", [](const Color4F& v)
                     {
                         std::stringstream ss;

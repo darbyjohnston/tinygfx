@@ -29,8 +29,8 @@ namespace tg
                 .def("size", &Box2I::size)
                 .def("w", &Box2I::w)
                 .def("h", &Box2I::h)
-                .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self);
+                .def(py::self == py::self)
+                .def(py::self != py::self);
 
             py::class_<Box2F>(m, "Box2F")
                 .def(py::init<>())
@@ -44,8 +44,8 @@ namespace tg
                 .def("size", &Box2F::size)
                 .def("w", &Box2F::w)
                 .def("h", &Box2F::h)
-                .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self);
+                .def(py::self == py::self)
+                .def(py::self != py::self);
 
             py::class_<Box3F>(m, "Box3F")
                 .def(py::init<>())
@@ -61,8 +61,8 @@ namespace tg
                 .def("w", &Box3F::w)
                 .def("h", &Box3F::h)
                 .def("d", &Box3F::d)
-                .def(pybind11::self == pybind11::self)
-                .def(pybind11::self != pybind11::self);
+                .def(py::self == py::self)
+                .def(py::self != py::self);
 
             m.def("center", [](const Box2I& v) { return center(v); });
             m.def("center", [](const Box2F& v) { return center(v); });
