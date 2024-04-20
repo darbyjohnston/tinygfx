@@ -6,6 +6,8 @@
 
 #include <tgUIApp/Window.h>
 
+#include <tgBaseApp/CmdLine.h>
+
 #include <tgGL/Init.h>
 
 #include <tgUI/IconLibrary.h>
@@ -38,6 +40,7 @@ namespace tg
         
         struct App::Private
         {
+            bool exit = false;
             std::shared_ptr<FontSystem> fontSystem;
             std::shared_ptr<Style> style;
             std::shared_ptr<IconLibrary> iconLibrary;
@@ -55,7 +58,19 @@ namespace tg
             const std::vector<std::shared_ptr<app::ICmdLineArg> >& cmdLineArgs,
             const std::vector<std::shared_ptr<app::ICmdLineOption> >& cmdLineOptions)
         {
-            app::IApp::_init(context, argv, name, summary, cmdLineArgs, cmdLineOptions);
+            std::vector<std::shared_ptr<app::ICmdLineOption> > cmdLineOptionsTmp;
+            cmdLineOptionsTmp.push_back(app::CmdLineFlagOption::create(
+                _p->exit,
+                { "-exit" },
+                "Start the user interface and then exit."));
+            cmdLineOptionsTmp.insert(cmdLineOptionsTmp.end(), cmdLineOptions.begin(), cmdLineOptions.end());
+            app::IApp::_init(
+                context,
+                argv,
+                name,
+                summary,
+                cmdLineArgs,
+                cmdLineOptionsTmp);
             TG_P();
             ui::init(context);
             gl::init(context);
@@ -166,6 +181,11 @@ namespace tg
                         p.tickTimes.pop_front();
                     }
                     t0 = t1;
+
+                    if (p.exit)
+                    {
+                        break;
+                    }
                 }
             }
             return exit;
