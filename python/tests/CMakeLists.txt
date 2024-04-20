@@ -1,3 +1,3 @@
 add_test(
-    NAME tgtest.py
-    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tgtest.py)
+    NAME Python
+    COMMAND ${Python3_EXECUTABLE} -m unittest discover -v ${CMAKE_CURRENT_SOURCE_DIR})
