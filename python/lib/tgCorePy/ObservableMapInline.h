@@ -10,17 +10,17 @@ namespace tg
         inline void observableMap(pybind11::module_& m, const std::string& type)
         {
             std::string name = "MapObserver" + type;
-            py::class_<MapObserver<T, U>, std::shared_ptr<MapObserver<T, U> > >(m, name.c_str())
+            pybind11::class_<MapObserver<T, U>, std::shared_ptr<MapObserver<T, U> > >(m, name.c_str())
                 .def(
-                    py::init(&MapObserver<T, U>::create),
-                    py::arg("observableMap"),
-                    py::arg("callback"),
-                    py::arg("action") = ObserverAction::Trigger);
+                    pybind11::init(&MapObserver<T, U>::create),
+                    pybind11::arg("observableMap"),
+                    pybind11::arg("callback"),
+                    pybind11::arg("action") = ObserverAction::Trigger);
             name = "IObservableMap" + type;
-            py::class_<IObservableMap<T, U>, std::shared_ptr<IObservableMap<T, U> > >(m, name.c_str());
+            pybind11::class_<IObservableMap<T, U>, std::shared_ptr<IObservableMap<T, U> > >(m, name.c_str());
             name = "ObservableMap" + type;
-            py::class_<ObservableMap<T, U>, IObservableMap<T, U>, std::shared_ptr<ObservableMap<T, U> > >(m, name.c_str())
-                .def(py::init(py::overload_cast<const std::map<T, U>&>(&ObservableMap<T, U>::create)))
+            pybind11::class_<ObservableMap<T, U>, IObservableMap<T, U>, std::shared_ptr<ObservableMap<T, U> > >(m, name.c_str())
+                .def(pybind11::init(pybind11::overload_cast<const std::map<T, U>&>(&ObservableMap<T, U>::create)))
                 .def("setAlways", &ObservableMap<T, U>::setAlways)
                 .def("setIfChanged", &ObservableMap<T, U>::setIfChanged)
                 .def("get", &ObservableMap<T, U>::get);
