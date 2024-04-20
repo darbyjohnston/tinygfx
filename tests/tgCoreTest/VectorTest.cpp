@@ -39,12 +39,8 @@ namespace tg
         void VectorTest::_members()
         {
             {
-                const Vector<1, int> v;
-                TG_ASSERT(0 == v[0]);
-                TG_ASSERT(v.data());
-            }
-            {
                 Vector<1, int> v;
+                TG_ASSERT(0 == v[0]);
                 v[0] = 1;
                 TG_ASSERT(1 == v[0]);
                 TG_ASSERT(v.data());

@@ -61,96 +61,54 @@ namespace tg
                 TG_ASSERT(c.data());
             }
             {
-                const Color1F c;
-                TG_ASSERT(c[0] == 0.F);
-                TG_ASSERT(c.l == 0.F);
-                TG_ASSERT(c.data());
+                const Color1F c1;
+                TG_ASSERT(c1[0] == 0.F);
+                TG_ASSERT(c1.data());
+                const Color2F c2;
+                TG_ASSERT(c2[0] == 0.F);
+                TG_ASSERT(c2[1] == 0.F);
+                TG_ASSERT(c2.data());
+                const Color3F c3;
+                TG_ASSERT(c3[0] == 0.F);
+                TG_ASSERT(c3[1] == 0.F);
+                TG_ASSERT(c3[2] == 0.F);
+                TG_ASSERT(c3.data());
+                const Color4F c4;
+                TG_ASSERT(c4[0] == 0.F);
+                TG_ASSERT(c4[1] == 0.F);
+                TG_ASSERT(c4[2] == 0.F);
+                TG_ASSERT(c4[3] == 0.F);
+                TG_ASSERT(c4.data());
             }
             {
-                Color1F c;
-                c[0] = .1F;
-                TG_ASSERT(c[0] == .1F);
-                c.l = .2F;
-                TG_ASSERT(c[0] == .2F);
-                TG_ASSERT(c.data());
+                const Color1F c1(1.F);
+                TG_ASSERT(c1.l == 1.F);
+                const Color2F c2(1.F, 1.F);
+                TG_ASSERT(c2.l == 1.F);
+                TG_ASSERT(c2.a == 1.F);
+                const Color3F c3(1.F, 1.F, 1.F);
+                TG_ASSERT(c3.r == 1.F);
+                TG_ASSERT(c3.g == 1.F);
+                TG_ASSERT(c3.b == 1.F);
+                const Color4F c4(1.F, 1.F, 1.F, 1.F);
+                TG_ASSERT(c4.r == 1.F);
+                TG_ASSERT(c4.g == 1.F);
+                TG_ASSERT(c4.b == 1.F);
+                TG_ASSERT(c4.a == 1.F);
             }
             {
-                const Color2F c;
-                TG_ASSERT(c[0] == 0.F);
-                TG_ASSERT(c[1] == 0.F);
-                TG_ASSERT(c.l == 0.F);
-                TG_ASSERT(c.a == 0.F);
-                TG_ASSERT(c.data());
-            }
-            {
-                Color2F c;
-                c[0] = .1F;
-                c[1] = .2F;
-                TG_ASSERT(c[0] == .1F);
-                TG_ASSERT(c[1] == .2F);
-                c.l = .2F;
-                c.a = .3F;
-                TG_ASSERT(c[0] == .2F);
-                TG_ASSERT(c[1] == .3F);
-                TG_ASSERT(c.data());
-            }
-            {
-                const Color3F c;
-                TG_ASSERT(c[0] == 0.F);
-                TG_ASSERT(c[1] == 0.F);
-                TG_ASSERT(c[2] == 0.F);
-                TG_ASSERT(c.r == 0.F);
-                TG_ASSERT(c.g == 0.F);
-                TG_ASSERT(c.b == 0.F);
-                TG_ASSERT(c.data());
-            }
-            {
-                Color3F c;
-                c[0] = .1F;
-                c[1] = .2F;
-                c[2] = .3F;
-                TG_ASSERT(c[0] == .1F);
-                TG_ASSERT(c[1] == .2F);
-                TG_ASSERT(c[2] == .3F);
-                c.r = .2F;
-                c.g = .3F;
-                c.b = .4F;
-                TG_ASSERT(c[0] == .2F);
-                TG_ASSERT(c[1] == .3F);
-                TG_ASSERT(c[2] == .4F);
-                TG_ASSERT(c.data());
-            }
-            {
-                const Color4F c;
-                TG_ASSERT(c[0] == 0.F);
-                TG_ASSERT(c[1] == 0.F);
-                TG_ASSERT(c[2] == 0.F);
-                TG_ASSERT(c[3] == 0.F);
-                TG_ASSERT(c.r == 0.F);
-                TG_ASSERT(c.g == 0.F);
-                TG_ASSERT(c.b == 0.F);
-                TG_ASSERT(c.a == 0.F);
-                TG_ASSERT(c.data());
-            }
-            {
-                Color4F c;
-                c[0] = .1F;
-                c[1] = .2F;
-                c[2] = .3F;
-                c[3] = .4F;
-                TG_ASSERT(c[0] == .1F);
-                TG_ASSERT(c[1] == .2F);
-                TG_ASSERT(c[2] == .3F);
-                TG_ASSERT(c[3] == .4F);
-                c.r = .2F;
-                c.g = .3F;
-                c.b = .4F;
-                c.a = .5F;
-                TG_ASSERT(c[0] == .2F);
-                TG_ASSERT(c[1] == .3F);
-                TG_ASSERT(c[2] == .4F);
-                TG_ASSERT(c[3] == .5F);
-                TG_ASSERT(c.data());
+                Color1F c1;
+                c1[0] = 1.F;
+                TG_ASSERT(c1[0] == 1.F);
+                Color2F c2;
+                c2[0] = 1.F;
+                TG_ASSERT(c2[0] == 1.F);
+                Color3F c3;
+                c3[0] = 1.F;
+                TG_ASSERT(c3[0] == 1.F);
+                Color4F c4;
+                c4[0] = 1.F;
+                TG_ASSERT(c4[0] == 1.F);
             }
         }
         

@@ -2,8 +2,12 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
+import tgCoreTest.BoxTest
+import tgCoreTest.ColorTest
+import tgCoreTest.SizeTest
 import tgCoreTest.VectorTest
 
-import sys
-
+tgCoreTest.BoxTest.run()
+tgCoreTest.ColorTest.run()
+tgCoreTest.SizeTest.run()
 tgCoreTest.VectorTest.run()
