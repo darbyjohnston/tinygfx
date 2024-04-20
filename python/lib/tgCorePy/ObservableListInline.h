@@ -2,6 +2,8 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
+#include <tgCore/ObservableList.h>
+
 namespace tg
 {
     namespace core
