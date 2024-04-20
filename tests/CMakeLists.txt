@@ -7,5 +7,5 @@ if ("${TINYGFX_API}" STREQUAL "GL_4_1" OR
     "${TINYGFX_API}" STREQUAL "GL_4_1_Debug" OR
     "${TINYGFX_API}" STREQUAL "GLES_2")
     add_subdirectory(tgGLTest)
+    add_subdirectory(tgUIAppTest)
 endif()
-

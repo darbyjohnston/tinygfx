@@ -69,7 +69,8 @@ TG_MAIN()
         auto context = Context::create();
         auto args = tg::app::convert(argc, argv);
         auto app = App::create(context, args, "filebrowser", "File browser example");
-        if (0 == app->getExit())
+        r = app->getExit();
+        if (0 == r)
         {
             context->getSystem<tg::ui::FileBrowserSystem>()->setNativeFileDialog(false);
             auto window = tg::examples::filebrowser::Window::create(

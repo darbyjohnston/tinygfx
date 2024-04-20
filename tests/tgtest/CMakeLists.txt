@@ -3,6 +3,7 @@ set(HEADERS tgtest.h)
 set(SOURCE tgtest.cpp)
 
 set(LIBRARIES
+    tgUIAppTest
     tgUITest
     tgBaseAppTest
     tgBaseApp

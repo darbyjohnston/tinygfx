@@ -89,7 +89,8 @@ TG_MAIN()
         auto context = Context::create();
         auto args = tg::app::convert(argc, argv);
         auto app = App::create(context, args, "charts", "Charts example");
-        if (0 == app->getExit())
+        r = app->getExit();
+        if (0 == r)
         {
             auto window = tg::examples::charts::Window::create(
                 context,

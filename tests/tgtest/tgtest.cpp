@@ -4,6 +4,8 @@
 
 #include "tgtest.h"
 
+#include <tgUIAppTest/AppTest.h>
+
 #include <tgUITest/EventTest.h>
 #include <tgUITest/FileBrowserTest.h>
 #include <tgUITest/MDIWidgetTest.h>
@@ -145,6 +147,8 @@ namespace tg
             p.tests.push_back(ui_test::MDIWidgetTest::create(context));
             p.tests.push_back(ui_test::StyleTest::create(context));
             p.tests.push_back(ui_test::WidgetOptionsTest::create(context));
+
+            p.tests.push_back(ui_test::AppTest::create(context));
         }
 
         App::App() :
