@@ -1,8 +1,16 @@
 set(HEADERS
+    EventTest.h
+    FileBrowserTest.h
+    MDIWidgetTest.h
+    StyleTest.h
     WidgetOptionsTest.h)
 set(PRIVATE_HEADERS)
 
 set(SOURCE
+    EventTest.cpp
+    FileBrowserTest.cpp
+    MDIWidgetTest.cpp
+    StyleTest.cpp
     WidgetOptionsTest.cpp)
 
 add_library(tgUITest ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})

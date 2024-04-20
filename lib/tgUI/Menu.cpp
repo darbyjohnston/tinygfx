@@ -129,7 +129,7 @@ namespace tg
                     return;
                 _shortcut = key;
                 _shortcutModifiers = modifiers;
-                _shortcutText = getLabel(_shortcut, _shortcutModifiers);
+                _shortcutText = getShortcutLabel(_shortcut, _shortcutModifiers);
                 _size.textInit = true;
                 _setSizeUpdate();
                 _setDrawUpdate();

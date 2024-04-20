@@ -249,7 +249,7 @@ namespace tg
         TG_ENUM(Key);
 
         //! Get a keyboard shortcut label.
-        std::string getLabel(Key, int modifiers = 0);
+        std::string getShortcutLabel(Key, int modifiers = 0);
 
         //! Key event.
         struct KeyEvent

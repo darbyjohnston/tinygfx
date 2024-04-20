@@ -195,7 +195,7 @@ namespace tg
             "RightAlt",
             "RightSuper");
 
-        std::string getLabel(Key key, int modifiers)
+        std::string getShortcutLabel(Key key, int modifiers)
         {
             std::stringstream ss;
             if (key != Key::Unknown)
