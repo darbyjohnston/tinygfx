@@ -42,7 +42,7 @@ namespace tg
                 const std::shared_ptr<core::Context>& context,
                 std::vector<std::string>& argv)
             {
-                IApp::_init(
+                ui::App::_init(
                     context,
                     argv,
                     "tg::ui_test::App",
