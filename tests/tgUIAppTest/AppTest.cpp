@@ -5,6 +5,7 @@
 #include <tgUIAppTest/AppTest.h>
 
 #include <tgUIApp/App.h>
+#include <tgUIApp/Window.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -36,6 +37,7 @@ namespace tg
                     std::vector<std::string>& argv);
 
             private:
+                std::shared_ptr<Window> _window;
             };
 
             void App::_init(
@@ -47,6 +49,10 @@ namespace tg
                     argv,
                     "tg::ui_test::App",
                     "Test UI application");
+
+                _window = Window::create(context, "tg::ui_test::App", Size2I(1280, 960));
+                addWindow(_window);
+                _window->show();
             }
 
             App::~App()
@@ -80,7 +86,7 @@ namespace tg
             int r = 0;
             if (auto context = _context.lock())
             {
-                std::vector<std::string> argv = { "app" };
+                std::vector<std::string> argv = { "app", "-exit" };
                 try
                 {
                     auto app = App::create(context, argv);
