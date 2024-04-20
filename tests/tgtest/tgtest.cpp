@@ -4,6 +4,8 @@
 
 #include "tgtest.h"
 
+#include <tgUITest/WidgetOptionsTest.h>
+
 #include <tgBaseAppTest/AppTest.h>
 #include <tgBaseAppTest/CmdLineTest.h>
 
@@ -133,6 +135,8 @@ namespace tg
 
             p.tests.push_back(app_test::AppTest::create(context));
             p.tests.push_back(app_test::CmdLineTest::create(context));
+
+            p.tests.push_back(ui_test::WidgetOptionsTest::create(context));
         }
 
         App::App() :
