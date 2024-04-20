@@ -36,6 +36,7 @@ set(HEADERS
     MeshInline.h
     Noise.h
     OS.h
+    Observable.h
     ObservableList.h
     ObservableListInline.h
     ObservableMap.h

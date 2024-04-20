@@ -2,6 +2,8 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
+#pragma once
+
 #include <pybind11/pybind11.h>
 
 namespace tg
@@ -12,6 +14,7 @@ namespace tg
 
         void color(pybind11::module_&);
         void context(pybind11::module_&);
+        void observable(pybind11::module_&);
         void os(pybind11::module_&);
         void random(pybind11::module_&);
         void range(pybind11::module_&);

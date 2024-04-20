@@ -1,5 +1,11 @@
 set(HEADERS
-    Bindings.h)
+    Bindings.h
+    ObservableList.h
+    ObservableListInline.h
+    ObservableMap.h
+    ObservableMapInline.h
+    ObservableValue.h
+    ObservableValueInline.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
     Box.cpp
@@ -7,6 +13,10 @@ set(SOURCE
     Color.cpp
     Context.cpp
     OS.cpp
+    Observable.cpp
+    ObservableList.cpp
+    ObservableMap.cpp
+    ObservableValue.cpp
     Random.cpp
     Range.cpp
     Size.cpp

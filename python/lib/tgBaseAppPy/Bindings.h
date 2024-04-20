@@ -2,6 +2,8 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
+#pragma once
+
 #include <pybind11/pybind11.h>
 
 namespace tg

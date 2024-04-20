@@ -10,7 +10,7 @@ namespace tg
     {
         template<typename T>
         inline void ListObserver<T>::_init(
-            const std::weak_ptr<IObservableList<T> >& value,
+            const std::shared_ptr<IObservableList<T> >& value,
             const std::function<void(const std::vector<T>&)>& callback,
             ObserverAction action)
         {
@@ -37,7 +37,7 @@ namespace tg
 
         template<typename T>
         inline std::shared_ptr<ListObserver<T> > ListObserver<T>::create(
-            const std::weak_ptr<IObservableList<T> >& value,
+            const std::shared_ptr<IObservableList<T> >& value,
             const std::function<void(const std::vector<T>&)>& callback,
             ObserverAction action)
         {
@@ -220,7 +220,7 @@ namespace tg
         }
 
         template<typename T>
-        inline const T& ObservableList<T>::getItem(std::size_t index) const
+        inline T ObservableList<T>::getItem(std::size_t index) const
         {
             return _value[index];
         }

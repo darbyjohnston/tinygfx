@@ -10,7 +10,7 @@ namespace tg
     {
         template<typename T>
         inline void ValueObserver<T>::_init(
-            const std::weak_ptr<IObservableValue<T> >& value,
+            const std::shared_ptr<IObservableValue<T> >& value,
             const std::function<void(const T&)>& callback,
             ObserverAction action)
         {
@@ -37,7 +37,7 @@ namespace tg
 
         template<typename T>
         inline std::shared_ptr<ValueObserver<T> > ValueObserver<T>::create(
-            const std::weak_ptr<IObservableValue<T> >& value,
+            const std::shared_ptr<IObservableValue<T> >& value,
             const std::function<void(const T&)>& callback,
             ObserverAction action)
         {

@@ -29,7 +29,7 @@ namespace tg
 
         protected:
             void _init(
-                const std::weak_ptr<IObservableValue<T> >&,
+                const std::shared_ptr<IObservableValue<T> >&,
                 const std::function<void(const T&)>&,
                 ObserverAction);
 
@@ -40,7 +40,7 @@ namespace tg
 
             //! Create a new value observer.
             static std::shared_ptr<ValueObserver<T> > create(
-                const std::weak_ptr<IObservableValue<T> >&,
+                const std::shared_ptr<IObservableValue<T> >&,
                 const std::function<void(const T&)>&,
                 ObserverAction = ObserverAction::Trigger);
 
@@ -54,7 +54,7 @@ namespace tg
 
         //! Base class for observable values.
         template<typename T>
-        class IObservableValue
+        class IObservableValue : public std::enable_shared_from_this<IObservableValue<T> >
         {
         public:
             virtual ~IObservableValue() = 0;
@@ -102,6 +102,9 @@ namespace tg
         private:
             T _value = T();
         };
+
+        typedef ValueObserver<int> IntValueObserver;
+        typedef ObservableValue<int> IntObservableValue;
         
         ///@}
     }

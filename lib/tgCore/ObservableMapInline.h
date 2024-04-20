@@ -10,7 +10,7 @@ namespace tg
     {
         template<typename T, typename U>
         inline void MapObserver<T, U>::_init(
-            const std::weak_ptr<IObservableMap<T, U> >& value,
+            const std::shared_ptr<IObservableMap<T, U> >& value,
             const std::function<void(const std::map<T, U>&)>& callback,
             ObserverAction action)
         {
@@ -37,7 +37,7 @@ namespace tg
 
         template<typename T, typename U>
         inline std::shared_ptr<MapObserver<T, U> > MapObserver<T, U>::create(
-            const std::weak_ptr<IObservableMap<T, U> >& value,
+            const std::shared_ptr<IObservableMap<T, U> >& value,
             const std::function<void(const std::map<T, U>&)>& callback,
             ObserverAction action)
         {

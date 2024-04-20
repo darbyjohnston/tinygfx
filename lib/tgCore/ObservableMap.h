@@ -29,7 +29,7 @@ namespace tg
             TG_NON_COPYABLE(MapObserver);
 
             void _init(
-                const std::weak_ptr<IObservableMap<T, U> >&,
+                const std::shared_ptr<IObservableMap<T, U> >&,
                 const std::function<void(const std::map<T, U>&)>&,
                 ObserverAction);
 
@@ -40,7 +40,7 @@ namespace tg
 
             //! Create a new map observer.
             static std::shared_ptr<MapObserver<T, U> > create(
-                const std::weak_ptr<IObservableMap<T, U> >&,
+                const std::shared_ptr<IObservableMap<T, U> >&,
                 const std::function<void(const std::map<T, U>&)>&,
                 ObserverAction = ObserverAction::Trigger);
 

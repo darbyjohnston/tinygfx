@@ -4,6 +4,10 @@
 
 #include <tgCorePy/Bindings.h>
 
+#include <tgCorePy/ObservableList.h>
+#include <tgCorePy/ObservableMap.h>
+#include <tgCorePy/ObservableValue.h>
+
 #include <tgCore/Context.h>
 #include <tgCore/Init.h>
 
@@ -24,6 +28,10 @@ namespace tg
 
             color(sm);
             context(sm);
+            observable(sm);
+            observableList(sm);
+            observableMap(sm);
+            observableValue(sm);
             os(sm);
             random(sm);
             range(sm);
