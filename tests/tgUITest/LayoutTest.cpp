@@ -44,17 +44,17 @@ namespace tg
                 _app->run();
 
                 std::shared_ptr<IWidget> layout = VerticalLayout::create(context, _window);
-                _test(context, layout);
+                _test(context, layout, Orientation::Horizontal);
                 layout->setParent(nullptr);
                 layout.reset();
 
                 layout = HorizontalLayout::create(context, _window);
-                _test(context, layout);
+                _test(context, layout, Orientation::Vertical);
                 layout->setParent(nullptr);
                 layout.reset();
 
                 layout = StackLayout::create(context, _window);
-                _test(context, layout);
+                _test(context, layout, Orientation::Horizontal);
                 layout->setParent(nullptr);
                 layout.reset();
             }
@@ -62,20 +62,45 @@ namespace tg
 
         void LayoutTest::_test(
             const std::shared_ptr<Context>& context,
-            const std::shared_ptr<IWidget>& layout)
+            const std::shared_ptr<IWidget>& layout,
+            ui::Orientation orientation)
         {
-            auto spacer = Spacer::create(context, Orientation::Horizontal, layout);
-            auto divider = Divider::create(context, Orientation::Horizontal, layout);
+            TG_ASSERT(layout->getParent().lock());
+            TG_ASSERT(layout->getParentT<Window>());
+            TG_ASSERT(layout->getWindow());
+
+            auto spacer = Spacer::create(context, orientation, layout);
+            auto divider = Divider::create(context, orientation, layout);
             auto children = layout->getChildren();
             TG_ASSERT(2 == children.size());
-            TG_ASSERT(std::find(
-                children.begin(),
-                children.end(),
-                spacer) != children.end());
-            TG_ASSERT(std::find(
-                children.begin(),
-                children.end(),
-                divider) != children.end());
+            TG_ASSERT(spacer == children.front());
+            TG_ASSERT(divider == children.back());
+            _app->run();
+
+            layout->moveToFront(spacer);
+            _app->run();
+            children = layout->getChildren();
+            TG_ASSERT(divider == children.front());
+            TG_ASSERT(spacer == children.back());
+
+            layout->moveToBack(spacer);
+            _app->run();
+            children = layout->getChildren();
+            TG_ASSERT(spacer == children.front());
+            TG_ASSERT(divider == children.back());
+
+            switch (orientation)
+            {
+            case Orientation::Horizontal:
+                spacer->setHStretch(Stretch::Expanding);
+                TG_ASSERT(Stretch::Expanding == spacer->getHStretch());
+                break;
+            case Orientation::Vertical:
+                spacer->setVStretch(Stretch::Expanding);
+                TG_ASSERT(Stretch::Expanding == spacer->getVStretch());
+                break;
+            default: break;
+            }
             _app->run();
 
             spacer->setParent(nullptr);

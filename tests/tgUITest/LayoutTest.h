@@ -31,7 +31,8 @@ namespace tg
         private:
             void _test(
                 const std::shared_ptr<core::Context>&,
-                const std::shared_ptr<ui::IWidget>&);
+                const std::shared_ptr<ui::IWidget>&,
+                ui::Orientation);
 
             std::shared_ptr<App> _app;
             std::shared_ptr<Window> _window;
