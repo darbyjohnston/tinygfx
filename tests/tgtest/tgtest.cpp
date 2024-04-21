@@ -101,7 +101,7 @@ namespace tg
             p.startTime = std::chrono::steady_clock::now();                
 #if defined(TINYGFX_API_GL_4_1) || defined(TINYGFX_API_GLES_2)
             gl::init(context);
-#endif // TINYGFX_API_GL_4_1
+#endif // TINYGFX_API_GL_4_1            
 
             p.tests.push_back(core_test::BoxPackTest::create(context));
             p.tests.push_back(core_test::BoxTest::create(context));

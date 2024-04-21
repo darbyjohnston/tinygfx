@@ -38,12 +38,15 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("ButtonTest");
-                _app = App::create(context, argv, "ButtonTest", "Button test.");                _window = Window::create(context, "ButtonTest", Size2I(1280, 960));
+                _app = App::create(context, argv, "ButtonTest", "Button test.");
+                _window = Window::create(context, "ButtonTest", Size2I(1280, 960));
+                _layout = VerticalLayout::create(context, _window);
+                _layout->setMarginRole(SizeRole::MarginLarge);
                 _app->addWindow(_window);
                 _window->show();
                 _app->run();
 
-                std::shared_ptr<IButton> button = PushButton::create(context, "Push", _window);
+                std::shared_ptr<IButton> button = PushButton::create(context, "Push", _layout);
                 button->setObjectName("PushButton");
                 _print(button->getObjectName());
                 _print(button->getObjectPath());
@@ -51,22 +54,22 @@ namespace tg
                 button->setParent(nullptr);
                 button.reset();
 
-                button = ListButton::create(context, "List", _window);
+                button = ListButton::create(context, "List", _layout);
                 _test(button);
                 button->setParent(nullptr);
                 button.reset();
 
-                button = ToolButton::create(context, "Tool", _window);
+                button = ToolButton::create(context, "Tool", _layout);
                 _test(button);
                 button->setParent(nullptr);
                 button.reset();
 
-                button = ToolButton::create(context, "Tool", _window);
+                button = ToolButton::create(context, "Tool", _layout);
                 _test(button);
                 button->setParent(nullptr);
                 button.reset();
 
-                button = CheckBox::create(context, "CheckBox", _window);
+                button = CheckBox::create(context, "CheckBox", _layout);
                 _test(button);
                 button->setParent(nullptr);
                 button.reset();
@@ -104,20 +107,26 @@ namespace tg
             button->setCheckedIcon(icon);
             TG_ASSERT(icon == button->getCheckedIcon());
 
-            ColorRole colorRole = ColorRole::Blue;
+            ColorRole colorRole = ColorRole::Red;
+            button->setBackgroundRole(colorRole);
+            button->setBackgroundRole(colorRole);
+            TG_ASSERT(colorRole == button->getBackgroundRole());
+            colorRole = ColorRole::Green;
             button->setButtonRole(colorRole);
             button->setButtonRole(colorRole);
             TG_ASSERT(colorRole == button->getButtonRole());
-            colorRole = ColorRole::Red;
+            colorRole = ColorRole::Blue;
             button->setCheckedRole(colorRole);
             button->setCheckedRole(colorRole);
             TG_ASSERT(colorRole == button->getCheckedRole());
 
             button->hide();
+            button->hide();
             _app->run();
             button->show();
             _app->run();
 
+            button->setEnabled(false);
             button->setEnabled(false);
             _app->run();
             button->setEnabled(true);
@@ -134,19 +143,14 @@ namespace tg
             bool checked = false;
             button->setCheckedCallback([&checked](bool value) { checked = value; });
 
-            button->mouseEnterEvent();
+            _window->cursorEnter(true);
+            _window->cursorPos(center(button->getGeometry()));
             _app->run();
             TG_ASSERT(hovered);
-            MouseMoveEvent mouseMoveEvent;
-            mouseMoveEvent.pos = center(button->getGeometry());
-            button->mouseMoveEvent(mouseMoveEvent);
-            _app->run();
-            MouseClickEvent mouseClickEvent;
-            mouseClickEvent.pos = mouseMoveEvent.pos;
-            button->mousePressEvent(mouseClickEvent);
+            _window->button(0, true, 0);
             _app->run();
             TG_ASSERT(pressed);
-            button->mouseReleaseEvent(mouseClickEvent);
+            _window->button(0, false, 0);
             _app->run();
             TG_ASSERT(clicks);
             TG_ASSERT(checked);
@@ -154,26 +158,24 @@ namespace tg
             {
                 TG_ASSERT(button->hasKeyFocus());
             }
-            button->mouseLeaveEvent();
+            _window->cursorPos(V2I(0, 0));
             _app->run();
             TG_ASSERT(!hovered);
 
             clicks = 0;
-            KeyEvent keyEvent;
-            keyEvent.key = Key::Enter;
-            button->keyPressEvent(keyEvent);
+
+            _window->cursorPos(center(button->getGeometry()));
             _app->run();
-            button->keyReleaseEvent(keyEvent);
+            _window->key(Key::Enter, true, 0);
+            _app->run();
+            _window->key(Key::Enter, false, 0);
             _app->run();
             TG_ASSERT(clicks);
             TG_ASSERT(!checked);
 
-            keyEvent = KeyEvent();
-            keyEvent.key = Key::Escape;
-            button->keyPressEvent(keyEvent);
+            _window->key(Key::Escape, true, 0);
             _app->run();
-
-            button->keyReleaseEvent(keyEvent);
+            _window->key(Key::Escape, false, 0);
             _app->run();
             if (button->acceptsKeyFocus())
             {

@@ -10,6 +10,7 @@
 #include <tgTestLib/ITest.h>
 
 #include <tgUI/IButton.h>
+#include <tgUI/RowLayout.h>
 
 namespace tg
 {
@@ -33,6 +34,7 @@ namespace tg
 
             std::shared_ptr<App> _app;
             std::shared_ptr<Window> _window;
+            std::shared_ptr<ui::VerticalLayout> _layout;
         };
     }
 }

@@ -118,6 +118,7 @@ namespace tg
             _app->run();
 
             spacer->hide();
+            spacer->hide();
             _app->run();
             TG_ASSERT(!spacer->isVisible());
             TG_ASSERT(!spacer->isVisible(false));

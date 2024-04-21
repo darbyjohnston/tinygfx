@@ -28,6 +28,14 @@ namespace tg
                 const std::string& name,
                 const core::Size2I&);
 
+            void cursorEnter(bool);
+            void cursorPos(const core::V2I&);
+            void button(int button, bool press, int modifiers);
+            void scroll(const core::V2F&);
+            void key(ui::Key, bool press, int modifiers);
+            void text(const std::string&);
+            void drop(const std::vector<std::string>&);
+
             void setGeometry(const core::Box2I&) override;
             void tickEvent(
                 bool parentsVisible,

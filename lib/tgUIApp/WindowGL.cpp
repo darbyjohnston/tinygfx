@@ -311,7 +311,7 @@ namespace tg
             p.window->setDropCallback(
                 [this](int count, const char** paths)
                 {
-                    std::vector<std::filesystem::path> tmp;
+                    std::vector<std::string> tmp;
                     for (int i = 0; i < count; ++i)
                     {
                         tmp.push_back(paths[i]);

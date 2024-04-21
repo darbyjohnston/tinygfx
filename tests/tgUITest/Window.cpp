@@ -220,6 +220,43 @@ namespace tg
             return out;
         }
 
+        void Window::cursorEnter(bool value)
+        {
+            _cursorEnter(value);
+        }
+
+        void Window::cursorPos(const V2I& pos)
+        {
+            _cursorPos(pos);
+        }
+
+        void Window::button(int button, bool press, int modifiers)
+        {
+            _p->modifiers = modifiers;
+            _mouseButton(button, press, modifiers);
+        }
+
+        void Window::scroll(const V2F& value)
+        {
+            _scroll(value, _p->modifiers);
+        }
+
+        void Window::key(Key key, bool press, int modifiers)
+        {
+            _p->modifiers = modifiers;
+            _key(key, press, modifiers);
+        }
+
+        void Window::text(const std::string& value)
+        {
+            _text(value);
+        }
+
+        void Window::drop(const std::vector<std::string>& value)
+        {
+            _drop(value);
+        }
+
         void Window::setGeometry(const Box2I& value)
         {
             IWindow::setGeometry(value);
