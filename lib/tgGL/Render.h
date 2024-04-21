@@ -25,8 +25,6 @@ namespace tg
         //! OpenGL renderer.
         class Render : public core::IRender
         {
-            TG_NON_COPYABLE(Render);
-
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,

@@ -18,4 +18,4 @@ add_executable(tgtest ${SOURCE} ${HEADERS})
 target_link_libraries(tgtest ${LIBRARIES})
 set_target_properties(tgtest PROPERTIES FOLDER tests)
 
-add_test(tgtest ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/tgtest${CMAKE_EXECUTABLE_SUFFIX})
+add_test(tgtest ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/tgtest)
