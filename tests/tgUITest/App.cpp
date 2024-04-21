@@ -120,8 +120,7 @@ namespace tg
             const int exit = getExit();
             if (0 == exit)
             {
-                auto t0 = std::chrono::steady_clock::now();
-                while (p.running && !p.windows.empty())
+                if (p.running && !p.windows.empty())
                 {
                     _context->tick();
 
@@ -138,14 +137,6 @@ namespace tg
                             true,
                             tickEvent);
                     }
-
-                    auto t1 = std::chrono::steady_clock::now();
-                    sleep(timeout, t0, t1);
-                    t1 = std::chrono::steady_clock::now();
-                    t0 = t1;
-
-                    //! \todo
-                    p.running = false;
                 }
             }
             return exit;

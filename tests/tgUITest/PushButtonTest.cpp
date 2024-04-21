@@ -40,10 +40,29 @@ namespace tg
                 argv.push_back("PushButtonTest");
                 auto app = App::create(context, argv, "PushButtonTest", "Push button test.");
                 auto window = Window::create(context, "PushButtonTest", Size2I(1280, 960));
-                auto pushButton = PushButton::create(context, window);
-                pushButton->setText("Push Button");
+
+                auto pushButton = PushButton::create(context, "Push Button", window);
+                pushButton->setText("Forward");
+                pushButton->setIcon("PlaybackForward");
+                pushButton->setFontRole(FontRole::Mono);
+
                 app->addWindow(window);
                 window->show();
+                app->run();
+
+                KeyEvent keyEvent;
+                keyEvent.key = Key::Enter;
+                pushButton->keyPressEvent(keyEvent);
+                pushButton->keyReleaseEvent(keyEvent);
+                app->run();
+
+                pushButton->takeKeyFocus();
+                app->run();
+
+                keyEvent = KeyEvent();
+                keyEvent.key = Key::Escape;
+                pushButton->keyPressEvent(keyEvent);
+                pushButton->keyReleaseEvent(keyEvent);
                 app->run();
             }
         }
