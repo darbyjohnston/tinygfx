@@ -29,7 +29,7 @@ namespace tg
                 .def_property("checkedRole", &IButton::getCheckedRole, &IButton::setCheckedRole)
                 .def("setHoveredCallback", &IButton::setHoveredCallback)
                 .def("setPressedCallback", &IButton::setPressedCallback)
-                .def("setRepeatClick", &IButton::setRepeatClick)
+                .def_property("repeatClick", &IButton::hasRepeatClick, &IButton::setRepeatClick)
                 .def("setClickedCallback", &IButton::setClickedCallback)
                 .def("setCheckedCallback", &IButton::setCheckedCallback);
         }

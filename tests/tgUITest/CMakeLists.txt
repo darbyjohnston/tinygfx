@@ -1,9 +1,9 @@
 set(HEADERS
     App.h
+    ButtonTest.h
     EventTest.h
     FileBrowserTest.h
     MDIWidgetTest.h
-    PushButtonTest.h
     StyleTest.h
     WidgetOptionsTest.h
     Window.h)
@@ -11,10 +11,10 @@ set(PRIVATE_HEADERS)
 
 set(SOURCE
     App.cpp
+    ButtonTest.cpp
     EventTest.cpp
     FileBrowserTest.cpp
     MDIWidgetTest.cpp
-    PushButtonTest.cpp
     StyleTest.cpp
     WidgetOptionsTest.cpp
     Window.cpp)

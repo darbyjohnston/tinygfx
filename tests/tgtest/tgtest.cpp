@@ -6,10 +6,10 @@
 
 #include <tgUIAppTest/AppTest.h>
 
+#include <tgUITest/ButtonTest.h>
 #include <tgUITest/EventTest.h>
 #include <tgUITest/FileBrowserTest.h>
 #include <tgUITest/MDIWidgetTest.h>
-#include <tgUITest/PushButtonTest.h>
 #include <tgUITest/StyleTest.h>
 #include <tgUITest/WidgetOptionsTest.h>
 
@@ -143,10 +143,10 @@ namespace tg
             p.tests.push_back(app_test::AppTest::create(context));
             p.tests.push_back(app_test::CmdLineTest::create(context));
 
+            p.tests.push_back(ui_test::ButtonTest::create(context));
             p.tests.push_back(ui_test::EventTest::create(context));
             p.tests.push_back(ui_test::FileBrowserTest::create(context));
             p.tests.push_back(ui_test::MDIWidgetTest::create(context));
-            p.tests.push_back(ui_test::PushButtonTest::create(context));
             p.tests.push_back(ui_test::StyleTest::create(context));
             p.tests.push_back(ui_test::WidgetOptionsTest::create(context));
 
