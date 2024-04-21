@@ -103,23 +103,21 @@ namespace tg
             }
             _app->run();
 
+            spacer->hide();
+            _app->run();
+            spacer->show();
+            _app->run();
+
             spacer->setParent(nullptr);
             _app->run();
             children = layout->getChildren();
             TG_ASSERT(1 == children.size());
-            TG_ASSERT(std::find(
-                children.begin(),
-                children.end(),
-                spacer) == children.end());
+            TG_ASSERT(divider == children.front());
 
             divider->setParent(nullptr);
             _app->run();
             children = layout->getChildren();
             TG_ASSERT(children.empty());
-            TG_ASSERT(std::find(
-                children.begin(),
-                children.end(),
-                divider) == children.end());
         }
     }
 }

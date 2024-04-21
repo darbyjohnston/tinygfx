@@ -110,6 +110,16 @@ namespace tg
             button->setCheckedRole(colorRole);
             TG_ASSERT(colorRole == button->getCheckedRole());
 
+            button->hide();
+            _app->run();
+            button->show();
+            _app->run();
+
+            button->setEnabled(false);
+            _app->run();
+            button->setEnabled(true);
+            _app->run();
+
             bool hovered = false;
             button->setHoveredCallback([&hovered](bool value) { hovered = value; });
             bool pressed = false;
