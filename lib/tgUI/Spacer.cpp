@@ -51,6 +51,11 @@ namespace tg
             return out;
         }
 
+        SizeRole Spacer::getSpacingRole() const
+        {
+            return _p->spacingRole;
+        }
+
         void Spacer::setSpacingRole(SizeRole value)
         {
             TG_P();

@@ -2,12 +2,11 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUITest/LayoutTest.h>
+#include <tgUITest/RowLayoutTest.h>
 
 #include <tgUI/Divider.h>
 #include <tgUI/RowLayout.h>
 #include <tgUI/Spacer.h>
-#include <tgUI/StackLayout.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -19,26 +18,26 @@ namespace tg
 {
     namespace ui_test
     {
-        LayoutTest::LayoutTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "tg::ui_test::LayoutTest")
+        RowLayoutTest::RowLayoutTest(const std::shared_ptr<Context>& context) :
+            ITest(context, "tg::ui_test::RowLayoutTest")
         {}
 
-        LayoutTest::~LayoutTest()
+        RowLayoutTest::~RowLayoutTest()
         {}
 
-        std::shared_ptr<LayoutTest> LayoutTest::create(
+        std::shared_ptr<RowLayoutTest> RowLayoutTest::create(
             const std::shared_ptr<Context>& context)
         {
-            return std::shared_ptr<LayoutTest>(new LayoutTest(context));
+            return std::shared_ptr<RowLayoutTest>(new RowLayoutTest(context));
         }
 
-        void LayoutTest::run()
+        void RowLayoutTest::run()
         {
             if (auto context = _context.lock())
             {
                 std::vector<std::string> argv;
-                argv.push_back("LayoutTest");
-                _app = App::create(context, argv, "LayoutTest", "Layout test.");                _window = Window::create(context, "ButtonTest", Size2I(1280, 960));
+                argv.push_back("RowLayoutTest");
+                _app = App::create(context, argv, "RowLayoutTest", "Row layout test.");                _window = Window::create(context, "ButtonTest", Size2I(1280, 960));
                 _app->addWindow(_window);
                 _window->show();
                 _app->run();
@@ -52,15 +51,10 @@ namespace tg
                 _test(context, layout, Orientation::Vertical);
                 layout->setParent(nullptr);
                 layout.reset();
-
-                layout = StackLayout::create(context, _window);
-                _test(context, layout, Orientation::Horizontal);
-                layout->setParent(nullptr);
-                layout.reset();
             }
         }
 
-        void LayoutTest::_test(
+        void RowLayoutTest::_test(
             const std::shared_ptr<Context>& context,
             const std::shared_ptr<IWidget>& layout,
             ui::Orientation orientation)
@@ -70,6 +64,10 @@ namespace tg
             TG_ASSERT(layout->getWindow());
 
             auto spacer = Spacer::create(context, orientation, layout);
+            spacer->setSpacingRole(SizeRole::None);
+            spacer->setSpacingRole(SizeRole::None);
+            TG_ASSERT(SizeRole::None == spacer->getSpacingRole());
+            spacer->setSpacingRole(SizeRole::Spacing);
             auto divider = Divider::create(context, orientation, layout);
             auto children = layout->getChildren();
             TG_ASSERT(2 == children.size());
@@ -101,6 +99,10 @@ namespace tg
                 spacer->setStretch(Stretch::Expanding);
                 spacer->setStretch(Stretch::Expanding);
                 TG_ASSERT(Stretch::Expanding == spacer->getHStretch());
+                spacer->setHAlign(HAlign::Right);
+                spacer->setHAlign(HAlign::Right);
+                spacer->setHAlign(HAlign::Center);
+                TG_ASSERT(HAlign::Center == spacer->getHAlign());
                 break;
             case Orientation::Vertical:
                 spacer->setVStretch(Stretch::Expanding);
@@ -112,6 +114,10 @@ namespace tg
                 spacer->setStretch(Stretch::Expanding);
                 spacer->setStretch(Stretch::Expanding);
                 TG_ASSERT(Stretch::Expanding == spacer->getVStretch());
+                spacer->setVAlign(VAlign::Bottom);
+                spacer->setVAlign(VAlign::Bottom);
+                spacer->setVAlign(VAlign::Center);
+                TG_ASSERT(VAlign::Center == spacer->getVAlign());
                 break;
             default: break;
             }

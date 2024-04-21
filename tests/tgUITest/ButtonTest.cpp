@@ -46,6 +46,8 @@ namespace tg
                 _window->show();
                 _app->run();
 
+                PushButton::create(context, "Push", _layout);
+
                 std::shared_ptr<IButton> button = PushButton::create(context, "Push", _layout);
                 button->setObjectName("PushButton");
                 _print(button->getObjectName());
@@ -177,6 +179,25 @@ namespace tg
             _app->run();
             _window->key(Key::Escape, false, 0);
             _app->run();
+            if (button->acceptsKeyFocus())
+            {
+                TG_ASSERT(!button->hasKeyFocus());
+            }
+
+            _window->key(Key::Tab, true, 0);
+            _app->run();
+            _window->key(Key::Tab, false, 0);
+            _app->run();
+            _window->key(Key::Tab, true, 0);
+            _app->run();
+            _window->key(Key::Tab, false, 0);
+            _app->run();
+            if (button->acceptsKeyFocus())
+            {
+                TG_ASSERT(button->hasKeyFocus());
+            }
+            _window->hide();
+            _window->show();
             if (button->acceptsKeyFocus())
             {
                 TG_ASSERT(!button->hasKeyFocus());

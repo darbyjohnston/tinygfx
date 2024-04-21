@@ -15,15 +15,15 @@ namespace tg
 {
     namespace ui_test
     {
-        class LayoutTest : public test::ITest
+        class RowLayoutTest : public test::ITest
         {
         protected:
-            LayoutTest(const std::shared_ptr<core::Context>&);
+            RowLayoutTest(const std::shared_ptr<core::Context>&);
 
         public:
-            virtual ~LayoutTest();
+            virtual ~RowLayoutTest();
 
-            static std::shared_ptr<LayoutTest> create(
+            static std::shared_ptr<RowLayoutTest> create(
                 const std::shared_ptr<core::Context>&);
 
             void run() override;
