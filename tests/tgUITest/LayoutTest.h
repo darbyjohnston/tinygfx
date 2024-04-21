@@ -9,27 +9,29 @@
 
 #include <tgTestLib/ITest.h>
 
-#include <tgUI/IButton.h>
+#include <tgUI/RowLayout.h>
 
 namespace tg
 {
     namespace ui_test
     {
-        class ButtonTest : public test::ITest
+        class LayoutTest : public test::ITest
         {
         protected:
-            ButtonTest(const std::shared_ptr<core::Context>&);
+            LayoutTest(const std::shared_ptr<core::Context>&);
 
         public:
-            virtual ~ButtonTest();
+            virtual ~LayoutTest();
 
-            static std::shared_ptr<ButtonTest> create(
+            static std::shared_ptr<LayoutTest> create(
                 const std::shared_ptr<core::Context>&);
 
             void run() override;
 
         private:
-            void _test(const std::shared_ptr<ui::IButton>&);
+            void _test(
+                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<ui::IWidget>&);
 
             std::shared_ptr<App> _app;
             std::shared_ptr<Window> _window;

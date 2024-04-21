@@ -3,6 +3,7 @@ set(HEADERS
     ButtonTest.h
     EventTest.h
     FileBrowserTest.h
+    LayoutTest.h
     MDIWidgetTest.h
     StyleTest.h
     WidgetOptionsTest.h
@@ -14,6 +15,7 @@ set(SOURCE
     ButtonTest.cpp
     EventTest.cpp
     FileBrowserTest.cpp
+    LayoutTest.cpp
     MDIWidgetTest.cpp
     StyleTest.cpp
     WidgetOptionsTest.cpp

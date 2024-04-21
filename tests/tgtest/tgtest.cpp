@@ -9,6 +9,7 @@
 #include <tgUITest/ButtonTest.h>
 #include <tgUITest/EventTest.h>
 #include <tgUITest/FileBrowserTest.h>
+#include <tgUITest/LayoutTest.h>
 #include <tgUITest/MDIWidgetTest.h>
 #include <tgUITest/StyleTest.h>
 #include <tgUITest/WidgetOptionsTest.h>
@@ -146,6 +147,7 @@ namespace tg
             p.tests.push_back(ui_test::ButtonTest::create(context));
             p.tests.push_back(ui_test::EventTest::create(context));
             p.tests.push_back(ui_test::FileBrowserTest::create(context));
+            p.tests.push_back(ui_test::LayoutTest::create(context));
             p.tests.push_back(ui_test::MDIWidgetTest::create(context));
             p.tests.push_back(ui_test::StyleTest::create(context));
             p.tests.push_back(ui_test::WidgetOptionsTest::create(context));

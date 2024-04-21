@@ -110,9 +110,13 @@ namespace tg
         void IButton::setIcon(const std::string& icon)
         {
             TG_P();
+            if (icon == _icon)
+                return;
             _icon = icon;
             p.iconInit = true;
             _iconImage.reset();
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         const std::string& IButton::getCheckedIcon() const
@@ -123,9 +127,13 @@ namespace tg
         void IButton::setCheckedIcon(const std::string& icon)
         {
             TG_P();
+            if (icon == _checkedIcon)
+                return;
             _checkedIcon = icon;
             p.checkedIconInit = true;
             _checkedIconImage.reset();
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         ColorRole IButton::getButtonRole() const

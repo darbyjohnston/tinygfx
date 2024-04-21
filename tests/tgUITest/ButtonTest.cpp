@@ -39,32 +39,31 @@ namespace tg
                 std::vector<std::string> argv;
                 argv.push_back("ButtonTest");
                 _app = App::create(context, argv, "ButtonTest", "Button test.");                _window = Window::create(context, "ButtonTest", Size2I(1280, 960));
-                _layout = VerticalLayout::create(context, _window);
                 _app->addWindow(_window);
                 _window->show();
                 _app->run();
 
-                std::shared_ptr<IButton> button = PushButton::create(context, "Push", _layout);
+                std::shared_ptr<IButton> button = PushButton::create(context, "Push", _window);
                 _test(button);
                 button->setParent(nullptr);
                 button.reset();
 
-                button = ListButton::create(context, "List", _layout);
+                button = ListButton::create(context, "List", _window);
                 _test(button);
                 button->setParent(nullptr);
                 button.reset();
 
-                button = ToolButton::create(context, "Tool", _layout);
+                button = ToolButton::create(context, "Tool", _window);
                 _test(button);
                 button->setParent(nullptr);
                 button.reset();
 
-                button = ToolButton::create(context, "Tool", _layout);
+                button = ToolButton::create(context, "Tool", _window);
                 _test(button);
                 button->setParent(nullptr);
                 button.reset();
 
-                button = CheckBox::create(context, "CheckBox", _layout);
+                button = CheckBox::create(context, "CheckBox", _window);
                 _test(button);
                 button->setParent(nullptr);
                 button.reset();
