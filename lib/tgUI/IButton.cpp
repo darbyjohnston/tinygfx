@@ -154,10 +154,14 @@ namespace tg
             _setDrawUpdate();
         }
 
+        bool IButton::hasRepeatClick() const
+        {
+            return _p->repeatClick;
+        }
+
         void IButton::setRepeatClick(bool value)
         {
-            TG_P();
-            p.repeatClick = value;
+            _p->repeatClick = value;
         }
 
         void IButton::setHoveredCallback(const std::function<void(bool)>& value)

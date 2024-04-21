@@ -81,6 +81,9 @@ namespace tg
             //! Set the pressed callback.
             void setPressedCallback(const std::function<void(void)>&);
 
+            //! Get whether the button repeats clicks when pressed.
+            bool hasRepeatClick() const;
+
             //! Set whether the button repeats clicks when pressed.
             void setRepeatClick(bool);
 

@@ -62,7 +62,9 @@ namespace tg
                 pushButton1->setChecked(true);
                 pushButton1->setChecked(true);
                 TG_ASSERT(pushButton1->isChecked());
-                pushButton1->setChecked(false);
+                pushButton1->setCheckable(false);
+                TG_ASSERT(!pushButton1->isChecked());
+                pushButton1->setCheckable(true);
 
                 std::string icon = "PlaybackForward";
                 pushButton1->setIcon(icon);
@@ -87,6 +89,8 @@ namespace tg
                 bool pressed = false;
                 pushButton1->setPressedCallback([&pressed] { pressed = true; });
                 int clicks = 0;
+                pushButton1->setRepeatClick(true);
+                TG_ASSERT(pushButton1->hasRepeatClick());
                 pushButton1->setClickedCallback([&clicks] { ++clicks; });
                 bool checked = false;
                 pushButton1->setCheckedCallback([&checked](bool value) { checked = value; });
@@ -96,36 +100,44 @@ namespace tg
                 app->run();
 
                 pushButton1->mouseEnterEvent();
+                app->run();
                 TG_ASSERT(hovered);
                 MouseMoveEvent mouseMoveEvent;
                 mouseMoveEvent.pos = center(pushButton1->getGeometry());
                 pushButton1->mouseMoveEvent(mouseMoveEvent);
+                app->run();
                 MouseClickEvent mouseClickEvent;
                 mouseClickEvent.pos = mouseMoveEvent.pos;
                 pushButton1->mousePressEvent(mouseClickEvent);
+                app->run();
                 TG_ASSERT(pressed);
                 pushButton1->mouseReleaseEvent(mouseClickEvent);
-                TG_ASSERT(1 == clicks);
+                app->run();
+                TG_ASSERT(clicks);
                 TG_ASSERT(checked);
                 TG_ASSERT(pushButton1->hasKeyFocus());
                 pushButton1->mouseLeaveEvent();
-                TG_ASSERT(!hovered);
                 app->run();
+                TG_ASSERT(!hovered);
 
+                clicks = 0;
                 KeyEvent keyEvent;
                 keyEvent.key = Key::Enter;
                 pushButton1->keyPressEvent(keyEvent);
-                pushButton1->keyReleaseEvent(keyEvent);
-                TG_ASSERT(2 == clicks);
-                TG_ASSERT(!checked);
                 app->run();
+                pushButton1->keyReleaseEvent(keyEvent);
+                app->run();
+                TG_ASSERT(clicks);
+                TG_ASSERT(!checked);
 
                 keyEvent = KeyEvent();
                 keyEvent.key = Key::Escape;
                 pushButton1->keyPressEvent(keyEvent);
-                pushButton1->keyReleaseEvent(keyEvent);
-                TG_ASSERT(!pushButton1->hasKeyFocus());
                 app->run();
+
+                pushButton1->keyReleaseEvent(keyEvent);
+                app->run();
+                TG_ASSERT(!pushButton1->hasKeyFocus());
             }
         }
     }
