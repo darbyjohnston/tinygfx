@@ -114,6 +114,11 @@ namespace tg
 
         void StackLayout::childRemovedEvent(const ChildEvent& event)
         {
+            TG_P();
+            p.currentIndex = clamp(
+                p.currentIndex,
+                0,
+                static_cast<int>(getChildren().size()) - 1);
             _widgetUpdate();
         }
 

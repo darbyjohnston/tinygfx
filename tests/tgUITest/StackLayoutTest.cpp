@@ -69,6 +69,12 @@ namespace tg
                 TG_ASSERT(!spacer0->isVisible());
                 TG_ASSERT(!spacer1->isVisible());
                 TG_ASSERT(spacer2->isVisible());
+
+                spacer2->setParent(nullptr);
+                _app->run();
+                TG_ASSERT(1 == layout->getCurrentIndex());
+                TG_ASSERT(!spacer0->isVisible());
+                TG_ASSERT(spacer1->isVisible());
             }
         }
     }

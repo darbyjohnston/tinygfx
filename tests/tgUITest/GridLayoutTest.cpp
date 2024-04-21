@@ -55,6 +55,7 @@ namespace tg
                 auto spacer0 = Spacer::create(context, Orientation::Horizontal, layout);
                 auto spacer1 = Spacer::create(context, Orientation::Horizontal, layout);
                 auto spacer2 = Spacer::create(context, Orientation::Horizontal, layout);
+                spacer2->setStretch(Stretch::Expanding);
                 layout->setGridPos(spacer0, 0, 0);
                 layout->setGridPos(spacer1, 0, 1);
                 layout->setGridPos(spacer2, 1, 1);

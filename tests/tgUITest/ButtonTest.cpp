@@ -206,6 +206,16 @@ namespace tg
             {
                 TG_ASSERT(!button->hasKeyFocus());
             }
+            _window->cursorEnter(true);
+            _app->run();
+            _window->key(Key::Tab, true, static_cast<int>(KeyModifier::Shift));
+            _app->run();
+            _window->key(Key::Tab, false, static_cast<int>(KeyModifier::Shift));
+            _app->run();
+            if (button->acceptsKeyFocus())
+            {
+                TG_ASSERT(button->hasKeyFocus());
+            }
 
             _window->cursorPos(center(button->getGeometry()));
             _app->run();

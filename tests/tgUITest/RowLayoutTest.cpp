@@ -102,6 +102,9 @@ namespace tg
                 spacer->setHAlign(HAlign::Right);
                 spacer->setHAlign(HAlign::Right);
                 spacer->setHAlign(HAlign::Center);
+                spacer->setAlign(HAlign::Right, VAlign::Center);
+                spacer->setAlign(HAlign::Right, VAlign::Center);
+                spacer->setAlign(HAlign::Center, VAlign::Center);
                 TG_ASSERT(HAlign::Center == spacer->getHAlign());
                 break;
             case Orientation::Vertical:
@@ -117,6 +120,9 @@ namespace tg
                 spacer->setVAlign(VAlign::Bottom);
                 spacer->setVAlign(VAlign::Bottom);
                 spacer->setVAlign(VAlign::Center);
+                spacer->setAlign(HAlign::Center, VAlign::Bottom);
+                spacer->setAlign(HAlign::Center, VAlign::Bottom);
+                spacer->setAlign(HAlign::Center, VAlign::Center);
                 TG_ASSERT(VAlign::Center == spacer->getVAlign());
                 break;
             default: break;
