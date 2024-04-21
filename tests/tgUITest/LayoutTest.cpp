@@ -93,10 +93,24 @@ namespace tg
             {
             case Orientation::Horizontal:
                 spacer->setHStretch(Stretch::Expanding);
+                spacer->setHStretch(Stretch::Expanding);
+                spacer->setHStretch(Stretch::Fixed);
+                spacer->setStretch(Stretch::Expanding, Stretch::Fixed);
+                spacer->setStretch(Stretch::Expanding, Stretch::Fixed);
+                spacer->setStretch(Stretch::Fixed, Stretch::Fixed);
+                spacer->setStretch(Stretch::Expanding);
+                spacer->setStretch(Stretch::Expanding);
                 TG_ASSERT(Stretch::Expanding == spacer->getHStretch());
                 break;
             case Orientation::Vertical:
                 spacer->setVStretch(Stretch::Expanding);
+                spacer->setVStretch(Stretch::Expanding);
+                spacer->setVStretch(Stretch::Fixed);
+                spacer->setStretch(Stretch::Fixed, Stretch::Expanding);
+                spacer->setStretch(Stretch::Fixed, Stretch::Expanding);
+                spacer->setStretch(Stretch::Fixed);
+                spacer->setStretch(Stretch::Expanding);
+                spacer->setStretch(Stretch::Expanding);
                 TG_ASSERT(Stretch::Expanding == spacer->getVStretch());
                 break;
             default: break;
@@ -105,6 +119,9 @@ namespace tg
 
             spacer->hide();
             _app->run();
+            TG_ASSERT(!spacer->isVisible());
+            TG_ASSERT(!spacer->isVisible(false));
+            TG_ASSERT(spacer->isClipped());
             spacer->show();
             _app->run();
 
@@ -113,6 +130,14 @@ namespace tg
             children = layout->getChildren();
             TG_ASSERT(1 == children.size());
             TG_ASSERT(divider == children.front());
+            spacer->setParent(layout);
+            _app->run();
+            children = layout->getChildren();
+            TG_ASSERT(2 == children.size());
+            TG_ASSERT(divider == children.front());
+            TG_ASSERT(spacer == children.back());
+            spacer->setParent(nullptr);
+            _app->run();
 
             divider->setParent(nullptr);
             _app->run();

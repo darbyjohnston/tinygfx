@@ -44,6 +44,9 @@ namespace tg
                 _app->run();
 
                 std::shared_ptr<IButton> button = PushButton::create(context, "Push", _window);
+                button->setObjectName("PushButton");
+                _print(button->getObjectName());
+                _print(button->getObjectPath());
                 _test(button);
                 button->setParent(nullptr);
                 button.reset();
