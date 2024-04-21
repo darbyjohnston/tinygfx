@@ -4,7 +4,7 @@
 
 #include <tgUITest/ButtonTest.h>
 
-#include <tgUI/Checkbox.h>
+#include <tgUI/CheckBox.h>
 #include <tgUI/ListButton.h>
 #include <tgUI/PushButton.h>
 #include <tgUI/ToolButton.h>
