@@ -40,6 +40,9 @@ namespace tg
             //! Set the current widget.
             void setCurrentWidget(const std::shared_ptr<IWidget>&);
 
+            //! Get the margin role.
+            SizeRole getMarginRole() const;
+
             //! Set the margin role.
             void setMarginRole(SizeRole);
 

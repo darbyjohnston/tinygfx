@@ -163,9 +163,13 @@ namespace tg
             _window->cursorPos(V2I(0, 0));
             _app->run();
             TG_ASSERT(!hovered);
+            _window->cursorPos(center(button->getGeometry()));
+            _app->run();
+            _window->cursorEnter(false);
 
             clicks = 0;
 
+            _window->cursorEnter(true);
             _window->cursorPos(center(button->getGeometry()));
             _app->run();
             _window->key(Key::Enter, true, 0);

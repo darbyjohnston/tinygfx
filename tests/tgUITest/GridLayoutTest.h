@@ -13,25 +13,20 @@ namespace tg
 {
     namespace ui_test
     {
-        class RowLayoutTest : public test::ITest
+        class GridLayoutTest : public test::ITest
         {
         protected:
-            RowLayoutTest(const std::shared_ptr<core::Context>&);
+            GridLayoutTest(const std::shared_ptr<core::Context>&);
 
         public:
-            virtual ~RowLayoutTest();
+            virtual ~GridLayoutTest();
 
-            static std::shared_ptr<RowLayoutTest> create(
+            static std::shared_ptr<GridLayoutTest> create(
                 const std::shared_ptr<core::Context>&);
 
             void run() override;
 
         private:
-            void _test(
-                const std::shared_ptr<core::Context>&,
-                const std::shared_ptr<ui::IWidget>&,
-                ui::Orientation);
-
             std::shared_ptr<App> _app;
             std::shared_ptr<Window> _window;
         };

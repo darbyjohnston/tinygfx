@@ -75,6 +75,11 @@ namespace tg
             }
         }
 
+        SizeRole StackLayout::getMarginRole() const
+        {
+            return _p->marginRole;
+        }
+
         void StackLayout::setMarginRole(SizeRole value)
         {
             TG_P();

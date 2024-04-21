@@ -6,6 +6,8 @@
 
 #include <tgUI/IClipboard.h>
 
+#include <tgCore/Assert.h>
+
 using namespace tg::core;
 using namespace tg::ui;
 
@@ -198,6 +200,7 @@ namespace tg
             p.render = Render::create(context);
 
             setClipboard(Clipboard::create(context));
+            TG_ASSERT(getClipboard());
 
             _setSizeUpdate();
             _setDrawUpdate();
