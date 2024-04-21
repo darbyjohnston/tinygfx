@@ -55,8 +55,8 @@ namespace tg
         {}
 
         std::shared_ptr<CheckBox> CheckBox::create(
-            const std::shared_ptr<Context>&context,
-            const std::shared_ptr<IWidget>&parent)
+            const std::shared_ptr<Context>& context,
+            const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<CheckBox>(new CheckBox);
             out->_init(context, parent);
@@ -68,8 +68,7 @@ namespace tg
             const std::string& text,
             const std::shared_ptr<IWidget>& parent)
         {
-            auto out = std::shared_ptr<CheckBox>(new CheckBox);
-            out->_init(context, parent);
+            auto out = create(context, parent);
             out->setText(text);
             return out;
         }

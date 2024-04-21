@@ -175,8 +175,8 @@ namespace tg
         {}
 
         std::shared_ptr<ComboBox> ComboBox::create(
-            const std::shared_ptr<Context>&context,
-            const std::shared_ptr<IWidget>&parent)
+            const std::shared_ptr<Context>& context,
+            const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<ComboBox>(new ComboBox);
             out->_init(context, parent);
@@ -188,8 +188,7 @@ namespace tg
             const std::vector<std::string>& items,
             const std::shared_ptr<IWidget>& parent)
         {
-            auto out = std::shared_ptr<ComboBox>(new ComboBox);
-            out->_init(context, parent);
+            auto out = create(context, parent);
             out->setItems(items);
             return out;
         }

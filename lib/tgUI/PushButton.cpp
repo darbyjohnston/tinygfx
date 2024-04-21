@@ -53,8 +53,8 @@ namespace tg
         {}
 
         std::shared_ptr<PushButton> PushButton::create(
-            const std::shared_ptr<Context>&context,
-            const std::shared_ptr<IWidget>&parent)
+            const std::shared_ptr<Context>& context,
+            const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<PushButton>(new PushButton);
             out->_init(context, parent);
