@@ -7,6 +7,8 @@
 #include <tgUITest/App.h>
 #include <tgUITest/Window.h>
 
+#include <tgUI/RowLayout.h>
+
 #include <tgTestLib/ITest.h>
 
 namespace tg
@@ -29,7 +31,7 @@ namespace tg
         private:
             void _test(
                 const std::shared_ptr<core::Context>&,
-                const std::shared_ptr<ui::IWidget>&,
+                const std::shared_ptr<ui::RowLayout>&,
                 ui::Orientation);
 
             std::shared_ptr<App> _app;

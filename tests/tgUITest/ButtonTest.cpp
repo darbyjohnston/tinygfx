@@ -11,6 +11,7 @@
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
+#include <tgCore/Time.h>
 
 using namespace tg::core;
 using namespace tg::ui;
@@ -233,6 +234,14 @@ namespace tg
             _app->run();
             _window->hide();
             _window->show();
+
+            _window->cursorEnter(true);
+            std::string tooltip = "This is a tooltip";
+            button->setTooltip(tooltip);
+            TG_ASSERT(tooltip == button->getTooltip());
+            _window->cursorPos(center(button->getGeometry()));
+            _app->run();
+            sleep(std::chrono::seconds(1));
         }
     }
 }

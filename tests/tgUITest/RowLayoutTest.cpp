@@ -5,7 +5,6 @@
 #include <tgUITest/RowLayoutTest.h>
 
 #include <tgUI/Divider.h>
-#include <tgUI/RowLayout.h>
 #include <tgUI/Spacer.h>
 
 #include <tgCore/Assert.h>
@@ -42,7 +41,15 @@ namespace tg
                 _window->show();
                 _app->run();
 
-                std::shared_ptr<IWidget> layout = VerticalLayout::create(context, _window);
+                std::shared_ptr<RowLayout> layout = VerticalLayout::create(context, _window);
+                layout->setSpacingRole(SizeRole::None);
+                layout->setSpacingRole(SizeRole::None);
+                layout->setSpacingRole(SizeRole::Spacing);
+                TG_ASSERT(SizeRole::Spacing == layout->getSpacingRole());
+                layout->setMarginRole(SizeRole::Margin);
+                layout->setMarginRole(SizeRole::Margin);
+                layout->setMarginRole(SizeRole::None);
+                TG_ASSERT(SizeRole::None == layout->getMarginRole());
                 _test(context, layout, Orientation::Horizontal);
                 layout->setParent(nullptr);
                 layout.reset();
@@ -56,7 +63,7 @@ namespace tg
 
         void RowLayoutTest::_test(
             const std::shared_ptr<Context>& context,
-            const std::shared_ptr<IWidget>& layout,
+            const std::shared_ptr<RowLayout>& layout,
             ui::Orientation orientation)
         {
             TG_ASSERT(layout->getParent().lock());
