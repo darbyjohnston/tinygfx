@@ -202,6 +202,23 @@ namespace tg
             {
                 TG_ASSERT(!button->hasKeyFocus());
             }
+
+            _window->cursorPos(center(button->getGeometry()));
+            _app->run();
+            _window->hide();
+            _window->show();
+            _window->cursorPos(center(button->getGeometry()));
+            _app->run();
+            _window->button(0, true, 0);
+            _app->run();
+            _window->hide();
+            _window->show();
+            _window->cursorPos(center(button->getGeometry()));
+            _app->run();
+            _window->key(Key::Enter, true, 0);
+            _app->run();
+            _window->hide();
+            _window->show();
         }
     }
 }
