@@ -325,7 +325,7 @@ namespace tg
 
         void Window::sizeHintEvent(const SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
+            IWindow::sizeHintEvent(event);
             Size2I sizeHint;
             for (const auto& child : getChildren())
             {
