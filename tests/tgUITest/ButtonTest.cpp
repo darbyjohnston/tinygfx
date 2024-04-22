@@ -242,6 +242,8 @@ namespace tg
             _window->cursorPos(center(button->getGeometry()));
             _app->run();
             sleep(std::chrono::seconds(1));
+            _window->cursorPos(V2I(0, 0));
+            _app->run();
         }
     }
 }
