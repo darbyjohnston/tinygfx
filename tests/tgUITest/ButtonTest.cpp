@@ -81,6 +81,10 @@ namespace tg
 
         void ButtonTest::_test(const std::shared_ptr<ui::IButton>& button)
         {
+            TG_ASSERT(button->getParent().lock());
+            TG_ASSERT(button->getParentT<Window>());
+            TG_ASSERT(button->getWindow());
+
             std::string text = "Playback";
             button->setText(text);
             button->setText(text);
@@ -242,9 +246,9 @@ namespace tg
             TG_ASSERT(tooltip == button->getTooltip());
             _window->cursorPos(center(button->getGeometry()));
             _app->run();
+            sleep(std::chrono::seconds(1));
             _window->cursorPos(center(button->getGeometry()));
             _app->run();
-            sleep(std::chrono::seconds(1));
             _window->cursorPos(V2I(0, 0));
             _app->run();
 
@@ -252,6 +256,10 @@ namespace tg
             _app->run();
             _window->contentScale(V2F(1.F, 1.F));
             _app->run();
+
+            button->takeKeyFocus();
+            button->setParent(nullptr);
+            button->setParent(_layout);
         }
     }
 }

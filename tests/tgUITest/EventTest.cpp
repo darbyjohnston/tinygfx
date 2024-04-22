@@ -37,6 +37,12 @@ namespace tg
         void EventTest::_enums()
         {
             TINYGFX_TEST_ENUM(Key);
+            _print(getKeyModifierLabel(static_cast<int>(KeyModifier::None)));
+            _print(getKeyModifierLabel(static_cast<int>(KeyModifier::Shift)));
+            _print(getKeyModifierLabel(static_cast<int>(KeyModifier::Control)));
+            _print(getKeyModifierLabel(static_cast<int>(KeyModifier::Alt)));
+            _print(getKeyModifierLabel(static_cast<int>(KeyModifier::Super)));
+            _print(getShortcutLabel(Key::O, static_cast<int>(KeyModifier::Control)));
         }
     }
 }

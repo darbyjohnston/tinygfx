@@ -67,10 +67,6 @@ namespace tg
             const std::shared_ptr<RowLayout>& layout,
             ui::Orientation orientation)
         {
-            TG_ASSERT(layout->getParent().lock());
-            TG_ASSERT(layout->getParentT<Window>());
-            TG_ASSERT(layout->getWindow());
-
             auto spacer = Spacer::create(context, orientation, layout);
             spacer->setSpacingRole(SizeRole::None);
             spacer->setSpacingRole(SizeRole::None);
