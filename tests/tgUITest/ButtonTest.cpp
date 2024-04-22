@@ -147,6 +147,7 @@ namespace tg
             button->setCheckedCallback([&checked](bool value) { checked = value; });
 
             _window->cursorEnter(true);
+            _app->run();
             _window->cursorPos(center(button->getGeometry()));
             _app->run();
             TG_ASSERT(hovered);
@@ -243,6 +244,11 @@ namespace tg
             _app->run();
             sleep(std::chrono::seconds(1));
             _window->cursorPos(V2I(0, 0));
+            _app->run();
+
+            _window->contentScale(V2F(2.F, 2.F));
+            _app->run();
+            _window->contentScale(V2F(1.F, 1.F));
             _app->run();
         }
     }

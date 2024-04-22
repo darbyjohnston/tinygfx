@@ -1,0 +1,191 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2024 Darby Johnston
+// All rights reserved.
+
+#include <tgUITest/DragAndDropTest.h>
+
+#include <tgCore/Assert.h>
+#include <tgCore/Format.h>
+
+using namespace tg::core;
+using namespace tg::ui;
+
+namespace tg
+{
+    namespace ui_test
+    {
+        namespace
+        {
+            class DragAndDropData : public ui::DragAndDropData
+            {
+            public:
+                DragAndDropData(int value) :
+                    _number(value)
+                {}
+
+                virtual ~DragAndDropData()
+                {}
+
+                int getNumber() const
+                {
+                    return _number;
+                }
+
+            private:
+                int _number = 0;
+            };
+
+            class DragAndDropWidget : public ui::IWidget
+            {
+            protected:
+                void _init(
+                    const std::shared_ptr<core::Context>&,
+                    int number,
+                    const std::shared_ptr<IWidget>& parent);
+
+                DragAndDropWidget() = default;
+
+            public:
+                virtual ~DragAndDropWidget();
+
+                static std::shared_ptr<DragAndDropWidget> create(
+                    const std::shared_ptr<core::Context>&,
+                    int number,
+                    const std::shared_ptr<IWidget>& parent = nullptr);
+
+                int getNumber() const;
+
+                void sizeHintEvent(const ui::SizeHintEvent&) override;
+                void mouseMoveEvent(ui::MouseMoveEvent&) override;
+                void dragEnterEvent(ui::DragAndDropEvent&) override;
+                void dragLeaveEvent(ui::DragAndDropEvent&) override;
+                void dropEvent(ui::DragAndDropEvent&) override;
+
+            private:
+                int _number = 0;
+                int _dragLength = 0;
+                bool _dropTarget = false;;
+            };
+
+            void DragAndDropWidget::_init(
+                const std::shared_ptr<Context>& context,
+                int number,
+                const std::shared_ptr<IWidget>& parent)
+            {
+                IWidget::_init(context, "tg::examples::dnd::DragAndDropWidget", parent);
+
+                setStretch(Stretch::Expanding);
+
+                _setMouseHoverEnabled(true);
+                _setMousePressEnabled(true);
+
+                _number = number;
+            }
+
+            DragAndDropWidget::~DragAndDropWidget()
+            {}
+
+            std::shared_ptr<DragAndDropWidget> DragAndDropWidget::create(
+                const std::shared_ptr<Context>& context,
+                int number,
+                const std::shared_ptr<IWidget>& parent)
+            {
+                auto out = std::shared_ptr<DragAndDropWidget>(new DragAndDropWidget);
+                out->_init(context, number, parent);
+                return out;
+            }
+
+            int DragAndDropWidget::getNumber() const
+            {
+                return _number;
+            }
+
+            void DragAndDropWidget::sizeHintEvent(const SizeHintEvent& event)
+            {
+                IWidget::sizeHintEvent(event);
+                _dragLength = event.style->getSizeRole(SizeRole::DragLength, event.displayScale);
+                _setSizeHint(Size2I(100, 100));
+            }
+
+            void DragAndDropWidget::mouseMoveEvent(MouseMoveEvent& event)
+            {
+                IWidget::mouseMoveEvent(event);
+                if (_isMousePressed())
+                {
+                    const float length = core::length(event.pos - _getMousePressPos());
+                    if (length > _dragLength)
+                    {
+                        event.dndData = std::make_shared<DragAndDropData>(_number);
+                    }
+                }
+            }
+
+            void DragAndDropWidget::dragEnterEvent(DragAndDropEvent& event)
+            {
+                event.accept = true;
+                _dropTarget = true;
+            }
+
+            void DragAndDropWidget::dragLeaveEvent(DragAndDropEvent& event)
+            {
+                event.accept = true;
+                _dropTarget = false;
+            }
+
+            void DragAndDropWidget::dropEvent(DragAndDropEvent& event)
+            {
+                if (auto data = std::dynamic_pointer_cast<DragAndDropData>(event.data))
+                {
+                    event.accept = true;
+                    _number = data->getNumber();
+                }
+            }
+        }
+
+        DragAndDropTest::DragAndDropTest(const std::shared_ptr<Context>& context) :
+            ITest(context, "tg::ui_test::DragAndDropTest")
+        {}
+
+        DragAndDropTest::~DragAndDropTest()
+        {}
+
+        std::shared_ptr<DragAndDropTest> DragAndDropTest::create(
+            const std::shared_ptr<Context>& context)
+        {
+            return std::shared_ptr<DragAndDropTest>(new DragAndDropTest(context));
+        }
+                
+        void DragAndDropTest::run()
+        {
+            if (auto context = _context.lock())
+            {
+                std::vector<std::string> argv;
+                argv.push_back("RowLayoutTest");
+                _app = App::create(context, argv, "RowLayoutTest", "Row layout test.");
+                _window = Window::create(context, "ButtonTest", Size2I(1280, 960));
+
+                _layout = HorizontalLayout::create(context, _window);
+                auto dndWidget0 = DragAndDropWidget::create(context, 0, _layout);
+                auto dndWidget1 = DragAndDropWidget::create(context, 1, _layout);
+
+                _app->addWindow(_window);
+                _window->show();
+                _app->run();
+
+                _window->cursorEnter(true);
+                _app->run();
+                _window->cursorPos(center(dndWidget0->getGeometry()));
+                _app->run();
+                _window->button(0, true, 0);
+                _app->run();
+                _window->cursorPos(center(dndWidget1->getGeometry()));
+                _app->run();
+                _window->cursorPos(center(dndWidget1->getGeometry()));
+                _app->run();
+                _window->button(0, false, 0);
+                _app->run();
+                TG_ASSERT(0 == dndWidget1->getNumber());
+            }
+        }
+    }
+}

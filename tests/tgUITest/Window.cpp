@@ -223,6 +223,13 @@ namespace tg
             return out;
         }
 
+        void Window::contentScale(const V2F& value)
+        {
+            _p->contentScale = value;
+            _setSizeUpdate();
+            _setDrawUpdate();
+        }
+
         void Window::cursorEnter(bool value)
         {
             _cursorEnter(value);
@@ -301,7 +308,7 @@ namespace tg
                 p.render->setClipRectEnabled(true);
                 DrawEvent drawEvent(
                     event.fontSystem,
-                    _p->contentScale.x,
+                    p.contentScale.x,
                     event.style,
                     event.iconLibrary,
                     p.render);

@@ -1,6 +1,7 @@
 set(HEADERS
     App.h
     ButtonTest.h
+    DragAndDropTest.h
     EventTest.h
     FileBrowserTest.h
     GridLayoutTest.h
@@ -15,6 +16,7 @@ set(PRIVATE_HEADERS)
 set(SOURCE
     App.cpp
     ButtonTest.cpp
+    DragAndDropTest.cpp
     EventTest.cpp
     FileBrowserTest.cpp
     GridLayoutTest.cpp

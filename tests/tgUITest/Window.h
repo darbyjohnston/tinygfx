@@ -28,6 +28,7 @@ namespace tg
                 const std::string& name,
                 const core::Size2I&);
 
+            void contentScale(const core::V2F&);
             void cursorEnter(bool);
             void cursorPos(const core::V2I&);
             void button(int button, bool press, int modifiers);

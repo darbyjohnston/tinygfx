@@ -7,6 +7,7 @@
 #include <tgUIAppTest/AppTest.h>
 
 #include <tgUITest/ButtonTest.h>
+#include <tgUITest/DragAndDropTest.h>
 #include <tgUITest/EventTest.h>
 #include <tgUITest/FileBrowserTest.h>
 #include <tgUITest/GridLayoutTest.h>
@@ -57,6 +58,8 @@
 #include <tgCoreTest/TimerTest.h>
 #include <tgCoreTest/VectorTest.h>
 
+#include <tgUI/Init.h>
+
 #include <tgBaseApp/CmdLine.h>
 
 #if defined(TINYGFX_API_GL_4_1) || defined(TINYGFX_API_GLES_2)
@@ -104,6 +107,7 @@ namespace tg
 #if defined(TINYGFX_API_GL_4_1) || defined(TINYGFX_API_GLES_2)
             gl::init(context);
 #endif // TINYGFX_API_GL_4_1            
+            ui::init(context);
 
             p.tests.push_back(core_test::BoxPackTest::create(context));
             p.tests.push_back(core_test::BoxTest::create(context));
@@ -147,6 +151,7 @@ namespace tg
             p.tests.push_back(app_test::CmdLineTest::create(context));
 
             p.tests.push_back(ui_test::ButtonTest::create(context));
+            p.tests.push_back(ui_test::DragAndDropTest::create(context));
             p.tests.push_back(ui_test::EventTest::create(context));
             p.tests.push_back(ui_test::FileBrowserTest::create(context));
             p.tests.push_back(ui_test::GridLayoutTest::create(context));

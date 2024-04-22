@@ -434,7 +434,7 @@ namespace tg
                     p.render->setClipRectEnabled(true);
                     DrawEvent drawEvent(
                         event.fontSystem,
-                        _p->contentScale.x,
+                        p.contentScale.x,
                         event.style,
                         event.iconLibrary,
                         p.render);
