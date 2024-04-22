@@ -4,6 +4,8 @@
 
 #include <tgUITest/DragAndDropTest.h>
 
+#include <tgUI/Spacer.h>
+
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
 
@@ -116,6 +118,23 @@ namespace tg
                     if (length > _dragLength)
                     {
                         event.dndData = std::make_shared<DragAndDropData>(_number);
+                        const Box2I& g = getGeometry();
+                        const int w = g.w();
+                        const int h = g.h();
+                        event.dndCursor = Image::create(w, h, ImageType::RGBA_U8);
+                        uint8_t* p = event.dndCursor->getData();
+                        for (int y = 0; y < h; ++y)
+                        {
+                            for (int x = 0; x < w; ++x)
+                            {
+                                p[0] = 255;
+                                p[1] = 255;
+                                p[2] = 255;
+                                p[3] = 63;
+                                p += 4;
+                            }
+                        }
+                        event.dndCursorHotspot = _getMousePos() - g.min;
                     }
                 }
             }
@@ -167,6 +186,8 @@ namespace tg
                 _layout = HorizontalLayout::create(context, _window);
                 auto dndWidget0 = DragAndDropWidget::create(context, 0, _layout);
                 auto dndWidget1 = DragAndDropWidget::create(context, 1, _layout);
+                auto spacer = Spacer::create(context, Orientation::Horizontal, _layout);
+                spacer->setStretch(Stretch::Expanding);
 
                 _app->addWindow(_window);
                 _window->show();
@@ -185,6 +206,28 @@ namespace tg
                 _window->button(0, false, 0);
                 _app->run();
                 TG_ASSERT(0 == dndWidget1->getNumber());
+
+                _window->cursorPos(center(dndWidget0->getGeometry()));
+                _app->run();
+                _window->button(0, true, 0);
+                _app->run();
+                _window->cursorPos(center(spacer->getGeometry()));
+                _app->run();
+                _window->cursorPos(center(spacer->getGeometry()));
+                _app->run();
+                _window->button(0, false, 0);
+                _app->run();
+
+                _window->cursorPos(center(dndWidget0->getGeometry()));
+                _app->run();
+                _window->button(0, true, 0);
+                _app->run();
+                _window->cursorPos(center(dndWidget1->getGeometry()));
+                _app->run();
+                _window->cursorPos(center(dndWidget1->getGeometry()));
+                _app->run();
+                _window->hide();
+                _window->show();
             }
         }
     }
