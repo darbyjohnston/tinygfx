@@ -246,7 +246,7 @@ namespace tg
             TG_ASSERT(tooltip == button->getTooltip());
             _window->cursorPos(center(button->getGeometry()));
             _app->run();
-            sleep(std::chrono::seconds(1));
+            sleep(std::chrono::seconds(3));
             _window->cursorPos(center(button->getGeometry()));
             _app->run();
             _window->cursorPos(V2I(0, 0));
