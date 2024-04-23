@@ -7,12 +7,15 @@
 #include <tgUIAppTest/AppTest.h>
 
 #include <tgUITest/ButtonTest.h>
+#include <tgUITest/DoubleEditTest.h>
 #include <tgUITest/DoubleModelTest.h>
 #include <tgUITest/DragAndDropTest.h>
 #include <tgUITest/EventTest.h>
 #include <tgUITest/FileBrowserTest.h>
+#include <tgUITest/FloatEditTest.h>
 #include <tgUITest/FloatModelTest.h>
 #include <tgUITest/GridLayoutTest.h>
+#include <tgUITest/IntEditTest.h>
 #include <tgUITest/IntModelTest.h>
 #include <tgUITest/MDIWidgetTest.h>
 #include <tgUITest/RowLayoutTest.h>
@@ -154,12 +157,15 @@ namespace tg
             p.tests.push_back(app_test::CmdLineTest::create(context));
 
             p.tests.push_back(ui_test::ButtonTest::create(context));
+            p.tests.push_back(ui_test::DoubleEditTest::create(context));
             p.tests.push_back(ui_test::DoubleModelTest::create(context));
             p.tests.push_back(ui_test::DragAndDropTest::create(context));
             p.tests.push_back(ui_test::EventTest::create(context));
             p.tests.push_back(ui_test::FileBrowserTest::create(context));
+            p.tests.push_back(ui_test::FloatEditTest::create(context));
             p.tests.push_back(ui_test::FloatModelTest::create(context));
             p.tests.push_back(ui_test::GridLayoutTest::create(context));
+            p.tests.push_back(ui_test::IntEditTest::create(context));
             p.tests.push_back(ui_test::IntModelTest::create(context));
             p.tests.push_back(ui_test::MDIWidgetTest::create(context));
             p.tests.push_back(ui_test::RowLayoutTest::create(context));

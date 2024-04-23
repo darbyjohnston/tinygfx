@@ -1,12 +1,15 @@
 set(HEADERS
     App.h
     ButtonTest.h
+    DoubleEditTest.h
     DoubleModelTest.h
     DragAndDropTest.h
     EventTest.h
     FileBrowserTest.h
+    FloatEditTest.h
     FloatModelTest.h
     GridLayoutTest.h
+    IntEditTest.h
     IntModelTest.h
     MDIWidgetTest.h
     RowLayoutTest.h
@@ -19,12 +22,15 @@ set(PRIVATE_HEADERS)
 set(SOURCE
     App.cpp
     ButtonTest.cpp
+    DoubleEditTest.cpp
     DoubleModelTest.cpp
     DragAndDropTest.cpp
     EventTest.cpp
     FileBrowserTest.cpp
+    FloatEditTest.cpp
     FloatModelTest.cpp
     GridLayoutTest.cpp
+    IntEditTest.cpp
     IntModelTest.cpp
     MDIWidgetTest.cpp
     RowLayoutTest.cpp
