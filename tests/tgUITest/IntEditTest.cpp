@@ -56,6 +56,28 @@ namespace tg
                 _app->run();
                 TG_ASSERT(RangeI(0, 10) == edit->getRange());
                 TG_ASSERT(10 == value);
+
+                _window->cursorEnter(true);
+                _app->run();
+                _window->key(Key::Tab, true, 0);
+                _app->run();
+                _window->key(Key::Tab, false, 0);
+                _app->run();
+                _window->key(Key::A, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::A, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Delete, true, 0);
+                _app->run();
+                _window->key(Key::Delete, false, 0);
+                _app->run();
+                _window->text("1");
+                _app->run();
+                _window->key(Key::Enter, true, 0);
+                _app->run();
+                _window->key(Key::Enter, false, 0);
+                _app->run();
+                TG_ASSERT(1 == value);
             }
         }
     }
