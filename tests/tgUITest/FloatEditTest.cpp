@@ -44,6 +44,7 @@ namespace tg
                 _app->run();
 
                 auto edit = FloatEdit::create(context, nullptr, _layout);
+                TG_ASSERT(edit->getModel());
                 float value = 0.F;
                 edit->setCallback([&value](float v) { value = v; });
 
@@ -56,6 +57,19 @@ namespace tg
                 _app->run();
                 TG_ASSERT(RangeF(0.F, .5F) == edit->getRange());
                 TG_ASSERT(.5F == value);
+
+                edit->setStep(.2F);
+                TG_ASSERT(.2F == edit->getStep());
+                edit->setLargeStep(.3F);
+                TG_ASSERT(.3F == edit->getLargeStep());
+
+                edit->setPrecision(3);
+                TG_ASSERT(3 == edit->getPrecision());
+                edit->setPrecision(2);
+
+                edit->setFontRole(FontRole::Label);
+                TG_ASSERT(FontRole::Label == edit->getFontRole());
+                edit->setFontRole(FontRole::Mono);
 
                 _window->cursorEnter(true);
                 _app->run();
@@ -78,6 +92,27 @@ namespace tg
                 _window->key(Key::Enter, false, 0);
                 _app->run();
                 TG_ASSERT(.1F == value);
+
+                _window->key(Key::Up, true, 0);
+                _app->run();
+                _window->key(Key::Up, false, 0);
+                _app->run();
+                TG_ASSERT(fuzzyCompare(.3F, value));
+                _window->key(Key::PageUp, true, 0);
+                _app->run();
+                _window->key(Key::PageUp, false, 0);
+                _app->run();
+                TG_ASSERT(fuzzyCompare(.5F, value));
+                _window->key(Key::PageDown, true, 0);
+                _app->run();
+                _window->key(Key::PageDown, false, 0);
+                _app->run();
+                TG_ASSERT(fuzzyCompare(.2F, value));
+                _window->key(Key::Down, true, 0);
+                _app->run();
+                _window->key(Key::Down, false, 0);
+                _app->run();
+                TG_ASSERT(fuzzyCompare(.0F, value));
             }
         }
     }

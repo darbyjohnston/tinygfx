@@ -44,6 +44,7 @@ namespace tg
                 _app->run();
 
                 auto edit = IntEdit::create(context, nullptr, _layout);
+                TG_ASSERT(edit->getModel());
                 int value = 0;
                 edit->setCallback([&value](int v) { value = v; });
 
@@ -56,6 +57,15 @@ namespace tg
                 _app->run();
                 TG_ASSERT(RangeI(0, 10) == edit->getRange());
                 TG_ASSERT(10 == value);
+
+                edit->setStep(2);
+                TG_ASSERT(2 == edit->getStep());
+                edit->setLargeStep(3);
+                TG_ASSERT(3 == edit->getLargeStep());
+
+                edit->setFontRole(FontRole::Label);
+                TG_ASSERT(FontRole::Label == edit->getFontRole());
+                edit->setFontRole(FontRole::Mono);
 
                 _window->cursorEnter(true);
                 _app->run();
@@ -76,6 +86,27 @@ namespace tg
                 _window->key(Key::Enter, true, 0);
                 _app->run();
                 _window->key(Key::Enter, false, 0);
+                _app->run();
+                TG_ASSERT(1 == value);
+
+                _window->key(Key::Up, true, 0);
+                _app->run();
+                _window->key(Key::Up, false, 0);
+                _app->run();
+                TG_ASSERT(3 == value);
+                _window->key(Key::PageUp, true, 0);
+                _app->run();
+                _window->key(Key::PageUp, false, 0);
+                _app->run();
+                TG_ASSERT(6 == value);
+                _window->key(Key::PageDown, true, 0);
+                _app->run();
+                _window->key(Key::PageDown, false, 0);
+                _app->run();
+                TG_ASSERT(3 == value);
+                _window->key(Key::Down, true, 0);
+                _app->run();
+                _window->key(Key::Down, false, 0);
                 _app->run();
                 TG_ASSERT(1 == value);
             }
