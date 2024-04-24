@@ -162,6 +162,15 @@ namespace tg
                 _window->key(Key::Backspace, false, static_cast<int>(KeyModifier::Control));
                 _app->run();
                 TG_ASSERT(textChanged.empty());
+                _window->text("T");
+                _app->run();
+                _window->key(Key::A, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::A, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->text("t");
+                _app->run();
+                TG_ASSERT("t" == textChanged);
 
                 _window->key(Key::Escape, true, static_cast<int>(KeyModifier::Control));
                 _app->run();
@@ -169,13 +178,28 @@ namespace tg
                 _app->run();
                 TG_ASSERT(!edit->hasKeyFocus());
 
+                _window->cursorPos(center(edit->getGeometry()));
+                _app->run();
+                _window->button(0, true, 0);
+                _app->run();
+                _window->cursorPos(edit->getGeometry().max);
+                _app->run();
+                _window->button(0, false, 0);
+                _app->run();
+
+                edit->takeKeyFocus();
                 edit->hide();
                 _app->run();
                 edit->show();
                 _app->run();
+                TG_ASSERT(!edit->hasKeyFocus());
+
+                edit->takeKeyFocus();
                 edit->setEnabled(false);
                 _app->run();
                 edit->setEnabled(true);
+                _app->run();
+                TG_ASSERT(!edit->hasKeyFocus());
             }
         }
     }
