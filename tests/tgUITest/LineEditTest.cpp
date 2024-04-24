@@ -59,19 +59,20 @@ namespace tg
                     });
 
                 edit->setText("Test");
+                edit->setText("Test");
                 TG_ASSERT("Test" == edit->getText());
                 edit->clearText();
                 TG_ASSERT(edit->getText().empty());
+
+                edit->setFormat("00.00");
+                edit->setFormat("00.00");
+                TG_ASSERT("00.00" == edit->getFormat());
+                edit->setFormat("");
 
                 edit->setFontRole(FontRole::Mono);
                 edit->setFontRole(FontRole::Mono);
                 TG_ASSERT(FontRole::Mono == edit->getFontRole());
                 edit->setFontRole(FontRole::Label);
-
-                edit->hide();
-                _app->run();
-                edit->show();
-                _app->run();
 
                 _window->cursorEnter(true);
                 _app->run();
@@ -116,6 +117,15 @@ namespace tg
                 _window->key(Key::V, false, static_cast<int>(KeyModifier::Control));
                 _app->run();
                 TG_ASSERT("Test" == textChanged);
+                _window->key(Key::A, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::A, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::V, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::V, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                TG_ASSERT("Test" == textChanged);
 
                 _window->key(Key::Left, true, static_cast<int>(KeyModifier::Control));
                 _app->run();
@@ -143,12 +153,29 @@ namespace tg
                 _window->key(Key::Backspace, false, static_cast<int>(KeyModifier::Control));
                 _app->run();
                 TG_ASSERT("es" == textChanged);
+                _window->key(Key::A, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::A, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Backspace, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Backspace, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                TG_ASSERT(textChanged.empty());
 
                 _window->key(Key::Escape, true, static_cast<int>(KeyModifier::Control));
                 _app->run();
                 _window->key(Key::Escape, false, static_cast<int>(KeyModifier::Control));
                 _app->run();
                 TG_ASSERT(!edit->hasKeyFocus());
+
+                edit->hide();
+                _app->run();
+                edit->show();
+                _app->run();
+                edit->setEnabled(false);
+                _app->run();
+                edit->setEnabled(true);
             }
         }
     }
