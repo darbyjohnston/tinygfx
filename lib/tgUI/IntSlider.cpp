@@ -135,16 +135,6 @@ namespace tg
             _p->model->setLargeStep(value);
         }
 
-        int IntSlider::getDefaultValue() const
-        {
-            return _p->model->getDefaultValue();
-        }
-
-        void IntSlider::setDefaultValue(int value)
-        {
-            _p->model->setDefaultValue(value);
-        }
-
         const std::shared_ptr<IntModel>& IntSlider::getModel() const
         {
             return _p->model;
@@ -294,11 +284,11 @@ namespace tg
                     event.accept = true;
                     p.model->decrementLargeStep();
                     break;
-                case Key::End:
+                case Key::Home:
                     event.accept = true;
                     p.model->setValue(p.model->getRange().min());
                     break;
-                case Key::Home:
+                case Key::End:
                     event.accept = true;
                     p.model->setValue(p.model->getRange().max());
                     break;

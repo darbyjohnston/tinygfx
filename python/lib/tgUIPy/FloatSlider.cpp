@@ -29,7 +29,6 @@ namespace tg
                 .def_property("range", &FloatSlider::getRange, &FloatSlider::setRange)
                 .def_property("step", &FloatSlider::getStep, &FloatSlider::setStep)
                 .def_property("largeStep", &FloatSlider::getLargeStep, &FloatSlider::setLargeStep)
-                .def_property("defaultValue", &FloatSlider::getDefaultValue, &FloatSlider::setDefaultValue)
                 .def("getModel", &FloatSlider::getModel);
         }
     }

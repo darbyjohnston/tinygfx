@@ -67,6 +67,9 @@ namespace tg
                 TG_ASSERT(3 == slider->getPrecision());
                 slider->setPrecision(2);
 
+                slider->setDefaultValue(0.F);
+                TG_ASSERT(0.F == slider->getDefaultValue());
+
                 slider->setFontRole(FontRole::Label);
                 TG_ASSERT(FontRole::Label == slider->getFontRole());
                 slider->setFontRole(FontRole::Mono);

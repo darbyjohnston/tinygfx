@@ -29,7 +29,6 @@ namespace tg
                 .def_property("range", &IntSlider::getRange, &IntSlider::setRange)
                 .def_property("step", &IntSlider::getStep, &IntSlider::setStep)
                 .def_property("largeStep", &IntSlider::getLargeStep, &IntSlider::setLargeStep)
-                .def_property("defaultValue", &IntSlider::getDefaultValue, &IntSlider::setDefaultValue)
                 .def("getModel", &IntSlider::getModel);
         }
     }

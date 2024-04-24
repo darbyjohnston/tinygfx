@@ -73,6 +73,37 @@ namespace tg
                 _app->run();
                 _window->button(0, false, 0);
                 _app->run();
+
+                _window->key(Key::Home, true, 0);
+                _app->run();
+                _window->key(Key::Home, false, 0);
+                _app->run();
+                TG_ASSERT(value == 0);
+                _window->key(Key::Right, true, 0);
+                _app->run();
+                _window->key(Key::Right, false, 0);
+                _app->run();
+                TG_ASSERT(value == 2);
+                _window->key(Key::PageUp, true, 0);
+                _app->run();
+                _window->key(Key::PageUp, false, 0);
+                _app->run();
+                TG_ASSERT(value == 5);
+                _window->key(Key::Left, true, 0);
+                _app->run();
+                _window->key(Key::Left, false, 0);
+                _app->run();
+                TG_ASSERT(value == 3);
+                _window->key(Key::PageDown, true, 0);
+                _app->run();
+                _window->key(Key::PageDown, false, 0);
+                _app->run();
+                TG_ASSERT(value == 0.0);
+                _window->key(Key::Escape, true, 0);
+                _app->run();
+                _window->key(Key::Escape, false, 0);
+                _app->run();
+                TG_ASSERT(!slider->hasKeyFocus());
             }
         }
     }
