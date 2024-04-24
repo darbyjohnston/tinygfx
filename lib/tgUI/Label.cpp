@@ -91,6 +91,11 @@ namespace tg
             _setSizeUpdate();
             _setDrawUpdate();
         }
+        
+        ColorRole Label::getTextRole() const
+        {
+            return _p->textRole;
+        }
 
         void Label::setTextRole(ColorRole value)
         {
@@ -99,6 +104,11 @@ namespace tg
                 return;
             p.textRole = value;
             _setDrawUpdate();
+        }
+
+        SizeRole Label::getMarginRole() const
+        {
+            return _p->marginRole;
         }
 
         void Label::setMarginRole(SizeRole value)
@@ -110,6 +120,11 @@ namespace tg
             p.size.init = true;
             _setSizeUpdate();
             _setDrawUpdate();
+        }
+
+        FontRole Label::getFontRole() const
+        {
+            return _p->fontRole;
         }
 
         void Label::setFontRole(FontRole value)

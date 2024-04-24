@@ -23,6 +23,8 @@
 #include <tgUITest/IntEditSliderTest.h>
 #include <tgUITest/IntSliderTest.h>
 #include <tgUITest/IntModelTest.h>
+#include <tgUITest/LabelTest.h>
+#include <tgUITest/LayoutUtilTest.h>
 #include <tgUITest/LineEditTest.h>
 #include <tgUITest/MDIWidgetTest.h>
 #include <tgUITest/RowLayoutTest.h>
@@ -180,6 +182,8 @@ namespace tg
             p.tests.push_back(ui_test::IntEditSliderTest::create(context));
             p.tests.push_back(ui_test::IntSliderTest::create(context));
             p.tests.push_back(ui_test::IntModelTest::create(context));
+            p.tests.push_back(ui_test::LabelTest::create(context));
+            p.tests.push_back(ui_test::LayoutUtilTest::create(context));
             p.tests.push_back(ui_test::LineEditTest::create(context));
             p.tests.push_back(ui_test::MDIWidgetTest::create(context));
             p.tests.push_back(ui_test::RowLayoutTest::create(context));

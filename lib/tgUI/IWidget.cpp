@@ -27,8 +27,7 @@ namespace tg
                 parent->_children.push_back(
                     std::static_pointer_cast<IWidget>(shared_from_this()));
 
-                ChildEvent event;
-                event.child = shared_from_this();
+                ChildEvent event(shared_from_this());
                 parent->childAddedEvent(event);
             }
         }
@@ -80,8 +79,7 @@ namespace tg
                     shared_from_this());
                 if (i != parent->_children.end())
                 {
-                    ChildEvent event;
-                    event.child = *i;
+                    ChildEvent event(*i);
                     parent->_children.erase(i);
                     parent->childRemovedEvent(event);
                     parent->_setSizeUpdate();
@@ -93,8 +91,7 @@ namespace tg
             {
                 value->_children.push_back(
                     std::static_pointer_cast<IWidget>(shared_from_this()));
-                ChildEvent event;
-                event.child = shared_from_this();
+                ChildEvent event(shared_from_this());
                 value->childAddedEvent(event);
                 value->_setSizeUpdate();
                 value->_setDrawUpdate();

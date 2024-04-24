@@ -299,10 +299,7 @@ namespace tg
         {
             TG_P();
             _closeTooltip();
-            p.keyEvent.key = key;
-            p.keyEvent.modifiers = modifiers;
-            p.keyEvent.pos = p.cursorPos;
-            p.keyEvent.accept = false;
+            p.keyEvent = KeyEvent(key, modifiers, p.cursorPos);
             if (press)
             {
                 // Send event to the focused widget or parent.
@@ -478,10 +475,7 @@ namespace tg
         {
             TG_P();
             _closeTooltip();
-            p.mouseClickEvent.button = button;
-            p.mouseClickEvent.modifiers = modifiers;
-            p.mouseClickEvent.pos = p.cursorPos;
-            p.mouseClickEvent.accept = false;
+            p.mouseClickEvent = MouseClickEvent(button, modifiers, p.cursorPos);
             if (press)
             {
                 auto widgets = _getUnderCursor(UnderCursor::Hover, p.cursorPos);

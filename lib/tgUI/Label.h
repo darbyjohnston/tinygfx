@@ -45,11 +45,20 @@ namespace tg
             //! Set the text.
             void setText(const std::string&);
 
+            //! Get the text color role.
+            ColorRole getTextRole() const;
+
             //! Set the text color role.
             void setTextRole(ColorRole);
 
+            //! Get the margin role.
+            SizeRole getMarginRole() const;
+
             //! Set the margin role.
             void setMarginRole(SizeRole);
+
+            //! Get the font role.
+            FontRole getFontRole() const;
 
             //! Set the font role.
             void setFontRole(FontRole);

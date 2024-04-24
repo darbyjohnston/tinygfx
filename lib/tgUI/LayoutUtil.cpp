@@ -91,10 +91,11 @@ namespace tg
         std::string format(float value, int precision)
         {
             std::stringstream ss;
-            ss.precision(precision);
-            ss << std::fixed;
             ss << std::setfill('0');
             ss << std::setw(digits(value));
+            ss << 0;
+            ss << ".";
+            ss << std::setw(precision);
             ss << 0;
             return ss.str();
         }
