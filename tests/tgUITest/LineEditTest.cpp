@@ -4,7 +4,7 @@
 
 #include <tgUITest/LineEditTest.h>
 
-#include <tgUI/IClipBoard.h>
+#include <tgUI/IClipboard.h>
 #include <tgUI/LineEdit.h>
 
 #include <tgCore/Assert.h>
