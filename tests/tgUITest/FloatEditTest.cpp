@@ -36,7 +36,7 @@ namespace tg
                 std::vector<std::string> argv;
                 argv.push_back("FloatEditTest");
                 _app = App::create(context, argv, "FloatEditTest", "Float edit test.");
-                _window = Window::create(context, "ButtonTest", Size2I(1280, 960));
+                _window = Window::create(context, "FloatEditTest", Size2I(1280, 960));
                 _layout = VerticalLayout::create(context, _window);
                 _layout->setMarginRole(SizeRole::MarginLarge);
                 _app->addWindow(_window);

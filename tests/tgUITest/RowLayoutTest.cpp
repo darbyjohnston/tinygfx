@@ -37,7 +37,7 @@ namespace tg
                 std::vector<std::string> argv;
                 argv.push_back("RowLayoutTest");
                 _app = App::create(context, argv, "RowLayoutTest", "Row layout test.");
-                _window = Window::create(context, "ButtonTest", Size2I(1280, 960));
+                _window = Window::create(context, "RowLayoutTest", Size2I(1280, 960));
                 _app->addWindow(_window);
                 _window->show();
                 _app->run();

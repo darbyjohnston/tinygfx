@@ -179,9 +179,9 @@ namespace tg
             if (auto context = _context.lock())
             {
                 std::vector<std::string> argv;
-                argv.push_back("RowLayoutTest");
-                _app = App::create(context, argv, "RowLayoutTest", "Row layout test.");
-                _window = Window::create(context, "ButtonTest", Size2I(1280, 960));
+                argv.push_back("DragAndDropTest");
+                _app = App::create(context, argv, "DragAndDropTest", "Drag and drop test.");
+                _window = Window::create(context, "DragAndDropTest", Size2I(1280, 960));
 
                 _layout = HorizontalLayout::create(context, _window);
                 auto dndWidget0 = DragAndDropWidget::create(context, 0, _layout);

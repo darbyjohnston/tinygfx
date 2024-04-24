@@ -11,6 +11,7 @@ set(HEADERS
     GridLayoutTest.h
     IntEditTest.h
     IntModelTest.h
+    LineEditTest.h
     MDIWidgetTest.h
     RowLayoutTest.h
     StackLayoutTest.h
@@ -32,6 +33,7 @@ set(SOURCE
     GridLayoutTest.cpp
     IntEditTest.cpp
     IntModelTest.cpp
+    LineEditTest.cpp
     MDIWidgetTest.cpp
     RowLayoutTest.cpp
     StackLayoutTest.cpp
