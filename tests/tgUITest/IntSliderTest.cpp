@@ -98,7 +98,12 @@ namespace tg
                 _app->run();
                 _window->key(Key::PageDown, false, 0);
                 _app->run();
-                TG_ASSERT(value == 0.0);
+                TG_ASSERT(value == 0);
+                _window->key(Key::End, true, 0);
+                _app->run();
+                _window->key(Key::End, false, 0);
+                _app->run();
+                TG_ASSERT(value == 10);
                 _window->key(Key::Escape, true, 0);
                 _app->run();
                 _window->key(Key::Escape, false, 0);
