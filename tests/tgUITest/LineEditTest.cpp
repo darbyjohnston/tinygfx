@@ -4,6 +4,7 @@
 
 #include <tgUITest/LineEditTest.h>
 
+#include <tgUI/IClipBoard.h>
 #include <tgUI/LineEdit.h>
 
 #include <tgCore/Assert.h>
@@ -67,6 +68,11 @@ namespace tg
                 TG_ASSERT(FontRole::Mono == edit->getFontRole());
                 edit->setFontRole(FontRole::Label);
 
+                edit->hide();
+                _app->run();
+                edit->show();
+                _app->run();
+
                 _window->cursorEnter(true);
                 _app->run();
                 _window->key(Key::Tab, true, 0);
@@ -90,6 +96,59 @@ namespace tg
                 _window->key(Key::Enter, false, 0);
                 _app->run();
                 TG_ASSERT("Test" == text);
+
+                _window->key(Key::A, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::A, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::C, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::C, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                TG_ASSERT("Test" == _window->getClipboard()->getText());
+                _window->key(Key::X, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::X, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                TG_ASSERT(textChanged.empty());
+                _window->key(Key::V, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::V, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                TG_ASSERT("Test" == textChanged);
+
+                _window->key(Key::Left, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Left, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Right, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Right, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Home, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Home, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Delete, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Delete, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                TG_ASSERT("est" == textChanged);
+                _window->key(Key::End, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::End, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Backspace, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Backspace, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                TG_ASSERT("es" == textChanged);
+
+                _window->key(Key::Escape, true, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                _window->key(Key::Escape, false, static_cast<int>(KeyModifier::Control));
+                _app->run();
+                TG_ASSERT(!edit->hasKeyFocus());
             }
         }
     }
