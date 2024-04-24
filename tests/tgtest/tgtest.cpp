@@ -8,14 +8,20 @@
 
 #include <tgUITest/ButtonTest.h>
 #include <tgUITest/DoubleEditTest.h>
+#include <tgUITest/DoubleEditSliderTest.h>
+#include <tgUITest/DoubleSliderTest.h>
 #include <tgUITest/DoubleModelTest.h>
 #include <tgUITest/DragAndDropTest.h>
 #include <tgUITest/EventTest.h>
 #include <tgUITest/FileBrowserTest.h>
 #include <tgUITest/FloatEditTest.h>
+#include <tgUITest/FloatEditSliderTest.h>
+#include <tgUITest/FloatSliderTest.h>
 #include <tgUITest/FloatModelTest.h>
 #include <tgUITest/GridLayoutTest.h>
 #include <tgUITest/IntEditTest.h>
+#include <tgUITest/IntEditSliderTest.h>
+#include <tgUITest/IntSliderTest.h>
 #include <tgUITest/IntModelTest.h>
 #include <tgUITest/LineEditTest.h>
 #include <tgUITest/MDIWidgetTest.h>
@@ -159,14 +165,20 @@ namespace tg
 
             p.tests.push_back(ui_test::ButtonTest::create(context));
             p.tests.push_back(ui_test::DoubleEditTest::create(context));
+            p.tests.push_back(ui_test::DoubleEditSliderTest::create(context));
+            p.tests.push_back(ui_test::DoubleSliderTest::create(context));
             p.tests.push_back(ui_test::DoubleModelTest::create(context));
             p.tests.push_back(ui_test::DragAndDropTest::create(context));
             p.tests.push_back(ui_test::EventTest::create(context));
             p.tests.push_back(ui_test::FileBrowserTest::create(context));
             p.tests.push_back(ui_test::FloatEditTest::create(context));
+            p.tests.push_back(ui_test::FloatEditSliderTest::create(context));
+            p.tests.push_back(ui_test::FloatSliderTest::create(context));
             p.tests.push_back(ui_test::FloatModelTest::create(context));
             p.tests.push_back(ui_test::GridLayoutTest::create(context));
             p.tests.push_back(ui_test::IntEditTest::create(context));
+            p.tests.push_back(ui_test::IntEditSliderTest::create(context));
+            p.tests.push_back(ui_test::IntSliderTest::create(context));
             p.tests.push_back(ui_test::IntModelTest::create(context));
             p.tests.push_back(ui_test::LineEditTest::create(context));
             p.tests.push_back(ui_test::MDIWidgetTest::create(context));

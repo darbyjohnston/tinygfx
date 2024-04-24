@@ -178,11 +178,13 @@ namespace tg
                 _app->run();
                 TG_ASSERT(!edit->hasKeyFocus());
 
-                _window->cursorPos(center(edit->getGeometry()));
+                Box2I g = edit->getGeometry();
+                const V2I c = center(g);
+                _window->cursorPos(c);
                 _app->run();
                 _window->button(0, true, 0);
                 _app->run();
-                _window->cursorPos(edit->getGeometry().max);
+                _window->cursorPos(V2I(g.max.x, c.y));
                 _app->run();
                 _window->button(0, false, 0);
                 _app->run();
