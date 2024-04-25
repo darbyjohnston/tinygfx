@@ -69,10 +69,28 @@ namespace tg
                 _app->run();
                 _window->key(Key::Enter, false, 0);
                 _app->run();
-                _window->key(Key::Escape, true, 0);
+                _window->key(Key::Tab, true, static_cast<int>(KeyModifier::Shift));
                 _app->run();
-                _window->key(Key::Escape, false, 0);
+                _window->key(Key::Tab, false, static_cast<int>(KeyModifier::Shift));
                 _app->run();
+                _window->key(Key::Enter, true, 0);
+                _app->run();
+                _window->key(Key::Enter, false, 0);
+                _app->run();
+
+                _window->key(Key::Tab, true, 0);
+                _app->run();
+                _window->key(Key::Tab, false, 0);
+                _app->run();
+                _window->key(Key::Tab, true, 0);
+                _app->run();
+                _window->key(Key::Tab, false, 0);
+                _app->run();
+                _window->key(Key::Enter, true, 0);
+                _app->run();
+                _window->key(Key::Enter, false, 0);
+                _app->run();
+                TG_ASSERT(path.empty());
 #endif // TINYGFX_NFD
             }
         }

@@ -6,6 +6,7 @@
 
 #include <tgUIAppTest/AppTest.h>
 
+#include <tgUITest/ActionTest.h>
 #include <tgUITest/ButtonTest.h>
 #include <tgUITest/DoubleEditTest.h>
 #include <tgUITest/DoubleEditSliderTest.h>
@@ -166,6 +167,7 @@ namespace tg
             p.tests.push_back(app_test::AppTest::create(context));
             p.tests.push_back(app_test::CmdLineTest::create(context));
 
+            p.tests.push_back(ui_test::ActionTest::create(context));
             p.tests.push_back(ui_test::ButtonTest::create(context));
             p.tests.push_back(ui_test::DoubleEditTest::create(context));
             p.tests.push_back(ui_test::DoubleEditSliderTest::create(context));
