@@ -8,6 +8,7 @@ jobs:
 
     env:
       TINYGFX_API: GL_4_1
+      TINYGFX_NFD: OFF
       TINYGFX_PYTHON: ON
       TINYGFX_TESTS: ON
       TINYGFX_EXAMPLES: ON
@@ -56,6 +57,7 @@ jobs:
 
     env:
       TINYGFX_API: GLES_2
+      TINYGFX_NFD: OFF
       TINYGFX_PYTHON: ON
       TINYGFX_TESTS: ON
       TINYGFX_EXAMPLES: ON
@@ -91,6 +93,7 @@ jobs:
 
     env:
       TINYGFX_API: GL_4_1
+      TINYGFX_NFD: OFF
       TINYGFX_PYTHON: ON
       TINYGFX_TESTS: ON
       TINYGFX_EXAMPLES: ON
@@ -133,6 +136,7 @@ jobs:
 
     env:
       TINYGFX_API: GL_4_1
+      TINYGFX_NFD: OFF
       TINYGFX_PYTHON: ON
       TINYGFX_TESTS: ON
       TINYGFX_EXAMPLES: ON
@@ -175,6 +179,7 @@ jobs:
 
     env:
       TINYGFX_API: GL_4_1
+      TINYGFX_NFD: OFF
       TINYGFX_PYTHON: ON
       TINYGFX_TESTS: ON
       TINYGFX_EXAMPLES: ON

@@ -14,6 +14,7 @@
 #include <tgUITest/DragAndDropTest.h>
 #include <tgUITest/EventTest.h>
 #include <tgUITest/FileBrowserTest.h>
+#include <tgUITest/FileEditTest.h>
 #include <tgUITest/FloatEditTest.h>
 #include <tgUITest/FloatEditSliderTest.h>
 #include <tgUITest/FloatSliderTest.h>
@@ -173,6 +174,7 @@ namespace tg
             p.tests.push_back(ui_test::DragAndDropTest::create(context));
             p.tests.push_back(ui_test::EventTest::create(context));
             p.tests.push_back(ui_test::FileBrowserTest::create(context));
+            p.tests.push_back(ui_test::FileEditTest::create(context));
             p.tests.push_back(ui_test::FloatEditTest::create(context));
             p.tests.push_back(ui_test::FloatEditSliderTest::create(context));
             p.tests.push_back(ui_test::FloatSliderTest::create(context));

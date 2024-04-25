@@ -8,6 +8,7 @@ set(HEADERS
     DragAndDropTest.h
     EventTest.h
     FileBrowserTest.h
+    FileEditTest.h
     FloatEditSliderTest.h
     FloatEditTest.h
     FloatModelTest.h
@@ -38,6 +39,7 @@ set(SOURCE
     DragAndDropTest.cpp
     EventTest.cpp
     FileBrowserTest.cpp
+    FileEditTest.cpp
     FloatEditSliderTest.cpp
     FloatEditTest.cpp
     FloatModelTest.cpp
