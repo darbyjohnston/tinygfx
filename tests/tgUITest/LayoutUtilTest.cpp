@@ -35,9 +35,9 @@ namespace tg
             _print(Format("Format {0}: {1}").arg(10).arg(format(10)));
             _print(Format("Format {0}: {1}").arg(100).arg(format(100)));
 
-            _print(Format("Format {0}: {1}").arg(0.05).arg(format(0.05, 2)));
-            _print(Format("Format {0}: {1}").arg(10.05).arg(format(10.05, 2)));
-            _print(Format("Format {0}: {1}").arg(100.05).arg(format(100.05, 2)));
+            _print(Format("Format {0}: {1}").arg(0.01).arg(format(0.01, 2)));
+            _print(Format("Format {0}: {1}").arg(10.01).arg(format(10.01, 2)));
+            _print(Format("Format {0}: {1}").arg(100.01).arg(format(100.01, 2)));
         }
     }
 }

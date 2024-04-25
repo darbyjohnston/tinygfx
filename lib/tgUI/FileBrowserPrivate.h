@@ -123,49 +123,5 @@ namespace tg
 
             TG_PRIVATE();
         };
-
-        class FileBrowserWidget : public IWidget
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<core::Context>&,
-                const std::filesystem::path&,
-                const std::shared_ptr<IWidget>& parent);
-
-            FileBrowserWidget();
-
-        public:
-            virtual ~FileBrowserWidget();
-
-            static std::shared_ptr<FileBrowserWidget> create(
-                const std::shared_ptr<core::Context>&,
-                const std::filesystem::path&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
-
-            void setCallback(const std::function<void(const std::filesystem::path&)>&);
-
-            void setCancelCallback(const std::function<void(void)>&);
-
-            std::filesystem::path getPath() const;
-
-            const FileBrowserOptions& getOptions() const;
-
-            void setOptions(const FileBrowserOptions&);
-            
-            void setOptionsCallback(const std::function<void(const FileBrowserOptions&)>&);
-
-            void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
-
-            void setGeometry(const core::Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-
-        private:
-            void _setPath(const std::filesystem::path&);
-
-            void _pathUpdate();
-            void _optionsUpdate();
-
-            TG_PRIVATE();
-        };
     }
 }

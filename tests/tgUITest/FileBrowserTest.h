@@ -25,6 +25,7 @@ namespace tg
 
         private:
             void _enums();
+            void _widget();
         };
     }
 }
