@@ -8,6 +8,7 @@
 #include <tgUITest/Window.h>
 
 #include <tgUI/FileBrowser.h>
+#include <tgUI/RecentFilesModel.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -51,14 +52,39 @@ namespace tg
                 argv.push_back("DoubleSliderTest");
                 auto app = App::create(context, argv, "DoubleSliderTest", "Double slider test.");
                 auto window = Window::create(context, "DoubleSliderTest", Size2I(1280, 960));
+
+                std::filesystem::path path = std::filesystem::current_path();
+                auto fileBrowserWidget = FileBrowserWidget::create(context, path, window);
+                TG_ASSERT(path == fileBrowserWidget->getPath());
+                fileBrowserWidget->setCallback(
+                    [&path](const std::filesystem::path& value)
+                    {
+                        path = value;
+                    });
+                bool cancel = false;
+                fileBrowserWidget->setCancelCallback(
+                    [&cancel]
+                    {
+                        cancel = true;
+                    });
+                FileBrowserOptions options;
+                fileBrowserWidget->setOptionsCallback(
+                    [&options](const FileBrowserOptions& value)
+                    {
+                        options = value;
+                    });
+
+                FileBrowserOptions options2;
+                options2.reverseSort = true;
+                fileBrowserWidget->setOptions(options2);
+                fileBrowserWidget->setOptions(options2);
+                TG_ASSERT(options2 == fileBrowserWidget->getOptions());
+
+                auto recentFilesModel = RecentFilesModel::create(context);
+                fileBrowserWidget->setRecentFilesModel(recentFilesModel);
+
                 app->addWindow(window);
                 window->show();
-                app->run();
-
-                auto fileBrowserWidget = FileBrowserWidget::create(
-                    context,
-                    std::filesystem::current_path(),
-                    window);
                 app->run();
             }
         }
