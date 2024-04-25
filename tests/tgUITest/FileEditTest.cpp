@@ -4,6 +4,7 @@
 
 #include <tgUITest/FileEditTest.h>
 
+#include <tgUI/FileBrowser.h>
 #include <tgUI/FileEdit.h>
 
 #include <tgCore/Assert.h>
@@ -54,7 +55,17 @@ namespace tg
                         path = value;
                     });
 
-#if !defined(TINYGFX_NFD)
+                auto system = context->getSystem<FileBrowserSystem>();
+                system->setNativeFileDialog(false);
+                TG_ASSERT(!system->isNativeFileDialog());
+                system->setPath(path);
+                TG_ASSERT(path == system->getPath());
+                FileBrowserOptions options;
+                options.reverseSort = true;
+                system->setOptions(options);
+                TG_ASSERT(options == system->getOptions());
+                TG_ASSERT(system->getRecentFilesModel());
+
                 _window->cursorEnter(true);
                 _app->run();
                 _window->key(Key::Tab, true, 0);
@@ -90,8 +101,6 @@ namespace tg
                 _app->run();
                 _window->key(Key::Enter, false, 0);
                 _app->run();
-                TG_ASSERT(path.empty());
-#endif // TINYGFX_NFD
             }
         }
     }
