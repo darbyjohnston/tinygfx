@@ -1,6 +1,7 @@
 set(HEADERS
     ActionTest.h
     App.h
+    ButtonGroupTest.h
     ButtonTest.h
     DoubleEditSliderTest.h
     DoubleEditTest.h
@@ -33,6 +34,7 @@ set(PRIVATE_HEADERS)
 set(SOURCE
     ActionTest.cpp
     App.cpp
+    ButtonGroupTest.cpp
     ButtonTest.cpp
     DoubleEditSliderTest.cpp
     DoubleEditTest.cpp
