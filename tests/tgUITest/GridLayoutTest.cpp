@@ -37,11 +37,15 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("GridLayoutTest");
-                _app = App::create(context, argv, "GridLayoutTest", "Grid layout test.");
-                _window = Window::create(context, "GridLayoutTest", Size2I(1280, 960));
+                _app = App::create(
+                    context,
+                    argv,
+                    "GridLayoutTest",
+                    "Grid layout test.");
+                _window = Window::create(context, _app, "GridLayoutTest");
                 _app->addWindow(_window);
                 _window->show();
-                _app->run();
+                _app->tick();
 
                 auto layout = GridLayout::create(context, _window);
                 layout->setSpacingRole(SizeRole::None);
@@ -60,10 +64,10 @@ namespace tg
                 layout->setGridPos(spacer0, 0, 0);
                 layout->setGridPos(spacer1, 0, 1);
                 layout->setGridPos(spacer2, 1, 1);
-                _app->run();
+                _app->tick();
 
                 spacer2->setParent(nullptr);
-                _app->run();
+                _app->tick();
             }
         }
     }

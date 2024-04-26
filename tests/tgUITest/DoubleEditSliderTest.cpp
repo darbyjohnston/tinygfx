@@ -35,55 +35,49 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("DoubleEditSliderTest");
-                _app = App::create(context, argv, "DoubleEditSliderTest", "Double edit slider test.");
-                _window = Window::create(context, "DoubleEditSliderTest", Size2I(1280, 960));
+                _app = App::create(
+                    context,
+                    argv,
+                    "DoubleEditSliderTest",
+                    "Double edit slider test.");
+                _window = Window::create(context, _app, "DoubleEditSliderTest");
                 _layout = VerticalLayout::create(context, _window);
                 _layout->setMarginRole(SizeRole::MarginLarge);
                 _app->addWindow(_window);
                 _window->show();
-                _app->run();
+                _app->tick();
 
                 auto slider = DoubleEditSlider::create(context, nullptr, _layout);
                 TG_ASSERT(slider->getModel());
                 double value = 0.0;
                 slider->setCallback([&value](double v) { value = v; });
-
                 slider->setValue(0.9);
-                _app->run();
+                _app->tick();
                 TG_ASSERT(0.9 == slider->getValue());
                 TG_ASSERT(0.9 == value);
-
                 slider->setRange(RangeD(0.0, 0.5));
-                _app->run();
+                _app->tick();
                 TG_ASSERT(RangeD(0.0, 0.5) == slider->getRange());
                 TG_ASSERT(0.5 == value);
-
                 slider->setStep(0.2);
                 TG_ASSERT(0.2 == slider->getStep());
                 slider->setLargeStep(0.3);
                 TG_ASSERT(0.3 == slider->getLargeStep());
-
                 slider->setPrecision(3);
                 TG_ASSERT(3 == slider->getPrecision());
                 slider->setPrecision(2);
-
                 slider->setDefaultValue(0.0);
                 TG_ASSERT(0.0 == slider->getDefaultValue());
-
                 slider->setFontRole(FontRole::Label);
                 TG_ASSERT(FontRole::Label == slider->getFontRole());
                 slider->setFontRole(FontRole::Mono);
 
                 Box2I g = slider->getGeometry();
                 V2I c = center(g);
-                _window->cursorPos(c);
-                _app->run();
-                _window->button(0, true, 0);
-                _app->run();
-                _window->cursorPos(V2I(g.max.x, c.y));
-                _app->run();
-                _window->button(0, false, 0);
-                _app->run();
+                _window->setCursorPos(c);
+                _window->setButton(0, true);
+                _window->setCursorPos(V2I(g.max.x, c.y));
+                _window->setButton(0, false);
             }
         }
     }

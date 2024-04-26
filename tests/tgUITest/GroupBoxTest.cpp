@@ -35,13 +35,17 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("GroupBoxTest");
-                _app = App::create(context, argv, "GroupBoxTest", "Group box test.");
-                _window = Window::create(context, "GroupBoxTest", Size2I(1280, 960));
+                _app = App::create(
+                    context,
+                    argv,
+                    "GroupBoxTest",
+                    "Group box test.");
+                _window = Window::create(context, _app, "GroupBoxTest");
                 _layout = VerticalLayout::create(context, _window);
                 _layout->setMarginRole(SizeRole::MarginLarge);
                 _app->addWindow(_window);
                 _window->show();
-                _app->run();
+                _app->tick();
 
                 auto widget = GroupBox::create(context, "Test", _layout);
                 widget->setText("Group");
@@ -51,8 +55,7 @@ namespace tg
                 widget->setFontRole(FontRole::Mono);
                 TG_ASSERT(FontRole::Mono == widget->getFontRole());
                 widget->setFontRole(FontRole::Label);
-
-                _app->run();
+                _app->tick();
             }
         }
     }

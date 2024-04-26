@@ -35,83 +35,56 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("DoubleEditTest");
-                _app = App::create(context, argv, "DoubleEditTest", "Double edit test.");
-                _window = Window::create(context, "DoubleEditTest", Size2I(1280, 960));
+                _app = App::create(
+                    context,
+                    argv,
+                    "DoubleEditTest",
+                    "Double edit test.");
+                _window = Window::create(context, _app, "DoubleEditTest");
                 _layout = VerticalLayout::create(context, _window);
                 _layout->setMarginRole(SizeRole::MarginLarge);
                 _app->addWindow(_window);
                 _window->show();
-                _app->run();
+                _app->tick();
 
                 auto edit = DoubleEdit::create(context, nullptr, _layout);
                 TG_ASSERT(edit->getModel());
                 double value = 0.0;
                 edit->setCallback([&value](double v) { value = v; });
-
                 edit->setValue(0.9);
-                _app->run();
+                _app->tick();
                 TG_ASSERT(0.9 == edit->getValue());
                 TG_ASSERT(0.9 == value);
-
                 edit->setRange(RangeD(0.0, 0.5));
-                _app->run();
+                _app->tick();
                 TG_ASSERT(RangeD(0.0, 0.5) == edit->getRange());
                 TG_ASSERT(0.5 == value);
-
                 edit->setStep(0.2);
                 TG_ASSERT(0.2 == edit->getStep());
                 edit->setLargeStep(0.3);
                 TG_ASSERT(0.3 == edit->getLargeStep());
-
                 edit->setPrecision(3);
                 TG_ASSERT(3 == edit->getPrecision());
                 edit->setPrecision(2);
-
                 edit->setFontRole(FontRole::Label);
                 TG_ASSERT(FontRole::Label == edit->getFontRole());
                 edit->setFontRole(FontRole::Mono);
 
-                _window->cursorEnter(true);
-                _app->run();
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::A, true, static_cast<int>(KeyModifier::Control));
-                _app->run();
-                _window->key(Key::A, false, static_cast<int>(KeyModifier::Control));
-                _app->run();
-                _window->key(Key::Delete, true, 0);
-                _app->run();
-                _window->key(Key::Delete, false, 0);
-                _app->run();
-                _window->text("0.1");
-                _app->run();
-                _window->key(Key::Enter, true, 0);
-                _app->run();
-                _window->key(Key::Enter, false, 0);
-                _app->run();
+                _window->setCursorEnter(true);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
+                _window->setKey(Key::Delete);
+                _window->setText("0.1");
+                _window->setKey(Key::Enter);
                 TG_ASSERT(0.1 == value);
 
-                _window->key(Key::Up, true, 0);
-                _app->run();
-                _window->key(Key::Up, false, 0);
-                _app->run();
+                _window->setKey(Key::Up);
                 TG_ASSERT(fuzzyCompare(0.3, value));
-                _window->key(Key::PageUp, true, 0);
-                _app->run();
-                _window->key(Key::PageUp, false, 0);
-                _app->run();
+                _window->setKey(Key::PageUp);
                 TG_ASSERT(fuzzyCompare(0.5, value));
-                _window->key(Key::PageDown, true, 0);
-                _app->run();
-                _window->key(Key::PageDown, false, 0);
-                _app->run();
+                _window->setKey(Key::PageDown);
                 TG_ASSERT(fuzzyCompare(0.2, value));
-                _window->key(Key::Down, true, 0);
-                _app->run();
-                _window->key(Key::Down, false, 0);
-                _app->run();
+                _window->setKey(Key::Down);
                 TG_ASSERT(fuzzyCompare(0.0, value));
             }
         }

@@ -117,7 +117,27 @@ namespace tg
             p.displayScale = value;
             for (auto& window : p.windows)
             {
-                window->displayScale(p.displayScale);
+                window->setDisplayScale(p.displayScale);
+            }
+            run();
+        }
+
+        void App::tick()
+        {
+            TG_P();
+            _context->tick();
+            for (auto& window : p.windows)
+            {
+                TickEvent tickEvent(
+                    p.fontSystem,
+                    p.displayScale,
+                    p.style,
+                    p.iconLibrary);
+                _tickRecursive(
+                    window,
+                    true,
+                    true,
+                    tickEvent);
             }
         }
 
@@ -134,21 +154,7 @@ namespace tg
             {
                 if (p.running && !p.windows.empty())
                 {
-                    _context->tick();
-
-                    for (auto& window : p.windows)
-                    {
-                        TickEvent tickEvent(
-                            p.fontSystem,
-                            p.displayScale,
-                            p.style,
-                            p.iconLibrary);
-                        _tickRecursive(
-                            window,
-                            true,
-                            true,
-                            tickEvent);
-                    }
+                    tick();
                 }
             }
             return exit;

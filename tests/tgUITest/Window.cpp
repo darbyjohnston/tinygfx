@@ -4,6 +4,8 @@
 
 #include <tgUITest/Window.h>
 
+#include <tgUITest/App.h>
+
 #include <tgUI/IClipboard.h>
 
 #include <tgCore/Assert.h>
@@ -52,7 +54,8 @@ namespace tg
             class Render : public IRender
             {
             public:
-                static std::shared_ptr<Render> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<Render> create(
+                    const std::shared_ptr<Context>&);
 
                 void begin(
                     const Size2I&,
@@ -179,6 +182,7 @@ namespace tg
         struct Window::Private
         {
             std::weak_ptr<Context> context;
+            std::shared_ptr<App> app;
             Size2I bufferSize = Size2I(0, 0);
             float displayScale = 1.F;
             bool refresh = true;
@@ -188,6 +192,7 @@ namespace tg
 
         void Window::_init(
             const std::shared_ptr<Context>& context,
+            const std::shared_ptr<App>& app,
             const std::string& name,
             const Size2I& size)
         {
@@ -195,7 +200,7 @@ namespace tg
             TG_P();
 
             p.context = context;
-
+            p.app = app;
             p.bufferSize = size;
             p.render = Render::create(context);
 
@@ -215,56 +220,94 @@ namespace tg
 
         std::shared_ptr<Window> Window::create(
             const std::shared_ptr<Context>& context,
+            const std::shared_ptr<App>& app,
             const std::string& name,
             const Size2I& size)
         {
             auto out = std::shared_ptr<Window>(new Window);
-            out->_init(context, name, size);
+            out->_init(context, app, name, size);
             return out;
         }
 
-        void Window::displayScale(float value)
+        void Window::setDisplayScale(float value)
         {
-            _p->displayScale = value;
+            TG_P();
+            if (value == p.displayScale)
+                return;
+            p.displayScale = value;
             _setSizeUpdate();
             _setDrawUpdate();
         }
 
-        void Window::cursorEnter(bool value)
+        void Window::setCursorEnter(bool value)
         {
+            TG_P();
             _cursorEnter(value);
+            p.app->run();
         }
 
-        void Window::cursorPos(const V2I& pos)
+        void Window::setCursorPos(const V2I& pos)
         {
+            TG_P();
             _cursorPos(pos);
+            p.app->run();
         }
 
-        void Window::button(int button, bool press, int modifiers)
+        void Window::setButton(int button, int modifiers)
         {
-            _p->modifiers = modifiers;
+            TG_P();
+            p.modifiers = modifiers;
+            _mouseButton(button, true, modifiers);
+            p.app->run();
+            _mouseButton(button, false, modifiers);
+            p.app->run();
+        }
+
+        void Window::setButton(int button, bool press, int modifiers)
+        {
+            TG_P();
+            p.modifiers = modifiers;
             _mouseButton(button, press, modifiers);
+            p.app->run();
         }
 
-        void Window::scroll(const V2F& value)
+        void Window::setScroll(const V2F& value)
         {
-            _scroll(value, _p->modifiers);
+            TG_P();
+            _scroll(value, p.modifiers);
+            p.app->run();
         }
 
-        void Window::key(Key key, bool press, int modifiers)
+        void Window::setKey(Key key, int modifiers)
         {
-            _p->modifiers = modifiers;
+            TG_P();
+            p.modifiers = modifiers;
+            _key(key, true, modifiers);
+            p.app->run();
+            _key(key, false, modifiers);
+            p.app->run();
+        }
+
+        void Window::setKey(Key key, bool press, int modifiers)
+        {
+            TG_P();
+            p.modifiers = modifiers;
             _key(key, press, modifiers);
+            p.app->run();
         }
 
-        void Window::text(const std::string& value)
+        void Window::setText(const std::string& value)
         {
+            TG_P();
             _text(value);
+            p.app->run();
         }
 
-        void Window::drop(const std::vector<std::string>& value)
+        void Window::setDrop(const std::vector<std::string>& value)
         {
+            TG_P();
             _drop(value);
+            p.app->run();
         }
 
         void Window::setGeometry(const Box2I& value)

@@ -36,13 +36,17 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("FileEditTest");
-                _app = App::create(context, argv, "FileEditTest", "File edit test.");
-                _window = Window::create(context, "FileEditTest", Size2I(1280, 960));
+                _app = App::create(
+                    context,
+                    argv,
+                    "FileEditTest",
+                    "File edit test.");
+                _window = Window::create(context, _app, "FileEditTest");
                 _layout = VerticalLayout::create(context, _window);
                 _layout->setMarginRole(SizeRole::MarginLarge);
                 _app->addWindow(_window);
                 _window->show();
-                _app->run();
+                _app->tick();
 
                 auto edit = FileEdit::create(context, _layout);
                 std::filesystem::path path = std::filesystem::current_path();
@@ -66,62 +70,22 @@ namespace tg
                 TG_ASSERT(options == system->getOptions());
                 TG_ASSERT(system->getRecentFilesModel());
 
-                _window->cursorEnter(true);
-                _app->run();
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Enter, true, 0);
-                _app->run();
-                _window->key(Key::Enter, false, 0);
-                _app->run();
-                _window->key(Key::Tab, true, static_cast<int>(KeyModifier::Shift));
-                _app->run();
-                _window->key(Key::Tab, false, static_cast<int>(KeyModifier::Shift));
-                _app->run();
-                _window->key(Key::Tab, true, static_cast<int>(KeyModifier::Shift));
-                _app->run();
-                _window->key(Key::Tab, false, static_cast<int>(KeyModifier::Shift));
-                _app->run();
-                _window->key(Key::Enter, true, 0);
-                _app->run();
-                _window->key(Key::Enter, false, 0);
-                _app->run();
+                _window->setCursorEnter(true);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Enter);
+                _window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                _window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                _window->setKey(Key::Enter);
 
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Enter, true, 0);
-                _app->run();
-                _window->key(Key::Enter, false, 0);
-                _app->run();
-                _window->key(Key::Tab, true, static_cast<int>(KeyModifier::Shift));
-                _app->run();
-                _window->key(Key::Tab, false, static_cast<int>(KeyModifier::Shift));
-                _app->run();
-                _window->key(Key::Enter, true, 0);
-                _app->run();
-                _window->key(Key::Enter, false, 0);
-                _app->run();
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Enter);
+                _window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                _window->setKey(Key::Enter);
 
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Enter, true, 0);
-                _app->run();
-                _window->key(Key::Enter, false, 0);
-                _app->run();
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Enter);
             }
         }
     }

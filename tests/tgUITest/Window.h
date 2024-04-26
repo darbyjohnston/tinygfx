@@ -10,11 +10,14 @@ namespace tg
 {
     namespace ui_test
     {
+        class App;
+
         class Window : public ui::IWindow
         {
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<App>&,
                 const std::string& name,
                 const core::Size2I&);
 
@@ -25,17 +28,20 @@ namespace tg
 
             static std::shared_ptr<Window> create(
                 const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<App>&,
                 const std::string& name,
-                const core::Size2I&);
+                const core::Size2I& = core::Size2I(1280, 960));
 
-            void displayScale(float);
-            void cursorEnter(bool);
-            void cursorPos(const core::V2I&);
-            void button(int button, bool press, int modifiers);
-            void scroll(const core::V2F&);
-            void key(ui::Key, bool press, int modifiers);
-            void text(const std::string&);
-            void drop(const std::vector<std::string>&);
+            void setDisplayScale(float);
+            void setCursorEnter(bool);
+            void setCursorPos(const core::V2I&);
+            void setButton(int button, int modifiers = 0);
+            void setButton(int button, bool press, int modifiers = 0);
+            void setScroll(const core::V2F&);
+            void setKey(ui::Key, int modifiers = 0);
+            void setKey(ui::Key, bool press, int modifiers = 0);
+            void setText(const std::string&);
+            void setDrop(const std::vector<std::string>&);
 
             void setGeometry(const core::Box2I&) override;
             void tickEvent(

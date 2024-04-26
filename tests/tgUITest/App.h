@@ -46,7 +46,7 @@ namespace tg
             void removeWindow(const std::shared_ptr<Window>&);
 
             void setDisplayScale(float);
-
+            void tick();
             void exit();
 
             int run() override;

@@ -36,27 +36,28 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("LabelTest");
-                _app = App::create(context, argv, "LabelTest", "Label test.");
-                _window = Window::create(context, "LabelTest", Size2I(1280, 960));
+                _app = App::create(
+                    context,
+                    argv,
+                    "LabelTest",
+                    "Label test.");
+                _window = Window::create(context, _app, "LabelTest");
                 _layout = VerticalLayout::create(context, _window);
                 _layout->setMarginRole(SizeRole::MarginLarge);
                 _app->addWindow(_window);
                 _window->show();
-                _app->run();
+                _app->tick();
 
                 auto label = Label::create(context, _layout);
                 label->setText("Test");
                 label->setText("Test");
                 TG_ASSERT("Test" == label->getText());
-
                 label->setTextRole(ColorRole::Red);
                 label->setTextRole(ColorRole::Red);
                 TG_ASSERT(ColorRole::Red == label->getTextRole());
-
                 label->setMarginRole(SizeRole::Margin);
                 label->setMarginRole(SizeRole::Margin);
                 TG_ASSERT(SizeRole::Margin == label->getMarginRole());
-
                 label->setFontRole(FontRole::Mono);
                 label->setFontRole(FontRole::Mono);
                 TG_ASSERT(FontRole::Mono == label->getFontRole());

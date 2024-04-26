@@ -35,13 +35,17 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("MenuBarTest");
-                _app = App::create(context, argv, "MenuBarTest", "Menu bar test.");
-                _window = Window::create(context, "MenuBarTest", Size2I(1280, 960));
+                _app = App::create(
+                    context,
+                    argv,
+                    "MenuBarTest",
+                    "Menu bar test.");
+                _window = Window::create(context, _app, "MenuBarTest");
                 _layout = VerticalLayout::create(context, _window);
                 _layout->setMarginRole(SizeRole::MarginLarge);
                 _app->addWindow(_window);
                 _window->show();
-                _app->run();
+                _app->tick();
 
                 auto menuBar = MenuBar::create(context, _layout);
 
@@ -72,29 +76,13 @@ namespace tg
                     [&action4] { action4 = true; }));
                 menuBar->addMenu("Menu 2", menu);
 
-                _window->cursorEnter(true);
-                _app->run();
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Enter, true, 0);
-                _app->run();
-                _window->key(Key::Enter, false, 0);
-                _app->run();
-                _window->key(Key::Enter, true, 0);
-                _app->run();
-                _window->key(Key::Enter, false, 0);
-                _app->run();
+                _window->setCursorEnter(true);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Enter);
+                _window->setKey(Key::Enter);
                 TG_ASSERT(action1);
-                _window->key(Key::Enter, true, 0);
-                _app->run();
-                _window->key(Key::Enter, false, 0);
-                _app->run();
-                _window->key(Key::Escape, true, 0);
-                _app->run();
-                _window->key(Key::Escape, false, 0);
-                _app->run();
+                _window->setKey(Key::Enter);
+                _window->setKey(Key::Escape);
                 menuBar->shortcut(Key::_4, static_cast<int>(KeyModifier::Control));
                 TG_ASSERT(action4);
             }

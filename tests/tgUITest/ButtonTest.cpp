@@ -39,13 +39,17 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("ButtonTest");
-                _app = App::create(context, argv, "ButtonTest", "Button test.");
-                _window = Window::create(context, "ButtonTest", Size2I(1280, 960));
+                _app = App::create(
+                    context,
+                    argv,
+                    "ButtonTest",
+                    "Button test.");
+                _window = Window::create(context, _app, "ButtonTest");
                 _layout = VerticalLayout::create(context, _window);
                 _layout->setMarginRole(SizeRole::MarginLarge);
                 _app->addWindow(_window);
                 _window->show();
-                _app->run();
+                _app->tick();
 
                 PushButton::create(context, "Push", _layout);
 
@@ -129,15 +133,15 @@ namespace tg
 
             button->hide();
             button->hide();
-            _app->run();
+            _app->tick();
             button->show();
-            _app->run();
+            _app->tick();
 
             button->setEnabled(false);
             button->setEnabled(false);
-            _app->run();
+            _app->tick();
             button->setEnabled(true);
-            _app->run();
+            _app->tick();
 
             bool hovered = false;
             button->setHoveredCallback([&hovered](bool value) { hovered = value; });
@@ -150,58 +154,39 @@ namespace tg
             bool checked = false;
             button->setCheckedCallback([&checked](bool value) { checked = value; });
 
-            _window->cursorEnter(true);
-            _app->run();
-            _window->cursorPos(center(button->getGeometry()));
-            _app->run();
+            _window->setCursorEnter(true);
+            _window->setCursorPos(center(button->getGeometry()));
             TG_ASSERT(hovered);
-            _window->button(0, true, 0);
-            _app->run();
+            _window->setButton(0, true);
             TG_ASSERT(pressed);
-            _window->button(0, false, 0);
-            _app->run();
+            _window->setButton(0, false);
             TG_ASSERT(clicks);
             TG_ASSERT(checked);
             if (button->acceptsKeyFocus())
             {
                 TG_ASSERT(button->hasKeyFocus());
             }
-            _window->cursorPos(V2I(0, 0));
-            _app->run();
+            _window->setCursorPos(V2I(0, 0));
             TG_ASSERT(!hovered);
-            _window->cursorPos(center(button->getGeometry()));
-            _app->run();
-            _window->cursorEnter(false);
+            _window->setCursorPos(center(button->getGeometry()));
+            _window->setCursorEnter(false);
 
             clicks = 0;
 
-            _window->cursorEnter(true);
-            _window->cursorPos(center(button->getGeometry()));
-            _app->run();
-            _window->key(Key::Enter, true, 0);
-            _app->run();
-            _window->key(Key::Enter, false, 0);
-            _app->run();
+            _window->setCursorEnter(true);
+            _window->setCursorPos(center(button->getGeometry()));
+            _window->setKey(Key::Enter);
             TG_ASSERT(clicks);
             TG_ASSERT(!checked);
 
-            _window->key(Key::Escape, true, 0);
-            _app->run();
-            _window->key(Key::Escape, false, 0);
-            _app->run();
+            _window->setKey(Key::Escape);
             if (button->acceptsKeyFocus())
             {
                 TG_ASSERT(!button->hasKeyFocus());
             }
 
-            _window->key(Key::Tab, true, 0);
-            _app->run();
-            _window->key(Key::Tab, false, 0);
-            _app->run();
-            _window->key(Key::Tab, true, 0);
-            _app->run();
-            _window->key(Key::Tab, false, 0);
-            _app->run();
+            _window->setKey(Key::Tab);
+            _window->setKey(Key::Tab);
             if (button->acceptsKeyFocus())
             {
                 TG_ASSERT(button->hasKeyFocus());
@@ -212,50 +197,39 @@ namespace tg
             {
                 TG_ASSERT(!button->hasKeyFocus());
             }
-            _window->cursorEnter(true);
-            _app->run();
-            _window->key(Key::Tab, true, static_cast<int>(KeyModifier::Shift));
-            _app->run();
-            _window->key(Key::Tab, false, static_cast<int>(KeyModifier::Shift));
-            _app->run();
+            _window->setCursorEnter(true);
+            _window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
             if (button->acceptsKeyFocus())
             {
                 TG_ASSERT(button->hasKeyFocus());
             }
 
-            _window->cursorPos(center(button->getGeometry()));
-            _app->run();
+            _window->setCursorPos(center(button->getGeometry()));
             _window->hide();
             _window->show();
-            _window->cursorPos(center(button->getGeometry()));
-            _app->run();
-            _window->button(0, true, 0);
-            _app->run();
+            _window->setCursorPos(center(button->getGeometry()));
+            _window->setButton(0, true);
+            _app->tick();
             _window->hide();
             _window->show();
-            _window->cursorPos(center(button->getGeometry()));
-            _app->run();
-            _window->key(Key::Enter, true, 0);
-            _app->run();
+            _window->setCursorPos(center(button->getGeometry()));
+            _app->tick();
+            _window->setKey(Key::Enter, true);
+            _app->tick();
             _window->hide();
             _window->show();
 
-            _window->cursorEnter(true);
+            _window->setCursorEnter(true);
             std::string tooltip = "This is a tooltip";
             button->setTooltip(tooltip);
             TG_ASSERT(tooltip == button->getTooltip());
-            _window->cursorPos(center(button->getGeometry()));
-            _app->run();
+            _window->setCursorPos(center(button->getGeometry()));
             sleep(std::chrono::seconds(3));
-            _window->cursorPos(center(button->getGeometry()));
-            _app->run();
-            _window->cursorPos(V2I(0, 0));
-            _app->run();
+            _window->setCursorPos(center(button->getGeometry()));
+            _window->setCursorPos(V2I(0, 0));
 
             _app->setDisplayScale(2.F);
-            _app->run();
             _app->setDisplayScale(1.F);
-            _app->run();
 
             button->takeKeyFocus();
             button->setParent(nullptr);

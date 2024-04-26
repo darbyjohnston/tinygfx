@@ -36,13 +36,17 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("ColorWidgetTest");
-                _app = App::create(context, argv, "ColorWidgetTest", "Color widget test.");
-                _window = Window::create(context, "ColorWidgetTest", Size2I(1280, 960));
+                _app = App::create(
+                    context,
+                    argv,
+                    "ColorWidgetTest",
+                    "Color widget test.");
+                _window = Window::create(context, _app, "ColorWidgetTest");
                 _layout = VerticalLayout::create(context, _window);
                 _layout->setMarginRole(SizeRole::MarginLarge);
                 _app->addWindow(_window);
                 _window->show();
-                _app->run();
+                _app->tick();
 
                 auto widget = ColorSwatch::create(context, _layout);
                 Color4F color(1.F, 1.F, 1.F, 1.F);
@@ -63,63 +67,23 @@ namespace tg
                 TG_ASSERT(SizeRole::Margin == widget->getSizeRole());
                 widget->setSizeRole(SizeRole::Swatch);
 
-                _window->cursorEnter(true);
-                _app->run();
+                _window->setCursorEnter(true);
                 Box2I g = widget->getGeometry();
                 V2I c = center(g);
-                _window->cursorPos(c);
-                _app->run();
-                _window->button(0, true, 0);
-                _app->run();
-                _window->button(0, false, 0);
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Home, true, 0);
-                _app->run();
-                _window->key(Key::Home, false, 0);
-                _app->run();
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Home, true, 0);
-                _app->run();
-                _window->key(Key::Home, false, 0);
-                _app->run();
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Home, true, 0);
-                _app->run();
-                _window->key(Key::Home, false, 0);
-                _app->run();
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Tab, true, 0);
-                _app->run();
-                _window->key(Key::Tab, false, 0);
-                _app->run();
-                _window->key(Key::Home, true, 0);
-                _app->run();
-                _window->key(Key::Home, false, 0);
-                _app->run();
-                _window->key(Key::Escape, true, 0);
-                _app->run();
-                _window->key(Key::Escape, false, 0);
-                _app->run();
+                _window->setCursorPos(c);
+                _window->setButton(0);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Home);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Home);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Home);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Home);
+                _window->setKey(Key::Escape);
                 TG_ASSERT(Color4F(0.F, 0.F, 0.F, 0.F) == color);
             }
         }

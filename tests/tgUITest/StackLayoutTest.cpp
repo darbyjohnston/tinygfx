@@ -37,11 +37,15 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("StackLayoutTest");
-                _app = App::create(context, argv, "StackLayoutTest", "Stack layout test.");
-                _window = Window::create(context, "StackLayoutTest", Size2I(1280, 960));
+                _app = App::create(
+                    context,
+                    argv,
+                    "StackLayoutTest",
+                    "Stack layout test.");
+                _window = Window::create(context, _app, "StackLayoutTest");
                 _app->addWindow(_window);
                 _window->show();
-                _app->run();
+                _app->tick();
 
                 auto layout = StackLayout::create(context, _window);
                 layout->setMarginRole(SizeRole::Margin);
@@ -52,27 +56,27 @@ namespace tg
                 auto spacer0 = Spacer::create(context, Orientation::Horizontal, layout);
                 auto spacer1 = Spacer::create(context, Orientation::Horizontal, layout);
                 auto spacer2 = Spacer::create(context, Orientation::Horizontal, layout);
-                _app->run();
+                _app->tick();
                 TG_ASSERT(0 == layout->getCurrentIndex());
                 TG_ASSERT(spacer0->isVisible());
                 TG_ASSERT(!spacer1->isVisible());
                 TG_ASSERT(!spacer2->isVisible());
 
                 layout->setCurrentIndex(1);
-                _app->run();
+                _app->tick();
                 TG_ASSERT(!spacer0->isVisible());
                 TG_ASSERT(spacer1->isVisible());
                 TG_ASSERT(!spacer2->isVisible());
 
                 layout->setCurrentWidget(spacer2);
-                _app->run();
+                _app->tick();
                 TG_ASSERT(2 == layout->getCurrentIndex());
                 TG_ASSERT(!spacer0->isVisible());
                 TG_ASSERT(!spacer1->isVisible());
                 TG_ASSERT(spacer2->isVisible());
 
                 spacer2->setParent(nullptr);
-                _app->run();
+                _app->tick();
                 TG_ASSERT(1 == layout->getCurrentIndex());
                 TG_ASSERT(!spacer0->isVisible());
                 TG_ASSERT(spacer1->isVisible());
