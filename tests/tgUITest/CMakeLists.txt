@@ -26,6 +26,7 @@ set(HEADERS
     LayoutUtilTest.h
     LineEditTest.h
     MDIWidgetTest.h
+    MenuBarTest.h
     RowLayoutTest.h
     StackLayoutTest.h
     StyleTest.h
@@ -61,6 +62,7 @@ set(SOURCE
     LayoutUtilTest.cpp
     LineEditTest.cpp
     MDIWidgetTest.cpp
+    MenuBarTest.cpp
     RowLayoutTest.cpp
     StackLayoutTest.cpp
     StyleTest.cpp

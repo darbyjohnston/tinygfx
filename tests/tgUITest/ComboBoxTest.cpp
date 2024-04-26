@@ -45,9 +45,9 @@ namespace tg
 
                 auto widget = ComboBox::create(context, {}, _layout);
                 std::vector<ComboBoxItem> items = {
-                    { "Item 0" },
-                    { "Item 1" },
-                    { "Item 2" }
+                    { "Stop", "PlaybackStop" },
+                    { "Forward", "PlaybackForward" },
+                    { "Reverse", "PlaybackReverse" }
                 };
                 widget->setItems(items);
                 widget->setItems(items);
@@ -97,6 +97,11 @@ namespace tg
                 _window->key(Key::Escape, true, 0);
                 _app->run();
                 _window->key(Key::Escape, false, 0);
+                _app->run();
+
+                _window->contentScale(V2F(2.F, 2.F));
+                _app->run();
+                _window->contentScale(V2F(1.F, 1.F));
                 _app->run();
             }
         }
