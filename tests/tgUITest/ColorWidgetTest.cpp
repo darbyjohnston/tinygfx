@@ -45,7 +45,7 @@ namespace tg
                 _app->run();
 
                 auto widget = ColorSwatch::create(context, _layout);
-                Color4F color(1.F, 0.F, 0.F);
+                Color4F color(1.F, 1.F, 1.F, 1.F);
                 widget->setColor(color);
                 widget->setColor(color);
                 TG_ASSERT(color == widget->getColor());
@@ -80,11 +80,47 @@ namespace tg
                 _app->run();
                 _window->key(Key::Home, false, 0);
                 _app->run();
+                _window->key(Key::Tab, true, 0);
+                _app->run();
+                _window->key(Key::Tab, false, 0);
+                _app->run();
+                _window->key(Key::Tab, true, 0);
+                _app->run();
+                _window->key(Key::Tab, false, 0);
+                _app->run();
+                _window->key(Key::Home, true, 0);
+                _app->run();
+                _window->key(Key::Home, false, 0);
+                _app->run();
+                _window->key(Key::Tab, true, 0);
+                _app->run();
+                _window->key(Key::Tab, false, 0);
+                _app->run();
+                _window->key(Key::Tab, true, 0);
+                _app->run();
+                _window->key(Key::Tab, false, 0);
+                _app->run();
+                _window->key(Key::Home, true, 0);
+                _app->run();
+                _window->key(Key::Home, false, 0);
+                _app->run();
+                _window->key(Key::Tab, true, 0);
+                _app->run();
+                _window->key(Key::Tab, false, 0);
+                _app->run();
+                _window->key(Key::Tab, true, 0);
+                _app->run();
+                _window->key(Key::Tab, false, 0);
+                _app->run();
+                _window->key(Key::Home, true, 0);
+                _app->run();
+                _window->key(Key::Home, false, 0);
+                _app->run();
                 _window->key(Key::Escape, true, 0);
                 _app->run();
                 _window->key(Key::Escape, false, 0);
                 _app->run();
-                TG_ASSERT(Color4F(0.F, 0.F, 0.F) == color);
+                TG_ASSERT(Color4F(0.F, 0.F, 0.F, 0.F) == color);
             }
         }
     }

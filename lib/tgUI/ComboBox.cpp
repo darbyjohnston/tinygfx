@@ -193,6 +193,11 @@ namespace tg
             return out;
         }
 
+        const std::vector<ComboBoxItem>& ComboBox::getItems() const
+        {
+            return _p->items;
+        }
+
         void ComboBox::setItems(const std::vector<ComboBoxItem>& value)
         {
             TG_P();
@@ -225,6 +230,11 @@ namespace tg
             setItems(items);
         }
 
+        int ComboBox::getCurrentIndex() const
+        {
+            return _p->currentIndex;
+        }
+
         void ComboBox::setCurrentIndex(int value)
         {
             TG_P();
@@ -254,6 +264,11 @@ namespace tg
         void ComboBox::setItemCallback(const std::function<void(const ComboBoxItem&)>& value)
         {
             _p->itemCallback = value;
+        }
+
+        FontRole ComboBox::getFontRole() const
+        {
+            return _p->fontRole;
         }
 
         void ComboBox::setFontRole(FontRole value)

@@ -47,11 +47,17 @@ namespace tg
                 const std::vector<std::string>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            //! Get the items.
+            const std::vector<ComboBoxItem>& getItems() const;
+
             //! Set the items.
             void setItems(const std::vector<ComboBoxItem>&);
 
             //! Set the items.
             void setItems(const std::vector<std::string>&);
+
+            //! Get the current index.
+            int getCurrentIndex() const;
 
             //! Set the current index.
             void setCurrentIndex(int);
@@ -61,6 +67,9 @@ namespace tg
 
             //! Set the current item callback.
             void setItemCallback(const std::function<void(const ComboBoxItem&)>&);
+
+            //! Get the font role.
+            FontRole getFontRole() const;
 
             //! Set the font role.
             void setFontRole(FontRole);

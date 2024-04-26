@@ -4,6 +4,7 @@ set(HEADERS
     ButtonGroupTest.h
     ButtonTest.h
     ColorWidgetTest.h
+    ComboBoxTest.h
     DoubleEditSliderTest.h
     DoubleEditTest.h
     DoubleModelTest.h
@@ -38,6 +39,7 @@ set(SOURCE
     ButtonGroupTest.cpp
     ButtonTest.cpp
     ColorWidgetTest.cpp
+    ComboBoxTest.cpp
     DoubleEditSliderTest.cpp
     DoubleEditTest.cpp
     DoubleModelTest.cpp
