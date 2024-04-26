@@ -81,8 +81,18 @@ namespace tg
                 _window->setKey(Key::Enter);
                 _window->setKey(Key::Enter);
                 TG_ASSERT(action1);
+
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Enter);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Tab);
+                _window->setKey(Key::Enter);
+                _window->setKey(Key::Enter);
+
                 _window->setKey(Key::Enter);
                 _window->setKey(Key::Escape);
+                _window->setKey(Key::Escape);
+
                 menuBar->shortcut(Key::_4, static_cast<int>(KeyModifier::Control));
                 TG_ASSERT(action4);
             }

@@ -4,6 +4,7 @@
 
 #include <tgUITest/ColorWidgetTest.h>
 
+#include <tgUI/ColorPopup.h>
 #include <tgUI/ColorSwatch.h>
 #include <tgUI/ColorWidget.h>
 
@@ -84,7 +85,26 @@ namespace tg
                 _window->setKey(Key::Tab);
                 _window->setKey(Key::Home);
                 _window->setKey(Key::Escape);
+                _window->setKey(Key::Escape);
                 TG_ASSERT(Color4F(0.F, 0.F, 0.F, 0.F) == color);
+
+                auto popup = ColorPopup::create(context, color);
+                popup->setPopupRole(ColorRole::Red);
+                popup->setPopupRole(ColorRole::Red);
+                TG_ASSERT(ColorRole::Red == popup->getPopupRole());
+                popup->open(_window, widget->getGeometry());
+                _app->tick();
+                TG_ASSERT(popup->isOpen());
+                popup->close();
+                _app->tick();
+                TG_ASSERT(!popup->isOpen());
+
+                popup->open(_window, widget->getGeometry());
+                _app->tick();
+                TG_ASSERT(popup->isOpen());
+                _window->setKey(Key::Escape);
+                _window->setKey(Key::Escape);
+                TG_ASSERT(!popup->isOpen());
             }
         }
     }

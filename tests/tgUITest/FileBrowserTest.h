@@ -28,7 +28,8 @@ namespace tg
 
         private:
             void _enums();
-            void _widget();
+            void _widget(const std::shared_ptr<core::Context>&);
+            void _dialog(const std::shared_ptr<core::Context>&);
 
             std::shared_ptr<App> _app;
             std::shared_ptr<Window> _window;

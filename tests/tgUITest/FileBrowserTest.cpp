@@ -33,16 +33,6 @@ namespace tg
         void FileBrowserTest::run()
         {
             _enums();
-            _widget();
-        }
-
-        void FileBrowserTest::_enums()
-        {
-            TINYGFX_TEST_ENUM(FileBrowserSort);
-        }
-
-        void FileBrowserTest::_widget()
-        {
             if (auto context = _context.lock())
             {
                 std::vector<std::string> argv;
@@ -53,41 +43,104 @@ namespace tg
                     "DoubleSliderTest",
                     "Double slider test.");
                 _window = Window::create(context, _app, "DoubleSliderTest");
-
-                std::filesystem::path path = std::filesystem::current_path();
-                auto fileBrowserWidget = FileBrowserWidget::create(context, path, _window);
-                TG_ASSERT(path == fileBrowserWidget->getPath());
-                fileBrowserWidget->setCallback(
-                    [&path](const std::filesystem::path& value)
-                    {
-                        path = value;
-                    });
-                bool cancel = false;
-                fileBrowserWidget->setCancelCallback(
-                    [&cancel]
-                    {
-                        cancel = true;
-                    });
-                FileBrowserOptions options;
-                fileBrowserWidget->setOptionsCallback(
-                    [&options](const FileBrowserOptions& value)
-                    {
-                        options = value;
-                    });
-
-                FileBrowserOptions options2;
-                options2.reverseSort = true;
-                fileBrowserWidget->setOptions(options2);
-                fileBrowserWidget->setOptions(options2);
-                TG_ASSERT(options2 == fileBrowserWidget->getOptions());
-
-                auto recentFilesModel = RecentFilesModel::create(context);
-                fileBrowserWidget->setRecentFilesModel(recentFilesModel);
-
                 _app->addWindow(_window);
                 _window->show();
                 _app->tick();
+                _widget(context);
+                _dialog(context);
             }
+        }
+
+        void FileBrowserTest::_enums()
+        {
+            TINYGFX_TEST_ENUM(FileBrowserSort);
+        }
+
+        void FileBrowserTest::_widget(const std::shared_ptr<Context>& context)
+        {
+            std::filesystem::path path = std::filesystem::current_path();
+            auto fileBrowserWidget = FileBrowserWidget::create(context, path, _window);
+            TG_ASSERT(path == fileBrowserWidget->getPath());
+            fileBrowserWidget->setCallback(
+                [&path](const std::filesystem::path& value)
+                {
+                    path = value;
+                });
+            bool cancel = false;
+            fileBrowserWidget->setCancelCallback(
+                [&cancel]
+                {
+                    cancel = true;
+                });
+            FileBrowserOptions options;
+            fileBrowserWidget->setOptionsCallback(
+                [&options](const FileBrowserOptions& value)
+                {
+                    options = value;
+                });
+
+            FileBrowserOptions options2;
+            options2.reverseSort = true;
+            fileBrowserWidget->setOptions(options2);
+            fileBrowserWidget->setOptions(options2);
+            TG_ASSERT(options2 == fileBrowserWidget->getOptions());
+
+            auto recentFilesModel = RecentFilesModel::create(context);
+            fileBrowserWidget->setRecentFilesModel(recentFilesModel);
+
+            fileBrowserWidget->setParent(nullptr);
+        }
+
+        void FileBrowserTest::_dialog(const std::shared_ptr<Context>& context)
+        {
+            std::filesystem::path path = std::filesystem::current_path();
+            auto fileBrowser = FileBrowser::create(context, path);
+            TG_ASSERT(path == fileBrowser->getPath());
+            fileBrowser->setCallback(
+                [&path](const std::filesystem::path& value)
+                {
+                    path = value;
+                });
+            bool close = false;
+            fileBrowser->setCloseCallback(
+                [&close]
+                {
+                    close = true;
+                });
+            FileBrowserOptions options;
+            options.reverseSort = true;
+            fileBrowser->setOptions(options);
+            TG_ASSERT(fileBrowser->getOptions() == options);
+            auto recentFilesModel = RecentFilesModel::create(context);
+            fileBrowser->setRecentFilesModel(recentFilesModel);
+            TG_ASSERT(recentFilesModel == fileBrowser->getRecentFilesModel());
+
+            fileBrowser->open(_window);
+            _app->tick();
+            TG_ASSERT(fileBrowser->isOpen());
+            fileBrowser->close();
+            _app->tick();
+            TG_ASSERT(!fileBrowser->isOpen());
+
+            fileBrowser->open(_window);
+            _app->tick();
+            TG_ASSERT(fileBrowser->isOpen());
+            _window->setKey(Key::Escape);
+            _window->setKey(Key::Escape);
+            TG_ASSERT(!fileBrowser->isOpen());
+
+            fileBrowser->open(_window);
+            _app->tick();
+            TG_ASSERT(fileBrowser->isOpen());
+            _window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+            _window->setKey(Key::Enter);
+            TG_ASSERT(!fileBrowser->isOpen());
+
+            fileBrowser->open(_window);
+            _app->tick();
+            _window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+            _window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+            _window->setKey(Key::Enter);
         }
     }
 }

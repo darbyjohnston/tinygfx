@@ -82,6 +82,9 @@ namespace tg
             //! Set the options callback.
             void setOptionsCallback(const std::function<void(const FileBrowserOptions&)>&);
 
+            //! Get the recent files model.
+            const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
+
             //! Set the recent files model.
             void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
 
@@ -128,6 +131,9 @@ namespace tg
 
             //! Set the options.
             void setOptions(const FileBrowserOptions&);
+
+            //! Get the recent files model.
+            const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
 
             //! Set the recent files model.
             void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);

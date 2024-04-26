@@ -376,6 +376,11 @@ namespace tg
             _p->optionsCallback = value;
         }
 
+        const std::shared_ptr<RecentFilesModel>& FileBrowserWidget::getRecentFilesModel() const
+        {
+            return _p->recentFilesModel;
+        }
+
         void FileBrowserWidget::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
         {
             TG_P();

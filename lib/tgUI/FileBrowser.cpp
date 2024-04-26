@@ -96,6 +96,11 @@ namespace tg
             _p->widget->setOptions(value);
         }
 
+        const std::shared_ptr<RecentFilesModel>& FileBrowser::getRecentFilesModel() const
+        {
+            return _p->widget->getRecentFilesModel();
+        }
+
         void FileBrowser::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
         {
             _p->widget->setRecentFilesModel(value);
