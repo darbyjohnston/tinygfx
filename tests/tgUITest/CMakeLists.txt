@@ -3,6 +3,7 @@ set(HEADERS
     App.h
     ButtonGroupTest.h
     ButtonTest.h
+    ColorWidgetTest.h
     DoubleEditSliderTest.h
     DoubleEditTest.h
     DoubleModelTest.h
@@ -36,6 +37,7 @@ set(SOURCE
     App.cpp
     ButtonGroupTest.cpp
     ButtonTest.cpp
+    ColorWidgetTest.cpp
     DoubleEditSliderTest.cpp
     DoubleEditTest.cpp
     DoubleModelTest.cpp

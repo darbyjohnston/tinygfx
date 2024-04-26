@@ -105,6 +105,7 @@ namespace tg
                 _window->key(Key::Enter, false, 0);
                 _app->run();
                 TG_ASSERT(!checked);
+                group->setChecked(0, true);
 
                 group = ButtonGroup::create(context, ButtonGroupType::Radio);
                 group->addButton(button0);
@@ -134,6 +135,7 @@ namespace tg
                 _app->run();
                 TG_ASSERT(2 == clicked);
                 TG_ASSERT(checked);
+                group->setChecked(0, true);
 
                 group = ButtonGroup::create(context, ButtonGroupType::Toggle);
                 group->addButton(button0);
@@ -152,7 +154,7 @@ namespace tg
                 _window->key(Key::Enter, false, 0);
                 _app->run();
                 TG_ASSERT(2 == clicked);
-                TG_ASSERT(!checked);
+                TG_ASSERT(checked);
                 _window->key(Key::Tab, true, 0);
                 _app->run();
                 _window->key(Key::Tab, false, 0);
@@ -163,6 +165,7 @@ namespace tg
                 _app->run();
                 TG_ASSERT(0 == clicked);
                 TG_ASSERT(checked);
+                group->setChecked(0, true);
             }
         }
     }
