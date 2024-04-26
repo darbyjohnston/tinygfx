@@ -107,6 +107,8 @@ namespace tg
                 _app->run();
                 _window->key(Key::Escape, false, 0);
                 _app->run();
+                _window->cursorPos(V2I(0, 0));
+                _app->run();
 
                 _window->key(Key::Down, true, 0);
                 _app->run();

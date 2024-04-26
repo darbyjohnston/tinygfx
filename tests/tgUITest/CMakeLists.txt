@@ -18,6 +18,7 @@ set(HEADERS
     FloatModelTest.h
     FloatSliderTest.h
     GridLayoutTest.h
+    GroupBoxTest.h
     IntEditSliderTest.h
     IntEditTest.h
     IntModelTest.h
@@ -54,6 +55,7 @@ set(SOURCE
     FloatModelTest.cpp
     FloatSliderTest.cpp
     GridLayoutTest.cpp
+    GroupBoxTest.cpp
     IntEditSliderTest.cpp
     IntEditTest.cpp
     IntModelTest.cpp

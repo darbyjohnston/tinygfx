@@ -44,19 +44,32 @@ namespace tg
                 _app->run();
 
                 auto menuBar = MenuBar::create(context, _layout);
+
                 auto menu = Menu::create(context);
                 bool action1 = false;
                 menu->addItem(std::make_shared<Action>(
                     "Action 1",
+                    "FileOpen",
                     [&action1] { action1 = true; }));
-                menuBar->addMenu("Menu 1", menu);
-                menu = Menu::create(context);
                 bool action2 = false;
                 menu->addItem(std::make_shared<Action>(
                     "Action 2",
-                    Key::_2,
+                    "Mute",
+                    [&action2](bool value) { action2 = value; }));
+                auto subMenu = menu->addSubMenu("Sub Menu");
+                bool action3 = false;
+                subMenu->addItem(std::make_shared<Action>(
+                    "Action 3",
+                    [&action3] { action3 = true; }));
+                menuBar->addMenu("Menu 1", menu);
+
+                menu = Menu::create(context);
+                bool action4 = false;
+                menu->addItem(std::make_shared<Action>(
+                    "Action 4",
+                    Key::_4,
                     static_cast<int>(KeyModifier::Control),
-                    [&action2] { action2 = true; }));
+                    [&action4] { action4 = true; }));
                 menuBar->addMenu("Menu 2", menu);
 
                 _window->cursorEnter(true);
@@ -82,8 +95,8 @@ namespace tg
                 _app->run();
                 _window->key(Key::Escape, false, 0);
                 _app->run();
-                menuBar->shortcut(Key::_2, static_cast<int>(KeyModifier::Control));
-                TG_ASSERT(action2);
+                menuBar->shortcut(Key::_4, static_cast<int>(KeyModifier::Control));
+                TG_ASSERT(action4);
             }
         }
     }
