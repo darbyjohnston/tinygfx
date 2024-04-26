@@ -16,6 +16,11 @@ namespace tg
         //! Combo box item.
         struct ComboBoxItem
         {
+            ComboBoxItem() = default;
+            explicit ComboBoxItem(
+                const std::string& text,
+                const std::string& icon = std::string());
+
             std::string text;
             std::string icon;
 

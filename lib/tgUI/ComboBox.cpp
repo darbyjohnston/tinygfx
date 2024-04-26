@@ -106,6 +106,13 @@ namespace tg
             }
         }
 
+        ComboBoxItem::ComboBoxItem(
+            const std::string& text,
+            const std::string& icon) :
+            text(text),
+            icon(icon)
+        {}
+
         bool ComboBoxItem::operator == (const ComboBoxItem& other) const
         {
             return text == other.text && icon == other.icon;
@@ -225,7 +232,7 @@ namespace tg
             std::vector<ComboBoxItem> items;
             for (const auto& s : value)
             {
-                items.push_back({ s, std::string()});
+                items.push_back(ComboBoxItem(s));
             }
             setItems(items);
         }

@@ -109,6 +109,18 @@ namespace tg
             }
         }
 
+        void App::setDisplayScale(float value)
+        {
+            TG_P();
+            if (value == p.displayScale)
+                return;
+            p.displayScale = value;
+            for (auto& window : p.windows)
+            {
+                window->displayScale(p.displayScale);
+            }
+        }
+
         void App::exit()
         {
             _p->running = false;

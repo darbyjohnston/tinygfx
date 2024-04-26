@@ -180,7 +180,7 @@ namespace tg
         {
             std::weak_ptr<Context> context;
             Size2I bufferSize = Size2I(0, 0);
-            V2F contentScale = V2F(1.F, 1.F);
+            float displayScale = 1.F;
             bool refresh = true;
             int modifiers = 0;
             std::shared_ptr<Render> render;
@@ -223,9 +223,9 @@ namespace tg
             return out;
         }
 
-        void Window::contentScale(const V2F& value)
+        void Window::displayScale(float value)
         {
-            _p->contentScale = value;
+            _p->displayScale = value;
             _setSizeUpdate();
             _setDrawUpdate();
         }
@@ -288,7 +288,7 @@ namespace tg
             {
                 SizeHintEvent sizeHintEvent(
                     event.fontSystem,
-                    p.contentScale.x,
+                    p.displayScale,
                     event.style,
                     event.iconLibrary);
                 _sizeHintEventRecursive(shared_from_this(), sizeHintEvent);
@@ -308,7 +308,7 @@ namespace tg
                 p.render->setClipRectEnabled(true);
                 DrawEvent drawEvent(
                     event.fontSystem,
-                    p.contentScale.x,
+                    p.displayScale,
                     event.style,
                     event.iconLibrary,
                     p.render);

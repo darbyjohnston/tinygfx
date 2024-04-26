@@ -252,9 +252,9 @@ namespace tg
             _window->cursorPos(V2I(0, 0));
             _app->run();
 
-            _window->contentScale(V2F(2.F, 2.F));
+            _app->setDisplayScale(2.F);
             _app->run();
-            _window->contentScale(V2F(1.F, 1.F));
+            _app->setDisplayScale(1.F);
             _app->run();
 
             button->takeKeyFocus();

@@ -44,11 +44,13 @@ namespace tg
                 _app->run();
 
                 auto widget = ComboBox::create(context, {}, _layout);
-                std::vector<ComboBoxItem> items = {
-                    { "Stop", "PlaybackStop" },
-                    { "Forward", "PlaybackForward" },
-                    { "Reverse", "PlaybackReverse" }
+                std::vector<ComboBoxItem> items =
+                {
+                    ComboBoxItem("Stop", "PlaybackStop"),
+                    ComboBoxItem("Forward", "PlaybackForward"),
+                    ComboBoxItem("Reverse", "PlaybackReverse")
                 };
+                TG_ASSERT(items[0] != ComboBoxItem());
                 widget->setItems(items);
                 widget->setItems(items);
                 TG_ASSERT(items == widget->getItems());
@@ -90,18 +92,41 @@ namespace tg
                 TG_ASSERT(0 == index);
                 TG_ASSERT(items[0] == item);
 
-                _window->key(Key::Enter, true, 0);
+                Box2I g = widget->getGeometry();
+                V2I c = center(g);
+                _window->cursorPos(c);
                 _app->run();
-                _window->key(Key::Enter, false, 0);
+                _window->button(0, true, 0);
+                _app->run();
+                _window->button(0, false, 0);
+                _window->key(Key::Escape, true, 0);
+                _app->run();
+                _window->key(Key::Escape, false, 0);
                 _app->run();
                 _window->key(Key::Escape, true, 0);
                 _app->run();
                 _window->key(Key::Escape, false, 0);
                 _app->run();
 
-                _window->contentScale(V2F(2.F, 2.F));
+                _window->key(Key::Down, true, 0);
                 _app->run();
-                _window->contentScale(V2F(1.F, 1.F));
+                _window->key(Key::Down, false, 0);
+                _app->run();
+                TG_ASSERT(1 == index);
+                _window->key(Key::Up, true, 0);
+                _app->run();
+                _window->key(Key::Up, false, 0);
+                _app->run();
+                TG_ASSERT(0 == index);
+                _window->key(Key::Escape, true, 0);
+                _app->run();
+                _window->key(Key::Escape, false, 0);
+                _app->run();
+                TG_ASSERT(!widget->hasKeyFocus());
+
+                _app->setDisplayScale(2.F);
+                _app->run();
+                _app->setDisplayScale(1.F);
                 _app->run();
             }
         }

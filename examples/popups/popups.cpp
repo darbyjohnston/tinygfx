@@ -115,8 +115,14 @@ namespace tg
                 // Create combo boxes.
                 auto groupBox = GroupBox::create(context, "Combo Boxes", scrollLayout);
                 auto vLayout = VerticalLayout::create(context, groupBox);
-                auto comboBox = ComboBox::create(context, getEndianLabels(), vLayout);
-                comboBox->setTooltip("Endian types");
+                auto comboBox = ComboBox::create(context, vLayout);
+                comboBox->setItems(
+                {
+                    ComboBoxItem("Stop", "PlaybackStop"),
+                    ComboBoxItem("Forward", "PlaybackForward"),
+                    ComboBoxItem("Reverse", "PlaybackReverse")
+                });
+                comboBox->setTooltip("Playback");
                 comboBox = ComboBox::create(context, getImageTypeLabels(), vLayout);
                 comboBox->setTooltip("Image types");
 
