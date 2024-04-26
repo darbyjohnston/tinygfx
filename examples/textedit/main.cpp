@@ -12,7 +12,11 @@ TG_MAIN()
         auto context = tg::core::Context::create();
         auto args = tg::app::convert(argc, argv);
         auto app = tg::examples::textedit::App::create(context, args);
-        r = app->run();
+        r = app->getExit();
+        if (0 == r)
+        {
+            app->run();
+        }
     }
     catch (const std::exception& e)
     {

@@ -67,7 +67,7 @@ namespace tg
             int getExit() const;
 
             //! Run the application.
-            virtual int run() = 0;
+            virtual void run() = 0;
 
         protected:
             void _print(const std::string&);

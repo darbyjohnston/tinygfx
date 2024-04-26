@@ -134,61 +134,56 @@ namespace tg
             _p->running = false;
         }
         
-        int App::run()
+        void App::run()
         {
             TG_P();
-            const int exit = getExit();
-            if (0 == exit)
+            auto t0 = std::chrono::steady_clock::now();                
+            while (p.running && !p.windows.empty())
             {
-                auto t0 = std::chrono::steady_clock::now();                
-                while (p.running && !p.windows.empty())
+                glfwPollEvents();
+
+                _context->tick();
+
+                auto i = p.windows.begin();
+                while (i != p.windows.end())
                 {
-                    glfwPollEvents();
+                    TickEvent tickEvent(
+                        p.fontSystem,
+                        (*i)->getDisplayScale(),
+                        p.style,
+                        p.iconLibrary);
+                    _tickRecursive(
+                        *i,
+                        (*i)->isVisible(false),
+                        (*i)->isEnabled(false),
+                        tickEvent);
 
-                    _context->tick();
-
-                    auto i = p.windows.begin();
-                    while (i != p.windows.end())
+                    if ((*i)->shouldClose())
                     {
-                        TickEvent tickEvent(
-                            p.fontSystem,
-                            (*i)->getDisplayScale(),
-                            p.style,
-                            p.iconLibrary);
-                        _tickRecursive(
-                            *i,
-                            (*i)->isVisible(false),
-                            (*i)->isEnabled(false),
-                            tickEvent);
-
-                        if ((*i)->shouldClose())
-                        {
-                            i = p.windows.erase(i);
-                        }
-                        else
-                        {
-                            ++i;
-                        }
+                        i = p.windows.erase(i);
                     }
-
-                    auto t1 = std::chrono::steady_clock::now();
-                    sleep(timeout, t0, t1);
-                    t1 = std::chrono::steady_clock::now();
-                    const auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0);
-                    p.tickTimes.push_back(diff.count());
-                    while (p.tickTimes.size() > 10)
+                    else
                     {
-                        p.tickTimes.pop_front();
-                    }
-                    t0 = t1;
-
-                    if (p.exit)
-                    {
-                        break;
+                        ++i;
                     }
                 }
+
+                auto t1 = std::chrono::steady_clock::now();
+                sleep(timeout, t0, t1);
+                t1 = std::chrono::steady_clock::now();
+                const auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0);
+                p.tickTimes.push_back(diff.count());
+                while (p.tickTimes.size() > 10)
+                {
+                    p.tickTimes.pop_front();
+                }
+                t0 = t1;
+
+                if (p.exit)
+                {
+                    break;
+                }
             }
-            return exit;
         }
 
         void App::_tickRecursive(

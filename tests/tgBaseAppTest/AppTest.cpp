@@ -48,7 +48,7 @@ namespace tg
                     const std::shared_ptr<core::Context>&,
                     std::vector<std::string>& argv);
                 
-                int run() override;
+                void run() override;
                 
             private:
                 Endian _arg = Endian::MSB;
@@ -90,10 +90,8 @@ namespace tg
                 return out;
             }
             
-            int App::run()
-            {
-                return getExit();
-            }
+            void App::run()
+            {}
         }
                 
         void AppTest::run()

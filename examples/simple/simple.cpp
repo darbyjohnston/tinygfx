@@ -71,7 +71,7 @@ TG_MAIN()
                 Size2I(1280, 720));
             app->addWindow(window);
             window->show();
-            r = app->run();
+            app->run();
         }
     }
     catch (const std::exception& e)

@@ -49,7 +49,7 @@ namespace tg
             //! Exit the application.
             void exit();
 
-            int run() override;
+            void run() override;
 
         private:
             void _tickRecursive(

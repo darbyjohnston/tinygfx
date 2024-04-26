@@ -56,38 +56,33 @@ namespace tg
             return out;
         }
         
-        int App::run()
+        void App::run()
         {
-            const int exit = getExit();
-            if (0 == exit)
+            _startTime = std::chrono::steady_clock::now();
+
+            auto inputIO = FileIO::create(_input, FileMode::Read);
+            const size_t size = inputIO->getSize();
+            std::vector<uint8_t> data;
+            data.resize(size);
+            inputIO->readU8(data.data(), size);
+
+            auto outputIO = FileIO::create(_output, FileMode::Write);
+            outputIO->write(Format("const std::vector<uint8_t> {0} = {\n").arg(_varName));
+            const size_t columns = 15;
+            for (size_t i = 0; i < size; i += columns)
             {
-                _startTime = std::chrono::steady_clock::now();
-
-                auto inputIO = FileIO::create(_input, FileMode::Read);
-                const size_t size = inputIO->getSize();
-                std::vector<uint8_t> data;
-                data.resize(size);
-                inputIO->readU8(data.data(), size);
-
-                auto outputIO = FileIO::create(_output, FileMode::Write);
-                outputIO->write(Format("const std::vector<uint8_t> {0} = {\n").arg(_varName));
-                const size_t columns = 15;
-                for (size_t i = 0; i < size; i += columns)
+                outputIO->write("    ");
+                for (size_t j = i; j < i + columns && j < size; ++j)
                 {
-                    outputIO->write("    ");
-                    for (size_t j = i; j < i + columns && j < size; ++j)
-                    {
-                        outputIO->write(Format("{0}, ").arg(static_cast<int>(data[j])));
-                    }
-                    outputIO->write("\n");
+                    outputIO->write(Format("{0}, ").arg(static_cast<int>(data[j])));
                 }
-                outputIO->write("};\n");
-
-                const auto now = std::chrono::steady_clock::now();
-                const std::chrono::duration<float> diff = now - _startTime;
-                _print(Format("Seconds elapsed: {0}").arg(diff.count(), 2));
+                outputIO->write("\n");
             }
-            return exit;
+            outputIO->write("};\n");
+
+            const auto now = std::chrono::steady_clock::now();
+            const std::chrono::duration<float> diff = now - _startTime;
+            _print(Format("Seconds elapsed: {0}").arg(diff.count(), 2));
         }
     }
 }

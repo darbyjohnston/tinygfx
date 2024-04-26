@@ -20,7 +20,11 @@ TG_MAIN()
         auto context = Context::create();
         auto args = app::convert(argc, argv);
         auto app = App::create(context, args);
-        r = app->run();
+        r = app->getExit();
+        if (0 == r)
+        {
+            app->run();
+        }
     }
     catch (const std::exception& e)
     {

@@ -146,18 +146,13 @@ namespace tg
             _p->running = false;
         }
 
-        int App::run()
+        void App::run()
         {
             TG_P();
-            const int exit = getExit();
-            if (0 == exit)
+            if (p.running && !p.windows.empty())
             {
-                if (p.running && !p.windows.empty())
-                {
-                    tick();
-                }
+                tick();
             }
-            return exit;
         }
 
         void App::_tickRecursive(

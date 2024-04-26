@@ -27,7 +27,7 @@ namespace tg
                 const std::shared_ptr<core::Context>&,
                 std::vector<std::string>&);
 
-            int run() override;
+            void run() override;
             
         private:
             TG_PRIVATE();

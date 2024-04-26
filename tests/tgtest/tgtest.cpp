@@ -224,57 +224,53 @@ namespace tg
             return out;
         }
         
-        int App::run()
+        void App::run()
         {
             TG_P();
-            const int exit = getExit();
-            if (0 == exit)
+
+            // Get the tests to run.
+            std::vector<std::shared_ptr<test::ITest> > runTests;
+            for (const auto& test : p.tests)
             {
-                // Get the tests to run.
-                std::vector<std::shared_ptr<test::ITest> > runTests;
-                for (const auto& test : p.tests)
+                if (p.testName.empty() ||
+                    (!p.testName.empty() && contains(test->getName(), p.testName)))
                 {
-                    if (p.testName.empty() ||
-                        (!p.testName.empty() && contains(test->getName(), p.testName)))
-                    {
-                        runTests.push_back(test);
-                    }
-                }                
+                    runTests.push_back(test);
+                }
+            }                
             
-                // Run the tests.
+            // Run the tests.
+            for (const auto& test : runTests)
+            {
+                _context->tick();
+                _print(Format("Running test: {0}").arg(test->getName()));
+                test->run();
+            }
+
+            // Tick the tests.
+            bool tickTests = false;
+            do
+            {
+                auto t0 = std::chrono::steady_clock::now();
+                tickTests = false;
                 for (const auto& test : runTests)
                 {
                     _context->tick();
-                    _print(Format("Running test: {0}").arg(test->getName()));
-                    test->run();
-                }
-
-                // Tick the tests.
-                bool tickTests = false;
-                do
-                {
-                    auto t0 = std::chrono::steady_clock::now();
-                    tickTests = false;
-                    for (const auto& test : runTests)
+                    if (test->doTick())
                     {
-                        _context->tick();
-                        if (test->doTick())
-                        {
-                            tickTests = true;
-                            test->tick();
-                        }
-                        auto t1 = std::chrono::steady_clock::now();
-                        sleep(std::chrono::milliseconds(5), t0, t1);
-                        t0 = t1;
+                        tickTests = true;
+                        test->tick();
                     }
+                    auto t1 = std::chrono::steady_clock::now();
+                    sleep(std::chrono::milliseconds(5), t0, t1);
+                    t0 = t1;
                 }
-                while (tickTests);
-                
-                const auto now = std::chrono::steady_clock::now();
-                const std::chrono::duration<float> diff = now - p.startTime;
-                _print(Format("Seconds elapsed: {0}").arg(diff.count(), 2));
             }
-            return exit;
+            while (tickTests);
+                
+            const auto now = std::chrono::steady_clock::now();
+            const std::chrono::duration<float> diff = now - p.startTime;
+            _print(Format("Seconds elapsed: {0}").arg(diff.count(), 2));
         }
     }
 }
@@ -287,7 +283,11 @@ TG_MAIN()
         auto context = Context::create();
         auto args = app::convert(argc, argv);
         auto app = tests::App::create(context, args);
-        r = app->run();
+        r = app->getExit();
+        if (0 == r)
+        {
+            app->run();
+        }
     }
     catch (const std::exception& e)
     {

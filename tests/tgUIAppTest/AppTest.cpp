@@ -93,7 +93,7 @@ namespace tg
                     r = app->getExit();
                     if (0 == r)
                     {
-                        r = app->run();
+                        app->run();
                     }
                 }
                 catch (const std::exception&)

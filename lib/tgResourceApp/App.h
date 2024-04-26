@@ -30,7 +30,7 @@ namespace tg
                 const std::shared_ptr<core::Context>&,
                 std::vector<std::string>& argv);
 
-            int run() override;
+            void run() override;
 
         private:
             std::string _input;
