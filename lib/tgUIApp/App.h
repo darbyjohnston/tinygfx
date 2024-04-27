@@ -6,6 +6,8 @@
 
 #include <tgBaseApp/IApp.h>
 
+#include <list>
+
 namespace tg
 {
     namespace ui
@@ -45,6 +47,9 @@ namespace tg
 
             //! Remove a window.
             void removeWindow(const std::shared_ptr<Window>&);
+
+            //! Get the windows.
+            const std::list<std::shared_ptr<Window> >& getWindows() const;
 
             //! Exit the application.
             void exit();

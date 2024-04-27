@@ -4,9 +4,6 @@
 
 #pragma once
 
-#include <tgUITest/App.h>
-#include <tgUITest/Window.h>
-
 #include <tgTestLib/ITest.h>
 
 namespace tg
@@ -29,9 +26,6 @@ namespace tg
         private:
             void _enums();
             void _widget();
-
-            std::shared_ptr<App> _app;
-            std::shared_ptr<Window> _window;
         };
     }
 }

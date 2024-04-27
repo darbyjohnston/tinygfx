@@ -4,8 +4,12 @@
 
 #include <tgUITest/LineEditTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/IClipboard.h>
 #include <tgUI/LineEdit.h>
+#include <tgUI/RowLayout.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -36,19 +40,19 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("LineEditTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "LineEditTest",
                     "Line edit test.");
-                _window = Window::create(context, _app, "LineEditTest");
-                _layout = VerticalLayout::create(context, _window);
-                _layout->setMarginRole(SizeRole::MarginLarge);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "LineEditTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto edit = LineEdit::create(context, _layout);
+                auto edit = LineEdit::create(context, layout);
                 std::string text;
                 edit->setTextCallback(
                     [&text](const std::string& value)
@@ -75,68 +79,68 @@ namespace tg
                 TG_ASSERT(FontRole::Mono == edit->getFontRole());
                 edit->setFontRole(FontRole::Label);
 
-                _window->setCursorEnter(true);
-                _window->setKey(Key::Tab);
-                _window->setText("T");
+                window->setCursorEnter(true);
+                window->setKey(Key::Tab);
+                window->setText("T");
                 TG_ASSERT("T" == textChanged);
-                _window->setText("e");
+                window->setText("e");
                 TG_ASSERT("Te" == textChanged);
-                _window->setText("s");
+                window->setText("s");
                 TG_ASSERT("Tes" == textChanged);
-                _window->setText("t");
+                window->setText("t");
                 TG_ASSERT("Test" == textChanged);
-                _window->setKey(Key::Enter);
+                window->setKey(Key::Enter);
                 TG_ASSERT("Test" == text);
 
-                _window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
-                _window->setKey(Key::C, static_cast<int>(KeyModifier::Control));
-                TG_ASSERT("Test" == _window->getClipboard()->getText());
-                _window->setKey(Key::X, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::C, static_cast<int>(KeyModifier::Control));
+                TG_ASSERT("Test" == window->getClipboard()->getText());
+                window->setKey(Key::X, static_cast<int>(KeyModifier::Control));
                 TG_ASSERT(textChanged.empty());
-                _window->setKey(Key::V, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::V, static_cast<int>(KeyModifier::Control));
                 TG_ASSERT("Test" == textChanged);
-                _window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
-                _window->setKey(Key::V, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::V, static_cast<int>(KeyModifier::Control));
                 TG_ASSERT("Test" == textChanged);
 
-                _window->setKey(Key::Left, static_cast<int>(KeyModifier::Control));
-                _window->setKey(Key::Right, static_cast<int>(KeyModifier::Control));
-                _window->setKey(Key::Home, static_cast<int>(KeyModifier::Control));
-                _window->setKey(Key::Delete, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::Left, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::Right, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::Home, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::Delete, static_cast<int>(KeyModifier::Control));
                 TG_ASSERT("est" == textChanged);
-                _window->setKey(Key::End, static_cast<int>(KeyModifier::Control));
-                _window->setKey(Key::Backspace, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::End, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::Backspace, static_cast<int>(KeyModifier::Control));
                 TG_ASSERT("es" == textChanged);
-                _window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
-                _window->setKey(Key::Backspace, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::Backspace, static_cast<int>(KeyModifier::Control));
                 TG_ASSERT(textChanged.empty());
-                _window->setText("T");
-                _window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
-                _window->setText("t");
+                window->setText("T");
+                window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
+                window->setText("t");
                 TG_ASSERT("t" == textChanged);
 
-                _window->setKey(Key::Escape, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::Escape, static_cast<int>(KeyModifier::Control));
                 TG_ASSERT(!edit->hasKeyFocus());
 
                 Box2I g = edit->getGeometry();
                 const V2I c = center(g);
-                _window->setCursorPos(c);
-                _window->setButton(0, true);
-                _window->setCursorPos(V2I(g.max.x, c.y));
-                _window->setButton(0, false);
+                window->setCursorPos(c);
+                window->setButton(0, true);
+                window->setCursorPos(V2I(g.max.x, c.y));
+                window->setButton(0, false);
 
                 edit->takeKeyFocus();
                 edit->hide();
-                _app->tick();
+                app->tick();
                 edit->show();
-                _app->tick();
+                app->tick();
                 TG_ASSERT(!edit->hasKeyFocus());
 
                 edit->takeKeyFocus();
                 edit->setEnabled(false);
-                _app->tick();
+                app->tick();
                 edit->setEnabled(true);
-                _app->tick();
+                app->tick();
                 TG_ASSERT(!edit->hasKeyFocus());
             }
         }

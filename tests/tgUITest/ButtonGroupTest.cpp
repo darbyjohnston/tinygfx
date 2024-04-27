@@ -4,7 +4,11 @@
 
 #include <tgUITest/ButtonGroupTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/ButtonGroup.h>
+#include <tgUI/RowLayout.h>
 #include <tgUI/PushButton.h>
 
 #include <tgCore/Assert.h>
@@ -36,21 +40,21 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("ButtonGroupTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "ButtonGroupTest",
                     "Button group test.");
-                _window = Window::create(context, _app, "ButtonGroupTest");
-                _layout = VerticalLayout::create(context, _window);
-                _layout->setMarginRole(SizeRole::MarginLarge);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "ButtonGroupTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto button0 = PushButton::create(context, "Button 0", _layout);
-                auto button1 = PushButton::create(context, "Button 0", _layout);
-                auto button2 = PushButton::create(context, "Button 0", _layout);
+                auto button0 = PushButton::create(context, "Button 0", layout);
+                auto button1 = PushButton::create(context, "Button 0", layout);
+                auto button2 = PushButton::create(context, "Button 0", layout);
                 auto group = ButtonGroup::create(context, ButtonGroupType::Click);
                 group->addButton(button0);
                 TG_ASSERT(!group->getButtons().empty());
@@ -66,12 +70,12 @@ namespace tg
                         clicked = value;
                     });
 
-                _window->setCursorEnter(true);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Enter);
+                window->setCursorEnter(true);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
                 TG_ASSERT(0 == clicked);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Enter);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
                 TG_ASSERT(1 == clicked);
 
                 group = ButtonGroup::create(context, ButtonGroupType::Check);
@@ -87,10 +91,10 @@ namespace tg
                         checked = value;
                     });
 
-                _window->setKey(Key::Enter);
+                window->setKey(Key::Enter);
                 TG_ASSERT(1 == clicked);
                 TG_ASSERT(checked);
-                _window->setKey(Key::Enter);
+                window->setKey(Key::Enter);
                 TG_ASSERT(!checked);
                 group->setChecked(0, true);
 
@@ -107,11 +111,11 @@ namespace tg
                         checked = value;
                     });
 
-                _window->setKey(Key::Enter);
+                window->setKey(Key::Enter);
                 TG_ASSERT(1 == clicked);
                 TG_ASSERT(checked);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Enter);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
                 TG_ASSERT(2 == clicked);
                 TG_ASSERT(checked);
                 group->setChecked(0, true);
@@ -129,11 +133,11 @@ namespace tg
                         checked = value;
                     });
 
-                _window->setKey(Key::Enter);
+                window->setKey(Key::Enter);
                 TG_ASSERT(2 == clicked);
                 TG_ASSERT(checked);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Enter);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
                 TG_ASSERT(0 == clicked);
                 TG_ASSERT(checked);
                 group->setChecked(0, true);

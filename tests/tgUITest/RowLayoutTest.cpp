@@ -4,6 +4,9 @@
 
 #include <tgUITest/RowLayoutTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/Divider.h>
 #include <tgUI/Spacer.h>
 
@@ -36,17 +39,17 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("RowLayoutTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "RowLayoutTest",
                     "Row layout test.");
-                _window = Window::create(context, _app, "RowLayoutTest");
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "RowLayoutTest");
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                std::shared_ptr<RowLayout> layout = VerticalLayout::create(context, _window);
+                std::shared_ptr<RowLayout> layout = VerticalLayout::create(context, window);
                 layout->setSpacingRole(SizeRole::None);
                 layout->setSpacingRole(SizeRole::None);
                 layout->setSpacingRole(SizeRole::Spacing);
@@ -55,12 +58,12 @@ namespace tg
                 layout->setMarginRole(SizeRole::Margin);
                 layout->setMarginRole(SizeRole::None);
                 TG_ASSERT(SizeRole::None == layout->getMarginRole());
-                _test(context, layout, Orientation::Horizontal);
+                _test(context, app, window, layout, Orientation::Horizontal);
                 layout->setParent(nullptr);
                 layout.reset();
 
-                layout = HorizontalLayout::create(context, _window);
-                _test(context, layout, Orientation::Vertical);
+                layout = HorizontalLayout::create(context, window);
+                _test(context, app, window, layout, Orientation::Vertical);
                 layout->setParent(nullptr);
                 layout.reset();
             }
@@ -68,6 +71,8 @@ namespace tg
 
         void RowLayoutTest::_test(
             const std::shared_ptr<Context>& context,
+            const std::shared_ptr<App>& app,
+            const std::shared_ptr<Window>& window,
             const std::shared_ptr<RowLayout>& layout,
             ui::Orientation orientation)
         {
@@ -81,16 +86,16 @@ namespace tg
             TG_ASSERT(2 == children.size());
             TG_ASSERT(spacer == children.front());
             TG_ASSERT(divider == children.back());
-            _app->tick();
+            app->tick();
 
             layout->moveToFront(spacer);
-            _app->tick();
+            app->tick();
             children = layout->getChildren();
             TG_ASSERT(divider == children.front());
             TG_ASSERT(spacer == children.back());
 
             layout->moveToBack(spacer);
-            _app->tick();
+            app->tick();
             children = layout->getChildren();
             TG_ASSERT(spacer == children.front());
             TG_ASSERT(divider == children.back());
@@ -135,33 +140,33 @@ namespace tg
                 break;
             default: break;
             }
-            _app->tick();
+            app->tick();
 
             spacer->hide();
             spacer->hide();
-            _app->tick();
+            app->tick();
             TG_ASSERT(!spacer->isVisible());
             TG_ASSERT(!spacer->isVisible(false));
             TG_ASSERT(spacer->isClipped());
             spacer->show();
-            _app->tick();
+            app->tick();
 
             spacer->setParent(nullptr);
-            _app->tick();
+            app->tick();
             children = layout->getChildren();
             TG_ASSERT(1 == children.size());
             TG_ASSERT(divider == children.front());
             spacer->setParent(layout);
-            _app->tick();
+            app->tick();
             children = layout->getChildren();
             TG_ASSERT(2 == children.size());
             TG_ASSERT(divider == children.front());
             TG_ASSERT(spacer == children.back());
             spacer->setParent(nullptr);
-            _app->tick();
+            app->tick();
 
             divider->setParent(nullptr);
-            _app->tick();
+            app->tick();
             children = layout->getChildren();
             TG_ASSERT(children.empty());
         }

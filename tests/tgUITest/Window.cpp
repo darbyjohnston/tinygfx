@@ -9,6 +9,8 @@
 #include <tgUI/IClipboard.h>
 
 #include <tgCore/Assert.h>
+#include <tgCore/Format.h>
+#include <tgCore/LogSystem.h>
 
 using namespace tg::core;
 using namespace tg::ui;
@@ -54,6 +56,28 @@ namespace tg
             class Render : public IRender
             {
             public:
+                virtual ~Render()
+                {
+                    if (auto context = _context.lock())
+                    {
+                        if (auto logSystem = context->getSystem<LogSystem>())
+                        {
+                            logSystem->print(
+                                "tg::ui_test::Render",
+                                Format(
+                                    "\n"
+                                    "    Rect count: {0}\n"
+                                    "    Mesh count: {1}\n"
+                                    "    Text count: {2}\n"
+                                    "    Image count: {3}").
+                                arg(_rectCount).
+                                arg(_meshCount).
+                                arg(_textCount).
+                                arg(_imageCount));
+                        }
+                    }
+                }
+
                 static std::shared_ptr<Render> create(
                     const std::shared_ptr<Context>&);
 
@@ -74,10 +98,16 @@ namespace tg
                 void setTransform(const M44F&) override;
                 void drawRect(
                     const Box2F&,
-                    const Color4F&) override {}
+                    const Color4F&) override
+                {
+                    ++_rectCount;
+                }
                 void drawRects(
-                    const std::vector<Box2F>&,
-                    const Color4F&) override {}
+                    const std::vector<Box2F>& rects,
+                    const Color4F&) override
+                {
+                    _rectCount += rects.size();
+                }
                 void drawLine(
                     const V2F&,
                     const V2F&,
@@ -90,21 +120,33 @@ namespace tg
                 void drawMesh(
                     const TriMesh2F&,
                     const Color4F & = Color4F(1.F, 1.F, 1.F, 1.F),
-                    const V2F& pos = V2F()) override {}
+                    const V2F& pos = V2F()) override
+                {
+                    ++_meshCount;
+                }
                 void drawColorMesh(
                     const TriMesh2F&,
                     const Color4F & = Color4F(1.F, 1.F, 1.F, 1.F),
-                    const V2F& pos = V2F()) override {};
+                    const V2F& pos = V2F()) override
+                {
+                    ++_meshCount;
+                };
                 void drawText(
                     const std::vector<std::shared_ptr<Glyph> >&,
                     const FontMetrics&,
                     const V2F& position,
-                    const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F)) override {}
+                    const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F)) override
+                {
+                    ++_textCount;
+                }
                 void drawImage(
                     const std::shared_ptr<Image>&,
                     const Box2F&,
                     const Color4F & = Color4F(1.F, 1.F, 1.F, 1.F),
-                    const ImageOptions& = ImageOptions()) override {}
+                    const ImageOptions& = ImageOptions()) override
+                {
+                    ++_imageCount;
+                }
 
             private:
                 Size2I _renderSize;
@@ -112,6 +154,10 @@ namespace tg
                 bool _clipRectEnabled = false;
                 Box2I _clipRect;
                 M44F _transform;
+                size_t _rectCount = 0;
+                size_t _meshCount = 0;
+                size_t _textCount = 0;
+                size_t _imageCount = 0;
             };
 
             std::shared_ptr<Render> Render::create(const std::shared_ptr<Context>& context)
@@ -182,7 +228,7 @@ namespace tg
         struct Window::Private
         {
             std::weak_ptr<Context> context;
-            std::shared_ptr<App> app;
+            std::weak_ptr<App> app;
             Size2I bufferSize = Size2I(0, 0);
             float displayScale = 1.F;
             bool refresh = true;
@@ -243,14 +289,14 @@ namespace tg
         {
             TG_P();
             _cursorEnter(value);
-            p.app->run();
+            if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setCursorPos(const V2I& pos)
         {
             TG_P();
             _cursorPos(pos);
-            p.app->run();
+            if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setButton(int button, int modifiers)
@@ -258,9 +304,9 @@ namespace tg
             TG_P();
             p.modifiers = modifiers;
             _mouseButton(button, true, modifiers);
-            p.app->run();
+            if (auto app = p.app.lock()) { app->tick(); }
             _mouseButton(button, false, modifiers);
-            p.app->run();
+            if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setButton(int button, bool press, int modifiers)
@@ -268,14 +314,14 @@ namespace tg
             TG_P();
             p.modifiers = modifiers;
             _mouseButton(button, press, modifiers);
-            p.app->run();
+            if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setScroll(const V2F& value)
         {
             TG_P();
             _scroll(value, p.modifiers);
-            p.app->run();
+            if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setKey(Key key, int modifiers)
@@ -283,9 +329,9 @@ namespace tg
             TG_P();
             p.modifiers = modifiers;
             _key(key, true, modifiers);
-            p.app->run();
+            if (auto app = p.app.lock()) { app->tick(); }
             _key(key, false, modifiers);
-            p.app->run();
+            if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setKey(Key key, bool press, int modifiers)
@@ -293,21 +339,21 @@ namespace tg
             TG_P();
             p.modifiers = modifiers;
             _key(key, press, modifiers);
-            p.app->run();
+            if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setText(const std::string& value)
         {
             TG_P();
             _text(value);
-            p.app->run();
+            if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setDrop(const std::vector<std::string>& value)
         {
             TG_P();
             _drop(value);
-            p.app->run();
+            if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setGeometry(const Box2I& value)

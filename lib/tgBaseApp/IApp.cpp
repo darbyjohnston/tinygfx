@@ -9,7 +9,6 @@
 #include <tgCore/Context.h>
 #include <tgCore/Init.h>
 #include <tgCore/Format.h>
-#include <tgCore/OS.h>
 #include <tgCore/String.h>
 
 #include <iostream>
@@ -82,7 +81,7 @@ namespace tg
                 "Show this message."));
             p.exit = _parseCmdLine();
 
-            auto logSystem = context->getSystem<core::LogSystem>();            
+            auto logSystem = context->getSystem<core::LogSystem>();
             p.logObserver = core::ListObserver<core::LogItem>::create(
                 logSystem->observeLogItems(),
                 [this](const std::vector<core::LogItem>& value)
@@ -90,16 +89,6 @@ namespace tg
                     _print(value);
                 });
             logSystem->print(name, "Starting...");
-            const auto systemInfo = core::getSystemInfo();
-            logSystem->print(name, core::Format(
-                "System information:\n"
-                "    Name:  {0}\n"
-                "    Cores: {1}\n"
-                "    RAM:   {2}GB").
-                arg(systemInfo.name).
-                arg(systemInfo.cores).
-                arg(systemInfo.ramGB));
-            _print(logSystem->getLogItems());
         }
 
         IApp::IApp() :
@@ -111,7 +100,7 @@ namespace tg
             TG_P();
             auto logSystem = _context->getSystem<core::LogSystem>();
             logSystem->print(p.name, "Exiting...");
-            _print(logSystem->getLogItems());
+            logSystem->tick();
         }
         
         int IApp::getExit() const
@@ -243,7 +232,7 @@ namespace tg
         void IApp::_print(const std::vector<core::LogItem>& value)
         {
             TG_P();
-            if (p.options.log)
+            if (_p->options.log)
             {
                 for (const auto& item : value)
                 {

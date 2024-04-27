@@ -4,7 +4,11 @@
 
 #include <tgUITest/IconTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/Icon.h>
+#include <tgUI/RowLayout.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -35,19 +39,19 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("IconTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "IconTest",
                     "Icon test.");
-                _window = Window::create(context, _app, "IconTest");
-                _layout = VerticalLayout::create(context, _window);
-                _layout->setMarginRole(SizeRole::MarginLarge);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "IconTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto widget = Icon::create(context, "PlaybackForward", _layout);
+                auto widget = Icon::create(context, "PlaybackForward", layout);
                 widget->setIcon("PlaybackStop");
                 widget->setIcon("PlaybackStop");
                 TG_ASSERT("PlaybackStop" == widget->getIcon());
@@ -55,12 +59,17 @@ namespace tg
                 widget->setMarginRole(SizeRole::Margin);
                 TG_ASSERT(SizeRole::Margin == widget->getMarginRole());
                 widget->setMarginRole(SizeRole::None);
-                _app->tick();
+                app->tick();
+
+                widget->setEnabled(false);
+                app->tick();
+                widget->setEnabled(true);
+                app->tick();
 
                 widget->hide();
-                _app->tick();
+                app->tick();
                 widget->show();
-                _app->tick();
+                app->tick();
             }
         }
     }

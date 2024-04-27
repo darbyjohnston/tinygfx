@@ -4,7 +4,11 @@
 
 #include <tgUITest/FloatEditSliderTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/FloatEditSlider.h>
+#include <tgUI/RowLayout.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -35,28 +39,28 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("FloatEditSliderTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "FloatEditSliderTest",
                     "Float edit slider test.");
-                _window = Window::create(context, _app, "FloatEditSliderTest");
-                _layout = VerticalLayout::create(context, _window);
-                _layout->setMarginRole(SizeRole::MarginLarge);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "FloatEditSliderTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto slider = FloatEditSlider::create(context, nullptr, _layout);
+                auto slider = FloatEditSlider::create(context, nullptr, layout);
                 TG_ASSERT(slider->getModel());
                 float value = 0.F;
                 slider->setCallback([&value](float v) { value = v; });
                 slider->setValue(.9F);
-                _app->tick();
+                app->tick();
                 TG_ASSERT(.9F == slider->getValue());
                 TG_ASSERT(.9F == value);
                 slider->setRange(RangeF(0.F, .5F));
-                _app->tick();
+                app->tick();
                 TG_ASSERT(RangeF(0.F, .5F) == slider->getRange());
                 TG_ASSERT(.5F == value);
                 slider->setStep(.2F);
@@ -74,10 +78,10 @@ namespace tg
 
                 Box2I g = slider->getGeometry();
                 V2I c = center(g);
-                _window->setCursorPos(c);
-                _window->setButton(0, true);
-                _window->setCursorPos(V2I(g.max.x, c.y));
-                _window->setButton(0, false);
+                window->setCursorPos(c);
+                window->setButton(0, true);
+                window->setCursorPos(V2I(g.max.x, c.y));
+                window->setButton(0, false);
             }
         }
     }

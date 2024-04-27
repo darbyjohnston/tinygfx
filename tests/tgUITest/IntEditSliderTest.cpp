@@ -4,7 +4,11 @@
 
 #include <tgUITest/IntEditSliderTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/IntEditSlider.h>
+#include <tgUI/RowLayout.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -35,28 +39,28 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("IntEditSliderTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "IntEditSliderTest",
                     "Integer edit slider test.");
-                _window = Window::create(context, _app, "IntEditSliderTest");
-                _layout = VerticalLayout::create(context, _window);
-                _layout->setMarginRole(SizeRole::MarginLarge);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "IntEditSliderTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto slider = IntEditSlider::create(context, nullptr, _layout);
+                auto slider = IntEditSlider::create(context, nullptr, layout);
                 TG_ASSERT(slider->getModel());
                 int value = 0;
                 slider->setCallback([&value](int v) { value = v; });
                 slider->setValue(11);
-                _app->tick();
+                app->tick();
                 TG_ASSERT(11 == slider->getValue());
                 TG_ASSERT(11 == value);
                 slider->setRange(RangeI(0, 10));
-                _app->tick();
+                app->tick();
                 TG_ASSERT(RangeI(0, 10) == slider->getRange());
                 TG_ASSERT(10 == value);
                 slider->setStep(2);
@@ -71,10 +75,10 @@ namespace tg
 
                 Box2I g = slider->getGeometry();
                 V2I c = center(g);
-                _window->setCursorPos(c);
-                _window->setButton(0, true);
-                _window->setCursorPos(V2I(g.max.x, c.y));
-                _window->setButton(0, false);
+                window->setCursorPos(c);
+                window->setButton(0, true);
+                window->setCursorPos(V2I(g.max.x, c.y));
+                window->setButton(0, false);
             }
         }
     }

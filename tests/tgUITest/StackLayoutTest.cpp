@@ -4,6 +4,9 @@
 
 #include <tgUITest/StackLayoutTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/Divider.h>
 #include <tgUI/StackLayout.h>
 #include <tgUI/Spacer.h>
@@ -37,17 +40,17 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("StackLayoutTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "StackLayoutTest",
                     "Stack layout test.");
-                _window = Window::create(context, _app, "StackLayoutTest");
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "StackLayoutTest");
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto layout = StackLayout::create(context, _window);
+                auto layout = StackLayout::create(context, window);
                 layout->setMarginRole(SizeRole::Margin);
                 layout->setMarginRole(SizeRole::Margin);
                 layout->setMarginRole(SizeRole::None);
@@ -56,27 +59,27 @@ namespace tg
                 auto spacer0 = Spacer::create(context, Orientation::Horizontal, layout);
                 auto spacer1 = Spacer::create(context, Orientation::Horizontal, layout);
                 auto spacer2 = Spacer::create(context, Orientation::Horizontal, layout);
-                _app->tick();
+                app->tick();
                 TG_ASSERT(0 == layout->getCurrentIndex());
                 TG_ASSERT(spacer0->isVisible());
                 TG_ASSERT(!spacer1->isVisible());
                 TG_ASSERT(!spacer2->isVisible());
 
                 layout->setCurrentIndex(1);
-                _app->tick();
+                app->tick();
                 TG_ASSERT(!spacer0->isVisible());
                 TG_ASSERT(spacer1->isVisible());
                 TG_ASSERT(!spacer2->isVisible());
 
                 layout->setCurrentWidget(spacer2);
-                _app->tick();
+                app->tick();
                 TG_ASSERT(2 == layout->getCurrentIndex());
                 TG_ASSERT(!spacer0->isVisible());
                 TG_ASSERT(!spacer1->isVisible());
                 TG_ASSERT(spacer2->isVisible());
 
                 spacer2->setParent(nullptr);
-                _app->tick();
+                app->tick();
                 TG_ASSERT(1 == layout->getCurrentIndex());
                 TG_ASSERT(!spacer0->isVisible());
                 TG_ASSERT(spacer1->isVisible());

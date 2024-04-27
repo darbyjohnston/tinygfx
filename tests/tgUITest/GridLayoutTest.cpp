@@ -4,6 +4,9 @@
 
 #include <tgUITest/GridLayoutTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/Divider.h>
 #include <tgUI/GridLayout.h>
 #include <tgUI/Spacer.h>
@@ -37,17 +40,17 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("GridLayoutTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "GridLayoutTest",
                     "Grid layout test.");
-                _window = Window::create(context, _app, "GridLayoutTest");
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "GridLayoutTest");
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto layout = GridLayout::create(context, _window);
+                auto layout = GridLayout::create(context, window);
                 layout->setSpacingRole(SizeRole::None);
                 layout->setSpacingRole(SizeRole::None);
                 layout->setSpacingRole(SizeRole::Spacing);
@@ -64,10 +67,10 @@ namespace tg
                 layout->setGridPos(spacer0, 0, 0);
                 layout->setGridPos(spacer1, 0, 1);
                 layout->setGridPos(spacer2, 1, 1);
-                _app->tick();
+                app->tick();
 
                 spacer2->setParent(nullptr);
-                _app->tick();
+                app->tick();
             }
         }
     }

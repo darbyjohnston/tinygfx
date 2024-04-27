@@ -4,6 +4,9 @@
 
 #include <tgUITest/MDIWidgetTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/MDICanvas.h>
 #include <tgUI/MDIWidget.h>
 #include <tgUI/PushButton.h>
@@ -48,17 +51,17 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("DoubleSliderTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "DoubleSliderTest",
                     "Double slider test.");
-                _window = Window::create(context, _app, "DoubleSliderTest");
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "DoubleSliderTest");
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto canvas = MDICanvas::create(context, _window);
+                auto canvas = MDICanvas::create(context, window);
                 canvas->setCanvasSize(Size2I(100, 100));
                 canvas->setCanvasSize(Size2I(100, 100));
                 TG_ASSERT(Size2I(100, 100) == canvas->getCanvasSize());
@@ -73,7 +76,7 @@ namespace tg
                     "Button",
                     V2I(100, 100),
                     button);
-                _app->tick();
+                app->tick();
                 TG_ASSERT("Button" == widget->getTitle());
             }
         }

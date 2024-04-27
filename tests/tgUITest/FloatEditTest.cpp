@@ -4,7 +4,11 @@
 
 #include <tgUITest/FloatEditTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/FloatEdit.h>
+#include <tgUI/RowLayout.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -35,28 +39,28 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("FloatEditTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "FloatEditTest",
                     "Float edit test.");
-                _window = Window::create(context, _app, "FloatEditTest");
-                _layout = VerticalLayout::create(context, _window);
-                _layout->setMarginRole(SizeRole::MarginLarge);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "FloatEditTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto edit = FloatEdit::create(context, nullptr, _layout);
+                auto edit = FloatEdit::create(context, nullptr, layout);
                 TG_ASSERT(edit->getModel());
                 float value = 0.F;
                 edit->setCallback([&value](float v) { value = v; });
                 edit->setValue(.9F);
-                _app->tick();
+                app->tick();
                 TG_ASSERT(.9F == edit->getValue());
                 TG_ASSERT(.9F == value);
                 edit->setRange(RangeF(0.F, .5F));
-                _app->tick();
+                app->tick();
                 TG_ASSERT(RangeF(0.F, .5F) == edit->getRange());
                 TG_ASSERT(.5F == value);
                 edit->setStep(.2F);
@@ -70,21 +74,21 @@ namespace tg
                 TG_ASSERT(FontRole::Label == edit->getFontRole());
                 edit->setFontRole(FontRole::Mono);
 
-                _window->setCursorEnter(true);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
-                _window->setKey(Key::Delete);
-                _window->setText("0.1");
-                _window->setKey(Key::Enter);
+                window->setCursorEnter(true);
+                window->setKey(Key::Tab);
+                window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::Delete);
+                window->setText("0.1");
+                window->setKey(Key::Enter);
                 TG_ASSERT(.1F == value);
 
-                _window->setKey(Key::Up);
+                window->setKey(Key::Up);
                 TG_ASSERT(fuzzyCompare(.3F, value));
-                _window->setKey(Key::PageUp);
+                window->setKey(Key::PageUp);
                 TG_ASSERT(fuzzyCompare(.5F, value));
-                _window->setKey(Key::PageDown);
+                window->setKey(Key::PageDown);
                 TG_ASSERT(fuzzyCompare(.2F, value));
-                _window->setKey(Key::Down);
+                window->setKey(Key::Down);
                 TG_ASSERT(fuzzyCompare(.0F, value));
             }
         }

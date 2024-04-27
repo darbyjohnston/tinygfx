@@ -31,11 +31,10 @@ namespace tg
         private:
             void _test(
                 const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<App>&,
+                const std::shared_ptr<Window>&,
                 const std::shared_ptr<ui::RowLayout>&,
                 ui::Orientation);
-
-            std::shared_ptr<App> _app;
-            std::shared_ptr<Window> _window;
         };
     }
 }

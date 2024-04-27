@@ -6,6 +6,8 @@
 
 #include <tgBaseApp/IApp.h>
 
+#include <list>
+
 namespace tg
 {
     namespace ui
@@ -44,6 +46,7 @@ namespace tg
 
             void addWindow(const std::shared_ptr<Window>&);
             void removeWindow(const std::shared_ptr<Window>&);
+            const std::list<std::shared_ptr<Window> >& getWindows() const;
 
             void setDisplayScale(float);
             void tick();

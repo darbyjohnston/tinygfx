@@ -30,11 +30,11 @@ namespace tg
             void run() override;
 
         private:
-            void _test(const std::shared_ptr<ui::IButton>&);
-
-            std::shared_ptr<App> _app;
-            std::shared_ptr<Window> _window;
-            std::shared_ptr<ui::VerticalLayout> _layout;
+            void _test(
+                const std::shared_ptr<App>&,
+                const std::shared_ptr<Window>&,
+                const std::shared_ptr<ui::VerticalLayout>&,
+                const std::shared_ptr<ui::IButton>&);
         };
     }
 }

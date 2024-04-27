@@ -4,7 +4,11 @@
 
 #include <tgUITest/MenuBarTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/MenuBar.h>
+#include <tgUI/RowLayout.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -35,19 +39,19 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("MenuBarTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "MenuBarTest",
                     "Menu bar test.");
-                _window = Window::create(context, _app, "MenuBarTest");
-                _layout = VerticalLayout::create(context, _window);
-                _layout->setMarginRole(SizeRole::MarginLarge);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "MenuBarTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto menuBar = MenuBar::create(context, _layout);
+                auto menuBar = MenuBar::create(context, layout);
 
                 auto menu = Menu::create(context);
                 bool action1 = false;
@@ -76,21 +80,21 @@ namespace tg
                     [&action4] { action4 = true; }));
                 menuBar->addMenu("Menu 2", menu);
 
-                _window->setCursorEnter(true);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Enter);
-                _window->setKey(Key::Enter);
+                window->setCursorEnter(true);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Enter);
                 TG_ASSERT(action1);
 
-                _window->setKey(Key::Enter);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Enter);
-                _window->setKey(Key::Enter);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Enter);
 
-                _window->setKey(Key::Enter);
-                _window->setKey(Key::Escape);
-                _window->setKey(Key::Escape);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Escape);
+                window->setKey(Key::Escape);
 
                 menuBar->shortcut(Key::_4, static_cast<int>(KeyModifier::Control));
                 TG_ASSERT(action4);

@@ -4,6 +4,10 @@
 
 #include <tgUITest/DragAndDropTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
+#include <tgUI/RowLayout.h>
 #include <tgUI/Spacer.h>
 
 #include <tgCore/Assert.h>
@@ -180,41 +184,41 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("DragAndDropTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "DragAndDropTest",
                     "Drag and drop test.");
-                _window = Window::create(context, _app, "DragAndDropTest");
-                _layout = HorizontalLayout::create(context, _window);
-                auto dndWidget0 = DragAndDropWidget::create(context, 0, _layout);
-                auto dndWidget1 = DragAndDropWidget::create(context, 1, _layout);
-                auto spacer = Spacer::create(context, Orientation::Horizontal, _layout);
+                auto window = Window::create(context, app, "DragAndDropTest");
+                auto layout = HorizontalLayout::create(context, window);
+                auto dndWidget0 = DragAndDropWidget::create(context, 0, layout);
+                auto dndWidget1 = DragAndDropWidget::create(context, 1, layout);
+                auto spacer = Spacer::create(context, Orientation::Horizontal, layout);
                 spacer->setStretch(Stretch::Expanding);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                _window->setCursorEnter(true);
-                _window->setCursorPos(center(dndWidget0->getGeometry()));
-                _window->setButton(0, true);
-                _window->setCursorPos(center(dndWidget1->getGeometry()));
-                _window->setCursorPos(center(dndWidget1->getGeometry()));
-                _window->setButton(0, false);
+                window->setCursorEnter(true);
+                window->setCursorPos(center(dndWidget0->getGeometry()));
+                window->setButton(0, true);
+                window->setCursorPos(center(dndWidget1->getGeometry()));
+                window->setCursorPos(center(dndWidget1->getGeometry()));
+                window->setButton(0, false);
                 TG_ASSERT(0 == dndWidget1->getNumber());
 
-                _window->setCursorPos(center(dndWidget0->getGeometry()));
-                _window->setButton(0, true);
-                _window->setCursorPos(center(spacer->getGeometry()));
-                _window->setCursorPos(center(spacer->getGeometry()));
-                _window->setButton(0, false);
+                window->setCursorPos(center(dndWidget0->getGeometry()));
+                window->setButton(0, true);
+                window->setCursorPos(center(spacer->getGeometry()));
+                window->setCursorPos(center(spacer->getGeometry()));
+                window->setButton(0, false);
 
-                _window->setCursorPos(center(dndWidget0->getGeometry()));
-                _window->setButton(0, true, 0);
-                _window->setCursorPos(center(dndWidget1->getGeometry()));
-                _window->setCursorPos(center(dndWidget1->getGeometry()));
-                _window->hide();
-                _window->show();
+                window->setCursorPos(center(dndWidget0->getGeometry()));
+                window->setButton(0, true, 0);
+                window->setCursorPos(center(dndWidget1->getGeometry()));
+                window->setCursorPos(center(dndWidget1->getGeometry()));
+                window->hide();
+                window->show();
             }
         }
     }

@@ -4,9 +4,13 @@
 
 #include <tgUITest/ColorWidgetTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/ColorPopup.h>
 #include <tgUI/ColorSwatch.h>
 #include <tgUI/ColorWidget.h>
+#include <tgUI/RowLayout.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -37,19 +41,19 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("ColorWidgetTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "ColorWidgetTest",
                     "Color widget test.");
-                _window = Window::create(context, _app, "ColorWidgetTest");
-                _layout = VerticalLayout::create(context, _window);
-                _layout->setMarginRole(SizeRole::MarginLarge);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "ColorWidgetTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto widget = ColorSwatch::create(context, _layout);
+                auto widget = ColorSwatch::create(context, layout);
                 Color4F color(1.F, 1.F, 1.F, 1.F);
                 widget->setColor(color);
                 widget->setColor(color);
@@ -68,52 +72,52 @@ namespace tg
                 TG_ASSERT(SizeRole::Margin == widget->getSizeRole());
                 widget->setSizeRole(SizeRole::Swatch);
 
-                _window->setCursorEnter(true);
+                window->setCursorEnter(true);
                 Box2I g = widget->getGeometry();
                 V2I c = center(g);
-                _window->setCursorPos(c);
-                _window->setButton(0);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Home);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Home);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Home);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Home);
-                _window->setKey(Key::Escape);
-                _window->setKey(Key::Escape);
+                window->setCursorPos(c);
+                window->setButton(0);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Home);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Home);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Home);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Home);
+                window->setKey(Key::Escape);
+                window->setKey(Key::Escape);
                 TG_ASSERT(Color4F(0.F, 0.F, 0.F, 0.F) == color);
 
                 auto popup = ColorPopup::create(context, color);
                 popup->setPopupRole(ColorRole::Red);
                 popup->setPopupRole(ColorRole::Red);
                 TG_ASSERT(ColorRole::Red == popup->getPopupRole());
-                popup->open(_window, widget->getGeometry());
-                _app->tick();
+                popup->open(window, widget->getGeometry());
+                app->tick();
                 TG_ASSERT(popup->isOpen());
                 popup->close();
-                _app->tick();
+                app->tick();
                 TG_ASSERT(!popup->isOpen());
 
-                popup->open(_window, widget->getGeometry());
-                _app->tick();
+                popup->open(window, widget->getGeometry());
+                app->tick();
                 TG_ASSERT(popup->isOpen());
-                _window->setKey(Key::Escape);
-                _window->setKey(Key::Escape);
+                window->setKey(Key::Escape);
+                window->setKey(Key::Escape);
                 TG_ASSERT(!popup->isOpen());
 
-                popup->open(_window, widget->getGeometry());
-                _app->tick();
+                popup->open(window, widget->getGeometry());
+                app->tick();
                 TG_ASSERT(popup->isOpen());
-                g = _window->getGeometry();
-                _window->setCursorPos(V2I(g.w() - 1, g.h() - 1));
-                _window->setButton(0);
-                popup->open(_window, widget->getGeometry());
-                _app->tick();
+                g = window->getGeometry();
+                window->setCursorPos(V2I(g.w() - 1, g.h() - 1));
+                window->setButton(0);
+                popup->open(window, widget->getGeometry());
+                app->tick();
                 TG_ASSERT(popup->isOpen());
             }
         }

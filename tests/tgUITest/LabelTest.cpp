@@ -4,8 +4,12 @@
 
 #include <tgUITest/LabelTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/IClipboard.h>
 #include <tgUI/Label.h>
+#include <tgUI/RowLayout.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -36,19 +40,19 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("LabelTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "LabelTest",
                     "Label test.");
-                _window = Window::create(context, _app, "LabelTest");
-                _layout = VerticalLayout::create(context, _window);
-                _layout->setMarginRole(SizeRole::MarginLarge);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "LabelTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto label = Label::create(context, _layout);
+                auto label = Label::create(context, layout);
                 label->setText("Test");
                 label->setText("Test");
                 TG_ASSERT("Test" == label->getText());
@@ -61,6 +65,16 @@ namespace tg
                 label->setFontRole(FontRole::Mono);
                 label->setFontRole(FontRole::Mono);
                 TG_ASSERT(FontRole::Mono == label->getFontRole());
+
+                label->setEnabled(false);
+                app->tick();
+                label->setEnabled(true);
+                app->tick();
+
+                label->hide();
+                app->tick();
+                label->show();
+                app->tick();
             }
         }
     }

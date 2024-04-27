@@ -4,7 +4,11 @@
 
 #include <tgUITest/IntEditTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/IntEdit.h>
+#include <tgUI/RowLayout.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -35,28 +39,28 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("IntEditTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "IntEditTest",
                     "Integer edit test.");
-                _window = Window::create(context, _app, "IntEditTest");
-                _layout = VerticalLayout::create(context, _window);
-                _layout->setMarginRole(SizeRole::MarginLarge);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "IntEditTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto edit = IntEdit::create(context, nullptr, _layout);
+                auto edit = IntEdit::create(context, nullptr, layout);
                 TG_ASSERT(edit->getModel());
                 int value = 0;
                 edit->setCallback([&value](int v) { value = v; });
                 edit->setValue(11);
-                _app->tick();
+                app->tick();
                 TG_ASSERT(11 == edit->getValue());
                 TG_ASSERT(11 == value);
                 edit->setRange(RangeI(0, 10));
-                _app->tick();
+                app->tick();
                 TG_ASSERT(RangeI(0, 10) == edit->getRange());
                 TG_ASSERT(10 == value);
                 edit->setStep(2);
@@ -67,21 +71,21 @@ namespace tg
                 TG_ASSERT(FontRole::Label == edit->getFontRole());
                 edit->setFontRole(FontRole::Mono);
 
-                _window->setCursorEnter(true);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
-                _window->setKey(Key::Delete);
-                _window->setText("1");
-                _window->setKey(Key::Enter);
+                window->setCursorEnter(true);
+                window->setKey(Key::Tab);
+                window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
+                window->setKey(Key::Delete);
+                window->setText("1");
+                window->setKey(Key::Enter);
                 TG_ASSERT(1 == value);
 
-                _window->setKey(Key::Up);
+                window->setKey(Key::Up);
                 TG_ASSERT(3 == value);
-                _window->setKey(Key::PageUp);
+                window->setKey(Key::PageUp);
                 TG_ASSERT(6 == value);
-                _window->setKey(Key::PageDown);
+                window->setKey(Key::PageDown);
                 TG_ASSERT(3 == value);
-                _window->setKey(Key::Down);
+                window->setKey(Key::Down);
                 TG_ASSERT(1 == value);
             }
         }

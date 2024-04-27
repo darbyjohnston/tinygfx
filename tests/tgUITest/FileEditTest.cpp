@@ -4,8 +4,12 @@
 
 #include <tgUITest/FileEditTest.h>
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
 #include <tgUI/FileBrowser.h>
 #include <tgUI/FileEdit.h>
+#include <tgUI/RowLayout.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -36,19 +40,19 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("FileEditTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "FileEditTest",
                     "File edit test.");
-                _window = Window::create(context, _app, "FileEditTest");
-                _layout = VerticalLayout::create(context, _window);
-                _layout->setMarginRole(SizeRole::MarginLarge);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "FileEditTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                auto edit = FileEdit::create(context, _layout);
+                auto edit = FileEdit::create(context, layout);
                 std::filesystem::path path = std::filesystem::current_path();
                 edit->setPath(path);
                 edit->setPath(path);
@@ -70,22 +74,22 @@ namespace tg
                 TG_ASSERT(options == system->getOptions());
                 TG_ASSERT(system->getRecentFilesModel());
 
-                _window->setCursorEnter(true);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Enter);
-                _window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
-                _window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
-                _window->setKey(Key::Enter);
+                window->setCursorEnter(true);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
 
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Enter);
-                _window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
-                _window->setKey(Key::Enter);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
 
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Tab);
-                _window->setKey(Key::Enter);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
             }
         }
     }

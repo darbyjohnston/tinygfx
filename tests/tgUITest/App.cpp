@@ -109,6 +109,11 @@ namespace tg
             }
         }
 
+        const std::list<std::shared_ptr<Window> >& App::getWindows() const
+        {
+            return _p->windows;
+        }
+
         void App::setDisplayScale(float value)
         {
             TG_P();

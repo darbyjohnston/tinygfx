@@ -39,51 +39,55 @@ namespace tg
             {
                 std::vector<std::string> argv;
                 argv.push_back("ButtonTest");
-                _app = App::create(
+                auto app = App::create(
                     context,
                     argv,
                     "ButtonTest",
                     "Button test.");
-                _window = Window::create(context, _app, "ButtonTest");
-                _layout = VerticalLayout::create(context, _window);
-                _layout->setMarginRole(SizeRole::MarginLarge);
-                _app->addWindow(_window);
-                _window->show();
-                _app->tick();
+                auto window = Window::create(context, app, "ButtonTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
 
-                PushButton::create(context, "Push", _layout);
+                PushButton::create(context, "Push", layout);
 
-                std::shared_ptr<IButton> button = PushButton::create(context, "Push", _layout);
+                std::shared_ptr<IButton> button = PushButton::create(context, "Push", layout);
                 button->setObjectName("PushButton");
                 _print(button->getObjectName());
                 _print(button->getObjectPath());
-                _test(button);
+                _test(app, window, layout, button);
                 button->setParent(nullptr);
                 button.reset();
 
-                button = ListButton::create(context, "List", _layout);
-                _test(button);
+                button = ListButton::create(context, "List", layout);
+                _test(app, window, layout, button);
                 button->setParent(nullptr);
                 button.reset();
 
-                button = ToolButton::create(context, "Tool", _layout);
-                _test(button);
+                button = ToolButton::create(context, "Tool", layout);
+                _test(app, window, layout, button);
                 button->setParent(nullptr);
                 button.reset();
 
-                button = ToolButton::create(context, "Tool", _layout);
-                _test(button);
+                button = ToolButton::create(context, "Tool", layout);
+                _test(app, window, layout, button);
                 button->setParent(nullptr);
                 button.reset();
 
-                button = CheckBox::create(context, "CheckBox", _layout);
-                _test(button);
+                button = CheckBox::create(context, "CheckBox", layout);
+                _test(app, window, layout, button);
                 button->setParent(nullptr);
                 button.reset();
             }
         }
 
-        void ButtonTest::_test(const std::shared_ptr<ui::IButton>& button)
+        void ButtonTest::_test(
+            const std::shared_ptr<App>& app,
+            const std::shared_ptr<Window>& window,
+            const std::shared_ptr<ui::VerticalLayout>& layout,
+            const std::shared_ptr<ui::IButton>& button)
         {
             TG_ASSERT(button->getParent().lock());
             TG_ASSERT(button->getParentT<Window>());
@@ -133,15 +137,15 @@ namespace tg
 
             button->hide();
             button->hide();
-            _app->tick();
+            app->tick();
             button->show();
-            _app->tick();
+            app->tick();
 
             button->setEnabled(false);
             button->setEnabled(false);
-            _app->tick();
+            app->tick();
             button->setEnabled(true);
-            _app->tick();
+            app->tick();
 
             bool hovered = false;
             button->setHoveredCallback([&hovered](bool value) { hovered = value; });
@@ -154,86 +158,86 @@ namespace tg
             bool checked = false;
             button->setCheckedCallback([&checked](bool value) { checked = value; });
 
-            _window->setCursorEnter(true);
-            _window->setCursorPos(center(button->getGeometry()));
+            window->setCursorEnter(true);
+            window->setCursorPos(center(button->getGeometry()));
             TG_ASSERT(hovered);
-            _window->setButton(0, true);
+            window->setButton(0, true);
             TG_ASSERT(pressed);
-            _window->setButton(0, false);
+            window->setButton(0, false);
             TG_ASSERT(clicks);
             TG_ASSERT(checked);
             if (button->acceptsKeyFocus())
             {
                 TG_ASSERT(button->hasKeyFocus());
             }
-            _window->setCursorPos(V2I(0, 0));
+            window->setCursorPos(V2I(0, 0));
             TG_ASSERT(!hovered);
-            _window->setCursorPos(center(button->getGeometry()));
-            _window->setCursorEnter(false);
+            window->setCursorPos(center(button->getGeometry()));
+            window->setCursorEnter(false);
 
             clicks = 0;
 
-            _window->setCursorEnter(true);
-            _window->setCursorPos(center(button->getGeometry()));
-            _window->setKey(Key::Enter);
+            window->setCursorEnter(true);
+            window->setCursorPos(center(button->getGeometry()));
+            window->setKey(Key::Enter);
             TG_ASSERT(clicks);
             TG_ASSERT(!checked);
 
-            _window->setKey(Key::Escape);
+            window->setKey(Key::Escape);
             if (button->acceptsKeyFocus())
             {
                 TG_ASSERT(!button->hasKeyFocus());
             }
 
-            _window->setKey(Key::Tab);
-            _window->setKey(Key::Tab);
+            window->setKey(Key::Tab);
+            window->setKey(Key::Tab);
             if (button->acceptsKeyFocus())
             {
                 TG_ASSERT(button->hasKeyFocus());
             }
-            _window->hide();
-            _window->show();
+            window->hide();
+            window->show();
             if (button->acceptsKeyFocus())
             {
                 TG_ASSERT(!button->hasKeyFocus());
             }
-            _window->setCursorEnter(true);
-            _window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+            window->setCursorEnter(true);
+            window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
             if (button->acceptsKeyFocus())
             {
                 TG_ASSERT(button->hasKeyFocus());
             }
 
-            _window->setCursorPos(center(button->getGeometry()));
-            _window->hide();
-            _window->show();
-            _window->setCursorPos(center(button->getGeometry()));
-            _window->setButton(0, true);
-            _app->tick();
-            _window->hide();
-            _window->show();
-            _window->setCursorPos(center(button->getGeometry()));
-            _app->tick();
-            _window->setKey(Key::Enter, true);
-            _app->tick();
-            _window->hide();
-            _window->show();
+            window->setCursorPos(center(button->getGeometry()));
+            window->hide();
+            window->show();
+            window->setCursorPos(center(button->getGeometry()));
+            window->setButton(0, true);
+            app->tick();
+            window->hide();
+            window->show();
+            window->setCursorPos(center(button->getGeometry()));
+            app->tick();
+            window->setKey(Key::Enter, true);
+            app->tick();
+            window->hide();
+            window->show();
 
-            _window->setCursorEnter(true);
+            window->setCursorEnter(true);
             std::string tooltip = "This is a tooltip";
             button->setTooltip(tooltip);
             TG_ASSERT(tooltip == button->getTooltip());
-            _window->setCursorPos(center(button->getGeometry()));
+            window->setCursorPos(center(button->getGeometry()));
             sleep(std::chrono::seconds(3));
-            _window->setCursorPos(center(button->getGeometry()));
-            _window->setCursorPos(V2I(0, 0));
+            window->setCursorPos(center(button->getGeometry()));
+            window->setCursorPos(V2I(0, 0));
 
-            _app->setDisplayScale(2.F);
-            _app->setDisplayScale(1.F);
+            app->setDisplayScale(2.F);
+            app->setDisplayScale(1.F);
 
             button->takeKeyFocus();
             button->setParent(nullptr);
-            button->setParent(_layout);
+            button->setParent(layout);
         }
     }
 }

@@ -25,7 +25,6 @@
 
 #include <algorithm>
 #include <iostream>
-#include <list>
 
 using namespace tg::core;
 
@@ -127,6 +126,11 @@ namespace tg
             {
                 p.windows.erase(i);
             }
+        }
+
+        const std::list<std::shared_ptr<Window> >& App::getWindows() const
+        {
+            return _p->windows;
         }
 
         void App::exit()
