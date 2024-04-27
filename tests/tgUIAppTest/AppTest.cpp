@@ -17,7 +17,6 @@ namespace tg
 {
     namespace ui_test
     {
-
         namespace
         {
             class App : public ui::App
