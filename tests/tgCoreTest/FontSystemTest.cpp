@@ -36,6 +36,20 @@ namespace tg
         
         void FontSystemTest::_members()
         {
+            {
+                const FontInfo a;
+                const FontInfo b("NotoSans-Bold", 16);
+                TG_ASSERT(a == a);
+                TG_ASSERT(a != b);
+            }
+            {
+                const GlyphInfo a;
+                const FontInfo fontInfo("NotoSans-Bold", 16);
+                const GlyphInfo b(1, fontInfo);
+                TG_ASSERT(a == a);
+                TG_ASSERT(a != b);
+                TG_ASSERT(a < b);
+            }
             if (auto context = _context.lock())
             {
                 auto fontSystem = context->getSystem<FontSystem>();

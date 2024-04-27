@@ -56,9 +56,6 @@ namespace tg
                 const std::string& prefix,
                 const std::string&,
                 LogType = LogType::Message);
-
-            //! Get the log items.
-            std::vector<LogItem> getLogItems() const;
             
             //! Observe the log items.
             std::shared_ptr<IObservableList<LogItem> > observeLogItems() const;

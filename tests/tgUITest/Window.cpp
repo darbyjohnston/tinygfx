@@ -130,7 +130,7 @@ namespace tg
                     const V2F& pos = V2F()) override
                 {
                     ++_meshCount;
-                };
+                }
                 void drawText(
                     const std::vector<std::shared_ptr<Glyph> >&,
                     const FontMetrics&,

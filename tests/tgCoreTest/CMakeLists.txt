@@ -15,11 +15,14 @@ set(HEADERS
     MatrixTest.h
     MemoryTest.h
     MeshTest.h
+    NoiseTest.h
     OSTest.h
     ObservableTest.h
     PNGTest.h
+    RandomTest.h
     RangeTest.h
     RenderOptionsTest.h
+    RenderUtilTest.h
     SizeTest.h
     StringTest.h
     SystemTest.h
@@ -45,11 +48,14 @@ set(SOURCE
     MatrixTest.cpp
     MemoryTest.cpp
     MeshTest.cpp
+    NoiseTest.cpp
     OSTest.cpp
     ObservableTest.cpp
     PNGTest.cpp
+    RandomTest.cpp
     RangeTest.cpp
     RenderOptionsTest.cpp
+    RenderUtilTest.cpp
     SizeTest.cpp
     StringTest.cpp
     SystemTest.cpp

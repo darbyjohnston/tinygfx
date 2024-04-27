@@ -199,10 +199,6 @@ namespace tg
 
         void Window::setSize(const Size2I& value)
         {
-            TG_P();
-            if (value == p.size)
-                return;
-            p.size = value;
             glfwSetWindowSize(_p->glfwWindow, value[0], value[1]);
         }
 

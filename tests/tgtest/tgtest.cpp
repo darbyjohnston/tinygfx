@@ -69,11 +69,14 @@
 #include <tgCoreTest/MatrixTest.h>
 #include <tgCoreTest/MemoryTest.h>
 #include <tgCoreTest/MeshTest.h>
+#include <tgCoreTest/NoiseTest.h>
 #include <tgCoreTest/OSTest.h>
 #include <tgCoreTest/ObservableTest.h>
 #include <tgCoreTest/PNGTest.h>
+#include <tgCoreTest/RandomTest.h>
 #include <tgCoreTest/RangeTest.h>
 #include <tgCoreTest/RenderOptionsTest.h>
+#include <tgCoreTest/RenderUtilTest.h>
 #include <tgCoreTest/SizeTest.h>
 #include <tgCoreTest/StringTest.h>
 #include <tgCoreTest/SystemTest.h>
@@ -148,11 +151,14 @@ namespace tg
             p.tests.push_back(core_test::MatrixTest::create(context));
             p.tests.push_back(core_test::MemoryTest::create(context));
             p.tests.push_back(core_test::MeshTest::create(context));
+            p.tests.push_back(core_test::NoiseTest::create(context));
             p.tests.push_back(core_test::OSTest::create(context));
             p.tests.push_back(core_test::ObservableTest::create(context));
             p.tests.push_back(core_test::PNGTest::create(context));
+            p.tests.push_back(core_test::RandomTest::create(context));
             p.tests.push_back(core_test::RangeTest::create(context));
             p.tests.push_back(core_test::RenderOptionsTest::create(context));
+            p.tests.push_back(core_test::RenderUtilTest::create(context));
             p.tests.push_back(core_test::SizeTest::create(context));
             p.tests.push_back(core_test::StringTest::create(context));
             p.tests.push_back(core_test::SystemTest::create(context));

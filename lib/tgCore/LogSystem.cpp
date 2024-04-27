@@ -89,17 +89,6 @@ namespace tg
             std::unique_lock<std::mutex> lock(p.mutex);
             p.items.push_back({ time.count(), prefix, value, type });
         }
-        
-        std::vector<LogItem> LogSystem::getLogItems() const
-        {
-            TG_P();
-            std::vector<LogItem> out;
-            {
-                std::unique_lock<std::mutex> lock(p.mutex);
-                p.items.swap(out);
-            }
-            return out;
-        }
 
         std::shared_ptr<IObservableList<LogItem> > LogSystem::observeLogItems() const
         {
