@@ -17,56 +17,6 @@ namespace tg
 {
     namespace ui_test
     {
-        namespace
-        {
-            class App : public ui::App
-            {
-            protected:
-                void _init(
-                    const std::shared_ptr<core::Context>&,
-                    std::vector<std::string>& argv);
-
-                App() = default;
-
-            public:
-                virtual ~App();
-
-                static std::shared_ptr<App> create(
-                    const std::shared_ptr<core::Context>&,
-                    std::vector<std::string>& argv);
-
-            private:
-                std::shared_ptr<Window> _window;
-            };
-
-            void App::_init(
-                const std::shared_ptr<core::Context>& context,
-                std::vector<std::string>& argv)
-            {
-                ui::App::_init(
-                    context,
-                    argv,
-                    "tg::ui_test::App",
-                    "Test UI application");
-
-                _window = Window::create(context, "tg::ui_test::App", Size2I(1280, 960));
-                addWindow(_window);
-                _window->show();
-            }
-
-            App::~App()
-            {}
-
-            std::shared_ptr<App> App::create(
-                const std::shared_ptr<core::Context>& context,
-                std::vector<std::string>& argv)
-            {
-                auto out = std::shared_ptr<App>(new App);
-                out->_init(context, argv);
-                return out;
-            }
-        }
-
         AppTest::AppTest(const std::shared_ptr<Context>& context) :
             ITest(context, "tg::ui_test::AppTest")
         {}
@@ -88,11 +38,28 @@ namespace tg
                 std::vector<std::string> argv = { "app", "-exit" };
                 try
                 {
-                    auto app = App::create(context, argv);
+                    auto app = ui::App::create(
+                        context,
+                        argv,
+                        "tg::ui_test::App",
+                        "Test UI application");
                     r = app->getExit();
                     if (0 == r)
                     {
+                        auto window = Window::create(
+                            context,
+                            "tg::ui_test::App",
+                            Size2I(1280, 960));
+                        app->addWindow(window);
+                        TG_ASSERT(app->getWindows().front() == window );
+                        window->show();
+                        _print(Format("Frame buffer size: {0}").
+                            arg(window->getFrameBufferSize()));
+                        _print(Format("Display scale: {0}").
+                            arg(window->getDisplayScale()));
                         app->run();
+                        app->exit();
+                        app->removeWindow(window);
                     }
                 }
                 catch (const std::exception&)
@@ -102,4 +69,3 @@ namespace tg
         }
     }
 }
-
