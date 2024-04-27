@@ -254,27 +254,6 @@ namespace tg
                 _print(Format("Running test: {0}").arg(test->getName()));
                 test->run();
             }
-
-            // Tick the tests.
-            bool tickTests = false;
-            do
-            {
-                auto t0 = std::chrono::steady_clock::now();
-                tickTests = false;
-                for (const auto& test : runTests)
-                {
-                    _context->tick();
-                    if (test->doTick())
-                    {
-                        tickTests = true;
-                        test->tick();
-                    }
-                    auto t1 = std::chrono::steady_clock::now();
-                    sleep(std::chrono::milliseconds(5), t0, t1);
-                    t0 = t1;
-                }
-            }
-            while (tickTests);
                 
             const auto now = std::chrono::steady_clock::now();
             const std::chrono::duration<float> diff = now - p.startTime;

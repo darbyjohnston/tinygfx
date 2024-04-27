@@ -5,6 +5,9 @@
 #include <tgCoreTest/TimerTest.h>
 
 #include <tgCore/Assert.h>
+#include <tgCore/Context.h>
+#include <tgCore/Time.h>
+#include <tgCore/Timer.h>
 
 #include <iostream>
 
@@ -17,38 +20,49 @@ namespace tg
         TimerTest::TimerTest(const std::shared_ptr<Context>& context) :
             ITest(context, "tg::core_test::TimerTest")
         {
-            _timer = Timer::create(context);
-            TG_ASSERT(!_timer->isRepeating());
+            auto timer = Timer::create(context);
+            TG_ASSERT(!timer->isRepeating());
             
-            _repeatTimer = Timer::create(context);
-            _repeatTimer->setRepeating(true);
-            TG_ASSERT(_repeatTimer->isRepeating());
+            auto repeatTimer = Timer::create(context);
+            repeatTimer->setRepeating(true);
+            TG_ASSERT(repeatTimer->isRepeating());
 
             const std::chrono::milliseconds timeout(5);
-            _timer->start(timeout, [] {});
-            TG_ASSERT(_timer->isActive());
-            TG_ASSERT(timeout == _timer->getTimeout());
-            _timer->stop();
-            TG_ASSERT(!_timer->isActive());
+            timer->start(timeout, [] {});
+            TG_ASSERT(timer->isActive());
+            TG_ASSERT(timeout == timer->getTimeout());
+            timer->stop();
+            TG_ASSERT(!timer->isActive());
 
-            _timer->start(
+            bool timedout = false;
+            timer->start(
                 timeout,
-                [this]
+                [&timedout]
                 {
-                    _timeout = true;
+                    timedout = true;
                 });
 
-            _repeatTimer->start(
+            int repeatCount = 10;
+            repeatTimer->start(
                 timeout,
-                [this](
+                [&repeatCount](
                     const std::chrono::steady_clock::time_point&,
                     const std::chrono::microseconds&)
                 {
-                    if (_repeatCount > 0)
+                    if (repeatCount > 0)
                     {
-                        --_repeatCount;
+                        --repeatCount;
                     }
                 });
+
+            auto t0 = std::chrono::steady_clock::now();
+            while (!timedout || repeatCount > 0)
+            {
+                context->tick();
+                auto t1 = std::chrono::steady_clock::now();
+                sleep(std::chrono::milliseconds(5), t0, t1);
+                t0 = t1;
+            }
         }
 
         TimerTest::~TimerTest()
@@ -62,11 +76,6 @@ namespace tg
         
         void TimerTest::run()
         {}
-
-        bool TimerTest::doTick() const
-        {
-            return !_timeout || _repeatCount > 0;
-        }
     }
 }
 

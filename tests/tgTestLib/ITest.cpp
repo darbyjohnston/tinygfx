@@ -24,14 +24,6 @@ namespace tg
         {
             return _name;
         }
-            
-        bool ITest::doTick() const
-        {
-            return false;
-        }
-        
-        void ITest::tick()
-        {}
         
         void ITest::_print(const std::string& value)
         {

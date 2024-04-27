@@ -34,10 +34,6 @@ namespace tg
             const std::string& getName() const;
 
             virtual void run() = 0;
-            
-            virtual bool doTick() const;
-            
-            virtual void tick();
 
         protected:
             void _print(const std::string&);
