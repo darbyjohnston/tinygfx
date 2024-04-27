@@ -56,7 +56,7 @@ namespace tg
                         auto layout = VerticalLayout::create(context, window);
                         auto button = PushButton::create(context, "Button", layout);
                         app->addWindow(window);
-                        TG_ASSERT(app->getWindows().front() == window );
+                        TG_ASSERT(app->getWindows().front() == window);
                         window->show();
                         window->setSize(Size2I(1920, 1080));
 
