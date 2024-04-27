@@ -48,8 +48,7 @@ namespace tg
             glfwGetVersion(&glfwMajor, &glfwMinor, &glfwRevision);
             if (!glfwInit())
             {
-                //! \bug Disable this error so the non-OpenGL tests can run.
-                //throw std::runtime_error("Cannot initialize GLFW");
+                throw std::runtime_error("Cannot initialize GLFW");
             }
             p.glfwInit = true;
             if (auto logSystem = context->getSystem<LogSystem>())
