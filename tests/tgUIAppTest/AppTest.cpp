@@ -7,6 +7,9 @@
 #include <tgUIApp/App.h>
 #include <tgUIApp/Window.h>
 
+#include <tgUI/PushButton.h>
+#include <tgUI/RowLayout.h>
+
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
 
@@ -50,15 +53,22 @@ namespace tg
                             context,
                             "tg::ui_test::App",
                             Size2I(1280, 960));
+                        auto layout = VerticalLayout::create(context, window);
+                        auto button = PushButton::create(context, "Button", layout);
                         app->addWindow(window);
                         TG_ASSERT(app->getWindows().front() == window );
                         window->show();
+                        window->setSize(Size2I(1920, 1080));
+                        TG_ASSERT(Size2I(1920, 1080) == window->getSize());
+
                         _print(Format("Frame buffer size: {0}").
                             arg(window->getFrameBufferSize()));
                         _print(Format("Display scale: {0}").
                             arg(window->getDisplayScale()));
+
                         app->run();
                         app->exit();
+                        window->hide();
                         app->removeWindow(window);
                     }
                 }

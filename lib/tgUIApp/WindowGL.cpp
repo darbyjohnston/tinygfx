@@ -352,6 +352,16 @@ namespace tg
             return out;
         }
 
+        const core::Size2I& Window::getSize() const
+        {
+            return _p->window->getSize();
+        }
+
+        void Window::setSize(const Size2I& value)
+        {
+            _p->window->setSize(value);
+        }
+
         const Size2I& Window::getFrameBufferSize() const
         {
             return _p->bufferSize;

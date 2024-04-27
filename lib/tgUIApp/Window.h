@@ -29,6 +29,12 @@ namespace tg
                 const std::shared_ptr<core::Context>&,
                 const std::string& name,
                 const core::Size2I&);
+
+            //! Get the window size.
+            const core::Size2I& getSize() const;
+
+            //! Set the window size.
+            void setSize(const core::Size2I&);
             
             //! Get the window frame buffer size.
             const core::Size2I& getFrameBufferSize() const;
