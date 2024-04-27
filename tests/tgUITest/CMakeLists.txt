@@ -30,6 +30,7 @@ set(HEADERS
     MDIWidgetTest.h
     MenuBarTest.h
     RowLayoutTest.h
+    ScrollWidgetTest.h
     StackLayoutTest.h
     StyleTest.h
     WidgetOptionsTest.h
@@ -68,6 +69,7 @@ set(SOURCE
     MDIWidgetTest.cpp
     MenuBarTest.cpp
     RowLayoutTest.cpp
+    ScrollWidgetTest.cpp
     StackLayoutTest.cpp
     StyleTest.cpp
     WidgetOptionsTest.cpp

@@ -57,6 +57,9 @@ namespace tg
             //! Set whether the scroll bars are visible.
             void setScrollBarsVisible(bool);
 
+            //! Get whether scroll events are enabled.
+            bool areScrollEventsEnabled() const;
+
             //! Set whether scroll events are enabled.
             void setScrollEventsEnabled(bool);
 

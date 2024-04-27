@@ -206,6 +206,11 @@ namespace tg
             p.verticalScrollBar->setVisible(value);
         }
 
+        bool ScrollWidget::areScrollEventsEnabled() const
+        {
+            return _p->scrollEventsEnabled;
+        }
+
         void ScrollWidget::setScrollEventsEnabled(bool value)
         {
             _p->scrollEventsEnabled = value;

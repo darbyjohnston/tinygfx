@@ -36,6 +36,7 @@
 #include <tgUITest/MDIWidgetTest.h>
 #include <tgUITest/MenuBarTest.h>
 #include <tgUITest/RowLayoutTest.h>
+#include <tgUITest/ScrollWidgetTest.h>
 #include <tgUITest/StackLayoutTest.h>
 #include <tgUITest/StyleTest.h>
 #include <tgUITest/WidgetOptionsTest.h>
@@ -209,6 +210,7 @@ namespace tg
             p.tests.push_back(ui_test::MDIWidgetTest::create(context));
             p.tests.push_back(ui_test::MenuBarTest::create(context));
             p.tests.push_back(ui_test::RowLayoutTest::create(context));
+            p.tests.push_back(ui_test::ScrollWidgetTest::create(context));
             p.tests.push_back(ui_test::StackLayoutTest::create(context));
             p.tests.push_back(ui_test::StyleTest::create(context));
             p.tests.push_back(ui_test::WidgetOptionsTest::create(context));

@@ -1,0 +1,113 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2024 Darby Johnston
+// All rights reserved.
+
+#include <tgUITest/ScrollWidgetTest.h>
+
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
+#include <tgUI/GridLayout.h>
+#include <tgUI/Label.h>
+#include <tgUI/ScrollWidget.h>
+
+#include <tgCore/Assert.h>
+#include <tgCore/Format.h>
+
+using namespace tg::core;
+using namespace tg::ui;
+
+namespace tg
+{
+    namespace ui_test
+    {
+        ScrollWidgetTest::ScrollWidgetTest(const std::shared_ptr<Context>& context) :
+            ITest(context, "tg::ui_test::ScrollWidgetTest")
+        {}
+
+        ScrollWidgetTest::~ScrollWidgetTest()
+        {}
+
+        std::shared_ptr<ScrollWidgetTest> ScrollWidgetTest::create(
+            const std::shared_ptr<Context>& context)
+        {
+            return std::shared_ptr<ScrollWidgetTest>(new ScrollWidgetTest(context));
+        }
+                
+        void ScrollWidgetTest::run()
+        {
+            if (auto context = _context.lock())
+            {
+                std::vector<std::string> argv;
+                argv.push_back("ScrollWidgetTest");
+                auto app = App::create(
+                    context,
+                    argv,
+                    "ScrollWidgetTest",
+                    "Scroll widget test.");
+                auto window = Window::create(context, app, "ScrollWidgetTest");
+                app->addWindow(window);
+                window->show();
+                app->tick();
+
+                auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
+                auto layout = GridLayout::create(context);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                for (int row = 0; row < 20; ++row)
+                {
+                    for (int column = 0; column < 20; ++column)
+                    {
+                        auto label = Label::create(
+                            context,
+                            Format("Label {0} {1}").arg(row).arg(column),
+                            layout);
+                        label->setFontRole(FontRole::Title);
+                        label->setMarginRole(SizeRole::MarginLarge);
+                        layout->setGridPos(label, row, column);
+                    }
+                }
+                scrollWidget->setWidget(layout);
+                app->tick();
+
+                _print(Format("Viewport: {0}").arg(scrollWidget->getViewport()));
+                _print(Format("Scroll size: {0}").arg(scrollWidget->getScrollSize()));
+                _print(Format("Scroll pos: {0}").arg(scrollWidget->getScrollPos()));
+
+                V2I scroll(100, 100);
+                scrollWidget->setScrollPos(scroll);
+                TG_ASSERT(scrollWidget->getScrollPos() == scroll);
+                scrollWidget->setScrollPosCallback(
+                    [&scroll](const V2I& value)
+                    {
+                        scroll = value;
+                    });
+                scrollWidget->setScrollBarsVisible(false);
+                scrollWidget->setScrollBarsVisible(false);
+                TG_ASSERT(!scrollWidget->areScrollBarsVisible());
+                scrollWidget->setScrollBarsVisible(true);
+                scrollWidget->setScrollEventsEnabled(false);
+                scrollWidget->setScrollEventsEnabled(false);
+                TG_ASSERT(!scrollWidget->areScrollEventsEnabled());
+                scrollWidget->setScrollEventsEnabled(true);
+                scrollWidget->setBorder(false);
+                scrollWidget->setBorder(false);
+                TG_ASSERT(!scrollWidget->hasBorder());
+                scrollWidget->setBorder(true);
+                scrollWidget->setMarginRole(SizeRole::Margin);
+                scrollWidget->setMarginRole(SizeRole::Margin);
+                TG_ASSERT(SizeRole::Margin == scrollWidget->getMarginRole());
+                scrollWidget->setMarginRole(SizeRole::None);
+
+                window->setCursorEnter(true);
+                Box2I g = scrollWidget->getGeometry();
+                V2I c = center(g);
+                window->setCursorPos(c);
+                window->setScroll(V2F(0, -1));
+                window->setScroll(V2F(0, -1));
+                window->setScroll(V2F(0, 1));
+                window->setScroll(V2F(0, 1));
+            }
+        }
+    }
+}
+
