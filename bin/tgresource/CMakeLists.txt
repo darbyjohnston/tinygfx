@@ -13,3 +13,6 @@ install(TARGETS tgresource
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)
 
+add_test(
+    NAME tgresource
+    COMMAND tgresource ${CMAKE_CURRENT_SOURCE_DIR}/test_resource.txt test_resource.h test_resource)
