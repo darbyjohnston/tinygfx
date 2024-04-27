@@ -9,29 +9,29 @@
 
 #include <tgTestLib/ITest.h>
 
+#include <tgUI/RowLayout.h>
+
 namespace tg
 {
     namespace ui_test
     {
-        class MDIWidgetTest : public test::ITest
+        class IconTest : public test::ITest
         {
         protected:
-            MDIWidgetTest(const std::shared_ptr<core::Context>&);
+            IconTest(const std::shared_ptr<core::Context>&);
 
         public:
-            virtual ~MDIWidgetTest();
+            virtual ~IconTest();
 
-            static std::shared_ptr<MDIWidgetTest> create(
+            static std::shared_ptr<IconTest> create(
                 const std::shared_ptr<core::Context>&);
 
             void run() override;
 
         private:
-            void _enums();
-            void _widget();
-
             std::shared_ptr<App> _app;
             std::shared_ptr<Window> _window;
+            std::shared_ptr<ui::VerticalLayout> _layout;
         };
     }
 }

@@ -56,13 +56,18 @@ namespace tg
         }
 
         std::shared_ptr<Icon> Icon::create(
-            const std::string& icon,
             const std::shared_ptr<Context>& context,
+            const std::string& icon,
             const std::shared_ptr<IWidget>& parent)
         {
             auto out = create(context, parent);
             out->setIcon(icon);
             return out;
+        }
+
+        const std::string& Icon::getIcon() const
+        {
+            return _p->icon;
         }
 
         void Icon::setIcon(const std::string& value)
@@ -75,6 +80,11 @@ namespace tg
             p.iconInit = true;
             _setSizeUpdate();
             _setDrawUpdate();
+        }
+
+        SizeRole Icon::getMarginRole() const
+        {
+            return _p->marginRole;
         }
 
         void Icon::setMarginRole(SizeRole value)

@@ -25,6 +25,7 @@
 #include <tgUITest/FloatModelTest.h>
 #include <tgUITest/GridLayoutTest.h>
 #include <tgUITest/GroupBoxTest.h>
+#include <tgUITest/IconTest.h>
 #include <tgUITest/IntEditTest.h>
 #include <tgUITest/IntEditSliderTest.h>
 #include <tgUITest/IntSliderTest.h>
@@ -191,6 +192,7 @@ namespace tg
             p.tests.push_back(ui_test::FloatModelTest::create(context));
             p.tests.push_back(ui_test::GridLayoutTest::create(context));
             p.tests.push_back(ui_test::GroupBoxTest::create(context));
+            p.tests.push_back(ui_test::IconTest::create(context));
             p.tests.push_back(ui_test::IntEditTest::create(context));
             p.tests.push_back(ui_test::IntEditSliderTest::create(context));
             p.tests.push_back(ui_test::IntSliderTest::create(context));

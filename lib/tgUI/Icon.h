@@ -33,12 +33,18 @@ namespace tg
 
             //! Create a new widget.
             static std::shared_ptr<Icon> create(
-                const std::string& icon,
                 const std::shared_ptr<core::Context>&,
+                const std::string& icon,
                 const std::shared_ptr<IWidget>& parent = nullptr);
+
+            //! Get the icon.
+            const std::string& getIcon() const;
 
             //! Set the icon.
             void setIcon(const std::string&);
+
+            //! Get the margin role.
+            SizeRole getMarginRole() const;
 
             //! Set the margin role.
             void setMarginRole(SizeRole);

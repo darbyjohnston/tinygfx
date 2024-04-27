@@ -105,6 +105,16 @@ namespace tg
                 _window->setKey(Key::Escape);
                 _window->setKey(Key::Escape);
                 TG_ASSERT(!popup->isOpen());
+
+                popup->open(_window, widget->getGeometry());
+                _app->tick();
+                TG_ASSERT(popup->isOpen());
+                g = _window->getGeometry();
+                _window->setCursorPos(V2I(g.w() - 1, g.h() - 1));
+                _window->setButton(0);
+                popup->open(_window, widget->getGeometry());
+                _app->tick();
+                TG_ASSERT(popup->isOpen());
             }
         }
     }

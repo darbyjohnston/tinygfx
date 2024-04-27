@@ -82,7 +82,6 @@ namespace tg
                 _window->setKey(Key::Enter);
                 TG_ASSERT(action1);
 
-                _window->setKey(Key::Tab);
                 _window->setKey(Key::Enter);
                 _window->setKey(Key::Tab);
                 _window->setKey(Key::Tab);
