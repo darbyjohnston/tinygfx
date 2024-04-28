@@ -55,7 +55,7 @@ namespace tg
         }
 
         void ScrollWidgetTest::_test(
-            const std::shared_ptr<core::Context>& context,
+            const std::shared_ptr<Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<Window>& window,
             ScrollType scrollType)

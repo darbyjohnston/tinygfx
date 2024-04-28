@@ -60,7 +60,7 @@ namespace tg
             const std::shared_ptr<ui::IconLibrary>& getIconLibrary() const;
             void setDisplayScale(float);
 
-            void tick();
+            void tick(size_t count = 1);
             void exit();
 
             void run() override;

@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/FileBrowserPrivate.h>
+#include <tgUI/FileBrowserWidgets.h>
 
 #include <tgUI/DrawUtil.h>
 
@@ -18,7 +18,7 @@ namespace tg
 {
     namespace ui
     {
-        struct Button::Private
+        struct FileBrowserButton::Private
         {
             std::vector<std::string> labels;
             std::vector<int> columns;
@@ -45,83 +45,83 @@ namespace tg
             DrawData draw;
         };
 
-        void Button::_init(
+        void FileBrowserButton::_init(
             const std::shared_ptr<Context>& context,
-            const FileInfo& fileInfo,
+            const FileBrowserInfo& info,
             const std::shared_ptr<IWidget>& parent)
         {
-            IButton::_init(context, "tg::ui::ListButton", parent);
+            IButton::_init(context, "tg::ui::FileBrowser", parent);
             TG_P();
 
             setButtonRole(ColorRole::None);
             setAcceptsKeyFocus(true);
 
             // Icon.
-            setIcon(fileInfo.isDir ? "Directory" : "File");
+            setIcon(info.isDir ? "Directory" : "File");
 
             // File name.
-            p.labels.push_back(fileInfo.path.filename().string());
+            p.labels.push_back(info.path.filename().string());
 
             // File extension.
-            p.labels.push_back(!fileInfo.isDir ?
-                fileInfo.path.extension().string() :
+            p.labels.push_back(!info.isDir ?
+                info.path.extension().string() :
                 std::string());
 
             // File size.
             std::string label;
-            if (!fileInfo.isDir)
+            if (!info.isDir)
             {
-                if (fileInfo.size < megabyte)
+                if (info.size < megabyte)
                 {
                     label = Format("{0}KB").
-                        arg(fileInfo.size / static_cast<float>(kilobyte), 2);
+                        arg(info.size / static_cast<float>(kilobyte), 2);
                 }
-                else if (fileInfo.size < gigabyte)
+                else if (info.size < gigabyte)
                 {
                     label = Format("{0}MB").
-                        arg(fileInfo.size / static_cast<float>(megabyte), 2);
+                        arg(info.size / static_cast<float>(megabyte), 2);
                 }
                 else
                 {
                     label = Format("{0}GB").
-                        arg(fileInfo.size / static_cast<float>(gigabyte), 2);
+                        arg(info.size / static_cast<float>(gigabyte), 2);
                 }
             }
             p.labels.push_back(label);
 
             // File last modification time.
             // \todo std::format is available in C++20.
-            //p.labels.push_back(std::format("{}", fileInfo.time));
+            //p.labels.push_back(std::format("{}", info.time));
         }
 
-        Button::Button() :
+        FileBrowserButton::FileBrowserButton() :
             _p(new Private)
         {}
 
-        Button::~Button()
+        FileBrowserButton::~FileBrowserButton()
         {}
 
-        std::shared_ptr<Button> Button::create(
+        std::shared_ptr<FileBrowserButton> FileBrowserButton::create(
             const std::shared_ptr<Context>& context,
-            const FileInfo& fileInfo,
+            const FileBrowserInfo& info,
             const std::shared_ptr<IWidget>& parent)
         {
-            auto out = std::shared_ptr<Button>(new Button);
-            out->_init(context, fileInfo, parent);
+            auto out = std::shared_ptr<FileBrowserButton>(new FileBrowserButton);
+            out->_init(context, info, parent);
             return out;
         }
 
-        const std::vector<int>& Button::getTextWidths() const
+        const std::vector<int>& FileBrowserButton::getTextWidths() const
         {
             return _p->size.textWidths;
         }
 
-        void Button::setColumns(const std::vector<int>& value)
+        void FileBrowserButton::setColumns(const std::vector<int>& value)
         {
             _p->columns = value;
         }
 
-        void Button::sizeHintEvent(const SizeHintEvent& event)
+        void FileBrowserButton::sizeHintEvent(const SizeHintEvent& event)
         {
             IButton::sizeHintEvent(event);
             TG_P();
@@ -172,7 +172,7 @@ namespace tg
             _setSizeHint(sizeHint);
         }
 
-        void Button::clipEvent(const Box2I& clipRect, bool clipped)
+        void FileBrowserButton::clipEvent(const Box2I& clipRect, bool clipped)
         {
             IWidget::clipEvent(clipRect, clipped);
             TG_P();
@@ -182,7 +182,7 @@ namespace tg
             }
         }
 
-        void Button::drawEvent(
+        void FileBrowserButton::drawEvent(
             const Box2I& drawRect,
             const DrawEvent& event)
         {
@@ -279,7 +279,7 @@ namespace tg
             }
         }
 
-        void Button::keyPressEvent(KeyEvent& event)
+        void FileBrowserButton::keyPressEvent(KeyEvent& event)
         {
             if (0 == event.modifiers)
             {
@@ -306,7 +306,7 @@ namespace tg
             }
         }
 
-        void Button::keyReleaseEvent(KeyEvent& event)
+        void FileBrowserButton::keyReleaseEvent(KeyEvent& event)
         {
             event.accept = true;
         }

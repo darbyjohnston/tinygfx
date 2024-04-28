@@ -12,6 +12,8 @@ namespace tg
     {
         //! \name Popup Widgets
         ///@{
+
+        const std::chrono::milliseconds tooltipTimeout(1000);
         
         //! Tooltip.
         class Tooltip : public IPopup

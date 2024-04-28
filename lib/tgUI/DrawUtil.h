@@ -24,7 +24,7 @@ namespace tg
         //! Create a mesh for drawing a circle.
         core::TriMesh2F circle(
             const core::V2I&,
-            int radius = 0,
+            int radius,
             size_t resolution = 120);
 
         //! Create a mesh for drawing a border.

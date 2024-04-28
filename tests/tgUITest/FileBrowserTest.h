@@ -25,6 +25,9 @@ namespace tg
 
         private:
             void _enums();
+            void _pathsWidget();
+            void _button();
+            void _directoryWidget();
             void _widget();
             void _dialog();
         };

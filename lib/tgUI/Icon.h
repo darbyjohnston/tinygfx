@@ -40,9 +40,6 @@ namespace tg
             //! Get the icon.
             const std::string& getIcon() const;
 
-            //! Get the icon image.
-            const std::shared_ptr<core::Image>& getIconImage() const;
-
             //! Set the icon.
             void setIcon(const std::string&);
 

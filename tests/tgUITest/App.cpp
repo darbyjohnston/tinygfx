@@ -30,8 +30,8 @@ namespace tg
         {
             float displayScale = 1.F;
             std::shared_ptr<FontSystem> fontSystem;
-            std::shared_ptr<ui::Style> style;
-            std::shared_ptr<ui::IconLibrary> iconLibrary;
+            std::shared_ptr<Style> style;
+            std::shared_ptr<IconLibrary> iconLibrary;
             bool running = true;
             std::list<std::shared_ptr<Window> > windows;
             std::shared_ptr<Timer> logTimer;
@@ -114,17 +114,17 @@ namespace tg
             return _p->windows;
         }
 
-        const std::shared_ptr<core::FontSystem>& App::getFontSystem() const
+        const std::shared_ptr<FontSystem>& App::getFontSystem() const
         {
             return _p->fontSystem;
         }
 
-        const std::shared_ptr<ui::Style>& App::getStyle() const
+        const std::shared_ptr<Style>& App::getStyle() const
         {
             return _p->style;
         }
 
-        const std::shared_ptr<ui::IconLibrary>& App::getIconLibrary() const
+        const std::shared_ptr<IconLibrary>& App::getIconLibrary() const
         {
             return _p->iconLibrary;
         }
@@ -142,22 +142,25 @@ namespace tg
             run();
         }
 
-        void App::tick()
+        void App::tick(size_t count)
         {
             TG_P();
-            _context->tick();
-            for (auto& window : p.windows)
+            for (size_t i = 0; i < count; ++i)
             {
-                TickEvent tickEvent(
-                    p.fontSystem,
-                    p.displayScale,
-                    p.style,
-                    p.iconLibrary);
-                _tickRecursive(
-                    window,
-                    true,
-                    true,
-                    tickEvent);
+                _context->tick();
+                for (auto& window : p.windows)
+                {
+                    TickEvent tickEvent(
+                        p.fontSystem,
+                        p.displayScale,
+                        p.style,
+                        p.iconLibrary);
+                    _tickRecursive(
+                        window,
+                        true,
+                        true,
+                        tickEvent);
+                }
             }
         }
 

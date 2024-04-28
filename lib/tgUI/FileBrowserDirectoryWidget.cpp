@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/FileBrowserPrivate.h>
+#include <tgUI/FileBrowserWidgets.h>
 
 #include <tgUI/ButtonGroup.h>
 #include <tgUI/RowLayout.h>
@@ -17,12 +17,12 @@ namespace tg
 {
     namespace ui
     {        
-        struct DirectoryWidget::Private
+        struct FileBrowserDirectoryWidget::Private
         {
             std::filesystem::path path;
             FileBrowserOptions options;
-            std::vector<FileInfo> fileInfo;
-            std::vector<std::shared_ptr<Button> > buttons;
+            std::vector<FileBrowserInfo> info;
+            std::vector<std::shared_ptr<FileBrowserButton> > buttons;
             std::shared_ptr<ButtonGroup> buttonGroup;
             std::shared_ptr<VerticalLayout> layout;
             std::function<void(const std::filesystem::path&)> callback;
@@ -34,11 +34,11 @@ namespace tg
             SizeData size;
         };
 
-        void DirectoryWidget::_init(
+        void FileBrowserDirectoryWidget::_init(
             const std::shared_ptr<Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tg::ui::DirectoryWidget", parent);
+            IWidget::_init(context, "tg::ui::FileBrowserDirectoryWidget", parent);
             TG_P();
 
             setBackgroundRole(ColorRole::Base);
@@ -52,39 +52,44 @@ namespace tg
                 [this](int value)
                 {
                     TG_P();
-                    if (value >= 0 && value < p.fileInfo.size())
+                    if (value >= 0 && value < p.info.size())
                     {
-                        const FileInfo fileInfo = p.fileInfo[value];
+                        const FileBrowserInfo& info = p.info[value];
                         if (p.callback)
                         {
-                            p.callback(fileInfo.path);
+                            p.callback(info.path);
                         }
-                        if (fileInfo.isDir)
+                        if (info.isDir)
                         {
-                            p.path = fileInfo.path;
+                            p.path = info.path;
                             _directoryUpdate();
                         }
                     }
                 });
         }
 
-        DirectoryWidget::DirectoryWidget() :
+        FileBrowserDirectoryWidget::FileBrowserDirectoryWidget() :
             _p(new Private)
         {}
 
-        DirectoryWidget::~DirectoryWidget()
+        FileBrowserDirectoryWidget::~FileBrowserDirectoryWidget()
         {}
 
-        std::shared_ptr<DirectoryWidget> DirectoryWidget::create(
+        std::shared_ptr<FileBrowserDirectoryWidget> FileBrowserDirectoryWidget::create(
             const std::shared_ptr<Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
-            auto out = std::shared_ptr<DirectoryWidget>(new DirectoryWidget);
+            auto out = std::shared_ptr<FileBrowserDirectoryWidget>(new FileBrowserDirectoryWidget);
             out->_init(context, parent);
             return out;
         }
 
-        void DirectoryWidget::setPath(const std::filesystem::path& path)
+        const std::filesystem::path& FileBrowserDirectoryWidget::getPath() const
+        {
+            return _p->path;
+        }
+
+        void FileBrowserDirectoryWidget::setPath(const std::filesystem::path& path)
         {
             TG_P();
             if (path == p.path)
@@ -93,17 +98,22 @@ namespace tg
             _directoryUpdate();
         }
 
-        void DirectoryWidget::reload()
+        void FileBrowserDirectoryWidget::reload()
         {
             _directoryUpdate();
         }
 
-        void DirectoryWidget::setCallback(const std::function<void(const std::filesystem::path&)>& value)
+        void FileBrowserDirectoryWidget::setCallback(const std::function<void(const std::filesystem::path&)>& value)
         {
             _p->callback = value;
         }
 
-        void DirectoryWidget::setOptions(const FileBrowserOptions& value)
+        const FileBrowserOptions& FileBrowserDirectoryWidget::getOptions() const
+        {
+            return _p->options;
+        }
+
+        void FileBrowserDirectoryWidget::setOptions(const FileBrowserOptions& value)
         {
             TG_P();
             if (value == p.options)
@@ -112,12 +122,7 @@ namespace tg
             _directoryUpdate();
         }
 
-        const FileBrowserOptions& DirectoryWidget::getOptions() const
-        {
-            return _p->options;
-        }
-
-        void DirectoryWidget::setGeometry(const Box2I& value)
+        void FileBrowserDirectoryWidget::setGeometry(const Box2I& value)
         {
             IWidget::setGeometry(value);
             TG_P();
@@ -151,7 +156,7 @@ namespace tg
             _p->layout->setGeometry(value);
         }
 
-        void DirectoryWidget::sizeHintEvent(const SizeHintEvent& event)
+        void FileBrowserDirectoryWidget::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
             TG_P();
@@ -199,7 +204,7 @@ namespace tg
             void list(
                 const std::filesystem::path& path,
                 const FileBrowserOptions& options,
-                std::vector<FileInfo>& out)
+                std::vector<FileBrowserInfo>& out)
             {
                 try
                 {
@@ -241,29 +246,29 @@ namespace tg
                 catch (const std::exception&)
                 {}
 
-                std::function<int(const FileInfo& a, const FileInfo& b)> sort;
+                std::function<int(const FileBrowserInfo& a, const FileBrowserInfo& b)> sort;
                 switch (options.sort)
                 {
                 case FileBrowserSort::Name:
-                    sort = [](const FileInfo& a, const FileInfo& b)
+                    sort = [](const FileBrowserInfo& a, const FileBrowserInfo& b)
                     {
                         return a.path.filename() < b.path.filename();
                     };
                     break;
                 case FileBrowserSort::Extension:
-                    sort = [](const FileInfo& a, const FileInfo& b)
+                    sort = [](const FileBrowserInfo& a, const FileBrowserInfo& b)
                     {
                         return a.path.extension() < b.path.extension();
                     };
                     break;
                 case FileBrowserSort::Size:
-                    sort = [](const FileInfo& a, const FileInfo& b)
+                    sort = [](const FileBrowserInfo& a, const FileBrowserInfo& b)
                     {
                         return a.size < b.size;
                     };
                     break;
                 case FileBrowserSort::Time:
-                    sort = [](const FileInfo& a, const FileInfo& b)
+                    sort = [](const FileBrowserInfo& a, const FileBrowserInfo& b)
                     {
                         return a.time < b.time;
                     };
@@ -284,14 +289,14 @@ namespace tg
                 std::stable_sort(
                     out.begin(),
                     out.end(),
-                    [](const FileInfo& a, const FileInfo& b)
+                    [](const FileBrowserInfo& a, const FileBrowserInfo& b)
                     {
                         return a.isDir > b.isDir;
                     });
             }
         }
 
-        void DirectoryWidget::_directoryUpdate()
+        void FileBrowserDirectoryWidget::_directoryUpdate()
         {
             TG_P();
             for (const auto& button : p.buttons)
@@ -300,13 +305,13 @@ namespace tg
             }
             p.buttons.clear();
             p.buttonGroup->clearButtons();
-            p.fileInfo.clear();
-            list(p.path, p.options, p.fileInfo);
+            p.info.clear();
+            list(p.path, p.options, p.info);
             if (auto context = _getContext().lock())
             {
-                for (const auto& fileInfo : p.fileInfo)
+                for (const auto& info : p.info)
                 {
-                    auto button = Button::create(context, fileInfo);
+                    auto button = FileBrowserButton::create(context, info);
                     button->setParent(p.layout);
                     p.buttons.push_back(button);
                     p.buttonGroup->addButton(button);

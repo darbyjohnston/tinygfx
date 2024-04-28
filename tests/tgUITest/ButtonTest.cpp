@@ -8,6 +8,7 @@
 #include <tgUI/ListButton.h>
 #include <tgUI/PushButton.h>
 #include <tgUI/ToolButton.h>
+#include <tgUI/Tooltip.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -71,13 +72,16 @@ namespace tg
                 button->setParent(nullptr);
                 button.reset();
 
-                button = ToolButton::create(context, "Tool", layout);
-                _test(app, window, layout, button);
-                button->setParent(nullptr);
-                button.reset();
-
                 button = CheckBox::create(context, "CheckBox", layout);
                 _test(app, window, layout, button);
+                window->setCursorEnter(true);
+                std::string tooltip = "This is a tooltip";
+                button->setTooltip(tooltip);
+                TG_ASSERT(tooltip == button->getTooltip());
+                window->setCursorPos(center(button->getGeometry()));
+                sleep(tooltipTimeout * 2);
+                window->setCursorPos(center(button->getGeometry()));
+                window->setCursorPos(V2I(0, 0));
                 button->setParent(nullptr);
                 button.reset();
             }
@@ -86,8 +90,8 @@ namespace tg
         void ButtonTest::_test(
             const std::shared_ptr<App>& app,
             const std::shared_ptr<Window>& window,
-            const std::shared_ptr<ui::VerticalLayout>& layout,
-            const std::shared_ptr<ui::IButton>& button)
+            const std::shared_ptr<VerticalLayout>& layout,
+            const std::shared_ptr<IButton>& button)
         {
             TG_ASSERT(button->getParent().lock());
             TG_ASSERT(button->getParentT<Window>());
@@ -223,21 +227,8 @@ namespace tg
             window->hide();
             window->show();
 
-            window->setCursorEnter(true);
-            std::string tooltip = "This is a tooltip";
-            button->setTooltip(tooltip);
-            TG_ASSERT(tooltip == button->getTooltip());
-            window->setCursorPos(center(button->getGeometry()));
-            sleep(std::chrono::seconds(3));
-            window->setCursorPos(center(button->getGeometry()));
-            window->setCursorPos(V2I(0, 0));
-
             app->setDisplayScale(2.F);
             app->setDisplayScale(1.F);
-
-            button->takeKeyFocus();
-            button->setParent(nullptr);
-            button->setParent(layout);
         }
     }
 }

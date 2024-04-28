@@ -22,31 +22,12 @@ namespace tg
     {
         namespace
         {
-            class DragAndDropData : public ui::DragAndDropData
-            {
-            public:
-                DragAndDropData(int value) :
-                    _number(value)
-                {}
-
-                virtual ~DragAndDropData()
-                {}
-
-                int getNumber() const
-                {
-                    return _number;
-                }
-
-            private:
-                int _number = 0;
-            };
-
-            class DragAndDropWidget : public ui::IWidget
+            class DragAndDropWidget : public IWidget
             {
             protected:
                 void _init(
-                    const std::shared_ptr<core::Context>&,
-                    int number,
+                    const std::shared_ptr<Context>&,
+                    const std::string& text,
                     const std::shared_ptr<IWidget>& parent);
 
                 DragAndDropWidget() = default;
@@ -55,37 +36,34 @@ namespace tg
                 virtual ~DragAndDropWidget();
 
                 static std::shared_ptr<DragAndDropWidget> create(
-                    const std::shared_ptr<core::Context>&,
-                    int number,
+                    const std::shared_ptr<Context>&,
+                    const std::string& text,
                     const std::shared_ptr<IWidget>& parent = nullptr);
 
-                int getNumber() const;
+                const std::string& getText() const;
 
-                void sizeHintEvent(const ui::SizeHintEvent&) override;
-                void mouseMoveEvent(ui::MouseMoveEvent&) override;
-                void dragEnterEvent(ui::DragAndDropEvent&) override;
-                void dragLeaveEvent(ui::DragAndDropEvent&) override;
-                void dropEvent(ui::DragAndDropEvent&) override;
+                void sizeHintEvent(const SizeHintEvent&) override;
+                void mouseMoveEvent(MouseMoveEvent&) override;
+                void dragEnterEvent(DragAndDropEvent&) override;
+                void dragLeaveEvent(DragAndDropEvent&) override;
+                void dropEvent(DragAndDropEvent&) override;
 
             private:
-                int _number = 0;
+                std::string _text;
                 int _dragLength = 0;
                 bool _dropTarget = false;;
             };
 
             void DragAndDropWidget::_init(
                 const std::shared_ptr<Context>& context,
-                int number,
+                const std::string& text,
                 const std::shared_ptr<IWidget>& parent)
             {
                 IWidget::_init(context, "tg::examples::dnd::DragAndDropWidget", parent);
-
                 setStretch(Stretch::Expanding);
-
                 _setMouseHoverEnabled(true);
                 _setMousePressEnabled(true);
-
-                _number = number;
+                _text = text;
             }
 
             DragAndDropWidget::~DragAndDropWidget()
@@ -93,17 +71,17 @@ namespace tg
 
             std::shared_ptr<DragAndDropWidget> DragAndDropWidget::create(
                 const std::shared_ptr<Context>& context,
-                int number,
+                const std::string& text,
                 const std::shared_ptr<IWidget>& parent)
             {
                 auto out = std::shared_ptr<DragAndDropWidget>(new DragAndDropWidget);
-                out->_init(context, number, parent);
+                out->_init(context, text, parent);
                 return out;
             }
 
-            int DragAndDropWidget::getNumber() const
+            const std::string& DragAndDropWidget::getText() const
             {
-                return _number;
+                return _text;
             }
 
             void DragAndDropWidget::sizeHintEvent(const SizeHintEvent& event)
@@ -121,7 +99,7 @@ namespace tg
                     const float length = core::length(event.pos - _getMousePressPos());
                     if (length > _dragLength)
                     {
-                        event.dndData = std::make_shared<DragAndDropData>(_number);
+                        event.dndData = std::make_shared<TextDragAndDropData>(_text);
                         const Box2I& g = getGeometry();
                         const int w = g.w();
                         const int h = g.h();
@@ -157,10 +135,10 @@ namespace tg
 
             void DragAndDropWidget::dropEvent(DragAndDropEvent& event)
             {
-                if (auto data = std::dynamic_pointer_cast<DragAndDropData>(event.data))
+                if (auto data = std::dynamic_pointer_cast<TextDragAndDropData>(event.data))
                 {
                     event.accept = true;
-                    _number = data->getNumber();
+                    _text = data->getText();
                 }
             }
         }
@@ -191,8 +169,8 @@ namespace tg
                     "Drag and drop test.");
                 auto window = Window::create(context, app, "DragAndDropTest");
                 auto layout = HorizontalLayout::create(context, window);
-                auto dndWidget0 = DragAndDropWidget::create(context, 0, layout);
-                auto dndWidget1 = DragAndDropWidget::create(context, 1, layout);
+                auto dndWidget0 = DragAndDropWidget::create(context, "Drag 0", layout);
+                auto dndWidget1 = DragAndDropWidget::create(context, "Drag 1", layout);
                 auto spacer = Spacer::create(context, Orientation::Horizontal, layout);
                 spacer->setStretch(Stretch::Expanding);
                 app->addWindow(window);
@@ -205,7 +183,7 @@ namespace tg
                 window->setCursorPos(center(dndWidget1->getGeometry()));
                 window->setCursorPos(center(dndWidget1->getGeometry()));
                 window->setButton(0, false);
-                TG_ASSERT(0 == dndWidget1->getNumber());
+                TG_ASSERT("Drag 0" == dndWidget1->getText());
 
                 window->setCursorPos(center(dndWidget0->getGeometry()));
                 window->setButton(0, true);

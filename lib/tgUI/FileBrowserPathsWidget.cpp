@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/FileBrowserPrivate.h>
+#include <tgUI/FileBrowserWidgets.h>
 
 #include <tgUI/Bellows.h>
 #include <tgUI/ButtonGroup.h>
@@ -21,7 +21,7 @@ namespace tg
 {
     namespace ui
     {
-        struct PathsWidget::Private
+        struct FileBrowserPathsWidget::Private
         {
             std::shared_ptr<DrivesModel> drivesModel;
             std::vector<std::filesystem::path> drives;
@@ -38,11 +38,11 @@ namespace tg
             std::shared_ptr<ListObserver<std::filesystem::path> > recentObserver;
         };
 
-        void PathsWidget::_init(
+        void FileBrowserPathsWidget::_init(
             const std::shared_ptr<Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tg::ui::PathsWidget", parent);
+            IWidget::_init(context, "tg::ui::FileBrowserPathsWidget", parent);
             TG_P();
 
             setBackgroundRole(ColorRole::Base);
@@ -97,28 +97,28 @@ namespace tg
                 });
         }
 
-        PathsWidget::PathsWidget() :
+        FileBrowserPathsWidget::FileBrowserPathsWidget() :
             _p(new Private)
         {}
 
-        PathsWidget::~PathsWidget()
+        FileBrowserPathsWidget::~FileBrowserPathsWidget()
         {}
 
-        std::shared_ptr<PathsWidget> PathsWidget::create(
+        std::shared_ptr<FileBrowserPathsWidget> FileBrowserPathsWidget::create(
             const std::shared_ptr<Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
-            auto out = std::shared_ptr<PathsWidget>(new PathsWidget);
+            auto out = std::shared_ptr<FileBrowserPathsWidget>(new FileBrowserPathsWidget);
             out->_init(context, parent);
             return out;
         }
 
-        void PathsWidget::setCallback(const std::function<void(const std::filesystem::path&)>& value)
+        void FileBrowserPathsWidget::setCallback(const std::function<void(const std::filesystem::path&)>& value)
         {
             _p->callback = value;
         }
 
-        void PathsWidget::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
+        void FileBrowserPathsWidget::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
         {
             TG_P();
             p.recentObserver.reset();
@@ -135,19 +135,19 @@ namespace tg
             }
         }
 
-        void PathsWidget::setGeometry(const core::Box2I& value)
+        void FileBrowserPathsWidget::setGeometry(const core::Box2I& value)
         {
             IWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void PathsWidget::sizeHintEvent(const SizeHintEvent& event)
+        void FileBrowserPathsWidget::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
-        void PathsWidget::_createButton(
+        void FileBrowserPathsWidget::_createButton(
             const std::shared_ptr<Context>& context,
             const std::string& text,
             const std::string& toolTip,
@@ -161,7 +161,7 @@ namespace tg
             p.buttonGroup->addButton(button);
         }
 
-        void PathsWidget::_pathsUpdate()
+        void FileBrowserPathsWidget::_pathsUpdate()
         {
             TG_P();
             

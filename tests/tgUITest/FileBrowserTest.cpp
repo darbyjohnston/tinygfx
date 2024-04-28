@@ -10,8 +10,9 @@
 #include <tgUITest/App.h>
 #include <tgUITest/Window.h>
 
-#include <tgUI/FileBrowser.h>
+#include <tgUI/FileBrowserWidgets.h>
 #include <tgUI/RecentFilesModel.h>
+#include <tgUI/RowLayout.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -39,6 +40,9 @@ namespace tg
         void FileBrowserTest::run()
         {
             _enums();
+            _pathsWidget();
+            _button();
+            _directoryWidget();
             _widget();
             _dialog();
         }
@@ -48,18 +52,127 @@ namespace tg
             TINYGFX_TEST_ENUM(FileBrowserSort);
         }
 
+        void FileBrowserTest::_pathsWidget()
+        {
+            if (auto context = _context.lock())
+            {
+                std::vector<std::string> argv;
+                argv.push_back("FileBrowserTest");
+                auto app = App::create(
+                    context,
+                    argv,
+                    "FileBrowserTest",
+                    "File browser test.");
+                auto window = Window::create(context, app, "FileBrowserTest");
+                app->addWindow(window);
+                window->show();
+                app->tick();
+
+                auto widget = FileBrowserPathsWidget::create(context, window);
+                std::filesystem::path path;
+                widget->setCallback(
+                    [&path](const std::filesystem::path& value)
+                    {
+                        path = value;
+                    });
+                auto recentFilesModel = RecentFilesModel::create(context);
+                widget->setRecentFilesModel(recentFilesModel);
+                app->tick();
+
+                window->setCursorEnter(true);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
+            }
+        }
+
+        void FileBrowserTest::_button()
+        {
+            if (auto context = _context.lock())
+            {
+                std::vector<std::string> argv;
+                argv.push_back("FileBrowserTest");
+                auto app = App::create(
+                    context,
+                    argv,
+                    "FileBrowserTest",
+                    "File browser test.");
+                auto window = Window::create(context, app, "FileBrowserTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
+                app->addWindow(window);
+                window->show();
+                app->tick();
+
+                FileBrowserInfo info;
+                info.path = std::filesystem::current_path();
+                auto button = FileBrowserButton::create(context, info, layout);
+
+                window->setCursorEnter(true);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
+                button->releaseKeyFocus();
+
+                Box2I g = button->getGeometry();
+                V2I c = center(g);
+                window->setCursorPos(c);
+                window->setButton(0);
+                window->setCursorPos(V2I(0, 0));
+            }
+        }
+
+        void FileBrowserTest::_directoryWidget()
+        {
+            if (auto context = _context.lock())
+            {
+                std::vector<std::string> argv;
+                argv.push_back("FileBrowserTest");
+                auto app = App::create(
+                    context,
+                    argv,
+                    "FileBrowserTest",
+                    "File browser test.");
+                auto window = Window::create(context, app, "FileBrowserTest");
+                app->addWindow(window);
+                window->show();
+                app->tick();
+
+                auto widget = FileBrowserDirectoryWidget::create(context, window);
+                std::filesystem::path path = std::filesystem::current_path();
+                widget->setPath(path);
+                widget->setPath(path);
+                TG_ASSERT(path == widget->getPath());
+                widget->reload();
+                FileBrowserOptions options;
+                options.reverseSort = true;
+                widget->setOptions(options);
+                widget->setOptions(options);
+                TG_ASSERT(options == widget->getOptions());
+                widget->setCallback(
+                    [&path](const std::filesystem::path& value)
+                    {
+                        path = value;
+                    });
+
+                window->setCursorEnter(true);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
+            }
+        }
+
         void FileBrowserTest::_widget()
         {
             if (auto context = _context.lock())
             {
                 std::vector<std::string> argv;
-                argv.push_back("DoubleSliderTest");
+                argv.push_back("FileBrowserTest");
                 auto app = App::create(
                     context,
                     argv,
-                    "DoubleSliderTest",
-                    "Double slider test.");
-                auto window = Window::create(context, app, "DoubleSliderTest");
+                    "FileBrowserTest",
+                    "File browser test.");
+                auto window = Window::create(context, app, "FileBrowserTest");
                 app->addWindow(window);
                 window->show();
                 app->tick();
@@ -67,6 +180,13 @@ namespace tg
                 std::filesystem::path path = std::filesystem::current_path();
                 auto fileBrowserWidget = FileBrowserWidget::create(context, path, window);
                 TG_ASSERT(path == fileBrowserWidget->getPath());
+                FileBrowserOptions options;
+                options.reverseSort = true;
+                fileBrowserWidget->setOptions(options);
+                fileBrowserWidget->setOptions(options);
+                TG_ASSERT(options == fileBrowserWidget->getOptions());
+                auto recentFilesModel = RecentFilesModel::create(context);
+                fileBrowserWidget->setRecentFilesModel(recentFilesModel);
                 fileBrowserWidget->setCallback(
                     [&path](const std::filesystem::path& value)
                     {
@@ -78,23 +198,17 @@ namespace tg
                     {
                         cancel = true;
                     });
-                FileBrowserOptions options;
                 fileBrowserWidget->setOptionsCallback(
                     [&options](const FileBrowserOptions& value)
                     {
                         options = value;
                     });
 
-                FileBrowserOptions options2;
-                options2.reverseSort = true;
-                fileBrowserWidget->setOptions(options2);
-                fileBrowserWidget->setOptions(options2);
-                TG_ASSERT(options2 == fileBrowserWidget->getOptions());
-
-                auto recentFilesModel = RecentFilesModel::create(context);
-                fileBrowserWidget->setRecentFilesModel(recentFilesModel);
-
-                fileBrowserWidget->setParent(nullptr);
+                window->setCursorEnter(true);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
             }
         }
 
@@ -103,13 +217,13 @@ namespace tg
             if (auto context = _context.lock())
             {
                 std::vector<std::string> argv;
-                argv.push_back("DoubleSliderTest");
+                argv.push_back("FileBrowserTest");
                 auto app = App::create(
                     context,
                     argv,
-                    "DoubleSliderTest",
-                    "Double slider test.");
-                auto window = Window::create(context, app, "DoubleSliderTest");
+                    "FileBrowserTest",
+                    "File browser test.");
+                auto window = Window::create(context, app, "FileBrowserTest");
                 app->addWindow(window);
                 window->show();
                 app->tick();
@@ -117,6 +231,13 @@ namespace tg
                 std::filesystem::path path = std::filesystem::current_path();
                 auto fileBrowser = FileBrowser::create(context, path);
                 TG_ASSERT(path == fileBrowser->getPath());
+                FileBrowserOptions options;
+                options.reverseSort = true;
+                fileBrowser->setOptions(options);
+                TG_ASSERT(fileBrowser->getOptions() == options);
+                auto recentFilesModel = RecentFilesModel::create(context);
+                fileBrowser->setRecentFilesModel(recentFilesModel);
+                TG_ASSERT(recentFilesModel == fileBrowser->getRecentFilesModel());
                 fileBrowser->setCallback(
                     [&path](const std::filesystem::path& value)
                     {
@@ -128,13 +249,6 @@ namespace tg
                     {
                         close = true;
                     });
-                FileBrowserOptions options;
-                options.reverseSort = true;
-                fileBrowser->setOptions(options);
-                TG_ASSERT(fileBrowser->getOptions() == options);
-                auto recentFilesModel = RecentFilesModel::create(context);
-                fileBrowser->setRecentFilesModel(recentFilesModel);
-                TG_ASSERT(recentFilesModel == fileBrowser->getRecentFilesModel());
 
                 fileBrowser->open(window);
                 app->tick();

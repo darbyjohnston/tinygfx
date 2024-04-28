@@ -74,7 +74,7 @@ namespace tg
             const std::shared_ptr<App>& app,
             const std::shared_ptr<Window>& window,
             const std::shared_ptr<RowLayout>& layout,
-            ui::Orientation orientation)
+            Orientation orientation)
         {
             auto spacer = Spacer::create(context, orientation, layout);
             spacer->setSpacingRole(SizeRole::None);

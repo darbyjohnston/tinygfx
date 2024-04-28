@@ -2,7 +2,9 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/FileBrowserPrivate.h>
+#include <tgUI/FileBrowser.h>
+
+#include <tgUI/FileBrowserWidgets.h>
 
 #include <tgCore/Error.h>
 #include <tgCore/String.h>

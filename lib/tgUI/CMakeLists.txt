@@ -18,6 +18,7 @@ set(HEADERS
     GridLayout.h
     GroupBox.h
     FileBrowser.h
+    FileBrowserWidgets.h
     FileEdit.h
     FloatEdit.h
     FloatEditSlider.h
@@ -68,7 +69,6 @@ set(HEADERS
     Tooltip.h
     WidgetOptions.h)
 set(PRIVATE_HEADERS
-    FileBrowserPrivate.h
     MessageDialogPrivate.h)
 
 set(SOURCE

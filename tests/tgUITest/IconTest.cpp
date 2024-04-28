@@ -56,16 +56,14 @@ namespace tg
                 widget->setIcon("PlaybackStop");
                 widget->setIcon("PlaybackStop");
                 TG_ASSERT("PlaybackStop" == widget->getIcon());
-                while (!widget->getIconImage())
-                {
-                    sleep(std::chrono::seconds(1));
-                    app->tick();
-                }
+                app->tick(100);
+                widget->setIcon("PlaybackForward");
+                widget->setIcon("PlaybackForward");
+                app->tick(100);
                 widget->setMarginRole(SizeRole::Margin);
                 widget->setMarginRole(SizeRole::Margin);
                 TG_ASSERT(SizeRole::Margin == widget->getMarginRole());
                 widget->setMarginRole(SizeRole::None);
-                app->tick();
 
                 widget->setEnabled(false);
                 app->tick();

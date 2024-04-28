@@ -70,11 +70,6 @@ namespace tg
             return _p->icon;
         }
 
-        const std::shared_ptr<Image>& Icon::getIconImage() const
-        {
-            return _p->iconImage;
-        }
-
         void Icon::setIcon(const std::string& value)
         {
             TG_P();

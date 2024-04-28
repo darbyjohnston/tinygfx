@@ -16,6 +16,7 @@
 #include <tgUITest/DoubleSliderTest.h>
 #include <tgUITest/DoubleModelTest.h>
 #include <tgUITest/DragAndDropTest.h>
+#include <tgUITest/DrawUtilTest.h>
 #include <tgUITest/EventTest.h>
 #include <tgUITest/FileBrowserTest.h>
 #include <tgUITest/FileEditTest.h>
@@ -196,6 +197,7 @@ namespace tg
             p.tests.push_back(ui_test::DoubleSliderTest::create(context));
             p.tests.push_back(ui_test::DoubleModelTest::create(context));
             p.tests.push_back(ui_test::DragAndDropTest::create(context));
+            p.tests.push_back(ui_test::DrawUtilTest::create(context));
             p.tests.push_back(ui_test::EventTest::create(context));
             p.tests.push_back(ui_test::FileBrowserTest::create(context));
             p.tests.push_back(ui_test::FileEditTest::create(context));

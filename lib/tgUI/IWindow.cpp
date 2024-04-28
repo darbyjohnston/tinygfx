@@ -13,11 +13,6 @@ namespace tg
 {
     namespace ui
     {
-        namespace
-        {
-            std::chrono::milliseconds tooltipTimeout(1000);
-        }
-
         struct IWindow::Private
         {
             V2I cursorPos;

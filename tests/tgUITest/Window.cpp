@@ -66,10 +66,12 @@ namespace tg
                                 "tg::ui_test::Render",
                                 Format(
                                     "\n"
-                                    "    Rect count: {0}\n"
-                                    "    Mesh count: {1}\n"
-                                    "    Text count: {2}\n"
-                                    "    Image count: {3}").
+                                    "    Render count: {0}\n"
+                                    "    Rectangle count: {1}\n"
+                                    "    Mesh count: {2}\n"
+                                    "    Text count: {3}\n"
+                                    "    Image count: {4}").
+                                arg(_renderCount).
                                 arg(_rectCount).
                                 arg(_meshCount).
                                 arg(_textCount).
@@ -154,6 +156,7 @@ namespace tg
                 bool _clipRectEnabled = false;
                 Box2I _clipRect;
                 M44F _transform;
+                size_t _renderCount = 0;
                 size_t _rectCount = 0;
                 size_t _meshCount = 0;
                 size_t _textCount = 0;
@@ -172,6 +175,7 @@ namespace tg
                 const RenderOptions&)
             {
                 _renderSize = size;
+                ++_renderCount;
             }
 
             Size2I Render::getRenderSize() const 

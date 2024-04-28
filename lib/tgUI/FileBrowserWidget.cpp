@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/FileBrowserPrivate.h>
+#include <tgUI/FileBrowserWidgets.h>
 
 #include <tgUI/ComboBox.h>
 #include <tgUI/Divider.h>
@@ -41,9 +41,9 @@ namespace tg
             std::shared_ptr<ToolButton> backButton;
             std::shared_ptr<ToolButton> reloadButton;
             std::shared_ptr<LineEdit> pathEdit;
-            std::shared_ptr<PathsWidget> pathsWidget;
+            std::shared_ptr<FileBrowserPathsWidget> pathsWidget;
             std::shared_ptr<ScrollWidget> pathsScrollWidget;
-            std::shared_ptr<DirectoryWidget> directoryWidget;
+            std::shared_ptr<FileBrowserDirectoryWidget> directoryWidget;
             std::shared_ptr<ScrollWidget> directoryScrollWidget;
             std::shared_ptr<SearchBox> searchBox;
             std::shared_ptr<ComboBox> extensionsComboBox;
@@ -99,12 +99,12 @@ namespace tg
             p.pathEdit->setHStretch(Stretch::Expanding);
             p.pathEdit->setTooltip("Current directory");
 
-            p.pathsWidget = PathsWidget::create(context);
+            p.pathsWidget = FileBrowserPathsWidget::create(context);
             p.pathsScrollWidget = ScrollWidget::create(context);
             p.pathsScrollWidget->setWidget(p.pathsWidget);
             p.pathsScrollWidget->setVStretch(Stretch::Expanding);
 
-            p.directoryWidget = DirectoryWidget::create(context);
+            p.directoryWidget = FileBrowserDirectoryWidget::create(context);
             p.directoryScrollWidget = ScrollWidget::create(context);
             p.directoryScrollWidget->setWidget(p.directoryWidget);
             p.directoryScrollWidget->setVStretch(Stretch::Expanding);
