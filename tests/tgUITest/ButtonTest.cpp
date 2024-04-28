@@ -228,7 +228,9 @@ namespace tg
             window->show();
 
             app->setDisplayScale(2.F);
+            app->tick(1000);
             app->setDisplayScale(1.F);
+            app->tick(1000);
         }
     }
 }

@@ -8,6 +8,7 @@
 #include <tgUITest/Window.h>
 
 #include <tgUI/Label.h>
+#include <tgUI/Spacer.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -76,9 +77,13 @@ namespace tg
             Orientation orientation)
         {
             auto label0 = Label::create(context, "Label 0", layout);
+            auto spacer = Spacer::create(context, orientation, layout);
+            spacer->setSpacingRole(SizeRole::SpacingLarge);
+            spacer->setSpacingRole(SizeRole::SpacingLarge);
+            TG_ASSERT(SizeRole::SpacingLarge == spacer->getSpacingRole());
             auto label1 = Label::create(context, "Label 1", layout);
             auto children = layout->getChildren();
-            TG_ASSERT(2 == children.size());
+            TG_ASSERT(3 == children.size());
             TG_ASSERT(label0 == children.front());
             TG_ASSERT(label1 == children.back());
             app->tick();
@@ -86,7 +91,7 @@ namespace tg
             layout->moveToFront(label0);
             app->tick();
             children = layout->getChildren();
-            TG_ASSERT(label1 == children.front());
+            TG_ASSERT(spacer == children.front());
             TG_ASSERT(label0 == children.back());
 
             layout->moveToBack(label0);
@@ -147,18 +152,19 @@ namespace tg
             label0->setParent(nullptr);
             app->tick();
             children = layout->getChildren();
-            TG_ASSERT(1 == children.size());
-            TG_ASSERT(label1 == children.front());
+            TG_ASSERT(2 == children.size());
+            TG_ASSERT(spacer == children.front());
             label0->setParent(layout);
             app->tick();
             children = layout->getChildren();
-            TG_ASSERT(2 == children.size());
-            TG_ASSERT(label1 == children.front());
+            TG_ASSERT(3 == children.size());
+            TG_ASSERT(spacer == children.front());
             TG_ASSERT(label0 == children.back());
             label0->setParent(nullptr);
             app->tick();
 
             label1->setParent(nullptr);
+            spacer->setParent(nullptr);
             app->tick();
             children = layout->getChildren();
             TG_ASSERT(children.empty());

@@ -108,6 +108,11 @@ namespace tg
             return out;
         }
 
+        const std::vector<PieChartData>& PieChart::getData() const
+        {
+            return _p->data;
+        }
+
         void PieChart::setData(const std::vector<PieChartData>& value)
         {
             TG_P();
@@ -116,6 +121,11 @@ namespace tg
             p.data = value;
             _setSizeUpdate();
             _setDrawUpdate();
+        }
+
+        FontRole PieChart::getFontRole() const
+        {
+            return _p->fontRole;
         }
 
         void PieChart::setFontRole(FontRole value)
@@ -127,6 +137,11 @@ namespace tg
             p.size.init = true;
             _setSizeUpdate();
             _setDrawUpdate();
+        }
+
+        int PieChart::getSizeMult() const
+        {
+            return _p->sizeMult;
         }
 
         void PieChart::setSizeMult(int value)

@@ -71,6 +71,7 @@ namespace tg
                     [&action2](bool value) { action2 = value; });
                 menu->addItem(item);
                 menu->setItemChecked(item, true);
+                menu->setItemEnabled(item, false);
                 auto subMenu = menu->addSubMenu("Sub Menu");
                 bool action3 = false;
                 subMenu->addItem(std::make_shared<Action>(
@@ -92,7 +93,17 @@ namespace tg
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
-                sleep(std::chrono::seconds(1));
+                Box2I g = menuBar->getGeometry();
+                V2I c = center(g);
+                for (int x = g.min.x; x < g.max.x; ++x)
+                {
+                    window->setCursorPos(V2I(x, c.y));
+                }
+                window->setKey(Key::Escape);
+                window->setKey(Key::Escape);
+
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
                 window->setKey(Key::Enter);
                 TG_ASSERT(action1);
 
@@ -108,6 +119,15 @@ namespace tg
 
                 menuBar->shortcut(Key::_4, static_cast<int>(KeyModifier::Control));
                 TG_ASSERT(action4);
+
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
+                app->setDisplayScale(2.F);
+                app->tick(1000);
+                app->setDisplayScale(1.F);
+                app->tick(1000);
+
+                menu->clear();
             }
         }
     }

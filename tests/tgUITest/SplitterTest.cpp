@@ -44,6 +44,7 @@ namespace tg
                     argv,
                     "SplitterTest",
                     "Splitter test.");
+                app->getStyle()->setSizeRole(SizeRole::HandleSmall, 100);
                 auto window = Window::create(context, app, "SplitterTest");
                 app->addWindow(window);
                 window->show();
@@ -63,6 +64,7 @@ namespace tg
             splitter->setSplit(.9F);
             splitter->setSplit(.9F);
             TG_ASSERT(.9F == splitter->getSplit());
+            app->tick();
             splitter->setSpacingRole(SizeRole::SpacingLarge);
             splitter->setSpacingRole(SizeRole::SpacingLarge);
             TG_ASSERT(SizeRole::SpacingLarge == splitter->getSpacingRole());
@@ -73,6 +75,15 @@ namespace tg
             splitter->setSplit(.1F);
             app->tick();
             splitter->setSplit(.5F);
+            app->tick();
+
+            window->setCursorEnter(true);
+            Box2I g = splitter->getGeometry();
+            V2I c = center(g);
+            window->setCursorPos(c);
+            window->setButton(0, true);
+            window->setCursorPos(c + V2I(100, 100));
+            window->setButton(0, false);
 
             splitter->setParent(nullptr);
         }

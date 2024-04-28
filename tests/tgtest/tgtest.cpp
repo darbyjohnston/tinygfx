@@ -37,6 +37,8 @@
 #include <tgUITest/ListWidgetTest.h>
 #include <tgUITest/MDIWidgetTest.h>
 #include <tgUITest/MenuBarTest.h>
+#include <tgUITest/MessageDialogTest.h>
+#include <tgUITest/PieChartTest.h>
 #include <tgUITest/RecentFilesModelTest.h>
 #include <tgUITest/RowLayoutTest.h>
 #include <tgUITest/ScrollAreaTest.h>
@@ -219,6 +221,8 @@ namespace tg
             p.tests.push_back(ui_test::ListWidgetTest::create(context));
             p.tests.push_back(ui_test::MDIWidgetTest::create(context));
             p.tests.push_back(ui_test::MenuBarTest::create(context));
+            p.tests.push_back(ui_test::MessageDialogTest::create(context));
+            p.tests.push_back(ui_test::PieChartTest::create(context));
             p.tests.push_back(ui_test::RecentFilesModelTest::create(context));
             p.tests.push_back(ui_test::RowLayoutTest::create(context));
             p.tests.push_back(ui_test::ScrollAreaTest::create(context));

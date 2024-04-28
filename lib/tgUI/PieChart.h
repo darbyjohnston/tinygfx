@@ -48,11 +48,20 @@ namespace tg
                 const std::shared_ptr<core::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            //! Get the pie chart data.
+            const std::vector<PieChartData>& getData() const;
+
             //! Set the pie chart data.
             void setData(const std::vector<PieChartData>&);
 
+            //! Get the font role.
+            FontRole getFontRole() const;
+
             //! Set the font role.
             void setFontRole(FontRole);
+
+            //! Set the size multiplier.
+            int getSizeMult() const;
 
             //! Set the size multiplier.
             void setSizeMult(int);

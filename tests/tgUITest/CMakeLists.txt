@@ -31,6 +31,8 @@ set(HEADERS
     ListWidgetTest.h
     MDIWidgetTest.h
     MenuBarTest.h
+    MessageDialogTest.h
+    PieChartTest.h
     RecentFilesModelTest.h
     RowLayoutTest.h
     ScrollAreaTest.h
@@ -78,6 +80,8 @@ set(SOURCE
     ListWidgetTest.cpp
     MDIWidgetTest.cpp
     MenuBarTest.cpp
+    MessageDialogTest.cpp
+    PieChartTest.cpp
     RecentFilesModelTest.cpp
     RowLayoutTest.cpp
     ScrollAreaTest.cpp

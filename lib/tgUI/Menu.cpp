@@ -38,7 +38,6 @@ namespace tg
                 void setSubMenuIcon(const std::string&);
 
                 void setText(const std::string&) override;
-                void setFontRole(FontRole) override;
 
                 void tickEvent(
                     bool,
@@ -146,18 +145,6 @@ namespace tg
             {
                 const bool changed = value != _text;
                 IButton::setText(value);
-                if (changed)
-                {
-                    _size.textInit = true;
-                    _setSizeUpdate();
-                    _setDrawUpdate();
-                }
-            }
-
-            void MenuButton::setFontRole(FontRole value)
-            {
-                const bool changed = value != _fontRole;
-                IButton::setFontRole(value);
                 if (changed)
                 {
                     _size.textInit = true;
