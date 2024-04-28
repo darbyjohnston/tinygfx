@@ -191,9 +191,17 @@ namespace tg
 
         bool ScrollWidget::areScrollBarsVisible() const
         {
-            return
-                _p->horizontalScrollBar->isVisible() &&
-                _p->verticalScrollBar->isVisible();
+            TG_P();
+            bool out = false;
+            if (p.horizontalScrollBar)
+            {
+                out |= p.horizontalScrollBar->isVisible(false);
+            }
+            if (p.verticalScrollBar)
+            {
+                out |= p.verticalScrollBar->isVisible(false);
+            }
+            return out;
         }
 
         void ScrollWidget::setScrollBarsVisible(bool value)
@@ -202,8 +210,14 @@ namespace tg
             if (value == p.scrollBarsVisible)
                 return;
             p.scrollBarsVisible = value;
-            p.horizontalScrollBar->setVisible(value);
-            p.verticalScrollBar->setVisible(value);
+            if (p.horizontalScrollBar)
+            {
+                p.horizontalScrollBar->setVisible(value);
+            }
+            if (p.verticalScrollBar)
+            {
+                p.verticalScrollBar->setVisible(value);
+            }
         }
 
         bool ScrollWidget::areScrollEventsEnabled() const

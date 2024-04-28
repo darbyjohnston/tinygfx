@@ -6,12 +6,22 @@
 
 #include <tgUI/DrawUtil.h>
 
+#include <tgCore/Error.h>
+#include <tgCore/String.h>
+
 using namespace tg::core;
 
 namespace tg
 {
     namespace ui
     {
+        TG_ENUM_IMPL(
+            ScrollType,
+            "Both",
+            "Horizontal",
+            "Vertical",
+            "Menu");
+
         struct ScrollArea::Private
         {
             ScrollType scrollType = ScrollType::Both;

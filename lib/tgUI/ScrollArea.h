@@ -16,11 +16,15 @@ namespace tg
         //! Scroll type.
         enum class ScrollType
         {
+            Both,
             Horizontal,
             Vertical,
-            Both,
-            Menu
+            Menu,
+
+            Count,
+            First = Both
         };
+        TG_ENUM(ScrollType);
 
         //! Scroll area.
         class ScrollArea : public IWidget

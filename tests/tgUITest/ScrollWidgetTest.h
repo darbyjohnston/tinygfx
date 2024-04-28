@@ -4,6 +4,11 @@
 
 #pragma once
 
+#include <tgUITest/App.h>
+#include <tgUITest/Window.h>
+
+#include <tgUI/ScrollWidget.h>
+
 #include <tgTestLib/ITest.h>
 
 namespace tg
@@ -22,6 +27,13 @@ namespace tg
                 const std::shared_ptr<core::Context>&);
 
             void run() override;
+
+        private:
+            void _test(
+                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<App>&,
+                const std::shared_ptr<Window>&,
+                ui::ScrollType);
         };
     }
 }
