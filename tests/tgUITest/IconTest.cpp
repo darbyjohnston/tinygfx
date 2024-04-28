@@ -56,10 +56,10 @@ namespace tg
                 widget->setIcon("PlaybackStop");
                 widget->setIcon("PlaybackStop");
                 TG_ASSERT("PlaybackStop" == widget->getIcon());
-                app->tick(100);
+                app->tick(1000);
                 widget->setIcon("PlaybackForward");
                 widget->setIcon("PlaybackForward");
-                app->tick(100);
+                app->tick(1000);
                 widget->setMarginRole(SizeRole::Margin);
                 widget->setMarginRole(SizeRole::Margin);
                 TG_ASSERT(SizeRole::Margin == widget->getMarginRole());
@@ -74,6 +74,11 @@ namespace tg
                 app->tick();
                 widget->show();
                 app->tick();
+
+                window->setDisplayScale(2.F);
+                app->tick(1000);
+                window->setDisplayScale(1.F);
+                app->tick(1000);
             }
         }
     }

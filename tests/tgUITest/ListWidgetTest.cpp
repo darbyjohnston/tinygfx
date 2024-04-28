@@ -66,12 +66,14 @@ namespace tg
                 "Item 0",
                 "Item 1",
                 "Item 2",
-                "Item 3",
-                "Item 4"
+                "Item 3"
             };
             widget->setItems(items);
             widget->setItems(items);
             TG_ASSERT(items == widget->getItems());
+            app->tick();
+            items.push_back("Item 4");
+            widget->setItems(items);
             app->tick();
             if (ButtonGroupType::Radio == type)
             {
@@ -87,6 +89,10 @@ namespace tg
             widget->clearSearch();
             TG_ASSERT(widget->getSearch().empty());
             app->tick();
+
+            window->setCursorEnter(true);
+            window->setKey(Key::Tab);
+            window->setKey(Key::Enter);
         }
     }
 }

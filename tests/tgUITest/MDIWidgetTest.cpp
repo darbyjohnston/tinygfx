@@ -7,9 +7,9 @@
 #include <tgUITest/App.h>
 #include <tgUITest/Window.h>
 
+#include <tgUI/Label.h>
 #include <tgUI/MDICanvas.h>
 #include <tgUI/MDIWidget.h>
-#include <tgUI/PushButton.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -71,13 +71,18 @@ namespace tg
                 TG_ASSERT(Size2I(2, 2) == canvas->getGridSize());
                 canvas->setGridSize(Size2I(20, 20));
 
-                auto button = PushButton::create(context, "Button");
-                auto widget = canvas->addWidget(
-                    "Button",
-                    V2I(100, 100),
-                    button);
+                auto label = Label::create(context, "Label");
+                auto widget = canvas->addWidget("Widget 0", V2I(100, 100), label);
+                TG_ASSERT("Widget 0" == widget->getTitle());
+                widget->setTitle("Widget");
+                TG_ASSERT("Widget" == widget->getTitle());
                 app->tick();
-                TG_ASSERT("Button" == widget->getTitle());
+                label.reset();
+                widget->setParent(nullptr);
+                label = Label::create(context, "Label 1");
+                widget = canvas->addWidget("Widget 1", V2I(100, 100), label);
+                widget->setPos(V2I(200, 200));
+                widget->setSize(Size2I(1000, 1000));
             }
         }
     }

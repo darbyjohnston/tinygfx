@@ -7,8 +7,7 @@
 #include <tgUITest/App.h>
 #include <tgUITest/Window.h>
 
-#include <tgUI/Divider.h>
-#include <tgUI/Spacer.h>
+#include <tgUI/Label.h>
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
@@ -76,94 +75,90 @@ namespace tg
             const std::shared_ptr<RowLayout>& layout,
             Orientation orientation)
         {
-            auto spacer = Spacer::create(context, orientation, layout);
-            spacer->setSpacingRole(SizeRole::None);
-            spacer->setSpacingRole(SizeRole::None);
-            TG_ASSERT(SizeRole::None == spacer->getSpacingRole());
-            spacer->setSpacingRole(SizeRole::Spacing);
-            auto divider = Divider::create(context, orientation, layout);
+            auto label0 = Label::create(context, "Label 0", layout);
+            auto label1 = Label::create(context, "Label 1", layout);
             auto children = layout->getChildren();
             TG_ASSERT(2 == children.size());
-            TG_ASSERT(spacer == children.front());
-            TG_ASSERT(divider == children.back());
+            TG_ASSERT(label0 == children.front());
+            TG_ASSERT(label1 == children.back());
             app->tick();
 
-            layout->moveToFront(spacer);
+            layout->moveToFront(label0);
             app->tick();
             children = layout->getChildren();
-            TG_ASSERT(divider == children.front());
-            TG_ASSERT(spacer == children.back());
+            TG_ASSERT(label1 == children.front());
+            TG_ASSERT(label0 == children.back());
 
-            layout->moveToBack(spacer);
+            layout->moveToBack(label0);
             app->tick();
             children = layout->getChildren();
-            TG_ASSERT(spacer == children.front());
-            TG_ASSERT(divider == children.back());
+            TG_ASSERT(label0 == children.front());
+            TG_ASSERT(label1 == children.back());
 
             switch (orientation)
             {
             case Orientation::Horizontal:
-                spacer->setHStretch(Stretch::Expanding);
-                spacer->setHStretch(Stretch::Expanding);
-                spacer->setStretch(Stretch::Fixed, Stretch::Fixed);
-                spacer->setStretch(Stretch::Fixed, Stretch::Fixed);
-                spacer->setStretch(Stretch::Expanding);
-                TG_ASSERT(Stretch::Expanding == spacer->getHStretch());
+                label0->setHStretch(Stretch::Expanding);
+                label0->setHStretch(Stretch::Expanding);
+                label0->setStretch(Stretch::Fixed, Stretch::Fixed);
+                label0->setStretch(Stretch::Fixed, Stretch::Fixed);
+                label0->setStretch(Stretch::Expanding);
+                TG_ASSERT(Stretch::Expanding == label0->getHStretch());
                 app->tick();
-                spacer->setHAlign(HAlign::Right);
-                spacer->setHAlign(HAlign::Right);
-                spacer->setAlign(HAlign::Center, VAlign::Center);
-                spacer->setAlign(HAlign::Center, VAlign::Center);
-                TG_ASSERT(HAlign::Center == spacer->getHAlign());
+                label0->setHAlign(HAlign::Right);
+                label0->setHAlign(HAlign::Right);
+                label0->setAlign(HAlign::Center, VAlign::Center);
+                label0->setAlign(HAlign::Center, VAlign::Center);
+                TG_ASSERT(HAlign::Center == label0->getHAlign());
                 app->tick();
-                spacer->setHAlign(HAlign::Left);
-                divider->setHAlign(HAlign::Right);
+                label0->setHAlign(HAlign::Left);
+                label1->setHAlign(HAlign::Right);
                 break;
             case Orientation::Vertical:
-                spacer->setVStretch(Stretch::Expanding);
-                spacer->setVStretch(Stretch::Expanding);
-                spacer->setStretch(Stretch::Fixed, Stretch::Fixed);
-                spacer->setStretch(Stretch::Fixed, Stretch::Fixed);
-                spacer->setStretch(Stretch::Expanding);
-                TG_ASSERT(Stretch::Expanding == spacer->getVStretch());
+                label0->setVStretch(Stretch::Expanding);
+                label0->setVStretch(Stretch::Expanding);
+                label0->setStretch(Stretch::Fixed, Stretch::Fixed);
+                label0->setStretch(Stretch::Fixed, Stretch::Fixed);
+                label0->setStretch(Stretch::Expanding);
+                TG_ASSERT(Stretch::Expanding == label0->getVStretch());
                 app->tick();
-                spacer->setVAlign(VAlign::Bottom);
-                spacer->setVAlign(VAlign::Bottom);
-                spacer->setAlign(HAlign::Center, VAlign::Center);
-                spacer->setAlign(HAlign::Center, VAlign::Center);
-                TG_ASSERT(VAlign::Center == spacer->getVAlign());
+                label0->setVAlign(VAlign::Bottom);
+                label0->setVAlign(VAlign::Bottom);
+                label0->setAlign(HAlign::Center, VAlign::Center);
+                label0->setAlign(HAlign::Center, VAlign::Center);
+                TG_ASSERT(VAlign::Center == label0->getVAlign());
                 app->tick();
-                spacer->setVAlign(VAlign::Top);
-                divider->setVAlign(VAlign::Bottom);
+                label0->setVAlign(VAlign::Top);
+                label1->setVAlign(VAlign::Bottom);
                 break;
             default: break;
             }
             app->tick();
 
-            spacer->hide();
-            spacer->hide();
+            label0->hide();
+            label0->hide();
             app->tick();
-            TG_ASSERT(!spacer->isVisible());
-            TG_ASSERT(!spacer->isVisible(false));
-            TG_ASSERT(spacer->isClipped());
-            spacer->show();
+            TG_ASSERT(!label0->isVisible());
+            TG_ASSERT(!label0->isVisible(false));
+            TG_ASSERT(label0->isClipped());
+            label0->show();
             app->tick();
 
-            spacer->setParent(nullptr);
+            label0->setParent(nullptr);
             app->tick();
             children = layout->getChildren();
             TG_ASSERT(1 == children.size());
-            TG_ASSERT(divider == children.front());
-            spacer->setParent(layout);
+            TG_ASSERT(label1 == children.front());
+            label0->setParent(layout);
             app->tick();
             children = layout->getChildren();
             TG_ASSERT(2 == children.size());
-            TG_ASSERT(divider == children.front());
-            TG_ASSERT(spacer == children.back());
-            spacer->setParent(nullptr);
+            TG_ASSERT(label1 == children.front());
+            TG_ASSERT(label0 == children.back());
+            label0->setParent(nullptr);
             app->tick();
 
-            divider->setParent(nullptr);
+            label1->setParent(nullptr);
             app->tick();
             children = layout->getChildren();
             TG_ASSERT(children.empty());
