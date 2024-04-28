@@ -28,6 +28,7 @@ set(HEADERS
     LabelTest.h
     LayoutUtilTest.h
     LineEditTest.h
+    ListWidgetTest.h
     MDIWidgetTest.h
     MenuBarTest.h
     RecentFilesModelTest.h
@@ -74,6 +75,7 @@ set(SOURCE
     LabelTest.cpp
     LayoutUtilTest.cpp
     LineEditTest.cpp
+    ListWidgetTest.cpp
     MDIWidgetTest.cpp
     MenuBarTest.cpp
     RecentFilesModelTest.cpp

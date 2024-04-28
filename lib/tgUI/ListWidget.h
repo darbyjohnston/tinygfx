@@ -34,8 +34,14 @@ namespace tg
                 ButtonGroupType,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            //! Get the items.
+            const std::vector<std::string>& getItems() const;
+
             //! Set the items.
             void setItems(const std::vector<std::string>&);
+
+            //! Get the current item.
+            int getCurrentItem() const;
 
             //! Set the current item.
             void setCurrentItem(int);
@@ -43,8 +49,14 @@ namespace tg
             //! Set the callback.
             void setCallback(const std::function<void(int)>&);
 
+            //! Get the search.
+            const std::string& getSearch() const;
+
             //! Set the search.
             void setSearch(const std::string&);
+
+            //! Clear the search.
+            void clearSearch();
 
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;

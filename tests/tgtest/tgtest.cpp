@@ -34,6 +34,7 @@
 #include <tgUITest/LabelTest.h>
 #include <tgUITest/LayoutUtilTest.h>
 #include <tgUITest/LineEditTest.h>
+#include <tgUITest/ListWidgetTest.h>
 #include <tgUITest/MDIWidgetTest.h>
 #include <tgUITest/MenuBarTest.h>
 #include <tgUITest/RecentFilesModelTest.h>
@@ -215,6 +216,7 @@ namespace tg
             p.tests.push_back(ui_test::LabelTest::create(context));
             p.tests.push_back(ui_test::LayoutUtilTest::create(context));
             p.tests.push_back(ui_test::LineEditTest::create(context));
+            p.tests.push_back(ui_test::ListWidgetTest::create(context));
             p.tests.push_back(ui_test::MDIWidgetTest::create(context));
             p.tests.push_back(ui_test::MenuBarTest::create(context));
             p.tests.push_back(ui_test::RecentFilesModelTest::create(context));

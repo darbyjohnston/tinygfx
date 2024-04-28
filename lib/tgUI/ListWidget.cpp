@@ -91,6 +91,11 @@ namespace tg
             return out;
         }
 
+        const std::vector<std::string>& ListWidget::getItems() const
+        {
+            return _p->items;
+        }
+
         void ListWidget::setItems(const std::vector<std::string>& value)
         {
             TG_P();
@@ -100,6 +105,11 @@ namespace tg
             p.currentItem = clamp(p.currentItem, 0, static_cast<int>(p.items.size()) - 1);
             _widgetUpdate();
             _searchUpdate();
+        }
+
+        int ListWidget::getCurrentItem() const
+        {
+            return _p->currentItem;
         }
 
         void ListWidget::setCurrentItem(int value)
@@ -116,6 +126,11 @@ namespace tg
             _p->callback = value;
         }
 
+        const std::string& ListWidget::getSearch() const
+        {
+            return _p->search;
+        }
+
         void ListWidget::setSearch(const std::string& value)
         {
             TG_P();
@@ -123,6 +138,16 @@ namespace tg
                 return;
             p.search = value;
             _searchUpdate();
+        }
+
+        void ListWidget::clearSearch()
+        {
+            TG_P();
+            if (!p.search.empty())
+            {
+                p.search = std::string();
+                _searchUpdate();
+            }
         }
 
         void ListWidget::setGeometry(const Box2I& value)
