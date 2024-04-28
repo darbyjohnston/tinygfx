@@ -111,7 +111,7 @@ namespace tg
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
-                button->releaseKeyFocus();
+                window->setKey(Key::Escape);
 
                 Box2I g = button->getGeometry();
                 V2I c = center(g);
@@ -153,6 +153,16 @@ namespace tg
                     {
                         path = value;
                     });
+
+                options.sort = FileBrowserSort::Extension;
+                widget->setOptions(options);
+                app->tick();
+                options.sort = FileBrowserSort::Size;
+                widget->setOptions(options);
+                app->tick();
+                options.sort = FileBrowserSort::Time;
+                widget->setOptions(options);
+                app->tick();
 
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);
@@ -205,6 +215,18 @@ namespace tg
                     });
 
                 window->setCursorEnter(true);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
+                window->setKey(Key::Escape);
+
                 window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
                 window->setKey(Key::Enter);
                 window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
