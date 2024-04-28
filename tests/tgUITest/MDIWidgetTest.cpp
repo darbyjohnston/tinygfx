@@ -79,8 +79,11 @@ namespace tg
                 app->tick();
                 label.reset();
                 widget->setParent(nullptr);
+                widget.reset();
                 label = Label::create(context, "Label 1");
                 widget = canvas->addWidget("Widget 1", V2I(100, 100), label);
+                label = Label::create(context, "Label 2");
+                widget->setWidget(label);
                 widget->setPos(V2I(200, 200));
                 widget->setSize(Size2I(1000, 1000));
             }

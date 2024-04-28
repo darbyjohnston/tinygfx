@@ -130,6 +130,7 @@ namespace tg
                 window->setButton(0, false);
 
                 edit->takeKeyFocus();
+                app->tick();
                 edit->hide();
                 app->tick();
                 edit->show();
@@ -137,6 +138,7 @@ namespace tg
                 TG_ASSERT(!edit->hasKeyFocus());
 
                 edit->takeKeyFocus();
+                app->tick();
                 edit->setEnabled(false);
                 app->tick();
                 edit->setEnabled(true);

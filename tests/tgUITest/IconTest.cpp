@@ -75,9 +75,9 @@ namespace tg
                 widget->show();
                 app->tick();
 
-                window->setDisplayScale(2.F);
+                app->setDisplayScale(2.F);
                 app->tick(1000);
-                window->setDisplayScale(1.F);
+                app->setDisplayScale(1.F);
                 app->tick(1000);
             }
         }

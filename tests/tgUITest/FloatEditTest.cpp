@@ -90,6 +90,7 @@ namespace tg
                 TG_ASSERT(fuzzyCompare(.2F, value));
                 window->setKey(Key::Down);
                 TG_ASSERT(fuzzyCompare(.0F, value));
+                window->setKey(Key::Escape);
             }
         }
     }

@@ -12,6 +12,7 @@
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
+#include <tgCore/Time.h>
 
 using namespace tg::core;
 using namespace tg::ui;
@@ -58,18 +59,25 @@ namespace tg
                 menu->addItem(std::make_shared<Action>(
                     "Action 1",
                     "FileOpen",
+                    Key::O,
+                    static_cast<int>(KeyModifier::Control),
                     [&action1] { action1 = true; }));
                 bool action2 = false;
-                menu->addItem(std::make_shared<Action>(
+                auto item = std::make_shared<Action>(
                     "Action 2",
                     "Mute",
-                    [&action2](bool value) { action2 = value; }));
+                    Key::M,
+                    static_cast<int>(KeyModifier::Control),
+                    [&action2](bool value) { action2 = value; });
+                menu->addItem(item);
+                menu->setItemChecked(item, true);
                 auto subMenu = menu->addSubMenu("Sub Menu");
                 bool action3 = false;
                 subMenu->addItem(std::make_shared<Action>(
                     "Action 3",
                     [&action3] { action3 = true; }));
                 menuBar->addMenu("Menu 1", menu);
+                app->tick();
 
                 menu = Menu::create(context);
                 bool action4 = false;
@@ -79,10 +87,12 @@ namespace tg
                     static_cast<int>(KeyModifier::Control),
                     [&action4] { action4 = true; }));
                 menuBar->addMenu("Menu 2", menu);
+                app->tick();
 
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
+                sleep(std::chrono::seconds(1));
                 window->setKey(Key::Enter);
                 TG_ASSERT(action1);
 

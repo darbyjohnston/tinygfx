@@ -87,6 +87,7 @@ namespace tg
                 TG_ASSERT(3 == value);
                 window->setKey(Key::Down);
                 TG_ASSERT(1 == value);
+                window->setKey(Key::Escape);
             }
         }
     }
