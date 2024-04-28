@@ -7,3 +7,4 @@ install(TARGETS popups
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)
 
+add_test(NAME popups COMMAND popups -exit -log)

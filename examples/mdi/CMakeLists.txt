@@ -7,3 +7,4 @@ install(TARGETS mdi
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)
 
+add_test(NAME mdi COMMAND mdi -exit -log)

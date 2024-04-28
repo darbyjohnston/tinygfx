@@ -15,4 +15,4 @@ install(TARGETS tgresource
 
 add_test(
     NAME tgresource
-    COMMAND tgresource ${CMAKE_CURRENT_SOURCE_DIR}/test_resource.txt test_resource.h test_resource)
+    COMMAND tgresource -log ${CMAKE_CURRENT_SOURCE_DIR}/test_resource.txt test_resource.h test_resource)

@@ -7,3 +7,4 @@ install(TARGETS dnd
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)
 
+add_test(NAME dnd COMMAND dnd -exit -log)

@@ -7,3 +7,4 @@ install(TARGETS noise
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)
 
+add_test(NAME noise COMMAND noise -exit -log)

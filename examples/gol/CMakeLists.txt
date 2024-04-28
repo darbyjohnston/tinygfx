@@ -7,3 +7,4 @@ install(TARGETS gol
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)
 
+add_test(NAME gol COMMAND gol -exit -log)

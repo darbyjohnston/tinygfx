@@ -7,3 +7,4 @@ install(TARGETS sliders
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)
 
+add_test(NAME sliders COMMAND sliders -exit -log)

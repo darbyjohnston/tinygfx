@@ -7,3 +7,4 @@ install(TARGETS simple
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)
 
+add_test(NAME simple COMMAND simple -exit -log)

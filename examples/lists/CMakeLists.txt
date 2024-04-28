@@ -7,3 +7,4 @@ install(TARGETS lists
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)
 
+add_test(NAME lists COMMAND lists -exit -log)

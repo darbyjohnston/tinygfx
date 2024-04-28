@@ -7,3 +7,4 @@ install(TARGETS filebrowser
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)
 
+add_test(NAME filebrowser COMMAND filebrowser -exit -log)
