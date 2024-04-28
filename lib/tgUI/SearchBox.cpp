@@ -80,6 +80,11 @@ namespace tg
             return out;
         }
 
+        const std::string& SearchBox::getText() const
+        {
+            return _p->lineEdit->getText();
+        }
+
         void SearchBox::setText(const std::string& value)
         {
             _p->lineEdit->setText(value);

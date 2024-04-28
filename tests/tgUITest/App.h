@@ -10,9 +10,16 @@
 
 namespace tg
 {
+    namespace core
+    {
+        class FontSystem;
+    }
+
     namespace ui
     {
         class IWidget;
+        class IconLibrary;
+        class Style;
         class TickEvent;
     }
 
@@ -48,7 +55,11 @@ namespace tg
             void removeWindow(const std::shared_ptr<Window>&);
             const std::list<std::shared_ptr<Window> >& getWindows() const;
 
+            const std::shared_ptr<core::FontSystem>& getFontSystem() const;
+            const std::shared_ptr<ui::Style>& getStyle() const;
+            const std::shared_ptr<ui::IconLibrary>& getIconLibrary() const;
             void setDisplayScale(float);
+
             void tick();
             void exit();
 

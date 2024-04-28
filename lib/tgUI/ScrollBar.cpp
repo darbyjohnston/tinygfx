@@ -65,6 +65,11 @@ namespace tg
             return out;
         }
 
+        int ScrollBar::getScrollSize() const
+        {
+            return _p->scrollSize;
+        }
+
         void ScrollBar::setScrollSize(int value)
         {
             TG_P();

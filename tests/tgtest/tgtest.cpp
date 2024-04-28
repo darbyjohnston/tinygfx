@@ -35,11 +35,16 @@
 #include <tgUITest/LineEditTest.h>
 #include <tgUITest/MDIWidgetTest.h>
 #include <tgUITest/MenuBarTest.h>
+#include <tgUITest/RecentFilesModelTest.h>
 #include <tgUITest/RowLayoutTest.h>
 #include <tgUITest/ScrollAreaTest.h>
+#include <tgUITest/ScrollBarTest.h>
 #include <tgUITest/ScrollWidgetTest.h>
+#include <tgUITest/SearchBoxTest.h>
+#include <tgUITest/SplitterTest.h>
 #include <tgUITest/StackLayoutTest.h>
 #include <tgUITest/StyleTest.h>
+#include <tgUITest/TabBarTest.h>
 #include <tgUITest/WidgetOptionsTest.h>
 
 #include <tgBaseAppTest/AppTest.h>
@@ -210,11 +215,16 @@ namespace tg
             p.tests.push_back(ui_test::LineEditTest::create(context));
             p.tests.push_back(ui_test::MDIWidgetTest::create(context));
             p.tests.push_back(ui_test::MenuBarTest::create(context));
+            p.tests.push_back(ui_test::RecentFilesModelTest::create(context));
             p.tests.push_back(ui_test::RowLayoutTest::create(context));
             p.tests.push_back(ui_test::ScrollAreaTest::create(context));
+            p.tests.push_back(ui_test::ScrollBarTest::create(context));
             p.tests.push_back(ui_test::ScrollWidgetTest::create(context));
+            p.tests.push_back(ui_test::SearchBoxTest::create(context));
+            p.tests.push_back(ui_test::SplitterTest::create(context));
             p.tests.push_back(ui_test::StackLayoutTest::create(context));
             p.tests.push_back(ui_test::StyleTest::create(context));
+            p.tests.push_back(ui_test::TabBarTest::create(context));
             p.tests.push_back(ui_test::WidgetOptionsTest::create(context));
 
             p.tests.push_back(ui_test::AppTest::create(context));

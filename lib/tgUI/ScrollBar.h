@@ -33,6 +33,9 @@ namespace tg
                 Orientation,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            //! Get the scroll size.
+            int getScrollSize() const;
+
             //! Set the scroll size.
             void setScrollSize(int);
 

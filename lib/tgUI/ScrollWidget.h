@@ -82,8 +82,8 @@ namespace tg
             void keyReleaseEvent(KeyEvent&) override;
 
         private:
-            int getLineStep() const;
-            int getPageStep() const;
+            int _getLineStep() const;
+            int _getPageStep() const;
 
             TG_PRIVATE();
         };

@@ -62,6 +62,11 @@ namespace tg
             return out;
         }
 
+        const std::vector<std::string>& TabBar::getTabs() const
+        {
+            return _p->tabs;
+        }
+
         void TabBar::setTabs(const std::vector<std::string>& value)
         {
             TG_P();

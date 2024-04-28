@@ -270,7 +270,7 @@ namespace tg
             {
                 event.accept = true;
                 V2I scrollPos = getScrollPos();
-                scrollPos.y -= event.value.y * getLineStep();
+                scrollPos.y -= event.value.y * _getLineStep();
                 setScrollPos(scrollPos);
             }
         }
@@ -287,7 +287,7 @@ namespace tg
                 {
                     event.accept = true;
                     V2I scrollPos = getScrollPos();
-                    scrollPos.y -= getPageStep();
+                    scrollPos.y -= _getPageStep();
                     setScrollPos(scrollPos);
                     break;
                 }
@@ -295,7 +295,7 @@ namespace tg
                 {
                     event.accept = true;
                     V2I scrollPos = getScrollPos();
-                    scrollPos.y += getPageStep();
+                    scrollPos.y += _getPageStep();
                     setScrollPos(scrollPos);
                     break;
                 }
@@ -310,14 +310,14 @@ namespace tg
             event.accept = true;
         }
 
-        int ScrollWidget::getLineStep() const
+        int ScrollWidget::_getLineStep() const
         {
             TG_P();
             const Size2I scrollAreaSize = p.scrollArea->getGeometry().size();
             return scrollAreaSize.h / 10.F;
         }
 
-        int ScrollWidget::getPageStep() const
+        int ScrollWidget::_getPageStep() const
         {
             TG_P();
             const Size2I scrollAreaSize = p.scrollArea->getGeometry().size();

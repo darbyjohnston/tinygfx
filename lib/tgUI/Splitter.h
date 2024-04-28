@@ -39,6 +39,9 @@ namespace tg
             //! Set the split amount.
             void setSplit(float);
 
+            //! Get the spacing role.
+            SizeRole getSpacingRole() const;
+
             //! Set the spacing role.
             void setSpacingRole(SizeRole);
 

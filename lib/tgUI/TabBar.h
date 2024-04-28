@@ -31,6 +31,9 @@ namespace tg
                 const std::shared_ptr<core::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            //! Get the tabs.
+            const std::vector<std::string>& getTabs() const;
+
             //! Set the tabs.
             void setTabs(const std::vector<std::string>&);
 

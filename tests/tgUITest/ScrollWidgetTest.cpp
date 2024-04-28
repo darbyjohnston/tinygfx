@@ -117,6 +117,8 @@ namespace tg
             window->setScroll(V2F(0, -1));
             window->setScroll(V2F(0, 1));
             window->setScroll(V2F(0, 1));
+            window->setKey(Key::PageDown);
+            window->setKey(Key::PageUp);
 
             V2I size = scrollWidget->getScrollSize();
             scrollWidget->setScrollPos(size);

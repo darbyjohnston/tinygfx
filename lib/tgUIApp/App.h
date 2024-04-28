@@ -10,9 +10,16 @@
 
 namespace tg
 {
+    namespace core
+    {
+        class FontSystem;
+    }
+
     namespace ui
     {
         class IWidget;
+        class IconLibrary;
+        class Style;
         class TickEvent;
         class Window;
 
@@ -50,6 +57,15 @@ namespace tg
 
             //! Get the windows.
             const std::list<std::shared_ptr<Window> >& getWindows() const;
+
+            //! Get the font system.
+            const std::shared_ptr<core::FontSystem>& getFontSystem() const;
+
+            //! Get the style.
+            const std::shared_ptr<ui::Style>& getStyle() const;
+
+            //! Get the icon library.
+            const std::shared_ptr<ui::IconLibrary>& getIconLibrary() const;
 
             //! Exit the application.
             void exit();

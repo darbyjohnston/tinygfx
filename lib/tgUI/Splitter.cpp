@@ -83,6 +83,11 @@ namespace tg
             _setDrawUpdate();
         }
 
+        SizeRole Splitter::getSpacingRole() const
+        {
+            return _p->spacingRole;
+        }
+
         void Splitter::setSpacingRole(SizeRole value)
         {
             TG_P();

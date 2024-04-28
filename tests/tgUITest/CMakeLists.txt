@@ -29,11 +29,16 @@ set(HEADERS
     LineEditTest.h
     MDIWidgetTest.h
     MenuBarTest.h
+    RecentFilesModelTest.h
     RowLayoutTest.h
     ScrollAreaTest.h
+    ScrollBarTest.h
     ScrollWidgetTest.h
+    SearchBoxTest.h
+    SplitterTest.h
     StackLayoutTest.h
     StyleTest.h
+    TabBarTest.h
     WidgetOptionsTest.h
     Window.h)
 set(PRIVATE_HEADERS)
@@ -69,11 +74,16 @@ set(SOURCE
     LineEditTest.cpp
     MDIWidgetTest.cpp
     MenuBarTest.cpp
+    RecentFilesModelTest.cpp
     RowLayoutTest.cpp
     ScrollAreaTest.cpp
+    ScrollBarTest.cpp
     ScrollWidgetTest.cpp
+    SearchBoxTest.cpp
+    SplitterTest.cpp
     StackLayoutTest.cpp
     StyleTest.cpp
+    TabBarTest.cpp
     WidgetOptionsTest.cpp
     Window.cpp)
 

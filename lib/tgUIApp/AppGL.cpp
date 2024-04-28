@@ -133,6 +133,21 @@ namespace tg
             return _p->windows;
         }
 
+        const std::shared_ptr<core::FontSystem>& App::getFontSystem() const
+        {
+            return _p->fontSystem;
+        }
+
+        const std::shared_ptr<ui::Style>& App::getStyle() const
+        {
+            return _p->style;
+        }
+
+        const std::shared_ptr<ui::IconLibrary>& App::getIconLibrary() const
+        {
+            return _p->iconLibrary;
+        }
+
         void App::exit()
         {
             _p->running = false;

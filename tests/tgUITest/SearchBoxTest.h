@@ -10,22 +10,18 @@ namespace tg
 {
     namespace ui_test
     {
-        class StyleTest : public test::ITest
+        class SearchBoxTest : public test::ITest
         {
         protected:
-            StyleTest(const std::shared_ptr<core::Context>&);
+            SearchBoxTest(const std::shared_ptr<core::Context>&);
 
         public:
-            virtual ~StyleTest();
+            virtual ~SearchBoxTest();
 
-            static std::shared_ptr<StyleTest> create(
+            static std::shared_ptr<SearchBoxTest> create(
                 const std::shared_ptr<core::Context>&);
 
             void run() override;
-
-        private:
-            void _enums();
-            void _widget();
         };
     }
 }
