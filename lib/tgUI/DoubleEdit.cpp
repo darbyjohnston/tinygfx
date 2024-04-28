@@ -22,7 +22,7 @@ namespace tg
             int digits = 3;
             int precision = 2;
             std::shared_ptr<LineEdit> lineEdit;
-            std::shared_ptr<DoubleIncButtons> incButtons;
+            std::shared_ptr<IncButtons> incButtons;
             std::shared_ptr<HorizontalLayout> layout;
 
             struct SizeData
@@ -54,7 +54,7 @@ namespace tg
             p.lineEdit = LineEdit::create(context);
             p.lineEdit->setFontRole(FontRole::Mono);
 
-            p.incButtons = DoubleIncButtons::create(context, p.model);
+            p.incButtons = IncButtons::create(context);
 
             p.layout = HorizontalLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(SizeRole::SpacingTool);
@@ -74,6 +74,17 @@ namespace tg
                     {
                         _textUpdate();
                     }
+                });
+
+            p.incButtons->setIncCallback(
+                [this]
+                {
+                    _p->model->incrementStep();
+                });
+            p.incButtons->setDecCallback(
+                [this]
+                {
+                    _p->model->decrementStep();
                 });
 
             p.valueObserver = ValueObserver<double>::create(

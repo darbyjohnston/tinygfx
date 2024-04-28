@@ -21,7 +21,7 @@ namespace tg
             std::shared_ptr<IntModel> model;
             int digits = 3;
             std::shared_ptr<LineEdit> lineEdit;
-            std::shared_ptr<IntIncButtons> incButtons;
+            std::shared_ptr<IncButtons> incButtons;
             std::shared_ptr<HorizontalLayout> layout;
 
             std::function<void(int)> callback;
@@ -47,7 +47,7 @@ namespace tg
             p.lineEdit = LineEdit::create(context, shared_from_this());
             p.lineEdit->setFontRole(FontRole::Mono);
 
-            p.incButtons = IntIncButtons::create(context, p.model);
+            p.incButtons = IncButtons::create(context);
 
             p.layout = HorizontalLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(SizeRole::SpacingTool);
@@ -67,6 +67,17 @@ namespace tg
                     {
                         _textUpdate();
                     }
+                });
+
+            p.incButtons->setIncCallback(
+                [this]
+                {
+                    _p->model->incrementStep();
+                });
+            p.incButtons->setDecCallback(
+                [this]
+                {
+                    _p->model->decrementStep();
                 });
 
             p.valueObserver = ValueObserver<int>::create(

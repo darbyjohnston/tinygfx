@@ -215,15 +215,16 @@ namespace tg
                     });
 
                 window->setCursorEnter(true);
-                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
                 window->setKey(Key::Enter);
-                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
                 window->setKey(Key::Enter);
-                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
-                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
                 window->setKey(Key::Escape);
 
