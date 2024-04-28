@@ -44,11 +44,13 @@ namespace tg
                     "ScrollBarTest",
                     "Scroll bar test.");
                 auto window = Window::create(context, app, "ScrollBarTest");
+                auto layout = VerticalLayout::create(context, window);
+                layout->setMarginRole(SizeRole::MarginLarge);
                 app->addWindow(window);
                 window->show();
                 app->tick();
-                _test(context, app, window, Orientation::Horizontal);
-                _test(context, app, window, Orientation::Vertical);
+                _test(context, app, window, layout, Orientation::Horizontal);
+                _test(context, app, window, layout, Orientation::Vertical);
             }
         }
 
@@ -56,9 +58,10 @@ namespace tg
             const std::shared_ptr<Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<Window>& window,
+            const std::shared_ptr<VerticalLayout>& layout,
             Orientation orientation)
         {
-            auto widget = ScrollBar::create(context, orientation, window);
+            auto widget = ScrollBar::create(context, orientation, layout);
             widget->setScrollSize(10000);
             widget->setScrollSize(10000);
             TG_ASSERT(10000 == widget->getScrollSize());
@@ -90,6 +93,7 @@ namespace tg
                 break;
             default: break;
             }
+            window->setCursorPos(V2I(0, 0));
 
             widget->setParent(nullptr);
         }

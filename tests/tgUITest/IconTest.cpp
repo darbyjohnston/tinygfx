@@ -12,6 +12,7 @@
 
 #include <tgCore/Assert.h>
 #include <tgCore/Format.h>
+#include <tgCore/Time.h>
 
 using namespace tg::core;
 using namespace tg::ui;
@@ -55,6 +56,11 @@ namespace tg
                 widget->setIcon("PlaybackStop");
                 widget->setIcon("PlaybackStop");
                 TG_ASSERT("PlaybackStop" == widget->getIcon());
+                while (!widget->getIconImage())
+                {
+                    sleep(std::chrono::seconds(1));
+                    app->tick();
+                }
                 widget->setMarginRole(SizeRole::Margin);
                 widget->setMarginRole(SizeRole::Margin);
                 TG_ASSERT(SizeRole::Margin == widget->getMarginRole());

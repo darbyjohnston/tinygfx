@@ -60,11 +60,14 @@ namespace tg
                 widget->setTabs(tabs);
                 widget->setTabs(tabs);
                 TG_ASSERT(tabs == widget->getTabs());
+                app->tick();
                 widget->addTab("Tab 2");
                 tabs.push_back("Tab 2");
                 TG_ASSERT(tabs == widget->getTabs());
+                app->tick();
                 widget->clearTabs();
                 TG_ASSERT(widget->getTabs().empty());
+                app->tick();
                 widget->setTabs(tabs);
                 int tab = 0;
                 widget->setCallback(
@@ -75,6 +78,7 @@ namespace tg
                 widget->setCurrentTab(2);
                 widget->setCurrentTab(2);
                 TG_ASSERT(2 == widget->getCurrentTab());
+                app->tick();
             }
         }
     }

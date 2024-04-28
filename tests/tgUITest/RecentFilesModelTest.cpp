@@ -69,7 +69,13 @@ namespace tg
                 recent2.clear();
                 recent2.push_back("path 2");
                 recent2.push_back("path 3");
-                TG_ASSERT(recent2 == model->getRecent());
+                TG_ASSERT(recent2 == recent);
+
+                model->setRecentMax(1);
+                recent2.clear();
+                recent2.push_back("path 3");
+                TG_ASSERT(recent2 == recent);
+                model->addRecent("path 3");
                 TG_ASSERT(recent2 == recent);
             }
         }
