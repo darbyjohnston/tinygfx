@@ -21,6 +21,7 @@ namespace tg
         void doubleEditSlider(pybind11::module_&);
         void doubleModel(pybind11::module_&);
         void doubleSlider(pybind11::module_&);
+        void event(pybind11::module_&);
         void floatEdit(pybind11::module_&);
         void floatEditSlider(pybind11::module_&);
         void floatModel(pybind11::module_&);

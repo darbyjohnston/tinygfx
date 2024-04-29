@@ -12,6 +12,8 @@ set(SOURCE
     Bindings.cpp
     Color.cpp
     Context.cpp
+    Image.cpp
+    Memory.cpp
     OS.cpp
     Observable.cpp
     ObservableList.cpp

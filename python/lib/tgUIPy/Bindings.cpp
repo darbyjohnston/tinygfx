@@ -24,6 +24,7 @@ namespace tg
             sm.def("init", &init, "Initialize the library.");
 
             style(sm);
+            event(sm);
             widgetOptions(sm);
             iWidget(sm);
             iWindow(sm);

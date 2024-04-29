@@ -14,6 +14,8 @@ namespace tg
 
         void color(pybind11::module_&);
         void context(pybind11::module_&);
+        void image(pybind11::module_&);
+        void memory(pybind11::module_&);
         void observable(pybind11::module_&);
         void os(pybind11::module_&);
         void random(pybind11::module_&);

@@ -28,6 +28,8 @@ namespace tg
 
             color(sm);
             context(sm);
+            image(sm);
+            memory(sm);
             observable(sm);
             observableList(sm);
             observableMap(sm);

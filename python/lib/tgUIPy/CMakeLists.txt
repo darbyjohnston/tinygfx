@@ -12,6 +12,7 @@ set(SOURCE
     DoubleEditSlider.cpp
     DoubleModel.cpp
     DoubleSlider.cpp
+    Event.cpp
     FloatEdit.cpp
     FloatEditSlider.cpp
     FloatModel.cpp
