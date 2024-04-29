@@ -11,17 +11,5 @@ namespace tg
     namespace core
     {
         void bind(pybind11::module_&);
-
-        void color(pybind11::module_&);
-        void context(pybind11::module_&);
-        void image(pybind11::module_&);
-        void memory(pybind11::module_&);
-        void observable(pybind11::module_&);
-        void os(pybind11::module_&);
-        void random(pybind11::module_&);
-        void range(pybind11::module_&);
-        void size(pybind11::module_&);
-        void vector(pybind11::module_&);
-        void box(pybind11::module_&);
     }
 }

@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUIAppPy/Bindings.h>
+#include <tgUIAppPy/App.h>
 
 #include <tgUIApp/App.h>
 #include <tgUIApp/Window.h>

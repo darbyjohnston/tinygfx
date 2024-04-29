@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgCorePy/Bindings.h>
+#include <tgCorePy/Box.h>
 
 #include <tgCore/Box.h>
 
@@ -24,11 +24,11 @@ namespace tg
                 .def(py::init<int, int, int, int>())
                 .def_readwrite("min", &Box2I::min)
                 .def_readwrite("max", &Box2I::max)
-                .def("x", &Box2I::x)
-                .def("y", &Box2I::y)
-                .def("size", &Box2I::size)
-                .def("w", &Box2I::w)
-                .def("h", &Box2I::h)
+                .def_property_readonly("x", &Box2I::x)
+                .def_property_readonly("y", &Box2I::y)
+                .def_property_readonly("size", &Box2I::size)
+                .def_property_readonly("w", &Box2I::w)
+                .def_property_readonly("h", &Box2I::h)
                 .def(py::self == py::self)
                 .def(py::self != py::self);
 
@@ -39,11 +39,11 @@ namespace tg
                 .def(py::init<float, float, float, float>())
                 .def_readwrite("min", &Box2F::min)
                 .def_readwrite("max", &Box2F::max)
-                .def("x", &Box2F::x)
-                .def("y", &Box2F::y)
-                .def("size", &Box2F::size)
-                .def("w", &Box2F::w)
-                .def("h", &Box2F::h)
+                .def_property_readonly("x", &Box2F::x)
+                .def_property_readonly("y", &Box2F::y)
+                .def_property_readonly("size", &Box2F::size)
+                .def_property_readonly("w", &Box2F::w)
+                .def_property_readonly("h", &Box2F::h)
                 .def(py::self == py::self)
                 .def(py::self != py::self);
 
@@ -54,13 +54,13 @@ namespace tg
                 .def(py::init<float, float, float, float, float, float>())
                 .def_readwrite("min", &Box3F::min)
                 .def_readwrite("max", &Box3F::max)
-                .def("x", &Box3F::x)
-                .def("y", &Box3F::y)
-                .def("z", &Box3F::z)
-                .def("size", &Box3F::size)
-                .def("w", &Box3F::w)
-                .def("h", &Box3F::h)
-                .def("d", &Box3F::d)
+                .def_property_readonly("x", &Box3F::x)
+                .def_property_readonly("y", &Box3F::y)
+                .def_property_readonly("z", &Box3F::z)
+                .def_property_readonly("size", &Box3F::size)
+                .def_property_readonly("w", &Box3F::w)
+                .def_property_readonly("h", &Box3F::h)
+                .def_property_readonly("d", &Box3F::d)
                 .def(py::self == py::self)
                 .def(py::self != py::self);
 

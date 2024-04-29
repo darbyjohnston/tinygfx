@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgCorePy/Bindings.h>
+#include <tgCorePy/Size.h>
 
 #include <tgCore/Size.h>
 

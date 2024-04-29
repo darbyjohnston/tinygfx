@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUIPy/Bindings.h>
+#include <tgUIPy/IntModel.h>
 
 #include <tgUI/IntModel.h>
 

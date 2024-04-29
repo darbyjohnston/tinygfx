@@ -1,5 +1,7 @@
 set(HEADERS
-    Bindings.h)
+    Bindings.h
+    CmdLine.h
+    IApp.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
     Bindings.cpp

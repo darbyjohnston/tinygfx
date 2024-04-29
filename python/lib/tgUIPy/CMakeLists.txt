@@ -1,5 +1,38 @@
 set(HEADERS
-    Bindings.h)
+    Bindings.h
+    ButtonGroup.h
+    CheckBox.h
+    ColorPopup.h
+    ColorSwatch.h
+    ColorWidget.h
+    DoubleEdit.h
+    DoubleEditSlider.h
+    DoubleModel.h
+    DoubleSlider.h
+    Event.h
+    FloatEdit.h
+    FloatEditSlider.h
+    FloatModel.h
+    FloatSlider.h
+    GroupBox.h
+    IButton.h
+    IPopup.h
+    IWidget.h
+    IWidgetPopup.h
+    IWindow.h
+    IntEdit.h
+    IntEditSlider.h
+    IntModel.h
+    IntSlider.h
+    MDICanvas.h
+    MDIWidget.h
+    PushButton.h
+    RowLayout.h
+    ScrollArea.h
+    ScrollWidget.h
+    Style.h
+    ToolButton.h
+    WidgetOptions.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
     Bindings.cpp

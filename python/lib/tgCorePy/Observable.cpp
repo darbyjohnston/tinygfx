@@ -2,9 +2,9 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgCorePy/ObservableValue.h>
+#include <tgCorePy/Observable.h>
 
-#include <tgCore/ObservableValue.h>
+#include <tgCore/Observable.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>

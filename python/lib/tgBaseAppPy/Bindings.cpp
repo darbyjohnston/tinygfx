@@ -4,6 +4,9 @@
 
 #include <tgBaseAppPy/Bindings.h>
 
+#include <tgBaseAppPy/CmdLine.h>
+#include <tgBaseAppPy/IApp.h>
+
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;

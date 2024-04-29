@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgBaseAppPy/Bindings.h>
+#include <tgBaseAppPy/IApp.h>
 
 #include <tgBaseApp/CmdLine.h>
 #include <tgBaseApp/IApp.h>

@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgCorePy/Bindings.h>
+#include <tgCorePy/Range.h>
 
 #include <tgCore/Range.h>
 
@@ -20,24 +20,24 @@ namespace tg
             py::class_<RangeI>(m, "RangeI")
                 .def(py::init<>())
                 .def(py::init<int, int>())
-                .def("min", &RangeI::min)
-                .def("max", &RangeI::max)
+                .def_property_readonly("min", &RangeI::min)
+                .def_property_readonly("max", &RangeI::max)
                 .def(pybind11::self == pybind11::self)
                 .def(pybind11::self != pybind11::self);
 
             py::class_<RangeF>(m, "RangeF")
                 .def(py::init<>())
                 .def(py::init<float, float>())
-                .def("min", &RangeF::min)
-                .def("max", &RangeF::max)
+                .def_property_readonly("min", &RangeF::min)
+                .def_property_readonly("max", &RangeF::max)
                 .def(pybind11::self == pybind11::self)
                 .def(pybind11::self != pybind11::self);
 
             py::class_<RangeD>(m, "RangeD")
                 .def(py::init<>())
                 .def(py::init<double, double>())
-                .def("min", &RangeD::min)
-                .def("max", &RangeD::max)
+                .def_property_readonly("min", &RangeD::min)
+                .def_property_readonly("max", &RangeD::max)
                 .def(pybind11::self == pybind11::self)
                 .def(pybind11::self != pybind11::self);
         }

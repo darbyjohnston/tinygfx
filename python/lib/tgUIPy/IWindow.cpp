@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUIPy/Bindings.h>
+#include <tgUIPy/IWindow.h>
 
 #include <tgUI/IWindow.h>
 
@@ -15,9 +15,23 @@ namespace tg
 {
     namespace ui
     {
+        class PyIWindow : public IWindow
+        {
+        public:
+            virtual void drawEvent(const core::Box2I& drawRect, const ui::DrawEvent& event) override
+            {
+                PYBIND11_OVERRIDE(
+                    void,
+                    IWindow,
+                    drawEvent,
+                    drawRect,
+                    event);
+            }
+        };
+
         void iWindow(py::module_& m)
         {
-            py::class_<IWindow, IWidget, std::shared_ptr<IWindow> >(m, "IWindow");
+            py::class_<IWindow, IWidget, std::shared_ptr<IWindow>, PyIWindow>(m, "IWindow");
         }
     }
 }

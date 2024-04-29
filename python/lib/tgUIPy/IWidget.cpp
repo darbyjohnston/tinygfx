@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUIPy/Bindings.h>
+#include <tgUIPy/IWidget.h>
 
 #include <tgUI/IWidget.h>
 #include <tgUI/IWindow.h>
@@ -16,9 +16,23 @@ namespace tg
 {
     namespace ui
     {
+        class PyIWidget : public IWidget
+        {
+        public:
+            virtual void drawEvent(const core::Box2I& drawRect, const DrawEvent& event) override
+            {
+                PYBIND11_OVERRIDE(
+                    void,
+                    IWidget,
+                    drawEvent,
+                    drawRect,
+                    event);
+            }
+        };
+
         void iWidget(py::module_& m)
         {
-            py::class_<IWidget, std::shared_ptr<IWidget> >(m, "IWidget")
+            py::class_<IWidget, std::shared_ptr<IWidget>, PyIWidget>(m, "IWidget")
                 .def_property("objectName", &IWidget::getObjectName, &IWidget::setObjectName)
                 .def("getObjectPath", &IWidget::getObjectPath)
                 .def_property("backgroundColor", &IWidget::getBackgroundRole, &IWidget::setBackgroundRole)
@@ -28,9 +42,9 @@ namespace tg
                 .def("getChildren", &IWidget::getChildren)
                 .def("moveToFront", &IWidget::moveToFront)
                 .def("moveToBack", &IWidget::moveToBack)
-                .def("getWindow", &IWidget::getWindow)
+                .def_property_readonly("window", &IWidget::getWindow)
 
-                .def("getSizeHint", &IWidget::getSizeHint)
+                .def_property_readonly("sizeHint", &IWidget::getSizeHint)
                 .def_property("hStretch", &IWidget::getHStretch, &IWidget::setHStretch)
                 .def_property("vStretch", &IWidget::getVStretch, &IWidget::setHStretch)
                 .def(
@@ -57,19 +71,58 @@ namespace tg
                     py::arg("andParentsVisible") = true)
                 .def("show", &IWidget::show)
                 .def("hide", &IWidget::hide)
-                .def("isClipped", &IWidget::isClipped)
-                .def("getChildrenClipRect", &IWidget::getChildrenClipRect)
-                
+                .def_property_readonly("clipped", &IWidget::isClipped)
+                .def_property_readonly("childrenClipRect", &IWidget::getChildrenClipRect)
+
                 .def_property("enabled", &IWidget::isEnabled, &IWidget::setEnabled)
-                
+
                 .def("hasMouseHover", &IWidget::hasMouseHover)
-                
+
                 .def_property("acceptsKeyFocus", &IWidget::acceptsKeyFocus, &IWidget::setAcceptsKeyFocus)
-                .def("hasKeyFocus", &IWidget::hasKeyFocus)
+                .def_property_readonly("keyFocus", &IWidget::hasKeyFocus)
                 .def("takeKeyFocus", &IWidget::takeKeyFocus)
                 .def("releaseKeyFocus", &IWidget::releaseKeyFocus)
 
-                .def_property("tooltip", &IWidget::getTooltip, &IWidget::setTooltip);
+                .def_property("tooltip", &IWidget::getTooltip, &IWidget::setTooltip)
+
+                .def("childAddedEvent", &IWidget::childAddedEvent, py::arg("event"))
+                .def("childRemovedEvent", &IWidget::childRemovedEvent, py::arg("event"))
+                .def(
+                    "tickEvent",
+                    &IWidget::tickEvent,
+                    py::arg("parentsVisible"),
+                    py::arg("parentsEnabled"),
+                    py::arg("event"))
+                .def("sizeHintEvent", &IWidget::sizeHintEvent, py::arg("event"))
+                .def(
+                    "clipEvent",
+                    &IWidget::clipEvent,
+                    py::arg("clipRect"),
+                    py::arg("clipped"))
+                .def(
+                    "drawEvent",
+                    &IWidget::drawEvent,
+                    py::arg("drawRect"),
+                    py::arg("event"))
+                .def(
+                    "drawOverlayEvent",
+                    &IWidget::drawOverlayEvent,
+                    py::arg("drawRect"),
+                    py::arg("event"))
+                .def("mouseEnterEvent", &IWidget::mouseEnterEvent)
+                .def("mouseLeaveEvent", &IWidget::mouseLeaveEvent)
+                .def("mouseMoveEvent", &IWidget::mouseMoveEvent, py::arg("event"))
+                .def("mousePressEvent", &IWidget::mousePressEvent, py::arg("event"))
+                .def("mouseReleaseEvent", &IWidget::mouseReleaseEvent, py::arg("event"))
+                .def("scrollEvent", &IWidget::scrollEvent, py::arg("event"))
+                .def("keyFocusEvent", &IWidget::keyFocusEvent, py::arg("focus"))
+                .def("keyPressEvent", &IWidget::keyPressEvent, py::arg("event"))
+                .def("keyReleaseEvent", &IWidget::keyReleaseEvent, py::arg("event"))
+                .def("textEvent", &IWidget::textEvent, py::arg("event"))
+                .def("dragEnterEvent", &IWidget::dragEnterEvent, py::arg("event"))
+                .def("dragLeaveEvent", &IWidget::dragLeaveEvent, py::arg("event"))
+                .def("dragMoveEvent", &IWidget::dragMoveEvent, py::arg("event"))
+                .def("dropEvent", &IWidget::dropEvent, py::arg("event"));
         }
     }
 }

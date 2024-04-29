@@ -11,8 +11,5 @@ namespace tg
     namespace app
     {
         void bind(pybind11::module_&);
-
-        void cmdLine(pybind11::module_&);
-        void iApp(pybind11::module_&);
     }
 }

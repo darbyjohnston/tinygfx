@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgCorePy/Bindings.h>
+#include <tgCorePy/Context.h>
 
 #include <tgCore/Context.h>
 

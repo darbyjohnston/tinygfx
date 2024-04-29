@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUIPy/Bindings.h>
+#include <tgUIPy/IntEditSlider.h>
 
 #include <tgUI/IntEditSlider.h>
 

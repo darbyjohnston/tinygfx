@@ -1,17 +1,35 @@
 set(HEADERS
     Bindings.h
+    Box.h
+    Bindings.h
+    Color.h
+    Context.h
+    FontSystem.h
+    IRender.h
+    ISystem.h
+    Image.h
+    Memory.h
+    OS.h
+    Observable.h
     ObservableList.h
     ObservableListInline.h
     ObservableMap.h
     ObservableMapInline.h
     ObservableValue.h
-    ObservableValueInline.h)
+    ObservableValueInline.h
+    Random.h
+    Range.h
+    Size.h
+    Vector.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
     Box.cpp
     Bindings.cpp
     Color.cpp
     Context.cpp
+    FontSystem.cpp
+    IRender.cpp
+    ISystem.cpp
     Image.cpp
     Memory.cpp
     OS.cpp

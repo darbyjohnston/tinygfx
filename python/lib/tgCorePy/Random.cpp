@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgCorePy/Bindings.h>
+#include <tgCorePy/Random.h>
 
 #include <tgCore/Random.h>
 

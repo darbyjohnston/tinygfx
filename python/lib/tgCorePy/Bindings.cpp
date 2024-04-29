@@ -4,9 +4,23 @@
 
 #include <tgCorePy/Bindings.h>
 
+#include <tgCorePy/Box.h>
+#include <tgCorePy/Color.h>
+#include <tgCorePy/Context.h>
+#include <tgCorePy/FontSystem.h>
+#include <tgCorePy/IRender.h>
+#include <tgCorePy/ISystem.h>
+#include <tgCorePy/Image.h>
+#include <tgCorePy/Memory.h>
+#include <tgCorePy/Observable.h>
 #include <tgCorePy/ObservableList.h>
 #include <tgCorePy/ObservableMap.h>
 #include <tgCorePy/ObservableValue.h>
+#include <tgCorePy/OS.h>
+#include <tgCorePy/Random.h>
+#include <tgCorePy/Range.h>
+#include <tgCorePy/Size.h>
+#include <tgCorePy/Vector.h>
 
 #include <tgCore/Context.h>
 #include <tgCore/Init.h>
@@ -26,8 +40,13 @@ namespace tg
 
             sm.def("init", &init, "Initialize the library.");
 
+            iSystem(sm);
+
+            box(sm);
             color(sm);
             context(sm);
+            fontSystem(sm);
+            iRender(sm);
             image(sm);
             memory(sm);
             observable(sm);
@@ -39,7 +58,6 @@ namespace tg
             range(sm);
             size(sm);
             vector(sm);
-            box(sm);
         }
     }
 }
