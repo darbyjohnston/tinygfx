@@ -42,7 +42,7 @@ namespace tg
                 .def(py::self != py::self)
                 .def(py::self < py::self);
 
-            py::class_<Glyph>(m, "Glyph")
+            py::class_<Glyph, std::shared_ptr<Glyph> >(m, "Glyph")
                 .def_readwrite("info", &Glyph::info)
                 .def_readwrite("image", &Glyph::image)
                 .def_readwrite("offset", &Glyph::offset)

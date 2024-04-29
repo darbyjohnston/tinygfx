@@ -21,20 +21,14 @@ class Window(tgUIApp.Window):
         while textSize.w < g.w and textSize.h < g.h:
             fontInfo.size += 10
             textSize = event.fontSystem.getSize(text, fontInfo)
-        #glyphs = event.fontSystem.getGlyphs(text, fontInfo)
+        glyphs = event.fontSystem.getGlyphs(text, fontInfo)
         fontMetrics = event.fontSystem.getMetrics(fontInfo)
-        print(event.render)
-        event.render.drawRect(
-            tgCore.Box2F(10, 10, 100, 100),
+        event.render.drawText(
+            glyphs,
+            fontMetrics,
+            tgCore.center(tgCore.Box2F(g.x, g.y, g.w, g.h)) -
+            tgCore.V2F(textSize.w, textSize.h) / 2,
             tgCore.Color4F(1, 1, 1))
-        #event.render.drawText(
-        #    glyphs,
-        #    fontMetrics,
-        #    tgCore.V2F(0, 0),
-        #    tgCore.Color4F(1, 1, 1, 1))
-        #    #tgCore.center(tgCore.Box2F(g.x, g.y, g.w, g.h)) -
-        #    #tgCore.V2F(textSize.w, textSize.h) / 2,
-        #    #tgCore.Color4F(1, 1, 1))
     
 context = tgCore.Context()
 app = tgUIApp.App(context, sys.argv, "simple", "Simple example")
