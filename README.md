@@ -41,7 +41,7 @@ cmake -S tinygfx/etc/SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=$PWD/Release/i
 ```
 Start the build:
 ```
-cmake --build . -j 4 --config Release
+cmake --build Release -j 4 --config Release
 ```
 Try running the `simple` example:
 ```
