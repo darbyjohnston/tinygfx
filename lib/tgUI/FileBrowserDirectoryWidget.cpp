@@ -54,7 +54,7 @@ namespace tg
                     TG_P();
                     if (value >= 0 && value < p.info.size())
                     {
-                        const FileBrowserInfo& info = p.info[value];
+                        const FileBrowserInfo info = p.info[value];
                         if (p.callback)
                         {
                             p.callback(info.path);
