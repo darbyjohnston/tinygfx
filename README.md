@@ -16,21 +16,17 @@ Clone the repository:
 ```
 git clone https://github.com/darbyjohnston/tinygfx.git
 ```
-Create a build directory:
-```
-mkdir build && cd build
-```
 Run CMake:
 ```
-cmake ../tinygfx/etc/SuperBuild -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_PREFIX_PATH=$PWD/install -DCMAKE_BUILD_TYPE=Debug
+cmake -S tinygfx/etc/SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=$PWD/Release/install -DCMAKE_PREFIX_PATH=$PWD/Release/install -DCMAKE_BUILD_TYPE=Release
 ```
 Start the build:
 ```
-cmake --build . -j 4 --config Debug
+cmake --build Release -j 4 --config Release
 ```
 Try running the `simple` example:
 ```
-./tinygfx/src/tinygfx-build/examples/render/simple/simple
+./Release/tinygfx/src/tinygfx-build/examples/render/simple/simple
 ```
 
 Building on macOS
@@ -39,17 +35,13 @@ Clone the repository:
 ```
 git clone https://github.com/darbyjohnston/tinygfx.git
 ```
-Create a build directory:
-```
-mkdir build && cd build
-```
 Run CMake:
 ```
-cmake ../tinygfx/etc/SuperBuild -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_PREFIX_PATH=$PWD/install -DCMAKE_BUILD_TYPE=Debug
+cmake -S tinygfx/etc/SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=$PWD/Release/install -DCMAKE_PREFIX_PATH=$PWD/Release/install -DCMAKE_BUILD_TYPE=Release
 ```
 Start the build:
 ```
-cmake --build . -j 4 --config Debug
+cmake --build . -j 4 --config Release
 ```
 Try running the `simple` example:
 ```
@@ -73,21 +65,17 @@ Clone the repository:
 ```
 git clone https://github.com/darbyjohnston/tinygfx.git
 ```
-Create a build directory:
-```
-mkdir build && cd build
-```
 Run CMake:
 ```
-cmake ..\tinygfx\etc\SuperBuild -DCMAKE_INSTALL_PREFIX=%CD%\install -DCMAKE_PREFIX_PATH=%CD%\install -DCMAKE_BUILD_TYPE=Debug
+cmake -S tinygfx\etc\SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=%CD%\Release\install -DCMAKE_PREFIX_PATH=%CD%\Release\install -DCMAKE_BUILD_TYPE=Release
 
 ```
 Start the build:
 ```
-cmake --build . -j 4 --config Debug
+cmake --build Release -j 4 --config Release
 ```
 Try running the `simple` example:
 ```
-.\tinygfx\src\tinygfx-build\examples\render\simple\Debug\simple
+.\Release\tinygfx\src\tinygfx-build\examples\render\simple\Release\simple
 ```
 
