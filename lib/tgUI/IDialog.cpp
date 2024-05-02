@@ -17,6 +17,7 @@ namespace tg
         {
             bool open = false;
             std::function<void(void)> closeCallback;
+            std::weak_ptr<IWidget> restoreFocus;
             
             struct SizeData
             {
@@ -48,7 +49,12 @@ namespace tg
         {
             TG_P();
             p.open = true;
+            p.restoreFocus = window->getKeyFocus();
             setParent(window);
+            if (auto widget = window->getNextKeyFocus(shared_from_this()))
+            {
+                widget->takeKeyFocus();
+            }
         }
 
         bool IDialog::isOpen() const
@@ -61,9 +67,15 @@ namespace tg
             TG_P();
             p.open = false;
             setParent(nullptr);
+            auto widget = p.restoreFocus.lock();
+            p.restoreFocus.reset();
             if (p.closeCallback)
             {
                 p.closeCallback();
+            }
+            if (widget)
+            {
+                widget->takeKeyFocus();
             }
         }
 

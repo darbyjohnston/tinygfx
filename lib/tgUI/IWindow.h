@@ -21,8 +21,17 @@ namespace tg
         public:
             virtual ~IWindow() = 0;
 
+            //! Get the widget with key focus.
+            std::shared_ptr<IWidget> getKeyFocus() const;
+
             //! Set the widget with key focus.
             void setKeyFocus(const std::shared_ptr<IWidget>&);
+
+            //! Get the next widget to focus.
+            std::shared_ptr<IWidget> getNextKeyFocus(const std::shared_ptr<IWidget>&);
+
+            //! Get the previous widget to focus.
+            std::shared_ptr<IWidget> getPrevKeyFocus(const std::shared_ptr<IWidget>&);
 
             //! Get the clipboard.
             const std::shared_ptr<IClipboard>& getClipboard() const;
@@ -31,8 +40,6 @@ namespace tg
             void setClipboard(const std::shared_ptr<IClipboard>&);
 
             void setVisible(bool) override;
-            void childAddedEvent(const ChildEvent&) override;
-            void childRemovedEvent(const ChildEvent&) override;
             void tickEvent(
                 bool parentsVisible,
                 bool parentsEnabled,
@@ -87,8 +94,6 @@ namespace tg
             void _getKeyFocus(
                 const std::shared_ptr<IWidget>&,
                 std::list<std::shared_ptr<IWidget> >&);
-            std::shared_ptr<IWidget> _nextKeyFocus(const std::shared_ptr<IWidget>&);
-            std::shared_ptr<IWidget> _prevKeyFocus(const std::shared_ptr<IWidget>&);
 
             void _closeTooltip();
 

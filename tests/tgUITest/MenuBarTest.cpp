@@ -101,6 +101,7 @@ namespace tg
                 }
                 window->setKey(Key::Escape);
                 window->setKey(Key::Escape);
+                window->setKey(Key::Escape);
 
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);

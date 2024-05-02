@@ -21,6 +21,9 @@ namespace tg
             std::weak_ptr<IWidget> mousePress;
             MouseClickEvent mouseClickEvent;
             std::weak_ptr<IWidget> keyFocus;
+            std::list<std::pair<
+                std::shared_ptr<IWidget>,
+                std::weak_ptr<IWidget> > > restoreKeyFocus;
             std::weak_ptr<IWidget> keyPress;
             KeyEvent keyEvent;
 
@@ -51,6 +54,11 @@ namespace tg
         IWindow::~IWindow()
         {}
 
+        std::shared_ptr<IWidget> IWindow::getKeyFocus() const
+        {
+            return _p->keyFocus.lock();
+        }
+
         void IWindow::setKeyFocus(const std::shared_ptr<IWidget>& value)
         {
             TG_P();
@@ -71,6 +79,64 @@ namespace tg
                     _setDrawUpdate();
                 }
             }
+        }
+
+        std::shared_ptr<IWidget> IWindow::getNextKeyFocus(const std::shared_ptr<IWidget>& value)
+        {
+            TG_P();
+            std::shared_ptr<IWidget> out;
+            const auto& children = getChildren();
+            if (!children.empty())
+            {
+                std::list<std::shared_ptr<IWidget> > widgets;
+                _getKeyFocus(children.back(), widgets);
+                if (!widgets.empty())
+                {
+                    auto i = std::find(widgets.begin(), widgets.end(), value);
+                    if (i != widgets.end())
+                    {
+                        ++i;
+                        if (i != widgets.end())
+                        {
+                            out = *i;
+                        }
+                    }
+                    if (!out)
+                    {
+                        out = widgets.front();
+                    }
+                }
+            }
+            return out;
+        }
+
+        std::shared_ptr<IWidget> IWindow::getPrevKeyFocus(const std::shared_ptr<IWidget>& value)
+        {
+            TG_P();
+            std::shared_ptr<IWidget> out;
+            const auto& children = getChildren();
+            if (!children.empty())
+            {
+                std::list<std::shared_ptr<IWidget> > widgets;
+                _getKeyFocus(children.back(), widgets);
+                if (!widgets.empty())
+                {
+                    auto i = std::find(widgets.rbegin(), widgets.rend(), value);
+                    if (i != widgets.rend())
+                    {
+                        ++i;
+                        if (i != widgets.rend())
+                        {
+                            out = *i;
+                        }
+                    }
+                    if (!out)
+                    {
+                        out = widgets.back();
+                    }
+                }
+            }
+            return out;
         }
 
         const std::shared_ptr<IClipboard>& IWindow::getClipboard() const
@@ -126,24 +192,6 @@ namespace tg
                 p.dndData.reset();
                 p.dndCursor.reset();
                 _clipEventRecursive(shared_from_this(), getGeometry(), true);
-            }
-        }
-
-        void IWindow::childAddedEvent(const ChildEvent& event)
-        {
-            IWidget::childAddedEvent(event);
-            TG_P();
-            setKeyFocus(_nextKeyFocus(event.child));
-        }
-
-        void IWindow::childRemovedEvent(const ChildEvent& event)
-        {
-            IWidget::childRemovedEvent(event);
-            TG_P();
-            const auto& children = getChildren();
-            if (!children.empty())
-            {
-                setKeyFocus(_nextKeyFocus(children.back()));
             }
         }
         
@@ -333,11 +381,11 @@ namespace tg
                     auto keyFocus = p.keyFocus.lock();
                     if (modifiers == static_cast<int>(KeyModifier::Shift))
                     {
-                        keyFocus = _prevKeyFocus(keyFocus);
+                        keyFocus = getPrevKeyFocus(keyFocus);
                     }
                     else
                     {
-                        keyFocus = _nextKeyFocus(keyFocus);
+                        keyFocus = getNextKeyFocus(keyFocus);
                     }
                     setKeyFocus(keyFocus);
                 }
@@ -660,64 +708,6 @@ namespace tg
                     _getKeyFocus(child, out);
                 }
             }
-        }
-
-        std::shared_ptr<IWidget> IWindow::_nextKeyFocus(const std::shared_ptr<IWidget>& value)
-        {
-            TG_P();
-            std::shared_ptr<IWidget> out;
-            const auto& children = getChildren();
-            if (!children.empty())
-            {
-                std::list<std::shared_ptr<IWidget> > widgets;
-                _getKeyFocus(children.back(), widgets);
-                if (!widgets.empty())
-                {
-                    auto i = std::find(widgets.begin(), widgets.end(), value);
-                    if (i != widgets.end())
-                    {
-                        ++i;
-                        if (i != widgets.end())
-                        {
-                            out = *i;
-                        }
-                    }
-                    if (!out)
-                    {
-                        out = widgets.front();
-                    }
-                }
-            }
-            return out;
-        }
-
-        std::shared_ptr<IWidget> IWindow::_prevKeyFocus(const std::shared_ptr<IWidget>& value)
-        {
-            TG_P();
-            std::shared_ptr<IWidget> out;
-            const auto& children = getChildren();
-            if (!children.empty())
-            {
-                std::list<std::shared_ptr<IWidget> > widgets;
-                _getKeyFocus(children.back(), widgets);
-                if (!widgets.empty())
-                {
-                    auto i = std::find(widgets.rbegin(), widgets.rend(), value);
-                    if (i != widgets.rend())
-                    {
-                        ++i;
-                        if (i != widgets.rend())
-                        {
-                            out = *i;
-                        }
-                    }
-                    if (!out)
-                    {
-                        out = widgets.back();
-                    }
-                }
-            }
-            return out;
         }
 
         void IWindow::_closeTooltip()

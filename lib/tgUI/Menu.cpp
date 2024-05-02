@@ -517,7 +517,7 @@ namespace tg
                 button->setIcon(item->icon);
                 button->setShortcut(item->shortcut, item->shortcutModifiers);
                 button->setHoveredCallback(
-                    [this](bool value)
+                    [this, button](bool value)
                     {
                         if (value)
                         {
@@ -525,6 +525,7 @@ namespace tg
                             {
                                 _p->openSubMenu->close();
                             }
+                            button->takeKeyFocus();
                         }
                     });
                 button->setClickedCallback(
@@ -595,14 +596,18 @@ namespace tg
                 button->setHoveredCallback(
                     [this, out, button](bool value)
                     {
-                        if (value && !out->isOpen())
+                        if (value)
                         {
-                            if (_p->openSubMenu)
+                            button->takeKeyFocus();
+                            if (!out->isOpen())
                             {
-                                _p->openSubMenu->close();
+                                if (_p->openSubMenu)
+                                {
+                                    _p->openSubMenu->close();
+                                }
+                                _p->openSubMenu = out;
+                                out->open(getWindow(), button->getGeometry());
                             }
-                            _p->openSubMenu = out;
-                            out->open(getWindow(), button->getGeometry());
                         }
                     });
                 button->setPressedCallback(
@@ -624,7 +629,6 @@ namespace tg
                     [this, button]
                     {
                         _p->openSubMenu.reset();
-                        button->takeKeyFocus();
                     });
             }
             return out;

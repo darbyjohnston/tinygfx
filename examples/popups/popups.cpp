@@ -100,6 +100,9 @@ namespace tg
                 subMenu->addItem(std::make_shared<Action>(
                     "Action 15",
                     [] { std::cout << "Action 15" << std::endl; }));
+                menu->addItem(std::make_shared<Action>(
+                    "Action 16",
+                    [] { std::cout << "Action 16" << std::endl; }));
                 _menuBar->addMenu("Menu 3", menu);
 
                 // Create the scroll widget.

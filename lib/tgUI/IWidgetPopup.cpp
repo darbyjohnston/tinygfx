@@ -88,6 +88,7 @@ namespace tg
             std::function<void(void)> closeCallback;
             std::shared_ptr<IWidget> widget;
             std::shared_ptr<ContainerWidget> containerWidget;
+            std::weak_ptr<IWidget> restoreFocus;
 
             struct SizeData
             {
@@ -121,7 +122,12 @@ namespace tg
             TG_P();
             p.buttonGeometry = buttonGeometry;
             p.open = true;
+            p.restoreFocus = window->getKeyFocus();
             setParent(window);
+            if (auto widget = window->getNextKeyFocus(shared_from_this()))
+            {
+                widget->takeKeyFocus();
+            }
         }
 
         bool IWidgetPopup::isOpen() const
@@ -134,9 +140,15 @@ namespace tg
             TG_P();
             p.open = false;
             setParent(nullptr);
+            auto widget = p.restoreFocus.lock();
+            p.restoreFocus.reset();
             if (p.closeCallback)
             {
                 p.closeCallback();
+            }
+            if (widget)
+            {
+                widget->takeKeyFocus();
             }
         }
 

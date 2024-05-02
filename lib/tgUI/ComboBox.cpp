@@ -577,8 +577,6 @@ namespace tg
                             if (auto widget = weak.lock())
                             {
                                 widget->_p->menu->close();
-                                widget->_p->menu.reset();
-                                widget->takeKeyFocus();
                                 if (index != -1)
                                 {
                                     widget->_commitIndex(index);
@@ -591,7 +589,6 @@ namespace tg
                             if (auto widget = weak.lock())
                             {
                                 widget->_p->menu.reset();
-                                widget->takeKeyFocus();
                             }
                         });
                 }

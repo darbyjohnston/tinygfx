@@ -80,7 +80,6 @@ namespace tg
                                 if (openMenu && menu != openMenu)
                                 {
                                     openMenu->close();
-                                    button->takeKeyFocus();
                                     menu->open(getWindow(), button->getGeometry());
                                 }
                             }
@@ -100,11 +99,6 @@ namespace tg
                                 menu->close();
                             }
                         }
-                    });
-                menu->setCloseCallback(
-                    [button]
-                    {
-                        button->takeKeyFocus();
                     });
                 _setSizeUpdate();
                 _setDrawUpdate();
