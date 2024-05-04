@@ -50,9 +50,9 @@ namespace tg
                 }
                 listWidget->setItems(items);
                 listWidget->setCallback(
-                    [](int value)
+                    [](int index, bool)
                     {
-                        std::cout << "Click: " << value << std::endl;
+                        std::cout << "Click: " << index << std::endl;
                     });
                 listWidget = ListWidget::create(context, ButtonGroupType::Radio, hLayout);
                 items.clear();
@@ -62,9 +62,9 @@ namespace tg
                 }
                 listWidget->setItems(items);
                 listWidget->setCallback(
-                    [](int value)
+                    [](int index, bool)
                     {
-                        std::cout << "Radio: " << value << std::endl;
+                        std::cout << "Radio: " << index << std::endl;
                     });
                 listWidget = ListWidget::create(context, ButtonGroupType::Toggle, hLayout);
                 items.clear();
@@ -74,9 +74,9 @@ namespace tg
                 }
                 listWidget->setItems(items);
                 listWidget->setCallback(
-                    [](int value)
+                    [](int index, bool)
                     {
-                        std::cout << "Toggle: " << value << std::endl;
+                        std::cout << "Toggle: " << index << std::endl;
                     });
             }
 

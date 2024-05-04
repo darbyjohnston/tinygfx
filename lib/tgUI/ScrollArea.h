@@ -58,6 +58,9 @@ namespace tg
             //! Set the scroll position.
             void setScrollPos(const core::V2I&, bool clamp = true);
 
+            //! Scroll to make the given box visible.
+            void scrollTo(const core::Box2I&);
+
             //! Set the scroll position callback.
             void setScrollPosCallback(const std::function<void(const core::V2I&)>&);
 

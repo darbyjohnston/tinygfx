@@ -40,14 +40,8 @@ namespace tg
             //! Set the items.
             void setItems(const std::vector<std::string>&);
 
-            //! Get the current item.
-            int getCurrentItem() const;
-
-            //! Set the current item.
-            void setCurrentItem(int);
-
             //! Set the callback.
-            void setCallback(const std::function<void(int)>&);
+            void setCallback(const std::function<void(int, bool)>&);
 
             //! Get the search.
             const std::string& getSearch() const;
@@ -58,13 +52,16 @@ namespace tg
             //! Clear the search.
             void clearSearch();
 
+            //! Get the font role.
+            FontRole getFontRole() const;
+
+            //! Set the font role.
+            void setFontRole(FontRole);
+
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:
-            void _widgetUpdate();
-            void _searchUpdate();
-
             TG_PRIVATE();
         };
 

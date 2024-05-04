@@ -183,6 +183,11 @@ namespace tg
         {
             _p->scrollArea->setScrollPos(value, clamp);
         }
+
+        void ScrollWidget::scrollTo(const Box2I& value)
+        {
+            _p->scrollArea->scrollTo(value);
+        }
         
         void ScrollWidget::setScrollPosCallback(const std::function<void(const V2I&)>& value)
         {

@@ -104,6 +104,30 @@ namespace tg
                 p.scrollPosCallback(p.scrollPos);
             }
         }
+        
+        void ScrollArea::scrollTo(const Box2I& value)
+        {
+            TG_P();
+            const Size2I size = getChildrenClipRect().size();
+            V2I scrollPos = _p->scrollPos;
+            if (value.min.x < scrollPos.x)
+            {
+                scrollPos.x = value.min.x;
+            }
+            else if (value.max.x > scrollPos.x + size.w)
+            {
+                scrollPos.x = value.max.x - size.w + 1;
+            }
+            if (value.min.y < scrollPos.y)
+            {
+                scrollPos.y = value.min.y;
+            }
+            else if (value.max.y > scrollPos.y + size.h)
+            {
+                scrollPos.y = value.max.y - size.h + 1;
+            }
+            setScrollPos(scrollPos);
+        }
 
         void ScrollArea::setScrollPosCallback(const std::function<void(const V2I&)>& value)
         {
