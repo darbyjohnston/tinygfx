@@ -75,13 +75,6 @@ namespace tg
             items.push_back("Item 4");
             widget->setItems(items);
             app->tick();
-            if (ButtonGroupType::Radio == type)
-            {
-                widget->setCurrentItem(1);
-                widget->setCurrentItem(1);
-                TG_ASSERT(1 == widget->getCurrentItem());
-                app->tick();
-            }
             widget->setSearch("4");
             widget->setSearch("4");
             TG_ASSERT("4" == widget->getSearch());

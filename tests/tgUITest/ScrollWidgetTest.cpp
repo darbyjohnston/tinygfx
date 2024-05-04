@@ -120,10 +120,10 @@ namespace tg
             window->setKey(Key::PageDown);
             window->setKey(Key::PageUp);
 
-            V2I size = scrollWidget->getScrollSize();
-            scrollWidget->setScrollPos(size);
+            Size2I size = scrollWidget->getScrollSize();
+            scrollWidget->setScrollPos(V2I(size.w, size.h));
             app->tick();
-            window->setSize(Size2I(size.x * 2, size.y * 2));
+            window->setSize(Size2I(size.w * 2, size.h * 2));
             app->tick();
             window->setSize(Size2I(1280, 960));
 

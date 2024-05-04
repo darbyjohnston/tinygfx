@@ -47,10 +47,10 @@ namespace tg
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Get the scroll size.
-            const core::V2I& getScrollSize() const;
+            const core::Size2I& getScrollSize() const;
 
             //! Set the scroll size callback.
-            void setScrollSizeCallback(const std::function<void(const core::V2I&)>&);
+            void setScrollSizeCallback(const std::function<void(const core::Size2I&)>&);
 
             //! Get the scroll position.
             const core::V2I& getScrollPos() const;

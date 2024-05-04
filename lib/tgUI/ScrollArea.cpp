@@ -25,9 +25,9 @@ namespace tg
         struct ScrollArea::Private
         {
             ScrollType scrollType = ScrollType::Both;
-            V2I scrollSize;
+            Size2I scrollSize;
             V2I scrollPos;
-            std::function<void(const V2I&)> scrollSizeCallback;
+            std::function<void(const Size2I&)> scrollSizeCallback;
             std::function<void(const V2I&)> scrollPosCallback;
             bool border = true;
 
@@ -68,12 +68,12 @@ namespace tg
             return out;
         }
 
-        const V2I& ScrollArea::getScrollSize() const
+        const Size2I& ScrollArea::getScrollSize() const
         {
             return _p->scrollSize;
         }
 
-        void ScrollArea::setScrollSizeCallback(const std::function<void(const V2I&)>& value)
+        void ScrollArea::setScrollSizeCallback(const std::function<void(const Size2I&)>& value)
         {
             _p->scrollSizeCallback = value;
         }
@@ -91,8 +91,8 @@ namespace tg
             {
                 const Box2I g = margin(getGeometry(), -p.size.border);
                 tmp = V2I(
-                    core::clamp(tmp.x, 0, std::max(0, p.scrollSize.x - g.w())),
-                    core::clamp(tmp.y, 0, std::max(0, p.scrollSize.y - g.h())));
+                    core::clamp(tmp.x, 0, std::max(0, p.scrollSize.w - g.w())),
+                    core::clamp(tmp.y, 0, std::max(0, p.scrollSize.h - g.h())));
             }
             if (tmp == p.scrollPos)
                 return;
@@ -160,7 +160,7 @@ namespace tg
             TG_P();
             const Box2I g = margin(value, -p.size.border);
 
-            V2I scrollSize;
+            Size2I scrollSize;
             for (const auto& child : getChildren())
             {
                 Size2I childSizeHint = child->getSizeHint();
@@ -179,8 +179,8 @@ namespace tg
                     break;
                 default: break;
                 }
-                scrollSize.x = std::max(scrollSize.x, childSizeHint.w);
-                scrollSize.y = std::max(scrollSize.y, childSizeHint.h);
+                scrollSize.w = std::max(scrollSize.w, childSizeHint.w);
+                scrollSize.h = std::max(scrollSize.h, childSizeHint.h);
                 const Box2I g2(
                     g.min.x - p.scrollPos.x,
                     g.min.y - p.scrollPos.y,
@@ -200,8 +200,8 @@ namespace tg
             }
 
             const V2I scrollPos(
-                clamp(p.scrollPos.x, 0, std::max(0, p.scrollSize.x - g.w())),
-                clamp(p.scrollPos.y, 0, std::max(0, p.scrollSize.y - g.h())));
+                clamp(p.scrollPos.x, 0, std::max(0, p.scrollSize.w - g.w())),
+                clamp(p.scrollPos.y, 0, std::max(0, p.scrollSize.h - g.h())));
             if (scrollPos != p.scrollPos)
             {
                 p.scrollPos = scrollPos;

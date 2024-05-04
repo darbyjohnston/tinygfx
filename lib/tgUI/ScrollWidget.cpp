@@ -103,15 +103,15 @@ namespace tg
             }
 
             p.scrollArea->setScrollSizeCallback(
-                [this](const V2I& value)
+                [this](const Size2I& value)
                 {
                     if (_p->horizontalScrollBar)
                     {
-                        _p->horizontalScrollBar->setScrollSize(value.x);
+                        _p->horizontalScrollBar->setScrollSize(value.w);
                     }
                     if (_p->verticalScrollBar)
                     {
-                        _p->verticalScrollBar->setScrollSize(value.y);
+                        _p->verticalScrollBar->setScrollSize(value.h);
                     }
                 });
 
@@ -169,7 +169,7 @@ namespace tg
             return _p->scrollArea->getChildrenClipRect();
         }
 
-        const V2I& ScrollWidget::getScrollSize() const
+        const Size2I& ScrollWidget::getScrollSize() const
         {
             return _p->scrollArea->getScrollSize();
         }

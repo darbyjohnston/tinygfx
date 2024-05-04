@@ -40,7 +40,7 @@ namespace tg
             core::Box2I getViewport() const;
 
             //! Get the scroll size.
-            const core::V2I& getScrollSize() const;
+            const core::Size2I& getScrollSize() const;
 
             //! Get the scroll position.
             const core::V2I& getScrollPos() const;
