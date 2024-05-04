@@ -11,6 +11,7 @@ namespace tg
     namespace ui
     {
         class IWindow;
+        class ScrollWidget;
 
         //! \name Menu Widgets
         ///@{
@@ -64,6 +65,9 @@ namespace tg
             void drawEvent(const core::Box2I&, const DrawEvent&) override;
             void keyPressEvent(KeyEvent&) override;
             void keyReleaseEvent(KeyEvent&) override;
+
+        protected:
+            const std::shared_ptr<ScrollWidget>& _getScrollWidget() const;
 
         private:
             TG_PRIVATE();

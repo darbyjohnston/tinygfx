@@ -308,5 +308,10 @@ namespace tg
         {
             event.accept = true;
         }
+
+        const std::shared_ptr<ScrollWidget>& IMenuPopup::_getScrollWidget() const
+        {
+            return _p->scrollWidget;
+        }
     }
 }

@@ -8,23 +8,23 @@ namespace tg
 {
     namespace ui
     {
-        class ItemsWidget : public IWidget
+        class ListItemsWidget : public IWidget
         {
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,
-                ui::ButtonGroupType,
-                const std::shared_ptr<ui::IWidget>& parent);
+                ButtonGroupType,
+                const std::shared_ptr<IWidget>& parent);
 
-            ItemsWidget();
+            ListItemsWidget();
 
         public:
-            virtual ~ItemsWidget();
+            virtual ~ListItemsWidget();
 
-            static std::shared_ptr<ItemsWidget> create(
+            static std::shared_ptr<ListItemsWidget> create(
                 const std::shared_ptr<core::Context>&,
-                ui::ButtonGroupType,
-                const std::shared_ptr<ui::IWidget>& parent = nullptr);
+                ButtonGroupType,
+                const std::shared_ptr<IWidget>& parent = nullptr);
 
             const std::vector<std::string>& getItems() const;
             void setItems(const std::vector<std::string>&);
@@ -40,25 +40,24 @@ namespace tg
             void setSearch(const std::string&);
             void clearSearch();
 
-            ui::FontRole getFontRole() const;
-            void setFontRole(ui::FontRole);
+            FontRole getFontRole() const;
+            void setFontRole(FontRole);
 
             core::Box2I getRect(int) const;
 
             void setGeometry(const core::Box2I&) override;
-            void sizeHintEvent(const ui::SizeHintEvent&) override;
-            void drawEvent(const core::Box2I&, const ui::DrawEvent&) override;
+            void sizeHintEvent(const SizeHintEvent&) override;
+            void drawEvent(const core::Box2I&, const DrawEvent&) override;
             void mouseLeaveEvent() override;
-            void mouseMoveEvent(ui::MouseMoveEvent&) override;
-            void mousePressEvent(ui::MouseClickEvent&) override;
-            void mouseReleaseEvent(ui::MouseClickEvent&) override;
-            void keyPressEvent(ui::KeyEvent&) override;
-            void keyReleaseEvent(ui::KeyEvent&) override;
+            void mouseMoveEvent(MouseMoveEvent&) override;
+            void mousePressEvent(MouseClickEvent&) override;
+            void mouseReleaseEvent(MouseClickEvent&) override;
+            void keyPressEvent(KeyEvent&) override;
+            void keyReleaseEvent(KeyEvent&) override;
 
         private:
-            int _getMargin() const;
+            int _getItemHeight() const;
             int _posToIndex(int) const;
-            int _indexToPos(int) const;
             
             void _action(int);
 

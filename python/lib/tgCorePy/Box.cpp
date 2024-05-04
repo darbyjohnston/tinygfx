@@ -73,6 +73,10 @@ namespace tg
 
             m.def("volume", [](const Box3F& v) { return volume(v); });
 
+            m.def("move", [](const Box2I& v, const V2I& m) { return move(v, m); });
+            m.def("move", [](const Box2F& v, const V2F& m) { return move(v, m); });
+            m.def("move", [](const Box3F& v, const V3F& m) { return move(v, m); });
+
             m.def("contains",
                 [](const Box2I& a, const Box2I& b) { return contains(a, b); });
             m.def("contains",

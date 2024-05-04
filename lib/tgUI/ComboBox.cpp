@@ -2,13 +2,9 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/ComboBox.h>
+#include <tgUI/ComboBoxPrivate.h>
 
-#include <tgUI/ButtonGroup.h>
 #include <tgUI/DrawUtil.h>
-#include <tgUI/IMenuPopup.h>
-#include <tgUI/ListButton.h>
-#include <tgUI/RowLayout.h>
 
 using namespace tg::core;
 
@@ -16,96 +12,6 @@ namespace tg
 {
     namespace ui
     {
-        namespace
-        {
-            class ComboBoxMenu : public IMenuPopup
-            {
-            protected:
-                void _init(
-                    const std::shared_ptr<Context>&,
-                    const std::vector<ComboBoxItem>&,
-                    const std::shared_ptr<IWidget>& parent);
-
-                ComboBoxMenu();
-
-            public:
-                virtual ~ComboBoxMenu();
-
-                static std::shared_ptr<ComboBoxMenu> create(
-                    const std::shared_ptr<Context>&,
-                    const std::vector<ComboBoxItem>&,
-                    const std::shared_ptr<IWidget>& parent = nullptr);
-
-                void setCallback(const std::function<void(int)>&);
-
-            private:
-                std::shared_ptr<ButtonGroup> _buttonGroup;
-                std::shared_ptr<VerticalLayout> _layout;
-                std::function<void(int)> _callback;
-            };
-
-            void ComboBoxMenu::_init(
-                const std::shared_ptr<Context>& context,
-                const std::vector<ComboBoxItem>& items,
-                const std::shared_ptr<IWidget>& parent)
-            {
-                IMenuPopup::_init(context, "tg::ui::ComboBoxMenu", parent);
-
-                std::vector<std::shared_ptr<ListButton> > buttons;
-                _buttonGroup = ButtonGroup::create(context, ButtonGroupType::Click);
-                for (const auto& item : items)
-                {
-                    auto button = ListButton::create(context, shared_from_this());
-                    button->setText(item.text);
-                    button->setIcon(item.icon);
-                    buttons.push_back(button);
-                    _buttonGroup->addButton(button);
-                }
-
-                _layout = VerticalLayout::create(context);
-                _layout->setSpacingRole(SizeRole::None);
-                for (const auto& button : buttons)
-                {
-                    button->setParent(_layout);
-                }
-                setWidget(_layout);
-                
-                auto weak = std::weak_ptr<ComboBoxMenu>(std::dynamic_pointer_cast<ComboBoxMenu>(shared_from_this()));
-                _buttonGroup->setClickedCallback(
-                    [weak](int value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_callback)
-                            {
-                                widget->_callback(value);
-                            }
-                        }
-                    });
-            }
-
-            ComboBoxMenu::ComboBoxMenu()
-            {}
-
-            ComboBoxMenu::~ComboBoxMenu()
-            {}
-
-            std::shared_ptr<ComboBoxMenu> ComboBoxMenu::create(
-                const std::shared_ptr<Context>& context,
-                const std::vector<ComboBoxItem>& items,
-                const std::shared_ptr<IWidget>& parent)
-            {
-                auto out = std::shared_ptr<ComboBoxMenu>(new ComboBoxMenu);
-                out->_init(context, items, parent);
-                return out;
-            }
-
-            void ComboBoxMenu::setCallback(const std::function<void(int)>& value)
-            {
-                _callback = value;
-            }
-        }
-
         ComboBoxItem::ComboBoxItem(
             const std::string& text,
             const std::string& icon) :
@@ -130,17 +36,8 @@ namespace tg
             std::function<void(int)> indexCallback;
             std::function<void(const ComboBoxItem&)> itemCallback;
             FontRole fontRole = FontRole::Label;
-
             std::string text;
             std::string icon;
-            float iconScale = 1.F;
-            bool iconInit = false;
-            std::future<std::shared_ptr<Image> > iconFuture;
-            std::shared_ptr<Image> iconImage;
-            bool arrowIconInit = false;
-            std::future<std::shared_ptr<Image> > arrowIconFuture;
-            std::shared_ptr<Image> arrowIconImage;
-
             std::shared_ptr<ComboBoxMenu> menu;
 
             struct SizeData
@@ -160,6 +57,13 @@ namespace tg
             struct DrawData
             {
                 std::vector<std::shared_ptr<Glyph> > glyphs;
+                float iconScale = 1.F;
+                bool iconInit = false;
+                std::future<std::shared_ptr<Image> > iconFuture;
+                std::shared_ptr<Image> iconImage;
+                bool arrowIconInit = false;
+                std::future<std::shared_ptr<Image> > arrowIconFuture;
+                std::shared_ptr<Image> arrowIconImage;
             };
             DrawData draw;
         };
@@ -192,6 +96,16 @@ namespace tg
 
         std::shared_ptr<ComboBox> ComboBox::create(
             const std::shared_ptr<Context>& context,
+            const std::vector<ComboBoxItem>& items,
+            const std::shared_ptr<IWidget>& parent)
+        {
+            auto out = create(context, parent);
+            out->setItems(items);
+            return out;
+        }
+
+        std::shared_ptr<ComboBox> ComboBox::create(
+            const std::shared_ptr<Context>& context,
             const std::vector<std::string>& items,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -218,10 +132,10 @@ namespace tg
             const ComboBoxItem item = _getItem(p.currentIndex);
             p.text = item.text;
             p.icon = item.icon;
-            p.iconInit = true;
-            p.iconFuture = std::future<std::shared_ptr<Image> >();
-            p.iconImage.reset();
             p.size.textInit = true;
+            p.draw.iconInit = true;
+            p.draw.iconFuture = std::future<std::shared_ptr<Image> >();
+            p.draw.iconImage.reset();
             _setSizeUpdate();
             _setDrawUpdate();
         }
@@ -255,10 +169,10 @@ namespace tg
             const ComboBoxItem item = _getItem(p.currentIndex);
             p.text = item.text;
             p.icon = item.icon;
-            p.iconInit = true;
-            p.iconFuture = std::future<std::shared_ptr<Image> >();
-            p.iconImage.reset();
             p.size.textInit = true;
+            p.draw.iconInit = true;
+            p.draw.iconFuture = std::future<std::shared_ptr<Image> >();
+            p.draw.iconImage.reset();
             _setSizeUpdate();
             _setDrawUpdate();
         }
@@ -296,37 +210,37 @@ namespace tg
         {
             IWidget::tickEvent(parentsVisible, parentsEnabled, event);
             TG_P();
-            if (event.displayScale != p.iconScale)
+            if (event.displayScale != p.draw.iconScale)
             {
-                p.iconScale = event.displayScale;
-                p.iconInit = true;
-                p.iconFuture = std::future<std::shared_ptr<Image> >();
-                p.iconImage.reset();
-                p.arrowIconInit = true;
-                p.arrowIconFuture = std::future<std::shared_ptr<Image> >();
-                p.arrowIconImage.reset();
+                p.draw.iconScale = event.displayScale;
+                p.draw.iconInit = true;
+                p.draw.iconFuture = std::future<std::shared_ptr<Image> >();
+                p.draw.iconImage.reset();
+                p.draw.arrowIconInit = true;
+                p.draw.arrowIconFuture = std::future<std::shared_ptr<Image> >();
+                p.draw.arrowIconImage.reset();
             }
-            if (!p.icon.empty() && p.iconInit)
+            if (!p.icon.empty() && p.draw.iconInit)
             {
-                p.iconInit = false;
-                p.iconFuture = event.iconLibrary->request(p.icon, event.displayScale);
+                p.draw.iconInit = false;
+                p.draw.iconFuture = event.iconLibrary->request(p.icon, event.displayScale);
             }
-            if (p.arrowIconInit)
+            if (p.draw.arrowIconInit)
             {
-                p.arrowIconInit = false;
-                p.arrowIconFuture = event.iconLibrary->request("MenuArrow", event.displayScale);
+                p.draw.arrowIconInit = false;
+                p.draw.arrowIconFuture = event.iconLibrary->request("MenuArrow", event.displayScale);
             }
-            if (p.iconFuture.valid() &&
-                p.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            if (p.draw.iconFuture.valid() &&
+                p.draw.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
-                p.iconImage = p.iconFuture.get();
+                p.draw.iconImage = p.draw.iconFuture.get();
                 _setSizeUpdate();
                 _setDrawUpdate();
             }
-            if (p.arrowIconFuture.valid() &&
-                p.arrowIconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            if (p.draw.arrowIconFuture.valid() &&
+                p.draw.arrowIconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
-                p.arrowIconImage = p.arrowIconFuture.get();
+                p.draw.arrowIconImage = p.draw.arrowIconFuture.get();
                 _setSizeUpdate();
                 _setDrawUpdate();
             }
@@ -366,24 +280,24 @@ namespace tg
             Size2I sizeHint;
             sizeHint.w = p.size.textSize.w + p.size.margin * 2;
             sizeHint.h = p.size.fontMetrics.lineHeight;
-            if (p.iconImage)
+            if (p.draw.iconImage)
             {
-                sizeHint.w += p.iconImage->getWidth();
+                sizeHint.w += p.draw.iconImage->getWidth();
                 if (!p.text.empty())
                 {
                     sizeHint.w += p.size.spacing;
                 }
                 sizeHint.h = std::max(
                     sizeHint.h,
-                    static_cast<int>(p.iconImage->getHeight()));
+                    static_cast<int>(p.draw.iconImage->getHeight()));
             }
-            if (p.arrowIconImage)
+            if (p.draw.arrowIconImage)
             {
-                sizeHint.w += p.arrowIconImage->getWidth();
+                sizeHint.w += p.draw.arrowIconImage->getWidth();
                 sizeHint.w += p.size.spacing;
                 sizeHint.h = std::max(
                     sizeHint.h,
-                    static_cast<int>(p.arrowIconImage->getHeight()));
+                    static_cast<int>(p.draw.arrowIconImage->getHeight()));
             }
             sizeHint.w +=
                 p.size.margin * 2 +
@@ -437,11 +351,11 @@ namespace tg
 
             const Box2I g3 = margin(g2, -p.size.margin);
             int x = g3.x();
-            if (p.iconImage)
+            if (p.draw.iconImage)
             {
-                const Size2I& iconSize = p.iconImage->getSize();
+                const Size2I& iconSize = p.draw.iconImage->getSize();
                 event.render->drawImage(
-                    p.iconImage,
+                    p.draw.iconImage,
                     Box2F(
                         x,
                         g3.y() + g3.h() / 2 - iconSize.h / 2,
@@ -471,11 +385,11 @@ namespace tg
                         ColorRole::TextDisabled));
             }
 
-            if (p.arrowIconImage)
+            if (p.draw.arrowIconImage)
             {
-                const Size2I& iconSize = p.arrowIconImage->getSize();
+                const Size2I& iconSize = p.draw.arrowIconImage->getSize();
                 event.render->drawImage(
-                    p.arrowIconImage,
+                    p.draw.arrowIconImage,
                     Box2F(
                         g3.x() + g3.w() - iconSize.w,
                         g3.y() + g3.h() / 2 - iconSize.h / 2,
@@ -528,6 +442,14 @@ namespace tg
                     event.accept = true;
                     _commitIndex(p.currentIndex + 1);
                     break;
+                case Key::Home:
+                    event.accept = true;
+                    _commitIndex(0);
+                    break;
+                case Key::End:
+                    event.accept = true;
+                    _commitIndex(static_cast<int>(p.items.size()) - 1);
+                    break;
                 case Key::Enter:
                     event.accept = true;
                     _click();
@@ -568,7 +490,7 @@ namespace tg
             {
                 if (!p.menu)
                 {
-                    p.menu = ComboBoxMenu::create(context, p.items);
+                    p.menu = ComboBoxMenu::create(context, p.items, p.currentIndex);
                     p.menu->open(getWindow(), getGeometry());
                     auto weak = std::weak_ptr<ComboBox>(std::dynamic_pointer_cast<ComboBox>(shared_from_this()));
                     p.menu->setCallback(

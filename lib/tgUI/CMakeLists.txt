@@ -69,6 +69,7 @@ set(HEADERS
     Tooltip.h
     WidgetOptions.h)
 set(PRIVATE_HEADERS
+    ComboBoxPrivate.h
     MessageDialogPrivate.h
     ListWidgetPrivate.h)
 
@@ -81,6 +82,8 @@ set(SOURCE
     ColorSwatch.cpp
     ColorWidget.cpp
     ComboBox.cpp
+    ComboBoxItemsWidget.cpp
+    ComboBoxMenu.cpp
     Divider.cpp
     DoubleEdit.cpp
     DoubleEditSlider.cpp
@@ -122,6 +125,7 @@ set(SOURCE
     LayoutUtil.cpp
     LineEdit.cpp
     ListButton.cpp
+    ListItemsWidget.cpp
     ListWidget.cpp
     MDICanvas.cpp
     MDIWidget.cpp
