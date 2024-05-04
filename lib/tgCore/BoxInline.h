@@ -185,6 +185,12 @@ namespace tg
             return core::volume(a.size());
         }
 
+        template<int C, typename T>
+        constexpr Box<C, T> move(const Box<C, T>& a, const Vector<C, T>& b)
+        {
+            return Box<C, T>(a.min + b, a.size());
+        }
+
         template<>
         constexpr bool contains(const Box<2, int>& a, const Box<2, int>& b)
         {

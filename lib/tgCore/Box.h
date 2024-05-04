@@ -89,15 +89,19 @@ namespace tg
         template<typename T>
         constexpr float volume(const Box<3, T>&);
 
-        //! Does the box contain another box?
+        //! Move a box.
+        template<int C, typename T>
+        constexpr Box<C, T> move(const Box<C, T>&, const Vector<C, T>&);
+
+        //! Does a box contain another box?
         template<typename T>
         constexpr bool contains(const Box<2, T>&, const Box<2, T>&);
 
-        //! Does the box contain a vector?
+        //! Does a box contain a vector?
         template<typename T>
         constexpr bool contains(const Box<2, T>&, const Vector<2, T>&);
 
-        //! Does the box intersect another box?
+        //! Does a box intersect another box?
         template<typename T>
         constexpr bool intersects(const Box<2, T>&, const Box<2, T>&);
 
@@ -105,11 +109,11 @@ namespace tg
         template<typename T>
         constexpr Box<2, T> intersect(const Box<2, T>&, const Box<2, T>&);
 
-        //! Expand the box with the another box.
+        //! Expand a box with another box.
         template<typename T>
         constexpr Box<2, T> expand(const Box<2, T>&, const Box<2, T>&);
 
-        //! Expand the box with a vector.
+        //! Expand a box with a vector.
         template<typename T>
         constexpr Box<2, T> expand(const Box<2, T>&, const Vector<2, T>&);
 

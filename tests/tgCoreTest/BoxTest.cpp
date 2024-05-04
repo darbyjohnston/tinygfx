@@ -108,6 +108,11 @@ namespace tg
                 TG_ASSERT(120.F == v);
             }
             {
+                const Box2F b(1.F, 2.F, 3.F, 4.F);
+                const Box2F b1 = move(b, V2F(-1.F, -2.F));
+                TG_ASSERT(Box2F(0.F, 0.F, 3.F, 4.F) == b1);
+            }
+            {
                 const Box2I b(0, 0, 3, 3);
                 TG_ASSERT(contains(b, Box2I(0, 0, 1, 1)));
                 TG_ASSERT(!contains(b, Box2I(-1, -1, 1, 1)));

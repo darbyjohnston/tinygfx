@@ -40,6 +40,12 @@ namespace tg
             //! Set the items.
             void setItems(const std::vector<std::string>&);
 
+            //! Get whether an item is checked.
+            bool getChecked(int) const;
+
+            //! Set the checked item.
+            void setChecked(int, bool = true);
+
             //! Set the callback.
             void setCallback(const std::function<void(int, bool)>&);
 

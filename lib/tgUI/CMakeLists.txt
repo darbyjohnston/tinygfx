@@ -69,7 +69,8 @@ set(HEADERS
     Tooltip.h
     WidgetOptions.h)
 set(PRIVATE_HEADERS
-    MessageDialogPrivate.h)
+    MessageDialogPrivate.h
+    ListWidgetPrivate.h)
 
 set(SOURCE
     Action.cpp
