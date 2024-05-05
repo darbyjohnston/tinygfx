@@ -51,13 +51,13 @@ namespace tg
                 window->show();
                 app->tick();
 
-                auto widget = ComboBox::create(context, {}, layout);
                 std::vector<ComboBoxItem> items =
                 {
                     ComboBoxItem("Stop", "PlaybackStop"),
                     ComboBoxItem("Forward", "PlaybackForward"),
                     ComboBoxItem("Reverse", "PlaybackReverse")
                 };
+                auto widget = ComboBox::create(context, items, layout);
                 TG_ASSERT(items[0] != ComboBoxItem());
                 widget->setItems(items);
                 widget->setItems(items);
