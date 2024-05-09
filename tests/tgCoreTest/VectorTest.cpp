@@ -167,6 +167,9 @@ namespace tg
         void VectorTest::_operators()
         {
             {
+                TG_ASSERT(-V2F(1.F, 2.F) == V2F(-1.F, -2.F));
+            }
+            {
                 V2F v = V2F(1.F, 2.F) + V2F(3.F, 4.F);
                 TG_ASSERT(V2F(4.F, 6.F) == v);
                 v = V2F(1.F, 2.F) + 1.F;

@@ -297,7 +297,7 @@ namespace tg
             }
             return out;
         }
-        
+
         template<int C, typename T>
         constexpr Vector<C, T> operator - (const Vector<C, T>& v0, const Vector<C, T>& v1)
         {
@@ -305,6 +305,17 @@ namespace tg
             for (int c = 0; c < C; ++c)
             {
                 out[c] = v0[c] - v1[c];
+            }
+            return out;
+        }
+
+        template<int C, typename T>
+        constexpr Vector<C, T> operator - (const Vector<C, T>& v)
+        {
+            Vector<C, T> out;
+            for (int c = 0; c < C; ++c)
+            {
+                out[c] = -v[c];
             }
             return out;
         }

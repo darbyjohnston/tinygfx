@@ -136,6 +136,8 @@ namespace tg
         template<int C, typename T>
         constexpr Vector<C, T> operator - (const Vector<C, T>&, const Vector<C, T>&);
         template<int C, typename T>
+        constexpr Vector<C, T> operator - (const Vector<C, T>&);
+        template<int C, typename T>
         constexpr Vector<C, T> operator - (const Vector<C, T>&, T);
 
         template<int C, typename T>

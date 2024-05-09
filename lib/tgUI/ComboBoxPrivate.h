@@ -5,54 +5,39 @@
 #pragma once
 
 #include <tgUI/ComboBox.h>
+#include <tgUI/IButton.h>
 #include <tgUI/IMenuPopup.h>
 
 namespace tg
 {
     namespace ui
     {
-        class ComboBoxWidget : public IWidget
+        class ComboBoxButton : public IButton
         {
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,
-                const std::vector<ComboBoxItem>&,
-                int currentIndex,
+                const ComboBoxItem&,
                 const std::shared_ptr<IWidget>& parent);
 
-            ComboBoxWidget();
+            ComboBoxButton();
 
         public:
-            virtual ~ComboBoxWidget();
+            virtual ~ComboBoxButton();
 
-            static std::shared_ptr<ComboBoxWidget> create(
+            static std::shared_ptr<ComboBoxButton> create(
                 const std::shared_ptr<core::Context>&,
-                const std::vector<ComboBoxItem>&,
-                int currentIndex,
+                const ComboBoxItem&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setCallback(const std::function<void(int)>&);
+            bool getCurrent() const;
+            void setCurrent(bool);
 
-            int getCurrent() const;
-            void setCurrent(int);
-            std::shared_ptr<core::IObservableValue<int> > observeCurrent() const;
-
-            core::Box2I getRect(int) const;
-
-            void setGeometry(const core::Box2I&) override;
-            void tickEvent(bool, bool, const TickEvent&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
+            void clipEvent(const core::Box2I&, bool) override;
             void drawEvent(const core::Box2I&, const DrawEvent&) override;
-            void mouseLeaveEvent() override;
-            void mouseMoveEvent(MouseMoveEvent&) override;
-            void mousePressEvent(MouseClickEvent&) override;
-            void mouseReleaseEvent(MouseClickEvent&) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
 
         private:
-            int _posToIndex(int) const;
-
             TG_PRIVATE();
         };
 
@@ -76,11 +61,17 @@ namespace tg
                 int currentIndex,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            int getCurrent() const;
+            void setCurrent(int);
             void setCallback(const std::function<void(int)>&);
 
             void setGeometry(const core::Box2I&) override;
+            void keyPressEvent(KeyEvent&) override;
+            void keyReleaseEvent(KeyEvent&) override;
 
         private:
+            void _scrollToCurrent();
+
             TG_PRIVATE();
         };
     }

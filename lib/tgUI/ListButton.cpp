@@ -169,7 +169,7 @@ namespace tg
 
         void ListButton::clipEvent(const Box2I& clipRect, bool clipped)
         {
-            IWidget::clipEvent(clipRect, clipped);
+            IButton::clipEvent(clipRect, clipped);
             TG_P();
             if (clipped)
             {
