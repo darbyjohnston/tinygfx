@@ -82,8 +82,8 @@ set(SOURCE
     ColorSwatch.cpp
     ColorWidget.cpp
     ComboBox.cpp
-    ComboBoxItemsWidget.cpp
     ComboBoxMenu.cpp
+    ComboBoxWidget.cpp
     Divider.cpp
     DoubleEdit.cpp
     DoubleEditSlider.cpp

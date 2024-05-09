@@ -11,7 +11,7 @@ namespace tg
 {
     namespace ui
     {
-        class ComboBoxItemsWidget : public IWidget
+        class ComboBoxWidget : public IWidget
         {
         protected:
             void _init(
@@ -20,12 +20,12 @@ namespace tg
                 int currentIndex,
                 const std::shared_ptr<IWidget>& parent);
 
-            ComboBoxItemsWidget();
+            ComboBoxWidget();
 
         public:
-            virtual ~ComboBoxItemsWidget();
+            virtual ~ComboBoxWidget();
 
-            static std::shared_ptr<ComboBoxItemsWidget> create(
+            static std::shared_ptr<ComboBoxWidget> create(
                 const std::shared_ptr<core::Context>&,
                 const std::vector<ComboBoxItem>&,
                 int currentIndex,

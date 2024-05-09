@@ -14,7 +14,7 @@ namespace tg
     {
         struct ComboBoxMenu::Private
         {
-            std::shared_ptr<ComboBoxItemsWidget> widget;
+            std::shared_ptr<ComboBoxWidget> widget;
             std::shared_ptr<ValueObserver<int> > currentObserver;
             bool scrollInit = true;
         };
@@ -28,7 +28,7 @@ namespace tg
             IMenuPopup::_init(context, "tg::ui::ComboBoxMenu", parent);
             TG_P();
 
-            p.widget = ComboBoxItemsWidget::create(context, items, currentIndex, parent);
+            p.widget = ComboBoxWidget::create(context, items, currentIndex, parent);
             setWidget(p.widget);
 
             p.currentObserver = ValueObserver<int>::create(

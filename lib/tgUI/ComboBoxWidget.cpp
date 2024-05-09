@@ -12,7 +12,7 @@ namespace tg
 {
     namespace ui
     {
-        struct ComboBoxItemsWidget::Private
+        struct ComboBoxWidget::Private
         {
             std::vector<ComboBoxItem> items;
             std::function<void(int)> callback;
@@ -50,13 +50,13 @@ namespace tg
             MouseData mouse;
         };
 
-        void ComboBoxItemsWidget::_init(
+        void ComboBoxWidget::_init(
             const std::shared_ptr<Context>& context,
             const std::vector<ComboBoxItem>& items,
             int currentIndex,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tg::ui::ComboBoxItemsWidget", parent);
+            IWidget::_init(context, "tg::ui::ComboBoxWidget", parent);
             TG_P();
             setAcceptsKeyFocus(true);
             _setMouseHoverEnabled(true);
@@ -66,35 +66,35 @@ namespace tg
             p.radio = currentIndex;
         }
 
-        ComboBoxItemsWidget::ComboBoxItemsWidget() :
+        ComboBoxWidget::ComboBoxWidget() :
             _p(new Private)
         {}
 
-        ComboBoxItemsWidget::~ComboBoxItemsWidget()
+        ComboBoxWidget::~ComboBoxWidget()
         {}
 
-        std::shared_ptr<ComboBoxItemsWidget> ComboBoxItemsWidget::create(
+        std::shared_ptr<ComboBoxWidget> ComboBoxWidget::create(
             const std::shared_ptr<Context>& context,
             const std::vector<ComboBoxItem>& items,
             int currentIndex,
             const std::shared_ptr<IWidget>& parent)
         {
-            auto out = std::shared_ptr<ComboBoxItemsWidget>(new ComboBoxItemsWidget);
+            auto out = std::shared_ptr<ComboBoxWidget>(new ComboBoxWidget);
             out->_init(context, items, currentIndex, parent);
             return out;
         }
 
-        void ComboBoxItemsWidget::setCallback(const std::function<void(int)>& value)
+        void ComboBoxWidget::setCallback(const std::function<void(int)>& value)
         {
             _p->callback = value;
         }
 
-        int ComboBoxItemsWidget::getCurrent() const
+        int ComboBoxWidget::getCurrent() const
         {
             return _p->current->get();
         }
 
-        void ComboBoxItemsWidget::setCurrent(int value)
+        void ComboBoxWidget::setCurrent(int value)
         {
             TG_P();
             const int tmp = clamp(value, 0, static_cast<int>(p.items.size()) - 1);
@@ -104,12 +104,12 @@ namespace tg
             }
         }
 
-        std::shared_ptr<IObservableValue<int> > ComboBoxItemsWidget::observeCurrent() const
+        std::shared_ptr<IObservableValue<int> > ComboBoxWidget::observeCurrent() const
         {
             return _p->current;
         }
 
-        Box2I ComboBoxItemsWidget::getRect(int index) const
+        Box2I ComboBoxWidget::getRect(int index) const
         {
             TG_P();
             const Box2I& g = getGeometry();
@@ -126,12 +126,12 @@ namespace tg
             return Box2I(0, y, g.w(), h);
         }
 
-        void ComboBoxItemsWidget::setGeometry(const Box2I& value)
+        void ComboBoxWidget::setGeometry(const Box2I& value)
         {
             IWidget::setGeometry(value);
         }
 
-        void ComboBoxItemsWidget::tickEvent(
+        void ComboBoxWidget::tickEvent(
             bool parentsVisible,
             bool parentsEnabled,
             const TickEvent& event)
@@ -173,7 +173,7 @@ namespace tg
             }
         }
 
-        void ComboBoxItemsWidget::sizeHintEvent(const SizeHintEvent& event)
+        void ComboBoxWidget::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
             TG_P();
@@ -212,7 +212,7 @@ namespace tg
             _setSizeHint(p.size.itemsSize);
         }
 
-        void ComboBoxItemsWidget::drawEvent(const Box2I& drawRect, const DrawEvent& event)
+        void ComboBoxWidget::drawEvent(const Box2I& drawRect, const DrawEvent& event)
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
@@ -284,7 +284,7 @@ namespace tg
             }
         }
 
-        void ComboBoxItemsWidget::mouseLeaveEvent()
+        void ComboBoxWidget::mouseLeaveEvent()
         {
             IWidget::mouseLeaveEvent();
             TG_P();
@@ -295,7 +295,7 @@ namespace tg
             }
         }
 
-        void ComboBoxItemsWidget::mouseMoveEvent(MouseMoveEvent& event)
+        void ComboBoxWidget::mouseMoveEvent(MouseMoveEvent& event)
         {
             IWidget::mouseMoveEvent(event);
             TG_P();
@@ -310,7 +310,7 @@ namespace tg
             }
         }
 
-        void ComboBoxItemsWidget::mousePressEvent(MouseClickEvent& event)
+        void ComboBoxWidget::mousePressEvent(MouseClickEvent& event)
         {
             IWidget::mousePressEvent(event);
             TG_P();
@@ -327,7 +327,7 @@ namespace tg
             }
         }
 
-        void ComboBoxItemsWidget::mouseReleaseEvent(MouseClickEvent& event)
+        void ComboBoxWidget::mouseReleaseEvent(MouseClickEvent& event)
         {
             IWidget::mouseReleaseEvent(event);
             TG_P();
@@ -346,7 +346,7 @@ namespace tg
             _setDrawUpdate();
         }
 
-        void ComboBoxItemsWidget::keyPressEvent(KeyEvent& event)
+        void ComboBoxWidget::keyPressEvent(KeyEvent& event)
         {
             TG_P();
             if (0 == event.modifiers)
@@ -400,13 +400,13 @@ namespace tg
             }
         }
 
-        void ComboBoxItemsWidget::keyReleaseEvent(KeyEvent& event)
+        void ComboBoxWidget::keyReleaseEvent(KeyEvent& event)
         {
             IWidget::keyReleaseEvent(event);
             event.accept = true;
         }
 
-        int ComboBoxItemsWidget::_posToIndex(int value) const
+        int ComboBoxWidget::_posToIndex(int value) const
         {
             TG_P();
             int out = -1;
