@@ -268,10 +268,15 @@ namespace tg
                 default: break;
                 }
             }
+            if (!event.accept)
+            {
+                IButton::keyPressEvent(event);
+            }
         }
 
         void PushButton::keyReleaseEvent(KeyEvent& event)
         {
+            IButton::keyReleaseEvent(event);
             event.accept = true;
         }
     }

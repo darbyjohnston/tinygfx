@@ -297,10 +297,15 @@ namespace tg
                 default: break;
                 }
             }
+            if (!event.accept)
+            {
+                IButton::keyPressEvent(event);
+            }
         }
 
         void ListButton::keyReleaseEvent(KeyEvent& event)
         {
+            IButton::keyReleaseEvent(event);
             event.accept = true;
         }
     }

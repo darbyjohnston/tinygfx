@@ -218,10 +218,15 @@ namespace tg
                 default: break;
                 }
             }
+            if (!event.accept)
+            {
+                IWidget::keyPressEvent(event);
+            }
         }
 
         void IntEdit::keyReleaseEvent(KeyEvent& event)
         {
+            IWidget::keyReleaseEvent(event);
             event.accept = true;
         }
 

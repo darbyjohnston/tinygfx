@@ -706,10 +706,15 @@ namespace tg
                 default: break;
                 }
             }
+            if (!event.accept)
+            {
+                IWidget::keyPressEvent(event);
+            }
         }
 
         void LineEdit::keyReleaseEvent(KeyEvent& event)
         {
+            IWidget::keyReleaseEvent(event);
             event.accept = true;
         }
 

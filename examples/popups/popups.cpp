@@ -42,11 +42,13 @@ namespace tg
                     "Action 2",
                     "FileOpen",
                     [] { std::cout << "Action 2" << std::endl; }));
+                menu->addDivider();
                 menu->addItem(std::make_shared<Action>(
                     "Action 3",
                     Key::_3,
                     static_cast<int>(KeyModifier::Control),
                     [] { std::cout << "Action 3" << std::endl; }));
+                menu->addDivider();
                 menu->addItem(std::make_shared<Action>(
                     "Action 4",
                     "FileClose",

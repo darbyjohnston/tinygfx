@@ -165,10 +165,15 @@ namespace tg
                     close();
                 }
             }
+            if (!event.accept)
+            {
+                IPopup::keyPressEvent(event);
+            }
         }
 
         void IDialog::keyReleaseEvent(KeyEvent& event)
         {
+            IPopup::keyReleaseEvent(event);
             event.accept = true;
         }
     }

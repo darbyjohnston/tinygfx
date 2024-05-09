@@ -395,7 +395,6 @@ namespace tg
 
         void ListItemsWidget::keyPressEvent(KeyEvent& event)
         {
-            IWidget::keyPressEvent(event);
             TG_P();
             if (0 == event.modifiers)
             {
@@ -442,6 +441,10 @@ namespace tg
                     break;
                 default: break;
                 }
+            }
+            if (!event.accept)
+            {
+                IWidget::keyPressEvent(event);
             }
         }
 

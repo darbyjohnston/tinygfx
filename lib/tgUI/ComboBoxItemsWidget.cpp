@@ -194,13 +194,14 @@ namespace tg
                 for (size_t i = 0; i < p.items.size(); ++i)
                 {
                     const Size2I size = event.fontSystem->getSize(p.items[i].text, p.size.fontInfo);
-                    p.size.itemsSize.w = std::max(p.size.itemsSize.w, size.w);
                     int h = p.size.fontMetrics.lineHeight;
                     if (p.draw.iconImages[i])
                     {
+                        size.w += p.draw.iconImages[i]->getWidth() + p.size.spacing;
                         h = std::max(h, p.draw.iconImages[i]->getHeight());
                     }
                     h += p.size.margin * 2 + p.size.border * 4;
+                    p.size.itemsSize.w = std::max(p.size.itemsSize.w, size.w);
                     p.size.itemsSize.h += h;
                     p.size.itemHeights.push_back(h);
                 }
@@ -347,7 +348,6 @@ namespace tg
 
         void ComboBoxItemsWidget::keyPressEvent(KeyEvent& event)
         {
-            IWidget::keyPressEvent(event);
             TG_P();
             if (0 == event.modifiers)
             {
@@ -393,6 +393,10 @@ namespace tg
                     break;
                 default: break;
                 }
+            }
+            if (!event.accept)
+            {
+                IWidget::keyPressEvent(event);
             }
         }
 

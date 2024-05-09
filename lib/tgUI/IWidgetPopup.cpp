@@ -281,10 +281,15 @@ namespace tg
                     close();
                 }
             }
+            if (!event.accept)
+            {
+                IPopup::keyPressEvent(event);
+            }
         }
 
         void IWidgetPopup::keyReleaseEvent(KeyEvent& event)
         {
+            IPopup::keyReleaseEvent(event);
             event.accept = true;
         }
     }

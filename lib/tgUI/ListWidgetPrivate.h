@@ -2,6 +2,8 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
+#pragma once
+
 #include <tgUI/ListWidget.h>
 
 namespace tg
