@@ -93,6 +93,9 @@ namespace tg
             //! Set the checked callback.
             void setCheckedCallback(const std::function<void(bool)>&);
 
+            //! Click the button.
+            void click();
+
             void tickEvent(
                 bool,
                 bool,
@@ -103,7 +106,6 @@ namespace tg
             void mouseReleaseEvent(MouseClickEvent&) override;
 
         protected:
-            void _click();
 
             void _releaseMouse() override;
 

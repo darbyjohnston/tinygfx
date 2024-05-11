@@ -250,7 +250,7 @@ namespace tg
                 {
                 case Key::Enter:
                     event.accept = true;
-                    _click();
+                    click();
                     break;
                 case Key::Escape:
                     if (hasKeyFocus())

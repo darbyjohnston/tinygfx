@@ -55,7 +55,16 @@ namespace tg
 
             void close() override;
 
+            void keyFocusEvent(bool) override;
+            void keyPressEvent(KeyEvent&) override;
+            void keyReleaseEvent(KeyEvent&) override;
+
         private:
+            void _setCurrent(int);
+            void _currentUpdate();
+
+            std::shared_ptr<Menu> _getOpenMenu() const;
+
             void _accept();
 
             TG_PRIVATE();

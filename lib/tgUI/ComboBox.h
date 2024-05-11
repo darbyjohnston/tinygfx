@@ -99,8 +99,7 @@ namespace tg
             ComboBoxItem _getItem(int) const;
 
             void _click();
-
-            void _commitIndex(int);
+            void _commit(int);
 
             TG_PRIVATE();
         };

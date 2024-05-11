@@ -436,19 +436,19 @@ namespace tg
                 {
                 case Key::Up:
                     event.accept = true;
-                    _commitIndex(p.currentIndex - 1);
+                    _commit(p.currentIndex - 1);
                     break;
                 case Key::Down:
                     event.accept = true;
-                    _commitIndex(p.currentIndex + 1);
+                    _commit(p.currentIndex + 1);
                     break;
                 case Key::Home:
                     event.accept = true;
-                    _commitIndex(0);
+                    _commit(0);
                     break;
                 case Key::End:
                     event.accept = true;
-                    _commitIndex(static_cast<int>(p.items.size()) - 1);
+                    _commit(static_cast<int>(p.items.size()) - 1);
                     break;
                 case Key::Enter:
                     event.accept = true;
@@ -506,7 +506,7 @@ namespace tg
                                 widget->_p->menu->close();
                                 if (index != -1)
                                 {
-                                    widget->_commitIndex(index);
+                                    widget->_commit(index);
                                 }
                             }
                         });
@@ -527,7 +527,7 @@ namespace tg
             }
         }
 
-        void ComboBox::_commitIndex(int value)
+        void ComboBox::_commit(int value)
         {
             TG_P();
             const int currentIndex = p.currentIndex;

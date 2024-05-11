@@ -30,7 +30,6 @@ namespace tg
                 const ComboBoxItem&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            bool getCurrent() const;
             void setCurrent(bool);
 
             void sizeHintEvent(const SizeHintEvent&) override;
@@ -61,15 +60,16 @@ namespace tg
                 int currentIndex,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            int getCurrent() const;
-            void setCurrent(int);
             void setCallback(const std::function<void(int)>&);
 
             void setGeometry(const core::Box2I&) override;
+            void keyFocusEvent(bool) override;
             void keyPressEvent(KeyEvent&) override;
             void keyReleaseEvent(KeyEvent&) override;
 
         private:
+            void _setCurrent(int);
+            void _currentUpdate();
             void _scrollToCurrent();
 
             TG_PRIVATE();

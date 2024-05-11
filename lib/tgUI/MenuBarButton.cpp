@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/ComboBoxPrivate.h>
+#include <tgUI/MenuBarPrivate.h>
 
 #include <tgUI/DrawUtil.h>
 
@@ -12,8 +12,9 @@ namespace tg
 {
     namespace ui
     {
-        struct ComboBoxButton::Private
+        struct MenuBarButton::Private
         {
+            std::shared_ptr<Menu> menu;
             bool current = false;
 
             struct SizeData
@@ -23,6 +24,7 @@ namespace tg
                 int margin = 0;
                 int spacing = 0;
                 int border = 0;
+
                 FontInfo fontInfo;
                 FontMetrics fontMetrics;
                 Size2I textSize;
@@ -36,38 +38,45 @@ namespace tg
             DrawData draw;
         };
 
-        void ComboBoxButton::_init(
+        void MenuBarButton::_init(
             const std::shared_ptr<Context>& context,
-            const ComboBoxItem& item,
+            const std::string& text,
+            const std::shared_ptr<Menu>& menu,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tg::ui::ComboBoxButton", parent);
+            IWidget::_init(context, "tg::ui::MenuBarButton", parent);
             TG_P();
             _setMouseHoverEnabled(true);
             _setMousePressEnabled(true);
-            setText(item.text);
-            setIcon(item.icon);
+            setText(text);
             setButtonRole(ColorRole::Window);
+            p.menu = menu;
         }
 
-        ComboBoxButton::ComboBoxButton() :
+        MenuBarButton::MenuBarButton() :
             _p(new Private)
         {}
 
-        ComboBoxButton::~ComboBoxButton()
+        MenuBarButton::~MenuBarButton()
         {}
 
-        std::shared_ptr<ComboBoxButton> ComboBoxButton::create(
+        std::shared_ptr<MenuBarButton> MenuBarButton::create(
             const std::shared_ptr<Context>& context,
-            const ComboBoxItem& item,
+            const std::string& text,
+            const std::shared_ptr<Menu>& menu,
             const std::shared_ptr<IWidget>& parent)
         {
-            auto out = std::shared_ptr<ComboBoxButton>(new ComboBoxButton);
-            out->_init(context, item, parent);
+            auto out = std::shared_ptr<MenuBarButton>(new MenuBarButton);
+            out->_init(context, text, menu, parent);
             return out;
         }
 
-        void ComboBoxButton::setCurrent(bool value)
+        bool MenuBarButton::getCurrent() const
+        {
+            return _p->current;
+        }
+
+        void MenuBarButton::setCurrent(bool value)
         {
             TG_P();
             if (p.current == value)
@@ -76,7 +85,7 @@ namespace tg
             _setDrawUpdate();
         }
 
-        void ComboBoxButton::sizeHintEvent(const SizeHintEvent& event)
+        void MenuBarButton::sizeHintEvent(const SizeHintEvent& event)
         {
             IButton::sizeHintEvent(event);
             TG_P();
@@ -125,7 +134,7 @@ namespace tg
             _setSizeHint(sizeHint);
         }
 
-        void ComboBoxButton::clipEvent(const Box2I& clipRect, bool clipped)
+        void MenuBarButton::clipEvent(const Box2I& clipRect, bool clipped)
         {
             IButton::clipEvent(clipRect, clipped);
             TG_P();
@@ -135,7 +144,7 @@ namespace tg
             }
         }
 
-        void ComboBoxButton::drawEvent(const Box2I& drawRect, const DrawEvent& event)
+        void MenuBarButton::drawEvent(const Box2I& drawRect, const DrawEvent& event)
         {
             IButton::drawEvent(drawRect, event);
             TG_P();

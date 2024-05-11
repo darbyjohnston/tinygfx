@@ -70,6 +70,8 @@ set(HEADERS
     WidgetOptions.h)
 set(PRIVATE_HEADERS
     ComboBoxPrivate.h
+    MenuBarPrivate.h
+    MenuPrivate.h
     MessageDialogPrivate.h
     ListWidgetPrivate.h)
 
@@ -131,6 +133,8 @@ set(SOURCE
     MDIWidget.cpp
     Menu.cpp
     MenuBar.cpp
+    MenuBarButton.cpp
+    MenuButton.cpp
     MessageDialog.cpp
     PieChart.cpp
     PushButton.cpp

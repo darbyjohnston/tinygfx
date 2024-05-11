@@ -16,10 +16,10 @@ namespace tg
         struct ComboBoxMenu::Private
         {
             std::vector<std::shared_ptr<ComboBoxButton> > buttons;
-            int radio = -1;
-            int current = -1;
             std::function<void(int)> callback;
             std::shared_ptr<VerticalLayout> layout;
+            int radio = -1;
+            int current = -1;
             bool scrollInit = true;
         };
 
@@ -85,25 +85,6 @@ namespace tg
             return out;
         }
 
-        int ComboBoxMenu::getCurrent() const
-        {
-            return _p->current;
-        }
-
-        void ComboBoxMenu::setCurrent(int value)
-        {
-            TG_P();
-            const int tmp = clamp(value, 0, static_cast<int>(p.buttons.size()) - 1);
-            if (tmp == p.current)
-                return;
-            p.current = tmp;
-            for (int i = 0; i < p.buttons.size(); ++i)
-            {
-                p.buttons[i]->setCurrent(p.current == i);
-            }
-            _scrollToCurrent();
-        }
-
         void ComboBoxMenu::setCallback(const std::function<void(int)>& value)
         {
             _p->callback = value;
@@ -118,6 +99,12 @@ namespace tg
                 p.scrollInit = false;
                 _scrollToCurrent();
             }
+        }
+
+        void ComboBoxMenu::keyFocusEvent(bool value)
+        {
+            IMenuPopup::keyFocusEvent(value);
+            _currentUpdate();
         }
 
         void ComboBoxMenu::keyPressEvent(KeyEvent& event)
@@ -138,32 +125,32 @@ namespace tg
                 case Key::Up:
                     event.accept = true;
                     takeKeyFocus();
-                    setCurrent(getCurrent() - 1);
+                    _setCurrent(p.current - 1);
                     break;
                 case Key::Down:
                     event.accept = true;
                     takeKeyFocus();
-                    setCurrent(getCurrent() + 1);
+                    _setCurrent(p.current + 1);
                     break;
                 case Key::PageUp:
                     event.accept = true;
                     takeKeyFocus();
-                    setCurrent(getCurrent() - 10);
+                    _setCurrent(p.current - 10);
                     break;
                 case Key::PageDown:
                     event.accept = true;
                     takeKeyFocus();
-                    setCurrent(getCurrent() + 10);
+                    _setCurrent(p.current + 10);
                     break;
                 case Key::Home:
                     event.accept = true;
                     takeKeyFocus();
-                    setCurrent(0);
+                    _setCurrent(0);
                     break;
                 case Key::End:
                     event.accept = true;
                     takeKeyFocus();
-                    setCurrent(static_cast<int>(p.buttons.size()) - 1);
+                    _setCurrent(static_cast<int>(p.buttons.size()) - 1);
                     break;
                 default: break;
                 }
@@ -178,6 +165,27 @@ namespace tg
         {
             IMenuPopup::keyReleaseEvent(event);
             event.accept = true;
+        }
+
+        void ComboBoxMenu::_setCurrent(int value)
+        {
+            TG_P();
+            const int tmp = clamp(value, 0, static_cast<int>(p.buttons.size()) - 1);
+            if (tmp == p.current)
+                return;
+            p.current = tmp;
+            _currentUpdate();
+            _scrollToCurrent();
+        }
+
+        void ComboBoxMenu::_currentUpdate()
+        {
+            TG_P();
+            const bool focus = hasKeyFocus();
+            for (int i = 0; i < p.buttons.size(); ++i)
+            {
+                p.buttons[i]->setCurrent(p.current == i && focus);
+            }
         }
 
         void ComboBoxMenu::_scrollToCurrent()

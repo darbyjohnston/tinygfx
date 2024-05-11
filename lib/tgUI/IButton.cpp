@@ -192,6 +192,24 @@ namespace tg
             _checkedCallback = value;
         }
 
+        void IButton::click()
+        {
+            TG_P();
+            if (_clickedCallback)
+            {
+                _clickedCallback();
+            }
+            if (p.checkable)
+            {
+                _checked = !_checked;
+                _setDrawUpdate();
+                if (_checkedCallback)
+                {
+                    _checkedCallback(_checked);
+                }
+            }
+        }
+
         void IButton::tickEvent(
             bool parentsVisible,
             bool parentsEnabled,
@@ -240,7 +258,7 @@ namespace tg
                 const std::chrono::duration<float> diff = now - p.repeatClickTimer;
                 if (diff.count() > duration)
                 {
-                    _click();
+                    click();
                     p.repeatClickInit = false;
                     p.repeatClickTimer = now;
                 }
@@ -293,25 +311,7 @@ namespace tg
             _setDrawUpdate();
             if (contains(getGeometry(), _getMousePos()))
             {
-                _click();
-            }
-        }
-
-        void IButton::_click()
-        {
-            TG_P();
-            if (_clickedCallback)
-            {
-                _clickedCallback();
-            }
-            if (p.checkable)
-            {
-                _checked = !_checked;
-                _setDrawUpdate();
-                if (_checkedCallback)
-                {
-                    _checkedCallback(_checked);
-                }
+                click();
             }
         }
 

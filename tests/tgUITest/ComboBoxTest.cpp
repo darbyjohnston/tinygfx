@@ -86,6 +86,7 @@ namespace tg
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
+                window->setKey(Key::Home);
                 window->setKey(Key::Enter);
                 TG_ASSERT(0 == index);
                 TG_ASSERT(items[0] == item);
@@ -98,6 +99,7 @@ namespace tg
                 window->setKey(Key::Escape);
                 window->setCursorPos(V2I(0, 0));
 
+                window->setKey(Key::Tab);
                 window->setKey(Key::Down);
                 TG_ASSERT(1 == index);
                 window->setKey(Key::Up);

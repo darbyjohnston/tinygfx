@@ -101,17 +101,16 @@ namespace tg
                 }
                 window->setKey(Key::Escape);
                 window->setKey(Key::Escape);
-                window->setKey(Key::Escape);
 
                 window->setKey(Key::Tab);
+                window->setKey(Key::Home);
                 window->setKey(Key::Enter);
                 window->setKey(Key::Enter);
                 TG_ASSERT(action1);
 
                 window->setKey(Key::Enter);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Enter);
+                window->setKey(Key::Down);
+                window->setKey(Key::Down);
                 window->setKey(Key::Enter);
 
                 window->setKey(Key::Enter);

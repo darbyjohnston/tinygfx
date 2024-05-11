@@ -292,7 +292,7 @@ namespace tg
                     {
                         _pressedCallback();
                     }
-                    _click();
+                    click();
                     break;
                 case Key::Escape:
                     if (hasKeyFocus())
