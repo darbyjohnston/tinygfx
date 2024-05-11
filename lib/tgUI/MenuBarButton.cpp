@@ -14,7 +14,6 @@ namespace tg
     {
         struct MenuBarButton::Private
         {
-            std::shared_ptr<Menu> menu;
             bool current = false;
 
             struct SizeData
@@ -41,7 +40,6 @@ namespace tg
         void MenuBarButton::_init(
             const std::shared_ptr<Context>& context,
             const std::string& text,
-            const std::shared_ptr<Menu>& menu,
             const std::shared_ptr<IWidget>& parent)
         {
             IWidget::_init(context, "tg::ui::MenuBarButton", parent);
@@ -50,7 +48,6 @@ namespace tg
             _setMousePressEnabled(true);
             setText(text);
             setButtonRole(ColorRole::Window);
-            p.menu = menu;
         }
 
         MenuBarButton::MenuBarButton() :
@@ -63,17 +60,11 @@ namespace tg
         std::shared_ptr<MenuBarButton> MenuBarButton::create(
             const std::shared_ptr<Context>& context,
             const std::string& text,
-            const std::shared_ptr<Menu>& menu,
             const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<MenuBarButton>(new MenuBarButton);
-            out->_init(context, text, menu, parent);
+            out->_init(context, text, parent);
             return out;
-        }
-
-        bool MenuBarButton::getCurrent() const
-        {
-            return _p->current;
         }
 
         void MenuBarButton::setCurrent(bool value)

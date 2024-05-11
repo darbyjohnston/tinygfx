@@ -56,7 +56,7 @@ namespace tg
             p.menus.push_back(menu);
             if (auto context = _getContext().lock())
             {
-                auto button = MenuBarButton::create(context, text, menu, p.layout);
+                auto button = MenuBarButton::create(context, text, p.layout);
 
                 const int index = p.buttons.size();
                 p.buttons.push_back(button);

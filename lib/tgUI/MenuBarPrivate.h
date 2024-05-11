@@ -18,7 +18,6 @@ namespace tg
             void _init(
                 const std::shared_ptr<core::Context>&,
                 const std::string&,
-                const std::shared_ptr<Menu>&,
                 const std::shared_ptr<IWidget>& parent);
 
             MenuBarButton();
@@ -29,10 +28,8 @@ namespace tg
             static std::shared_ptr<MenuBarButton> create(
                 const std::shared_ptr<core::Context>&,
                 const std::string&,
-                const std::shared_ptr<Menu>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            bool getCurrent() const;
             void setCurrent(bool);
 
             void sizeHintEvent(const SizeHintEvent&) override;
