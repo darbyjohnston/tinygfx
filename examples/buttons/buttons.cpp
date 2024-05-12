@@ -9,7 +9,6 @@
 #include <tgUI/CheckBox.h>
 #include <tgUI/GroupBox.h>
 #include <tgUI/PushButton.h>
-#include <tgUI/ListButton.h>
 #include <tgUI/RowLayout.h>
 #include <tgUI/ScrollWidget.h>
 #include <tgUI/ToolButton.h>
@@ -58,32 +57,6 @@ namespace tg
                     "Disabled",
                     hLayout);
                 pushButton->setEnabled(false);
-
-                // Create list buttons.
-                groupBox = GroupBox::create(context, "List Buttons", layout);
-                auto vLayout = VerticalLayout::create(context, groupBox);
-                vLayout->setSpacingRole(SizeRole::None);
-                _listButtonGroup = ButtonGroup::create(context, ButtonGroupType::Toggle);
-                _listButtonGroup->setCheckedCallback(
-                    [](int index, bool value)
-                    {
-                        std::cout << Format("List {0}: {1}").arg(index).arg(value) << std::endl;
-                    });
-                for (size_t i = 0; i < 3; ++i)
-                {
-                    auto listButton = ListButton::create(
-                        context,
-                        Format("List {0}").arg(i),
-                        vLayout);
-                    listButton->setCheckable(true);
-                    _listButtonGroup->addButton(listButton);
-                }
-                auto listButton = ListButton::create(
-                    context,
-                    "Disabled",
-                    vLayout);
-                listButton->setEnabled(false);
-                _listButtonGroup->addButton(listButton);
 
                 // Create tool buttons.
                 groupBox = GroupBox::create(context, "Tool Buttons", layout);

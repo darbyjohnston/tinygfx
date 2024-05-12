@@ -47,7 +47,7 @@ namespace tg
             _setMouseHoverEnabled(true);
             _setMousePressEnabled(true);
             setText(text);
-            setButtonRole(ColorRole::Window);
+            setButtonRole(ColorRole::None);
         }
 
         MenuBarButton::MenuBarButton() :

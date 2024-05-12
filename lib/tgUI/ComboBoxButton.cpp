@@ -47,7 +47,7 @@ namespace tg
             _setMousePressEnabled(true);
             setText(item.text);
             setIcon(item.icon);
-            setButtonRole(ColorRole::Window);
+            setButtonRole(ColorRole::None);
         }
 
         ComboBoxButton::ComboBoxButton() :
@@ -142,6 +142,7 @@ namespace tg
 
             const Box2I& g = getGeometry();
 
+            // Draw the background.
             const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
             if (colorRole != ColorRole::None)
             {
@@ -150,6 +151,7 @@ namespace tg
                     event.style->getColorRole(colorRole));
             }
 
+            // Draw the mouse state.
             if (_isMousePressed() && contains(g, _getMousePos()))
             {
                 event.render->drawRect(
@@ -163,6 +165,7 @@ namespace tg
                     event.style->getColorRole(ColorRole::Hover));
             }
 
+            // Draw the current state.
             if (p.current)
             {
                 event.render->drawMesh(
@@ -170,6 +173,7 @@ namespace tg
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
 
+            // Draw the icon.
             const Box2I g2 = margin(g, -(p.size.margin + p.size.border * 2));
             int x = g2.x();
             if (_iconImage)
@@ -186,6 +190,7 @@ namespace tg
                 x += iconSize.w + p.size.spacing;
             }
 
+            // Draw the text.
             if (!_text.empty())
             {
                 if (p.draw.glyphs.empty())

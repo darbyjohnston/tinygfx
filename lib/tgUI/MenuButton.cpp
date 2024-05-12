@@ -27,8 +27,6 @@ namespace tg
                 std::future<std::shared_ptr<Image> > future;
                 std::shared_ptr<Image> image;
             };
-            IconData checkedIcon;
-            IconData uncheckedIcon;
             IconData subMenuIcon;
 
             struct SizeData
@@ -62,10 +60,6 @@ namespace tg
             IButton::_init(context, "tg::ui::MenuButton", parent);
             TG_P();
             setButtonRole(ColorRole::None);
-            p.checkedIcon.name = "MenuChecked";
-            p.checkedIcon.init = true;
-            p.uncheckedIcon.name = "MenuUnchecked";
-            p.uncheckedIcon.init = true;
         }
 
         MenuButton::MenuButton() :
@@ -137,39 +131,9 @@ namespace tg
             if (event.displayScale != p.iconScale)
             {
                 p.iconScale = event.displayScale;
-                p.checkedIcon.init = true;
-                p.checkedIcon.future = std::future<std::shared_ptr<Image> >();
-                p.checkedIcon.image.reset();
-                p.uncheckedIcon.init = true;
-                p.uncheckedIcon.future = std::future<std::shared_ptr<Image> >();
-                p.uncheckedIcon.image.reset();
                 p.subMenuIcon.init = true;
                 p.subMenuIcon.future = std::future<std::shared_ptr<Image> >();
                 p.subMenuIcon.image.reset();
-            }
-            if (!p.checkedIcon.name.empty() && p.checkedIcon.init)
-            {
-                p.checkedIcon.init = false;
-                p.checkedIcon.future = event.iconLibrary->request(p.checkedIcon.name, p.iconScale);
-            }
-            if (p.checkedIcon.future.valid() &&
-                p.checkedIcon.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-            {
-                p.checkedIcon.image = p.checkedIcon.future.get();
-                _setSizeUpdate();
-                _setDrawUpdate();
-            }
-            if (!p.uncheckedIcon.name.empty() && p.uncheckedIcon.init)
-            {
-                p.uncheckedIcon.init = false;
-                p.uncheckedIcon.future = event.iconLibrary->request(p.uncheckedIcon.name, p.iconScale);
-            }
-            if (p.uncheckedIcon.future.valid() &&
-                p.uncheckedIcon.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-            {
-                p.uncheckedIcon.image = p.uncheckedIcon.future.get();
-                _setSizeUpdate();
-                _setDrawUpdate();
             }
             if (!p.subMenuIcon.name.empty() && p.subMenuIcon.init)
             {
@@ -215,16 +179,6 @@ namespace tg
             {
                 sizeHint.w = _iconImage->getWidth() + p.size.spacing;
                 sizeHint.h = _iconImage->getHeight();
-            }
-            else if (_checked && p.checkedIcon.image)
-            {
-                sizeHint.w = p.checkedIcon.image->getWidth() + p.size.spacing;
-                sizeHint.h = p.checkedIcon.image->getHeight();
-            }
-            else if (!_checked && p.uncheckedIcon.image)
-            {
-                sizeHint.w = p.uncheckedIcon.image->getWidth() + p.size.spacing;
-                sizeHint.h = p.uncheckedIcon.image->getHeight();
             }
             if (!_text.empty())
             {
@@ -272,11 +226,12 @@ namespace tg
             const bool enabled = isEnabled();
 
             // Draw the background.
-            if (_buttonRole != ColorRole::None)
+            const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
+            if (colorRole != ColorRole::None)
             {
                 event.render->drawRect(
                     Box2F(g.x(), g.y(), g.w(), g.h()),
-                    event.style->getColorRole(_buttonRole));
+                    event.style->getColorRole(colorRole));
             }
             
             // Draw the mouse state.
@@ -302,52 +257,13 @@ namespace tg
             }
 
             // Draw the icon.
-            const Box2I g2 = margin(g, -p.size.border * 2);
-            int x = g2.x() + p.size.margin;
+            const Box2I g2 = margin(g, -(p.size.margin + p.size.border * 2));
+            int x = g2.x();
             if (_iconImage)
             {
-                if (_checked)
-                {
-                    event.render->drawRect(
-                        Box2F(g2.x(), g2.y(), g2.h(), g2.h()),
-                        event.style->getColorRole(ColorRole::Checked));
-                }
                 const Size2I& iconSize = _iconImage->getSize();
                 event.render->drawImage(
                     _iconImage,
-                    Box2F(
-                        x,
-                        g2.y() + g2.h() / 2 - iconSize.h / 2,
-                        iconSize.w,
-                        iconSize.h),
-                    event.style->getColorRole(enabled ?
-                        ColorRole::Text :
-                        ColorRole::TextDisabled));
-                x += iconSize.w + p.size.spacing;
-            }
-            else if (_checked && p.checkedIcon.image)
-            {
-                event.render->drawRect(
-                    Box2F(g2.x(), g2.y(), g2.h(), g2.h()),
-                    event.style->getColorRole(ColorRole::Checked));
-                const Size2I& iconSize = p.checkedIcon.image->getSize();
-                event.render->drawImage(
-                    p.checkedIcon.image,
-                    Box2F(
-                        x,
-                        g2.y() + g2.h() / 2 - iconSize.h / 2,
-                        iconSize.w,
-                        iconSize.h),
-                    event.style->getColorRole(enabled ?
-                        ColorRole::Text :
-                        ColorRole::TextDisabled));
-                x += iconSize.w + p.size.spacing;
-            }
-            else if (!_checked && p.uncheckedIcon.image)
-            {
-                const Size2I& iconSize = p.uncheckedIcon.image->getSize();
-                event.render->drawImage(
-                    p.uncheckedIcon.image,
                     Box2F(
                         x,
                         g2.y() + g2.h() / 2 - iconSize.h / 2,
@@ -404,7 +320,7 @@ namespace tg
                 event.render->drawImage(
                     p.subMenuIcon.image,
                     Box2F(
-                        g2.max.x - p.size.margin - iconSize.w,
+                        g2.max.x - iconSize.w,
                         g2.y() + g2.h() / 2 - iconSize.h / 2,
                         iconSize.w,
                         iconSize.h),
