@@ -21,8 +21,8 @@ class Window(tgUIApp.Window):
         groupBox.text = "Push Buttons"
         hLayout = tgUI.HorizontalLayout(context, groupBox)
         pushButton = tgUI.PushButton(context, hLayout)
-        pushButton.text = "Push"
-        pushButton.setClickedCallback(lambda: print("Push"))
+        pushButton.text = "Click"
+        pushButton.setClickedCallback(lambda: print("Click"))
         pushButton = tgUI.PushButton(context, hLayout)
         pushButton.text = "Disabled"
         pushButton.enabled = False
@@ -55,8 +55,8 @@ class Window(tgUIApp.Window):
         groupBox.text = "Check Boxes"
         vLayout = tgUI.VerticalLayout(context, groupBox)
         checkBox = tgUI.CheckBox(context, vLayout)
-        checkBox.text = "Check"
-        checkBox.setCheckedCallback(lambda checked: print("Check:", checked))
+        checkBox.text = "Checkable"
+        checkBox.setCheckedCallback(lambda checked: print("Checked:", checked))
         checkBox = tgUI.CheckBox(context, vLayout)
         checkBox.text = "Disabled"
         checkBox.enabled = False

@@ -43,19 +43,13 @@ namespace tg
                 // Create push buttons.
                 auto groupBox = GroupBox::create(context, "Push Buttons", layout);
                 auto hLayout = HorizontalLayout::create(context, groupBox);
-                auto pushButton = PushButton::create(
-                    context,
-                    "Push",
-                    hLayout);
+                auto pushButton = PushButton::create(context, "Click", hLayout);
                 pushButton->setClickedCallback(
                     []
                     {
-                        std::cout << "Push" << std::endl;
+                        std::cout << "Click" << std::endl;
                     });
-                pushButton = PushButton::create(
-                    context,
-                    "Disabled",
-                    hLayout);
+                pushButton = PushButton::create(context, "Disabled", hLayout);
                 pushButton->setEnabled(false);
 
                 // Create tool buttons.
@@ -82,29 +76,20 @@ namespace tg
                     toolButton->setIcon(toolIcons[i]);
                     _toolButtonGroup->addButton(toolButton);
                 }
-                auto toolButton = ToolButton::create(
-                    context,
-                    "Disabled",
-                    hLayout);
+                auto toolButton = ToolButton::create(context, "Disabled", hLayout);
                 toolButton->setEnabled(false);
                 _toolButtonGroup->addButton(toolButton);
 
                 // Create check boxes.
                 groupBox = GroupBox::create(context, "Check Boxes", layout);
                 auto vLayout = VerticalLayout::create(context, groupBox);
-                auto checkBox = CheckBox::create(
-                    context,
-                    "Check",
-                    vLayout);
+                auto checkBox = CheckBox::create(context, "Checkable", vLayout);
                 checkBox->setCheckedCallback(
                     [](bool value)
                     {
-                        std::cout << Format("Check: {0}").arg(value) << std::endl;
+                        std::cout << Format("Checked: {0}").arg(value) << std::endl;
                     });
-                checkBox = CheckBox::create(
-                    context,
-                    "Disabled",
-                    vLayout);
+                checkBox = CheckBox::create(context, "Disabled", vLayout);
                 checkBox->setEnabled(false);
             }
 
