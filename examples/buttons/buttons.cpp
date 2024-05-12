@@ -91,7 +91,7 @@ namespace tg
 
                 // Create check boxes.
                 groupBox = GroupBox::create(context, "Check Boxes", layout);
-                vLayout = VerticalLayout::create(context, groupBox);
+                auto vLayout = VerticalLayout::create(context, groupBox);
                 auto checkBox = CheckBox::create(
                     context,
                     "Check",
