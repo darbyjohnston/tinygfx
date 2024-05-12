@@ -525,21 +525,16 @@ namespace tg
                 auto i = widgets.begin();
                 for (; i != widgets.end(); ++i)
                 {
+                    if (auto popup = std::dynamic_pointer_cast<IPopup>(*i))
+                    {
+                        popup->close();
+                    }
+
                     (*i)->mousePressEvent(p.mouseClickEvent);
                     if (p.mouseClickEvent.accept)
                     {
                         p.mousePress = *i;
                         break;
-                    }
-                }
-
-                // Close popups.
-                auto j = widgets.begin();
-                for (; j != i && j != widgets.end(); ++j)
-                {
-                    if (auto popup = std::dynamic_pointer_cast<IPopup>(*j))
-                    {
-                        popup->close();
                     }
                 }
             }
