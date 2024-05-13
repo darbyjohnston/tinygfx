@@ -23,7 +23,16 @@ namespace tg
                         const std::shared_ptr<core::Context>&,
                         const std::shared_ptr<IWidget>&>(&PushButton::create)),
                     py::arg("context"),
+                    py::arg("parent") = nullptr)
+                .def(
+                    py::init(py::overload_cast<
+                        const std::shared_ptr<core::Context>&,
+                        const std::string&,
+                        const std::shared_ptr<IWidget>&>(&PushButton::create)),
+                    py::arg("context"),
+                    py::arg("text"),
                     py::arg("parent") = nullptr);
+
         }
     }
 }

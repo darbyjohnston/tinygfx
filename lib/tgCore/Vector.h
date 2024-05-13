@@ -127,6 +127,9 @@ namespace tg
         //! counter-clockwise direction.
         template<typename T>
         constexpr Vector<2, T> perpCCW(const Vector<2, T>&);
+
+        //! Convert vector types.
+        constexpr Vector<2, float> convert(const Vector<2, int>&);
         
         template<int C, typename T>
         constexpr Vector<C, T> operator + (const Vector<C, T>&, const Vector<C, T>&);

@@ -311,6 +311,11 @@ namespace tg
                 Vector<2, T>(a.max.x + x1, a.max.y + y1));
         }
 
+        constexpr Box<2, float> convert(const Box<2, int>& value)
+        {
+            return Box<2, float>(value.x(), value.y(), value.w(), value.h());
+        }
+
         template<int C, typename T>
         constexpr bool operator == (const Box<C, T>& a, const Box<C, T>& b)
         {

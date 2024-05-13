@@ -30,6 +30,10 @@ namespace tg
 
             struct DrawData
             {
+                Box2I g;
+                Box2I g2;
+                Box2I g3;
+                Box2I checkBox;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
             };
             DrawData draw;
@@ -97,6 +101,20 @@ namespace tg
             }
         }
 
+        void CheckBox::setGeometry(const Box2I& value)
+        {
+            IButton::setGeometry(value);
+            TG_P();
+            p.draw.g = value;
+            p.draw.g2 = margin(p.draw.g, -p.size.border);
+            p.draw.g3 = margin(p.draw.g2, -p.size.margin);
+            p.draw.checkBox = Box2I(
+                p.draw.g3.x(),
+                p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.checkBox / 2,
+                p.size.checkBox,
+                p.size.checkBox);
+        }
+
         void CheckBox::sizeHintEvent(const SizeHintEvent& event)
         {
             IButton::sizeHintEvent(event);
@@ -143,44 +161,37 @@ namespace tg
             IButton::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = getGeometry();
-            const bool enabled = isEnabled();
-
+            // Draw the focus.
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
 
-            const Box2I g2 = margin(g, -p.size.border);
+            // Draw the mouse states.
             if (_isMousePressed())
             {
                 event.render->drawRect(
-                    Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                    convert(p.draw.g2),
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
-                    Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                    convert(p.draw.g2),
                     event.style->getColorRole(ColorRole::Hover));
             }
 
-            const Box2I g3 = margin(g2, -p.size.margin);
-            const Box2I checkBox(
-                g3.x(),
-                g3.y() + g3.h() / 2 - p.size.checkBox / 2,
-                p.size.checkBox,
-                p.size.checkBox);
+            // Draw the check box.
             event.render->drawMesh(
-                border(checkBox, p.size.border),
+                border(p.draw.checkBox, p.size.border),
                 event.style->getColorRole(ColorRole::Border));
-            const Box2I g4 = margin(checkBox, -p.size.border);
             event.render->drawRect(
-                Box2F(g4.x(), g4.y(), g4.w(), g4.h()),
+                convert(margin(p.draw.checkBox, -p.size.border)),
                 event.style->getColorRole(_checked ? ColorRole::Checked : ColorRole::Base ));
 
+            // Draw the text.
             if (!_text.empty() && p.draw.glyphs.empty())
             {
                 p.draw.glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
@@ -189,9 +200,9 @@ namespace tg
                 p.draw.glyphs,
                 p.size.fontMetrics,
                 V2F(
-                    g3.x() + p.size.checkBox + p.size.spacing + p.size.margin,
-                    g3.y() + g3.h() / 2 - p.size.textSize.h / 2),
-                event.style->getColorRole(enabled ?
+                    p.draw.g3.x() + p.size.checkBox + p.size.spacing + p.size.margin,
+                    p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
+                event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
         }

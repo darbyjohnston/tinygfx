@@ -77,7 +77,6 @@ namespace tg
                             {
                                 menu->close();
                             }
-                            _setCurrent(index);
                         }
                     });
                 button->setClickedCallback(
@@ -154,7 +153,6 @@ namespace tg
                     {
                         if (value)
                         {
-                            _setCurrent(index);
                             if (!out->isOpen())
                             {
                                 if (auto openMenu = _getOpenMenu())

@@ -158,6 +158,9 @@ namespace tg
                 TG_ASSERT(Box2I(0, 0, 5, 8) == b3);
                 TG_ASSERT(Box2I(0, 0, 7, 10) == b4);
             }
+            {
+                TG_ASSERT(Box2F(1.F, 2.F, 3.F, 4.F) == convert(Box2I(1, 2, 3, 4)));
+            }
         }
         
         void BoxTest::_operators()

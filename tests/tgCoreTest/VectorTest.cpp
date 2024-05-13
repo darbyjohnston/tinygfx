@@ -162,6 +162,9 @@ namespace tg
                 v = perpCCW(V2F(1.F, 0.F));
                 TG_ASSERT(V2F(0.F, 1.F) == v);
             }
+            {
+                TG_ASSERT(V2F(1.F, 2.F) == convert(V2I(1, 2)));
+            }
         }
         
         void VectorTest::_operators()

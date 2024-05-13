@@ -24,6 +24,14 @@ namespace tg
                         const std::shared_ptr<IWidget>&>(&GroupBox::create)),
                     py::arg("context"),
                     py::arg("parent") = nullptr)
+                .def(
+                    py::init(py::overload_cast<
+                        const std::shared_ptr<core::Context>&,
+                        const std::string&,
+                        const std::shared_ptr<IWidget>&>(&GroupBox::create)),
+                    py::arg("context"),
+                    py::arg("text"),
+                    py::arg("parent") = nullptr)
                 .def_property("text", &GroupBox::getText, &GroupBox::setText)
                 .def_property("fontRole", &GroupBox::getFontRole, &GroupBox::setFontRole);
         }

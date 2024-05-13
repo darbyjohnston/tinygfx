@@ -32,6 +32,8 @@ namespace tg
 
             struct DrawData
             {
+                Box2I g;
+                Box2I g2;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
             };
             DrawData draw;
@@ -76,6 +78,14 @@ namespace tg
             _setDrawUpdate();
         }
 
+        void MenuBarButton::setGeometry(const Box2I& value)
+        {
+            IButton::setGeometry(value);
+            TG_P();
+            p.draw.g = value;
+            p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
+        }
+
         void MenuBarButton::sizeHintEvent(const SizeHintEvent& event)
         {
             IButton::sizeHintEvent(event);
@@ -116,37 +126,38 @@ namespace tg
             IButton::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = getGeometry();
-
+            // Draw the background.
             const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
             if (colorRole != ColorRole::None)
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(p.draw.g),
                     event.style->getColorRole(colorRole));
             }
 
+            // Draw the mouse state.
             if (_isMousePressed())
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(p.draw.g),
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(p.draw.g),
                     event.style->getColorRole(ColorRole::Hover));
             }
 
+            // Draw the current state.
             if (p.current)
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
 
-            const Box2I g2 = margin(g, -(p.size.margin + p.size.border));
+            // Draw the text.
             if (!_text.empty() && p.draw.glyphs.empty())
             {
                 p.draw.glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
@@ -154,7 +165,7 @@ namespace tg
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2F(g2.x() + p.size.margin, g2.y()),
+                V2F(p.draw.g2.x() + p.size.margin, p.draw.g2.y()),
                 event.style->getColorRole(ColorRole::Text));
         }
     }

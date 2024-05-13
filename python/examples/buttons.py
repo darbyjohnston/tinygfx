@@ -17,48 +17,47 @@ class Window(tgUIApp.Window):
         self.scrollWidget.setWidget(self.layout);
         
         # Create push buttons
-        groupBox = tgUI.GroupBox(context, self.layout);
-        groupBox.text = "Push Buttons"
+        groupBox = tgUI.GroupBox(context, "Push Buttons", self.layout);
         hLayout = tgUI.HorizontalLayout(context, groupBox)
-        pushButton = tgUI.PushButton(context, hLayout)
-        pushButton.text = "Click"
+        pushButton = tgUI.PushButton(context, "Click", hLayout)
         pushButton.setClickedCallback(lambda: print("Click"))
-        pushButton = tgUI.PushButton(context, hLayout)
-        pushButton.text = "Disabled"
+        pushButton = tgUI.PushButton(context, "Text", hLayout)
+        pushButton.icon = "Settings"
+        pushButton = tgUI.PushButton(context, "Disabled", hLayout)
         pushButton.enabled = False
         
         # Create tool buttons
-        groupBox = tgUI.GroupBox(context, self.layout);
-        groupBox.text = "Tool Buttons"
+        groupBox = tgUI.GroupBox(context, "Tool Buttons", self.layout)
         hLayout = tgUI.HorizontalLayout(context, groupBox)
-        hLayout.spacingRole = tgUI.SizeRole.SizeRoleNone
         self.toolButtonGroup = tgUI.ButtonGroup(context, tgUI.ButtonGroupType.Radio)
         self.toolButtonGroup.setCheckedCallback(lambda index, checked: print("Tool:", index))
+        hLayout = tgUI.HorizontalLayout(context, groupBox)
         toolIcons = [
             "PlaybackReverse",
             "PlaybackStop",
             "PlaybackForward"
         ]
+        hLayout2 = tgUI.HorizontalLayout(context, hLayout)
+        hLayout2.spacingRole = tgUI.SizeRole.SizeRoleNone
         for i in range(0, 3):
-            toolButton = tgUI.ToolButton(context, hLayout)
+            toolButton = tgUI.ToolButton(context, hLayout2)
             toolButton.checkable = True
             toolButton.checked = 0 == i
             toolButton.icon = toolIcons[i]
             self.toolButtonGroup.addButton(toolButton)
-        toolButton = tgUI.ToolButton(context, hLayout)
-        toolButton.text = "Disabled"
+        toolButton = tgUI.ToolButton(context, "Text", hLayout)
+        toolButton = tgUI.ToolButton(context, "Text", hLayout)
+        toolButton.icon = "Settings"
+        toolButton = tgUI.ToolButton(context, "Disabled", hLayout)
         toolButton.enabled = False
         self.toolButtonGroup.addButton(toolButton)
         
         # Create check boxes
-        groupBox = tgUI.GroupBox(context, self.layout);
-        groupBox.text = "Check Boxes"
+        groupBox = tgUI.GroupBox(context, "Check Boxes", self.layout);
         vLayout = tgUI.VerticalLayout(context, groupBox)
-        checkBox = tgUI.CheckBox(context, vLayout)
-        checkBox.text = "Checkable"
+        checkBox = tgUI.CheckBox(context, "Checkable", vLayout)
         checkBox.setCheckedCallback(lambda checked: print("Checked:", checked))
-        checkBox = tgUI.CheckBox(context, vLayout)
-        checkBox.text = "Disabled"
+        checkBox = tgUI.CheckBox(context, "Disabled", vLayout)
         checkBox.enabled = False
 
 context = tgCore.Context()

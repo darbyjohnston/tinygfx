@@ -30,6 +30,9 @@ namespace tg
 
             struct DrawData
             {
+                Box2I g;
+                Box2I g2;
+                Box2I g3;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
             };
             DrawData draw;
@@ -95,6 +98,20 @@ namespace tg
             }
         }
 
+        void PushButton::setGeometry(const Box2I& value)
+        {
+            IButton::setGeometry(value);
+            TG_P();
+            p.draw.g = value;
+            p.draw.g2 = margin(p.draw.g, -p.size.border);
+            p.draw.g3 = margin(
+                p.draw.g2,
+                -p.size.margin,
+                -p.size.margin2,
+                -p.size.margin,
+                -p.size.margin2);
+        }
+
         void PushButton::sizeHintEvent(const SizeHintEvent& event)
         {
             IButton::sizeHintEvent(event);
@@ -154,26 +171,22 @@ namespace tg
             IButton::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = getGeometry();
-            const bool enabled = isEnabled();
-
-            // Draw the border.
+            // Draw the focus and border.
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             } 
             else
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::Border));
             }
 
-            // Draw the background and checked state.
-            const Box2I g2 = margin(g, -p.size.border);
-            const auto mesh = rect(g2);
+            // Draw the background.
+            const auto mesh = rect(p.draw.g2);
             const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
             if (colorRole != ColorRole::None)
             {
@@ -182,7 +195,7 @@ namespace tg
                     event.style->getColorRole(colorRole));
             }
 
-            // Draw the pressed and hover states.
+            // Draw the mouse states.
             if (_isMousePressed())
             {
                 event.render->drawMesh(
@@ -197,13 +210,7 @@ namespace tg
             }
 
             // Draw the icon.
-            const Box2I g3 = margin(
-                g2,
-                -p.size.margin,
-                -p.size.margin2,
-                -p.size.margin,
-                -p.size.margin2);
-            int x = g3.x();
+            int x = p.draw.g3.x();
             if (_iconImage)
             {
                 const Size2I& iconSize = _iconImage->getSize();
@@ -211,10 +218,10 @@ namespace tg
                   _iconImage,
                   Box2F(
                       x,
-                      g3.y() + g3.h() / 2 - iconSize.h / 2,
+                      p.draw.g3.y() + p.draw.g3.h() / 2 - iconSize.h / 2,
                       iconSize.w,
                       iconSize.h),
-                  event.style->getColorRole(enabled ?
+                  event.style->getColorRole(isEnabled() ?
                       ColorRole::Text :
                       ColorRole::TextDisabled));
                 x += iconSize.w + p.size.spacing;
@@ -232,8 +239,8 @@ namespace tg
                     p.size.fontMetrics,
                     V2F(
                         x + p.size.margin2,
-                        g3.y() + g3.h() / 2 - p.size.textSize.h / 2),
-                    event.style->getColorRole(enabled ?
+                        p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
+                    event.style->getColorRole(isEnabled() ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));
             }

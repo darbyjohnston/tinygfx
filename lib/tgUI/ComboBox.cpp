@@ -55,6 +55,9 @@ namespace tg
 
             struct DrawData
             {
+                Box2I g;
+                Box2I g2;
+                Box2I g3;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
                 float iconScale = 1.F;
                 bool iconInit = false;
@@ -124,10 +127,7 @@ namespace tg
             if (value == p.items)
                 return;
             p.items = value;
-            p.currentIndex = clamp(
-                p.currentIndex,
-                0,
-                static_cast<int>(p.items.size()) - 1);
+            p.currentIndex = clamp(p.currentIndex, 0, static_cast<int>(p.items.size()) - 1);
             const ComboBoxItem item = _getItem(p.currentIndex);
             p.text = item.text;
             p.icon = item.icon;
@@ -158,10 +158,7 @@ namespace tg
         void ComboBox::setCurrentIndex(int value)
         {
             TG_P();
-            const int tmp = clamp(
-                value,
-                0,
-                static_cast<int>(p.items.size()) - 1);
+            const int tmp = clamp(value, 0, static_cast<int>(p.items.size()) - 1);
             if (tmp == p.currentIndex)
                 return;
             p.currentIndex = tmp;
@@ -200,6 +197,15 @@ namespace tg
             p.size.init = true;
             _setSizeUpdate();
             _setDrawUpdate();
+        }
+
+        void ComboBox::setGeometry(const Box2I& value)
+        {
+            IWidget::setGeometry(value);
+            TG_P();
+            p.draw.g = value;
+            p.draw.g2 = margin(p.draw.g, -p.size.border);
+            p.draw.g3 = margin(p.draw.g2, -p.size.margin);
         }
 
         void ComboBox::tickEvent(
@@ -301,42 +307,41 @@ namespace tg
             IWidget::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = getGeometry();
-            const bool enabled = isEnabled();
-
+            // Draw the focus and border.
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
             else
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::Border));
             }
 
-            const Box2I g2 = margin(g, -p.size.border);
+            // Draw the background.
             event.render->drawRect(
-                Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                convert(p.draw.g2),
                 event.style->getColorRole(ColorRole::Button));
 
+            // Draw the mouse states.
             if (_isMousePressed())
             {
                 event.render->drawRect(
-                    Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                    convert(p.draw.g2),
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
-                    Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                    convert(p.draw.g2),
                     event.style->getColorRole(ColorRole::Hover));
             }
 
-            const Box2I g3 = margin(g2, -p.size.margin);
-            int x = g3.x();
+            // Draw the icon.
+            int x = p.draw.g3.x();
             if (p.draw.iconImage)
             {
                 const Size2I& iconSize = p.draw.iconImage->getSize();
@@ -344,15 +349,16 @@ namespace tg
                     p.draw.iconImage,
                     Box2F(
                         x,
-                        g3.y() + g3.h() / 2 - iconSize.h / 2,
+                        p.draw.g3.y() + p.draw.g3.h() / 2 - iconSize.h / 2,
                         iconSize.w,
                         iconSize.h),
-                    event.style->getColorRole(enabled ?
+                    event.style->getColorRole(isEnabled() ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));
                 x += iconSize.w + p.size.spacing;
             }
 
+            // Draw the text.
             if (!p.text.empty())
             {
                 if (p.draw.glyphs.empty())
@@ -364,23 +370,24 @@ namespace tg
                     p.size.fontMetrics,
                     V2F(
                         x + p.size.margin,
-                        g3.y() + g3.h() / 2 - p.size.textSize.h / 2),
-                    event.style->getColorRole(enabled ?
+                        p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
+                    event.style->getColorRole(isEnabled() ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));
             }
 
+            // Draw the arrow icon.
             if (p.draw.arrowIconImage)
             {
                 const Size2I& iconSize = p.draw.arrowIconImage->getSize();
                 event.render->drawImage(
                     p.draw.arrowIconImage,
                     Box2F(
-                        g3.x() + g3.w() - iconSize.w,
-                        g3.y() + g3.h() / 2 - iconSize.h / 2,
+                        p.draw.g3.x() + p.draw.g3.w() - iconSize.w,
+                        p.draw.g3.y() + p.draw.g3.h() / 2 - iconSize.h / 2,
                         iconSize.w,
                         iconSize.h),
-                    event.style->getColorRole(enabled ?
+                    event.style->getColorRole(isEnabled() ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));
             }

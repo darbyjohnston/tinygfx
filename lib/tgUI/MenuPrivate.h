@@ -34,6 +34,7 @@ namespace tg
 
             void setText(const std::string&) override;
 
+            void setGeometry(const core::Box2I&) override;
             void tickEvent(
                 bool,
                 bool,

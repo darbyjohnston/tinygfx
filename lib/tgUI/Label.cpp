@@ -34,6 +34,8 @@ namespace tg
 
             struct DrawData
             {
+                Box2I g;
+                Box2I g2;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
             };
             DrawData draw;
@@ -137,6 +139,20 @@ namespace tg
             _setDrawUpdate();
         }
 
+        void Label::setGeometry(const Box2I& value)
+        {
+            IWidget::setGeometry(value);
+            TG_P();
+            p.draw.g = align(
+                getGeometry(),
+                getSizeHint(),
+                Stretch::Fixed,
+                Stretch::Fixed,
+                getHAlign(),
+                getVAlign());
+            p.draw.g2 = margin(p.draw.g, -p.size.margin);
+        }
+
         void Label::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
@@ -173,24 +189,14 @@ namespace tg
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-
-            const Box2I g = align(
-                getGeometry(),
-                getSizeHint(),
-                Stretch::Fixed,
-                Stretch::Fixed,
-                getHAlign(),
-                getVAlign());
-
             if (!p.text.empty() && p.draw.glyphs.empty())
             {
                 p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
             }
-            const Box2I g2 = margin(g, -p.size.margin);
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2F(g2.min.x, g2.min.y),
+                V2F(p.draw.g2.min.x, p.draw.g2.min.y),
                 event.style->getColorRole(p.textRole));
         }
     }

@@ -49,13 +49,14 @@ namespace tg
                     {
                         std::cout << "Click" << std::endl;
                     });
+                pushButton = PushButton::create(context, "Text", hLayout);
+                pushButton->setIcon("Settings");
                 pushButton = PushButton::create(context, "Disabled", hLayout);
                 pushButton->setEnabled(false);
 
                 // Create tool buttons.
                 groupBox = GroupBox::create(context, "Tool Buttons", layout);
                 hLayout = HorizontalLayout::create(context, groupBox);
-                hLayout->setSpacingRole(SizeRole::None);
                 _toolButtonGroup = ButtonGroup::create(context, ButtonGroupType::Radio);
                 _toolButtonGroup->setCheckedCallback(
                     [](int index, bool value)
@@ -68,15 +69,20 @@ namespace tg
                     "PlaybackStop",
                     "PlaybackForward"
                 };
+                auto hLayout2 = HorizontalLayout::create(context, hLayout);
+                hLayout2->setSpacingRole(SizeRole::None);
                 for (size_t i = 0; i < 3; ++i)
                 {
-                    auto toolButton = ToolButton::create(context, hLayout);
+                    auto toolButton = ToolButton::create(context, hLayout2);
                     toolButton->setCheckable(true);
                     toolButton->setChecked(0 == i);
                     toolButton->setIcon(toolIcons[i]);
                     _toolButtonGroup->addButton(toolButton);
                 }
-                auto toolButton = ToolButton::create(context, "Disabled", hLayout);
+                auto toolButton = ToolButton::create(context, "Text", hLayout);
+                toolButton = ToolButton::create(context, "Text", hLayout);
+                toolButton->setIcon("Settings");
+                toolButton = ToolButton::create(context, "Disabled", hLayout);
                 toolButton->setEnabled(false);
                 _toolButtonGroup->addButton(toolButton);
 

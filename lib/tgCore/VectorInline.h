@@ -76,7 +76,7 @@ namespace tg
             e(v.e),
             x(e[0]),
             y(e[1])
-        {}        
+        {}
 
         template<typename T>
         constexpr T Vector<2, T>::operator [] (int c) const
@@ -274,6 +274,11 @@ namespace tg
         constexpr Vector<2, T> perpCCW(const Vector<2, T>& v)
         {
             return Vector<2, T>(-v[1], v[0]);
+        }
+
+        constexpr Vector<2, float> convert(const Vector<2, int>& value)
+        {
+            return Vector<2, float>(value.x, value.y);
         }
 
         template<int C, typename T>

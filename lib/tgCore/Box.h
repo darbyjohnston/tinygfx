@@ -133,6 +133,9 @@ namespace tg
         template<typename T>
         constexpr Box<2, T> margin(const Box<2, T>&, T x0, T y0, T x1, T y1);
 
+        //! Convert box types.
+        constexpr Box<2, float> convert(const Box<2, int>&);
+
         template<int C, typename T>
         constexpr bool operator == (const Box<C, T>&, const Box<C, T>&);
         template<int C, typename T>

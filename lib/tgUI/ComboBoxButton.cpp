@@ -31,6 +31,8 @@ namespace tg
 
             struct DrawData
             {
+                Box2I g;
+                Box2I g2;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
             };
             DrawData draw;
@@ -74,6 +76,14 @@ namespace tg
                 return;
             p.current = value;
             _setDrawUpdate();
+        }
+
+        void ComboBoxButton::setGeometry(const Box2I& value)
+        {
+            IButton::setGeometry(value);
+            TG_P();
+            p.draw.g = value;
+            p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
         }
 
         void ComboBoxButton::sizeHintEvent(const SizeHintEvent& event)
@@ -129,14 +139,12 @@ namespace tg
             IButton::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = getGeometry();
-
             // Draw the background.
             const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
             if (colorRole != ColorRole::None)
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(p.draw.g),
                     event.style->getColorRole(colorRole));
             }
 
@@ -144,13 +152,13 @@ namespace tg
             if (_isMousePressed())
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(p.draw.g),
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(p.draw.g),
                     event.style->getColorRole(ColorRole::Hover));
             }
 
@@ -158,13 +166,12 @@ namespace tg
             if (p.current)
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
 
             // Draw the icon.
-            const Box2I g2 = margin(g, -(p.size.margin + p.size.border));
-            int x = g2.x();
+            int x = p.draw.g2.x();
             if (_iconImage)
             {
                 const Size2I& iconSize = _iconImage->getSize();
@@ -172,7 +179,7 @@ namespace tg
                     _iconImage,
                     Box2F(
                         x,
-                        g2.y() + g2.h() / 2 - iconSize.h / 2,
+                        p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
                         iconSize.w,
                         iconSize.h),
                     event.style->getColorRole(ColorRole::Text));
@@ -191,7 +198,7 @@ namespace tg
                     p.size.fontMetrics,
                     V2F(
                         x + p.size.margin,
-                        g2.y() + g2.h() / 2 - p.size.textSize.h / 2),
+                        p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
                     event.style->getColorRole(ColorRole::Text));
             }
         }

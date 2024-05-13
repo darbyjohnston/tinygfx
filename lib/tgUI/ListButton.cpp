@@ -165,7 +165,7 @@ namespace tg
             const Box2I& g = getGeometry();
             const bool enabled = isEnabled();
 
-            // Draw the background and checked state.
+            // Draw the background.
             const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
             if (colorRole != ColorRole::None)
             {
@@ -174,7 +174,7 @@ namespace tg
                     event.style->getColorRole(colorRole));
             }
 
-            // Draw the pressed and hover states.
+            // Draw the mouse states.
             if (_isMousePressed())
             {
                 event.render->drawRect(
@@ -188,7 +188,7 @@ namespace tg
                     event.style->getColorRole(ColorRole::Hover));
             }
 
-            // Draw the key focus.
+            // Draw the focus.
             if (hasKeyFocus())
             {
                 event.render->drawMesh(

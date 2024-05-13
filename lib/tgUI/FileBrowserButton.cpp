@@ -38,6 +38,8 @@ namespace tg
 
             struct DrawData
             {
+                Box2I g;
+                Box2I g2;
                 std::vector< std::vector<std::shared_ptr<Glyph> > > glyphs;
             };
             DrawData draw;
@@ -119,6 +121,14 @@ namespace tg
             _p->columns = value;
         }
 
+        void FileBrowserButton::setGeometry(const Box2I& value)
+        {
+            IButton::setGeometry(value);
+            TG_P();
+            p.draw.g = value;
+            p.draw.g2 = margin(p.draw.g, -p.size.border);
+        }
+
         void FileBrowserButton::sizeHintEvent(const SizeHintEvent& event)
         {
             IButton::sizeHintEvent(event);
@@ -178,45 +188,41 @@ namespace tg
             IButton::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = getGeometry();
-            const bool enabled = isEnabled();
-
-            // Draw the key focus.
+            // Draw the focus.
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
 
-            // Draw the background and checked state.
+            // Draw the background.
             const ColorRole colorRole = _checked ?
                 ColorRole::Checked :
                 _buttonRole;
             if (colorRole != ColorRole::None)
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(p.draw.g),
                     event.style->getColorRole(colorRole));
             }
 
-            // Draw the pressed and hover states.
+            // Draw the mouse states.
             if (_isMousePressed())
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(p.draw.g),
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(p.draw.g),
                     event.style->getColorRole(ColorRole::Hover));
             }
 
             // Draw the icon.
-            const Box2I g2 = margin(g, -p.size.border);
-            int x = g2.x() + p.size.margin;
+            int x = p.draw.g2.x() + p.size.margin;
             if (_iconImage)
             {
                 const Size2I& size = _iconImage->getSize();
@@ -224,10 +230,10 @@ namespace tg
                     _iconImage,
                     Box2F(
                         x,
-                        g2.y() + g2.h() / 2 - size.h / 2,
+                        p.draw.g2.y() + p.draw.g2.h() / 2 - size.h / 2,
                         size.w,
                         size.h),
-                    event.style->getColorRole(enabled ?
+                    event.style->getColorRole(isEnabled() ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));
                 x += size.w + p.size.spacing;
@@ -252,13 +258,13 @@ namespace tg
                     p.size.fontMetrics,
                     V2F(
                         x + p.size.margin,
-                        g2.y() + g2.h() / 2 - p.size.fontMetrics.lineHeight / 2),
-                    event.style->getColorRole(enabled ?
+                        p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.fontMetrics.lineHeight / 2),
+                    event.style->getColorRole(isEnabled() ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));
                 if (0 == i)
                 {
-                    x = g2.max.x - p.size.margin - rightColumnsWidth;
+                    x = p.draw.g2.max.x - p.size.margin - rightColumnsWidth;
                 }
                 else
                 {
