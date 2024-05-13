@@ -271,13 +271,12 @@ namespace tg
                 {
                     p.draw.textGlyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
                 }
-                const V2F pos(
-                    x + p.size.margin,
-                    g2.y() + g2.h() / 2 - p.size.textSize.h / 2);
                 event.render->drawText(
                     p.draw.textGlyphs,
                     p.size.fontMetrics,
-                    pos,
+                    V2F(
+                        x + p.size.margin,
+                        g2.y() + g2.h() / 2 - p.size.textSize.h / 2),
                     event.style->getColorRole(enabled ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));
@@ -291,7 +290,7 @@ namespace tg
                     p.draw.shortcutGlyphs = event.fontSystem->getGlyphs(p.shortcutText, p.size.fontInfo);
                 }
                 const V2F pos(
-                    g2.max.x - p.size.margin - p.size.shortcutSize.w,
+                    g2.max.x - p.size.shortcutSize.w,
                     g2.y() + g2.h() / 2 - p.size.shortcutSize.h / 2);
                 event.render->drawText(
                     p.draw.shortcutGlyphs,

@@ -107,14 +107,8 @@ namespace tg
                 {
                     sizeHint.w += p.size.spacing;
                 }
-                V2I size;
-                if (_iconImage)
-                {
-                    size.x = std::max(size.x, _iconImage->getWidth());
-                    size.y = std::max(size.y, _iconImage->getHeight());
-                }
-                sizeHint.w += size.x;
-                sizeHint.h = std::max(sizeHint.h, size.y);
+                sizeHint.w += _iconImage->getWidth();
+                sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
             }
             sizeHint = margin(sizeHint, p.size.margin + p.size.border);
             _setSizeHint(sizeHint);
@@ -192,13 +186,12 @@ namespace tg
                 {
                     p.draw.glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
                 }
-                const V2F pos(
-                    x + p.size.margin,
-                    g2.y() + g2.h() / 2 - p.size.textSize.h / 2);
                 event.render->drawText(
                     p.draw.glyphs,
                     p.size.fontMetrics,
-                    pos,
+                    V2F(
+                        x + p.size.margin,
+                        g2.y() + g2.h() / 2 - p.size.textSize.h / 2),
                     event.style->getColorRole(ColorRole::Text));
             }
         }

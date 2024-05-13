@@ -118,9 +118,9 @@ namespace tg
             }
 
             Size2I sizeHint;
-            sizeHint.w = p.size.checkBox +
-                p.size.spacing +
-                p.size.textSize.w + p.size.margin * 2;
+            sizeHint.w += p.size.checkBox;
+            sizeHint.w += p.size.spacing;
+            sizeHint.w += p.size.textSize.w + p.size.margin * 2;
             sizeHint.h = p.size.fontMetrics.lineHeight;
             sizeHint = margin(sizeHint, p.size.margin + p.size.border);
             _setSizeHint(sizeHint);
@@ -181,23 +181,19 @@ namespace tg
                 Box2F(g4.x(), g4.y(), g4.w(), g4.h()),
                 event.style->getColorRole(_checked ? ColorRole::Checked : ColorRole::Base ));
 
-            if (!_text.empty())
+            if (!_text.empty() && p.draw.glyphs.empty())
             {
-                if (p.draw.glyphs.empty())
-                {
-                    p.draw.glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
-                }
-                const V2F pos(
-                    g3.x() + p.size.checkBox + p.size.spacing + p.size.margin,
-                    g3.y() + g3.h() / 2 - p.size.textSize.h / 2);
-                event.render->drawText(
-                    p.draw.glyphs,
-                    p.size.fontMetrics,
-                    pos,
-                    event.style->getColorRole(enabled ?
-                        ColorRole::Text :
-                        ColorRole::TextDisabled));
+                p.draw.glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
             }
+            event.render->drawText(
+                p.draw.glyphs,
+                p.size.fontMetrics,
+                V2F(
+                    g3.x() + p.size.checkBox + p.size.spacing + p.size.margin,
+                    g3.y() + g3.h() / 2 - p.size.textSize.h / 2),
+                event.style->getColorRole(enabled ?
+                    ColorRole::Text :
+                    ColorRole::TextDisabled));
         }
 
         void CheckBox::keyPressEvent(KeyEvent& event)

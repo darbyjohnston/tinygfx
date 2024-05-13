@@ -18,14 +18,11 @@ namespace tg
         struct IntEditSlider::Private
         {
             std::shared_ptr<IntModel> model;
-
             std::shared_ptr<IntEdit> edit;
             std::shared_ptr<IntSlider> slider;
             std::shared_ptr<ToolButton> resetButton;
             std::shared_ptr<HorizontalLayout> layout;
-
             std::function<void(int)> callback;
-
             std::shared_ptr<ValueObserver<int> > valueObserver;
             std::shared_ptr<ValueObserver<bool> > hasDefaultObserver;
         };

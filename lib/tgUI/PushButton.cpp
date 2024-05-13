@@ -227,13 +227,12 @@ namespace tg
                 {
                     p.draw.glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
                 }
-                const V2F pos(
-                    x + p.size.margin2,
-                    g3.y() + g3.h() / 2 - p.size.textSize.h / 2);
                 event.render->drawText(
                     p.draw.glyphs,
                     p.size.fontMetrics,
-                    pos,
+                    V2F(
+                        x + p.size.margin2,
+                        g3.y() + g3.h() / 2 - p.size.textSize.h / 2),
                     event.style->getColorRole(enabled ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));

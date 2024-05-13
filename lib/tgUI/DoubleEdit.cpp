@@ -24,15 +24,7 @@ namespace tg
             std::shared_ptr<LineEdit> lineEdit;
             std::shared_ptr<IncButtons> incButtons;
             std::shared_ptr<HorizontalLayout> layout;
-
-            struct SizeData
-            {
-                int margin = 0;
-            };
-            SizeData size;
-
             std::function<void(double)> callback;
-            
             std::shared_ptr<ValueObserver<double> > valueObserver;
             std::shared_ptr<ValueObserver<RangeD> > rangeObserver;
         };

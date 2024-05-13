@@ -173,11 +173,7 @@ namespace tg
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-            //event.render->drawRect(_geometry, Color4F(.5F, .3F, .3F));
-            if (!p.text.empty() && p.draw.glyphs.empty())
-            {
-                p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
-            }
+
             const Box2I g = align(
                 getGeometry(),
                 getSizeHint(),
@@ -185,6 +181,11 @@ namespace tg
                 Stretch::Fixed,
                 getHAlign(),
                 getVAlign());
+
+            if (!p.text.empty() && p.draw.glyphs.empty())
+            {
+                p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
+            }
             const Box2I g2 = margin(g, -p.size.margin);
             event.render->drawText(
                 p.draw.glyphs,

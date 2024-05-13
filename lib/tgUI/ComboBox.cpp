@@ -277,22 +277,18 @@ namespace tg
             sizeHint.h = p.size.fontMetrics.lineHeight;
             if (p.draw.iconImage)
             {
-                sizeHint.w += p.draw.iconImage->getWidth();
                 if (!p.text.empty())
                 {
                     sizeHint.w += p.size.spacing;
                 }
-                sizeHint.h = std::max(
-                    sizeHint.h,
-                    static_cast<int>(p.draw.iconImage->getHeight()));
+                sizeHint.w += p.draw.iconImage->getWidth();
+                sizeHint.h = std::max(sizeHint.h, p.draw.iconImage->getHeight());
             }
             if (p.draw.arrowIconImage)
             {
-                sizeHint.w += p.draw.arrowIconImage->getWidth();
                 sizeHint.w += p.size.spacing;
-                sizeHint.h = std::max(
-                    sizeHint.h,
-                    static_cast<int>(p.draw.arrowIconImage->getHeight()));
+                sizeHint.w += p.draw.arrowIconImage->getWidth();
+                sizeHint.h = std::max(sizeHint.h, p.draw.arrowIconImage->getHeight());
             }
             sizeHint = margin(sizeHint, p.size.margin + p.size.border);
             _setSizeHint(sizeHint);
@@ -363,13 +359,12 @@ namespace tg
                 {
                     p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
                 }
-                const V2F pos(
-                    x + p.size.margin,
-                    g3.y() + g3.h() / 2 - p.size.textSize.h / 2);
                 event.render->drawText(
                     p.draw.glyphs,
                     p.size.fontMetrics,
-                    pos,
+                    V2F(
+                        x + p.size.margin,
+                        g3.y() + g3.h() / 2 - p.size.textSize.h / 2),
                     event.style->getColorRole(enabled ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));

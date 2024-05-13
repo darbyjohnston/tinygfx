@@ -15,6 +15,9 @@ namespace tg
         struct DoubleSlider::Private
         {
             std::shared_ptr<DoubleModel> model;
+            std::function<void(double)> callback;
+            std::shared_ptr<ValueObserver<double> > valueObserver;
+            std::shared_ptr<ValueObserver<RangeD> > rangeObserver;
 
             struct SizeData
             {
@@ -26,11 +29,6 @@ namespace tg
                 FontMetrics fontMetrics;
             };
             SizeData size;
-
-            std::function<void(double)> callback;
-
-            std::shared_ptr<ValueObserver<double> > valueObserver;
-            std::shared_ptr<ValueObserver<RangeD> > rangeObserver;
         };
 
         void DoubleSlider::_init(

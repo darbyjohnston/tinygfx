@@ -143,7 +143,6 @@ namespace tg
                 for (const auto& tab : p.tabs)
                 {
                     auto button = ListButton::create(context, tab, p.layout);
-                    button->setLabelMarginRole(SizeRole::MarginSmall);
                     button->setCheckedRole(ColorRole::Button);
                     p.buttonGroup->addButton(button);
                     p.buttons.push_back(button);

@@ -18,14 +18,11 @@ namespace tg
         struct DoubleEditSlider::Private
         {
             std::shared_ptr<DoubleModel> model;
-
             std::shared_ptr<DoubleEdit> edit;
             std::shared_ptr<DoubleSlider> slider;
             std::shared_ptr<ToolButton> resetButton;
             std::shared_ptr<HorizontalLayout> layout;
-
             std::function<void(double)> callback;
-
             std::shared_ptr<ValueObserver<double> > valueObserver;
             std::shared_ptr<ValueObserver<bool> > hasDefaultObserver;
         };

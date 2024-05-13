@@ -15,6 +15,9 @@ namespace tg
         struct IntSlider::Private
         {
             std::shared_ptr<IntModel> model;
+            std::function<void(int)> callback;
+            std::shared_ptr<ValueObserver<int> > valueObserver;
+            std::shared_ptr<ValueObserver<RangeI> > rangeObserver;
 
             struct SizeData
             {
@@ -26,11 +29,6 @@ namespace tg
                 FontMetrics fontMetrics;
             };
             SizeData size;
-
-            std::function<void(int)> callback;
-
-            std::shared_ptr<ValueObserver<int> > valueObserver;
-            std::shared_ptr<ValueObserver<RangeI> > rangeObserver;
         };
 
         void IntSlider::_init(

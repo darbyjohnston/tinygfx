@@ -151,10 +151,12 @@ namespace tg
                 const Box2I b(1, 2, 3, 4);
                 const Box2I b1 = margin(b, V2I(1, 2));
                 const Box2I b2 = margin(b, 1);
-                const Box2I b3 = margin(b, 1, 2, 3, 4);
+                const Box2I b3 = margin(b, 1, 2);
+                const Box2I b4 = margin(b, 1, 2, 3, 4);
                 TG_ASSERT(Box2I(0, 0, 5, 8) == b1);
                 TG_ASSERT(Box2I(0, 1, 5, 6) == b2);
-                TG_ASSERT(Box2I(0, 0, 7, 10) == b3);
+                TG_ASSERT(Box2I(0, 0, 5, 8) == b3);
+                TG_ASSERT(Box2I(0, 0, 7, 10) == b4);
             }
         }
         

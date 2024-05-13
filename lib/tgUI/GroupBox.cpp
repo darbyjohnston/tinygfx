@@ -143,8 +143,7 @@ namespace tg
                 sizeHint.w = std::max(sizeHint.w, childSizeHint.w);
                 sizeHint.h = std::max(sizeHint.h, childSizeHint.h);
             }
-            sizeHint.w += p.size.margin * 2 + p.size.border * 2;
-            sizeHint.h += p.size.margin * 2 + p.size.border * 2;
+            sizeHint = margin(sizeHint, p.size.margin + p.size.border);
             sizeHint.w = std::max(sizeHint.w, p.size.textSize.w);
             sizeHint.h += p.size.fontMetrics.lineHeight + p.size.spacing;
             _setSizeHint(sizeHint);

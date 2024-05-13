@@ -14,14 +14,11 @@ namespace tg
     {
         struct ListButton::Private
         {
-            SizeRole labelMarginRole = SizeRole::MarginInside;
-
             struct SizeData
             {
                 bool init = true;
                 float displayScale = 0.F;
                 int margin = 0;
-                int margin2 = 0;
                 int spacing = 0;
                 int border = 0;
                 FontInfo fontInfo;
@@ -72,17 +69,6 @@ namespace tg
             return out;
         }
 
-        void ListButton::setLabelMarginRole(SizeRole value)
-        {
-            TG_P();
-            if (value == p.labelMarginRole)
-                return;
-            p.labelMarginRole = value;
-            p.size.init = true;
-            _setSizeUpdate();
-            _setDrawUpdate();
-        }
-
         void ListButton::setText(const std::string& value)
         {
             const bool changed = value != _text;
@@ -120,7 +106,6 @@ namespace tg
                 p.size.init = false;
                 p.size.displayScale = event.displayScale;
                 p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-                p.size.margin2 = event.style->getSizeRole(p.labelMarginRole, p.size.displayScale);
                 p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
                 p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
                 p.size.fontInfo = event.style->getFontRole(_fontRole, p.size.displayScale);
@@ -133,8 +118,8 @@ namespace tg
             Size2I sizeHint;
             if (!_text.empty())
             {
-                sizeHint.w = p.size.textSize.w + p.size.margin2 * 2;
-                sizeHint.h = p.size.fontMetrics.lineHeight + p.size.margin * 2;
+                sizeHint.w = p.size.textSize.w + p.size.margin * 2;
+                sizeHint.h = p.size.fontMetrics.lineHeight;
             }
             if (_iconImage || _checkedIconImage)
             {
@@ -156,7 +141,7 @@ namespace tg
                 sizeHint.w += size.x;
                 sizeHint.h = std::max(sizeHint.h, size.y);
             }
-            sizeHint = margin(sizeHint, p.size.border);
+            sizeHint = margin(sizeHint, p.size.margin + p.size.border);
             _setSizeHint(sizeHint);
         }
 
@@ -252,13 +237,12 @@ namespace tg
                 {
                     p.draw.glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
                 }
-                const V2F pos(
-                    x + p.size.margin2,
-                    g2.y() + g2.h() / 2 - p.size.textSize.h / 2);
                 event.render->drawText(
                     p.draw.glyphs,
                     p.size.fontMetrics,
-                    pos,
+                    V2F(
+                        x + p.size.margin,
+                        g2.y() + g2.h() / 2 - p.size.textSize.h / 2),
                     event.style->getColorRole(enabled ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));

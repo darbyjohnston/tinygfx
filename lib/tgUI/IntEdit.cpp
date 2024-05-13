@@ -23,9 +23,7 @@ namespace tg
             std::shared_ptr<LineEdit> lineEdit;
             std::shared_ptr<IncButtons> incButtons;
             std::shared_ptr<HorizontalLayout> layout;
-
             std::function<void(int)> callback;
-
             std::shared_ptr<ValueObserver<int> > valueObserver;
             std::shared_ptr<ValueObserver<RangeI> > rangeObserver;
         };

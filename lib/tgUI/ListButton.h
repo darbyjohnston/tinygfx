@@ -37,9 +37,6 @@ namespace tg
                 const std::string&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Set the label margin role.
-            void setLabelMarginRole(SizeRole);
-
             void setText(const std::string&) override;
             void setFontRole(FontRole) override;
 

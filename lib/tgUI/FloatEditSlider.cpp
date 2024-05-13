@@ -18,14 +18,11 @@ namespace tg
         struct FloatEditSlider::Private
         {
             std::shared_ptr<FloatModel> model;
-
             std::shared_ptr<FloatEdit> edit;
             std::shared_ptr<FloatSlider> slider;
             std::shared_ptr<ToolButton> resetButton;
             std::shared_ptr<HorizontalLayout> layout;
-
             std::function<void(float)> callback;
-
             std::shared_ptr<ValueObserver<float> > valueObserver;
             std::shared_ptr<ValueObserver<bool> > hasDefaultObserver;
         };

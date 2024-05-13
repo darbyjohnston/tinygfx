@@ -127,6 +127,10 @@ namespace tg
 
         //! Add a margin to a box.
         template<typename T>
+        constexpr Box<2, T> margin(const Box<2, T>&, T x, T y);
+
+        //! Add a margin to a box.
+        template<typename T>
         constexpr Box<2, T> margin(const Box<2, T>&, T x0, T y0, T x1, T y1);
 
         template<int C, typename T>

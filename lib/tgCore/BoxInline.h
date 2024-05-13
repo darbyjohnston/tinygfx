@@ -296,6 +296,14 @@ namespace tg
         }
 
         template<typename T>
+        constexpr Box<2, T> margin(const Box<2, T>& a, T x, T y)
+        {
+            return Box<2, T>(
+                Vector<2, T>(a.min.x - x, a.min.y - y),
+                Vector<2, T>(a.max.x + x, a.max.y + y));
+        }
+
+        template<typename T>
         constexpr Box<2, T> margin(const Box<2, T>& a, T x0, T y0, T x1, T y1)
         {
             return Box<2, T>(

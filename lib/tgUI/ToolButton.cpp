@@ -128,14 +128,12 @@ namespace tg
             }
             if (_iconImage)
             {
-                sizeHint.w += _iconImage->getWidth();
                 if (!_text.empty())
                 {
                     sizeHint.w += p.size.spacing;
                 }
-                sizeHint.h = std::max(
-                    sizeHint.h,
-                    static_cast<int>(_iconImage->getHeight()));
+                sizeHint.w += _iconImage->getWidth();
+                sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
             }
             sizeHint = margin(sizeHint, p.size.margin + p.size.border);
             _setSizeHint(sizeHint);
@@ -217,13 +215,12 @@ namespace tg
                 const int x2 = !_icon.empty() ?
                     (x + p.size.margin) :
                     (g3.x() + g3.w() / 2 - p.size.textSize.w / 2);
-                const V2F pos(
-                    x2,
-                    g3.y() + g3.h() / 2 - p.size.textSize.h / 2);
                 event.render->drawText(
                     p.draw.glyphs,
                     p.size.fontMetrics,
-                    pos,
+                    V2F(
+                        x2,
+                        g3.y() + g3.h() / 2 - p.size.textSize.h / 2),
                     event.style->getColorRole(enabled ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));

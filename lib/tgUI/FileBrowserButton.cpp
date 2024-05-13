@@ -247,13 +247,12 @@ namespace tg
                     p.draw.glyphs.push_back(
                         event.fontSystem->getGlyphs(p.labels[i], p.size.fontInfo));
                 }
-                const V2F pos(
-                    x,
-                    g2.y() + g2.h() / 2 - p.size.fontMetrics.lineHeight / 2);
                 event.render->drawText(
                     p.draw.glyphs[i],
                     p.size.fontMetrics,
-                    pos,
+                    V2F(
+                        x + p.size.margin,
+                        g2.y() + g2.h() / 2 - p.size.fontMetrics.lineHeight / 2),
                     event.style->getColorRole(enabled ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));

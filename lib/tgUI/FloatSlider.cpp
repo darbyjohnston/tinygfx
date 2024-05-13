@@ -15,6 +15,9 @@ namespace tg
         struct FloatSlider::Private
         {
             std::shared_ptr<FloatModel> model;
+            std::function<void(float)> callback;
+            std::shared_ptr<ValueObserver<float> > valueObserver;
+            std::shared_ptr<ValueObserver<RangeF> > rangeObserver;
 
             struct SizeData
             {
@@ -26,11 +29,6 @@ namespace tg
                 FontMetrics fontMetrics;
             };
             SizeData size;
-
-            std::function<void(float)> callback;
-
-            std::shared_ptr<ValueObserver<float> > valueObserver;
-            std::shared_ptr<ValueObserver<RangeF> > rangeObserver;
         };
 
         void FloatSlider::_init(
