@@ -266,7 +266,7 @@ namespace tg
 
                 const Box2I g3 = margin(g, -p.size.border);
                 event.render->drawRect(
-                    Box2F(g3.x(), g3.y(), g3.w(), g3.h()),
+                    convert(g3),
                     event.style->getColorRole(p.popupRole));
             }
         }

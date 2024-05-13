@@ -252,7 +252,7 @@ namespace tg
                 {
                     const Box2I g3 = i->second;
                     event.render->drawRect(
-                        Box2F(g3.x(), g3.y(), g3.w(), g3.h()),
+                        convert(g3),
                         event.style->getColorRole(ColorRole::Checked));
                 }
             }
@@ -261,7 +261,7 @@ namespace tg
                 event.style->getColorRole(ColorRole::Border));
             const Box2I g4 = core::margin(g2, -p.size.border);
             event.render->drawRect(
-                Box2F(g4.x(), g4.y(), g4.w(), g4.h()),
+                convert(g4),
                 event.style->getColorRole(ColorRole::Window));
         }
 

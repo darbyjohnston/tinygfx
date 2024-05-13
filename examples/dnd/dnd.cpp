@@ -94,19 +94,19 @@ namespace tg
 
                 const Box2I g2 = margin(g, -_border);
                 event.render->drawRect(
-                    Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                    convert(g2),
                     event.style->getColorRole(ColorRole::Button));
 
                 if (_isMousePressed())
                 {
                     event.render->drawRect(
-                        Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                        convert(g2),
                         event.style->getColorRole(ColorRole::Pressed));
                 }
                 else if (_isMouseInside())
                 {
                     event.render->drawRect(
-                        Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                        convert(g2),
                         event.style->getColorRole(ColorRole::Hover));
                 }
 
@@ -114,9 +114,7 @@ namespace tg
                 {
                     auto color = event.style->getColorRole(ColorRole::Checked);
                     color.a = .5F;
-                    event.render->drawRect(
-                        Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
-                        color);
+                    event.render->drawRect(convert(g2), color);
                 }
             }
 

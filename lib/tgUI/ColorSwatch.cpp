@@ -29,6 +29,13 @@ namespace tg
                 int border = 0;
             };
             SizeData size;
+
+            struct DrawData
+            {
+                Box2I g;
+                Box2I g2;
+            };
+            DrawData draw;
         };
 
         void ColorSwatch::_init(
@@ -104,6 +111,14 @@ namespace tg
             _setDrawUpdate();
         }
 
+        void ColorSwatch::setGeometry(const Box2I& value)
+        {
+            IWidget::setGeometry(value);
+            TG_P();
+            p.draw.g = value;
+            p.draw.g2 = margin(p.draw.g, -p.size.border);
+        }
+
         void ColorSwatch::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
@@ -124,14 +139,10 @@ namespace tg
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-            const Box2I& g = getGeometry();
             event.render->drawMesh(
-                border(g, p.size.border),
+                border(p.draw.g, p.size.border),
                 event.style->getColorRole(ColorRole::Border));
-            const Box2I g2 = margin(g, -p.size.border);
-            event.render->drawRect(
-                Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
-                p.color);
+            event.render->drawRect(convert(p.draw.g2), p.color);
         }
 
         void ColorSwatch::mousePressEvent(MouseClickEvent& event)

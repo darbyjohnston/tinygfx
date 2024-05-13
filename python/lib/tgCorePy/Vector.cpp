@@ -136,6 +136,8 @@ namespace tg
             m.def("perpCW", [](const V2F& v) { return perpCW(v); });
             m.def("perpCCW", [](const V2I& v) { return perpCCW(v); });
             m.def("perpCCW", [](const V2F& v) { return perpCCW(v); });
+
+            m.def("convert", [](const V2I& v) { return convert(v); });
         }
     }
 }

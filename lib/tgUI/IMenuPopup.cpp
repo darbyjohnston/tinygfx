@@ -287,7 +287,7 @@ namespace tg
                     Color4F(1.F, 1.F, 1.F));
 
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(g),
                     event.style->getColorRole(p.popupRole));
             }
         }

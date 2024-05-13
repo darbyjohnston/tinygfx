@@ -81,20 +81,20 @@ namespace tg
             if (colorRole != ColorRole::None)
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(g),
                     event.style->getColorRole(colorRole));
             }
 
             if (_isMousePressed())
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(g),
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(g),
                     event.style->getColorRole(ColorRole::Hover));
             }
 

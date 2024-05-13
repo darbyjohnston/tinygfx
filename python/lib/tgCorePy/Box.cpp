@@ -117,6 +117,8 @@ namespace tg
                 [](const Box2I& v, int x0, int y0, int x1, int y1) { return margin(v, x0, y0, x1, y1); });
             m.def("margin",
                 [](const Box2F& v, float x0, float y0, float x1, float y1) { return margin(v, x0, y0, x1, y1); });
+
+            m.def("convert", [](const Box2I& v) { return convert(v); });
         }
     }
 }

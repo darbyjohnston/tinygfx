@@ -211,7 +211,7 @@ namespace tg
             for (const auto& handle : p.size.handleGeometry)
             {
                 event.render->drawRect(
-                    Box2F(handle.x(), handle.y(), handle.w(), handle.h()),
+                    convert(handle),
                     event.style->getColorRole(ColorRole::Button));
             }
             if (p.mouse.pressedHandle >= 0 &&
@@ -219,7 +219,7 @@ namespace tg
             {
                 const Box2I g = p.size.handleGeometry[p.mouse.pressedHandle];
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(g),
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (p.mouse.hoverHandle >= 0 &&
@@ -227,7 +227,7 @@ namespace tg
             {
                 const Box2I g = p.size.handleGeometry[p.mouse.hoverHandle];
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(g),
                     event.style->getColorRole(ColorRole::Hover));
             }
         }

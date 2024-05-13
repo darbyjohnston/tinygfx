@@ -150,7 +150,7 @@ namespace tg
                     event.style->getColorRole(ColorRole::Border));
                 
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(g),
                     event.style->getColorRole(ColorRole::Window));
             }
         }

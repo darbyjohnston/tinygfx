@@ -334,7 +334,7 @@ namespace tg
 
             const Box2I g2 = margin(g, -p.size.border);
             event.render->drawRect(
-                Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                convert(g2),
                 event.style->getColorRole(ColorRole::Base));
 
             const ClipRectEnabledState clipRectEnabledState(event.render);

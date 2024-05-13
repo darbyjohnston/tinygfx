@@ -26,8 +26,7 @@ class Window(tgUIApp.Window):
         event.render.drawText(
             glyphs,
             fontMetrics,
-            tgCore.center(tgCore.Box2F(g.x, g.y, g.w, g.h)) -
-            tgCore.V2F(textSize.w, textSize.h) / 2,
+            tgCore.convert(tgCore.center(g) - tgCore.V2I(textSize.w, textSize.h) / 2),
             tgCore.Color4F(1, 1, 1))
     
 context = tgCore.Context()

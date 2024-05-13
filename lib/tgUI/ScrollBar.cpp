@@ -146,19 +146,19 @@ namespace tg
             {
                 const Box2I g2 = _getHandleGeometry();
                 event.render->drawRect(
-                    Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                    convert(g2),
                     event.style->getColorRole(ColorRole::Button));
 
                 if (_isMousePressed())
                 {
                     event.render->drawRect(
-                        Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                        convert(g2),
                         event.style->getColorRole(ColorRole::Pressed));
                 }
                 else if (_isMouseInside())
                 {
                     event.render->drawRect(
-                        Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                        convert(g2),
                         event.style->getColorRole(ColorRole::Hover));
                 }
             }

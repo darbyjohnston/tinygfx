@@ -181,12 +181,12 @@ namespace tg
 
             const Box2I g2 = margin(g, -p.size.border);
             event.render->drawRect(
-                Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
+                convert(g2),
                 event.style->getColorRole(ColorRole::Base));
 
             const Box2I g3 = _getSliderGeometry();
             //event.render->drawRect(
-            //    Box2F(g3.x(), g3.y(), g3.w(), g3.h()),
+            //    convert(g3),
             //    Color4F(1.F, 0.F, 0.F, .5F));
             int pos = 0;
             if (p.model)
@@ -199,18 +199,18 @@ namespace tg
                 p.size.handle,
                 g3.h());
             event.render->drawRect(
-                Box2F(g4.x(), g4.y(), g4.w(), g4.h()),
+                convert(g4),
                 event.style->getColorRole(ColorRole::Button));
             if (_isMousePressed())
             {
                 event.render->drawRect(
-                    Box2F(g4.x(), g4.y(), g4.w(), g4.h()),
+                    convert(g4),
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
-                    Box2F(g4.x(), g4.y(), g4.w(), g4.h()),
+                    convert(g4),
                     event.style->getColorRole(ColorRole::Hover));
             }
         }

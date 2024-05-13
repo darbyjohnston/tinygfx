@@ -46,8 +46,7 @@ namespace tg
                 event.render->drawText(
                     textGlyphs,
                     fontMetrics,
-                    center(Box2F(g.x(), g.y(), g.w(), g.h())) -
-                    V2F(textSize.w, textSize.h) / 2.F,
+                    convert(center(g) - V2I(textSize.w, textSize.h) / 2),
                     Color4F(1.F, 1.F, 1.F));
             }
         }
