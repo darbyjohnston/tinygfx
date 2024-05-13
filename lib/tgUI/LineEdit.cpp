@@ -111,8 +111,6 @@ namespace tg
                 float displayScale = 0.F;
                 int margin = 0;
                 int border = 0;
-
-                bool textInit = true;
                 FontInfo fontInfo;
                 FontMetrics fontMetrics;
                 Size2I textSize;
@@ -287,10 +285,6 @@ namespace tg
                 p.size.displayScale = event.displayScale;
                 p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
                 p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            }
-            if (displayScaleChanged || p.size.textInit)
-            {
-                p.size.textInit = false;
                 p.size.fontInfo = event.style->getFontRole(p.fontRole, p.size.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
                 p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);
@@ -781,7 +775,7 @@ namespace tg
         void LineEdit::_textUpdate()
         {
             TG_P();
-            p.size.textInit = true;
+            p.size.init = true;
             _setSizeUpdate();
             _setDrawUpdate();
         }

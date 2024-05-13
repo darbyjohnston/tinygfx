@@ -36,8 +36,6 @@ namespace tg
                 int margin = 0;
                 int spacing = 0;
                 int border = 0;
-
-                bool textInit = true;
                 FontInfo fontInfo;
                 FontMetrics fontMetrics;
                 Size2I textSize;
@@ -95,7 +93,7 @@ namespace tg
             p.shortcut = key;
             p.shortcutModifiers = modifiers;
             p.shortcutText = getShortcutLabel(p.shortcut, p.shortcutModifiers);
-            p.size.textInit = true;
+            p.size.init = true;
             _setSizeUpdate();
             _setDrawUpdate();
         }
@@ -115,7 +113,7 @@ namespace tg
             TG_P();
             if (changed)
             {
-                p.size.textInit = true;
+                p.size.init = true;
                 _setSizeUpdate();
                 _setDrawUpdate();
             }
@@ -162,10 +160,6 @@ namespace tg
                 p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, event.displayScale);
                 p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, event.displayScale);
                 p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
-            }
-            if (displayScaleChanged || p.size.textInit)
-            {
-                p.size.textInit = false;
                 p.size.fontInfo = event.style->getFontRole(_fontRole, event.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
                 p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);

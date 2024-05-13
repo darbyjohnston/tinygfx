@@ -26,8 +26,6 @@ namespace tg
                 bool init = true;
                 float displayScale = 0.F;
                 int margin = 0;
-
-                bool textInit = true;
                 FontInfo fontInfo;
                 FontMetrics fontMetrics;
                 Size2I textSize;
@@ -86,7 +84,7 @@ namespace tg
             if (value == p.text)
                 return;
             p.text = value;
-            p.size.textInit = true;
+            p.size.init = true;
             p.draw.glyphs.clear();
             _setSizeUpdate();
             _setDrawUpdate();
@@ -133,7 +131,7 @@ namespace tg
             if (value == p.fontRole)
                 return;
             p.fontRole = value;
-            p.size.textInit = true;
+            p.size.init = true;
             p.draw.glyphs.clear();
             _setSizeUpdate();
             _setDrawUpdate();
@@ -149,16 +147,12 @@ namespace tg
                 p.size.init = false;
                 p.size.displayScale = event.displayScale;
                 p.size.margin = event.style->getSizeRole(p.marginRole, event.displayScale);
-            }
-            if (p.size.textInit || displayScaleChanged)
-            {
-                p.size.textInit = false;
                 p.size.fontInfo = event.style->getFontRole(p.fontRole, event.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
                 p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);
                 p.draw.glyphs.clear();
             }
-            Size2I sizeHint(p.size.textSize.w, p.size.textSize.h);
+            Size2I sizeHint(p.size.textSize);
             sizeHint = margin(sizeHint, p.size.margin);
             _setSizeHint(sizeHint);
         }
@@ -179,26 +173,23 @@ namespace tg
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-
             //event.render->drawRect(_geometry, Color4F(.5F, .3F, .3F));
-
-            const Box2I g = margin(align(
+            if (!p.text.empty() && p.draw.glyphs.empty())
+            {
+                p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
+            }
+            const Box2I g = align(
                 getGeometry(),
                 getSizeHint(),
                 Stretch::Fixed,
                 Stretch::Fixed,
                 getHAlign(),
-                getVAlign()),
-                -p.size.margin);
-
-            if (!p.text.empty() && p.draw.glyphs.empty())
-            {
-                p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
-            }
+                getVAlign());
+            const Box2I g2 = margin(g, -p.size.margin);
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2F(g.min.x, g.min.y),
+                V2F(g2.min.x, g2.min.y),
                 event.style->getColorRole(p.textRole));
         }
     }

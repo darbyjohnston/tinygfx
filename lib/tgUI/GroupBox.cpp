@@ -24,8 +24,6 @@ namespace tg
                 int margin = 0;
                 int spacing = 0;
                 int border = 0;
-
-                bool textInit = true;
                 FontInfo fontInfo;
                 FontMetrics fontMetrics;
                 Size2I textSize;
@@ -83,7 +81,7 @@ namespace tg
             if (value == p.text)
                 return;
             p.text = value;
-            p.size.textInit = true;
+            p.size.init = true;
             p.draw.glyphs.clear();
             _setSizeUpdate();
             _setDrawUpdate();
@@ -100,7 +98,7 @@ namespace tg
             if (value == p.fontRole)
                 return;
             p.fontRole = value;
-            p.size.textInit = true;
+            p.size.init = true;
             p.draw.glyphs.clear();
             _setSizeUpdate();
             _setDrawUpdate();
@@ -132,10 +130,6 @@ namespace tg
                 p.size.margin = event.style->getSizeRole(SizeRole::MarginSmall, p.size.displayScale);
                 p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
                 p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            }
-            if (p.size.textInit || displayScaleChanged)
-            {
-                p.size.textInit = false;
                 p.size.fontInfo = event.style->getFontRole(p.fontRole, p.size.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
                 p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);

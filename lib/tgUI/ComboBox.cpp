@@ -42,12 +42,11 @@ namespace tg
 
             struct SizeData
             {
+                bool init = true;
                 float displayScale = 0.F;
                 int margin = 0;
                 int spacing = 0;
                 int border = 0;
-
-                bool textInit = true;
                 FontInfo fontInfo;
                 FontMetrics fontMetrics;
                 Size2I textSize;
@@ -132,7 +131,7 @@ namespace tg
             const ComboBoxItem item = _getItem(p.currentIndex);
             p.text = item.text;
             p.icon = item.icon;
-            p.size.textInit = true;
+            p.size.init = true;
             p.draw.iconInit = true;
             p.draw.iconFuture = std::future<std::shared_ptr<Image> >();
             p.draw.iconImage.reset();
@@ -169,7 +168,7 @@ namespace tg
             const ComboBoxItem item = _getItem(p.currentIndex);
             p.text = item.text;
             p.icon = item.icon;
-            p.size.textInit = true;
+            p.size.init = true;
             p.draw.iconInit = true;
             p.draw.iconFuture = std::future<std::shared_ptr<Image> >();
             p.draw.iconImage.reset();
@@ -198,7 +197,7 @@ namespace tg
             if (value == p.fontRole)
                 return;
             p.fontRole = value;
-            p.size.textInit = true;
+            p.size.init = true;
             _setSizeUpdate();
             _setDrawUpdate();
         }
@@ -252,16 +251,12 @@ namespace tg
             TG_P();
 
             const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-            if (displayScaleChanged)
+            if (p.size.init || displayScaleChanged)
             {
                 p.size.displayScale = event.displayScale;
                 p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
                 p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
                 p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            }
-            if (displayScaleChanged || p.size.textInit)
-            {
-                p.size.textInit = false;
                 p.size.fontInfo = event.style->getFontRole(p.fontRole, p.size.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
                 p.size.textSize = Size2I();
