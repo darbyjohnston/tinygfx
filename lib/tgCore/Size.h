@@ -96,7 +96,15 @@ namespace tg
         //! Get the volume of the given size.
         template<typename T>
         constexpr float volume(const Size<3, T>&);
-        
+
+        //! Add a margin to a size.
+        template<int C, typename T>
+        constexpr Size<C, T> margin(const Size<C, T>&, T);
+
+        //! Add a margin to a size.
+        template<typename T>
+        constexpr Size<2, T> margin(const Size<2, T>&, T x, T y);
+
         template<int C, typename T>
         constexpr Size<C, T> operator + (const Size<C, T>&, T);
         template<int C, typename T>

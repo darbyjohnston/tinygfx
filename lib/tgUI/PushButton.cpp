@@ -136,12 +136,10 @@ namespace tg
                 }
                 sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
             }
-            sizeHint.w +=
-                p.size.margin * 2 +
-                p.size.border * 4;
-            sizeHint.h +=
-                p.size.margin2 * 2 +
-                p.size.border * 4;
+            sizeHint = margin(
+                sizeHint,
+                p.size.margin + p.size.border,
+                p.size.margin2 + p.size.border);
             _setSizeHint(sizeHint);
         }
 
@@ -169,18 +167,18 @@ namespace tg
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border * 2),
+                    border(g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             } 
             else
             {
                 event.render->drawMesh(
-                    border(margin(g, -p.size.border), p.size.border),
+                    border(g, p.size.border),
                     event.style->getColorRole(ColorRole::Border));
             }
 
             // Draw the background and checked state.
-            const Box2I g2 = margin(g, -p.size.border * 2);
+            const Box2I g2 = margin(g, -p.size.border);
             const auto mesh = rect(g2);
             const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
             if (colorRole != ColorRole::None)
@@ -191,7 +189,7 @@ namespace tg
             }
 
             // Draw the pressed and hover states.
-            if (_isMousePressed() && contains(g, _getMousePos()))
+            if (_isMousePressed())
             {
                 event.render->drawMesh(
                     mesh,

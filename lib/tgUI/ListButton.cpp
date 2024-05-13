@@ -162,8 +162,7 @@ namespace tg
                 sizeHint.w += size.x;
                 sizeHint.h = std::max(sizeHint.h, size.y);
             }
-            sizeHint.w += p.size.border * 4;
-            sizeHint.h += p.size.border * 4;
+            sizeHint = margin(sizeHint, p.size.border);
             _setSizeHint(sizeHint);
         }
 
@@ -197,7 +196,7 @@ namespace tg
             }
 
             // Draw the pressed and hover states.
-            if (_isMousePressed() && contains(g, _getMousePos()))
+            if (_isMousePressed())
             {
                 event.render->drawRect(
                     Box2F(g.x(), g.y(), g.w(), g.h()),
@@ -214,12 +213,12 @@ namespace tg
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border * 2),
+                    border(g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
 
             // Draw the icon.
-            const Box2I g2 = margin(g, -p.size.border * 2);
+            const Box2I g2 = margin(g, -p.size.border);
             int x = g2.x();
             if (_checked && _checkedIconImage)
             {

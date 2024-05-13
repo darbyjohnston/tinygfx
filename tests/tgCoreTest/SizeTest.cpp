@@ -94,6 +94,14 @@ namespace tg
                 const Size3F s(1.F, 2.F, 3.F);
                 TG_ASSERT(6.F == volume(s));
             }
+            {
+                const Size2I s(1, 2);
+                TG_ASSERT(margin(s, 2) == Size2I(5, 6));
+            }
+            {
+                const Size2I s(5, 6);
+                TG_ASSERT(margin(s, -2, -1) == Size2I(1, 4));
+            }
         }
         
         void SizeTest::_operators()

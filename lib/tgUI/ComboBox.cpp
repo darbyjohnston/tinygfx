@@ -299,12 +299,7 @@ namespace tg
                     sizeHint.h,
                     static_cast<int>(p.draw.arrowIconImage->getHeight()));
             }
-            sizeHint.w +=
-                p.size.margin * 2 +
-                p.size.border * 4;
-            sizeHint.h +=
-                p.size.margin * 2 +
-                p.size.border * 4;
+            sizeHint = margin(sizeHint, p.size.margin + p.size.border);
             _setSizeHint(sizeHint);
         }
 
@@ -321,22 +316,22 @@ namespace tg
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border * 2),
+                    border(g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
             else
             {
                 event.render->drawMesh(
-                    border(margin(g, -p.size.border), p.size.border),
+                    border(g, p.size.border),
                     event.style->getColorRole(ColorRole::Border));
             }
 
-            const Box2I g2 = margin(g, -p.size.border * 2);
+            const Box2I g2 = margin(g, -p.size.border);
             event.render->drawRect(
                 Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                 event.style->getColorRole(ColorRole::Button));
 
-            if (_isMousePressed() && contains(g, _getMousePos()))
+            if (_isMousePressed())
             {
                 event.render->drawRect(
                     Box2F(g2.x(), g2.y(), g2.w(), g2.h()),

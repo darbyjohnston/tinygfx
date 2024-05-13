@@ -101,7 +101,7 @@ namespace tg
             out[ColorRole::Hover] = Color4F(1.F, 1.F, 1.F, .1F);
             out[ColorRole::Pressed] = Color4F(1.F, 1.F, 1.F, .2F);
             out[ColorRole::Checked] = Color4F(.6F, .4F, .2F);
-            out[ColorRole::KeyFocus] = Color4F(.6F, .6F, .4F);
+            out[ColorRole::KeyFocus] = Color4F(.8F, .8F, .8F);
             out[ColorRole::Overlay] = Color4F(0.F, 0.F, 0.F, .5F);
             out[ColorRole::TooltipWindow] = Color4F(1.F, .95F, .7F);
             out[ColorRole::TooltipText] = Color4F(0.F, 0.F, 0.F);

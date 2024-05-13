@@ -195,12 +195,7 @@ namespace tg
                 sizeHint.w += p.size.spacing + p.subMenuIcon.image->getWidth();
                 sizeHint.h = std::max(sizeHint.h, p.subMenuIcon.image->getHeight());
             }
-            sizeHint.w +=
-                p.size.margin * 2 +
-                p.size.border * 4;
-            sizeHint.h +=
-                p.size.margin * 2 +
-                p.size.border * 4;
+            sizeHint = margin(sizeHint, p.size.margin + p.size.border);
             _setSizeHint(sizeHint);
         }
 
@@ -235,7 +230,7 @@ namespace tg
             }
             
             // Draw the mouse state.
-            if (_isMousePressed() && contains(g, _getMousePos()))
+            if (_isMousePressed())
             {
                 event.render->drawRect(
                     Box2F(g.x(), g.y(), g.w(), g.h()),
@@ -252,12 +247,12 @@ namespace tg
             if (p.current)
             {
                 event.render->drawMesh(
-                    border(g, p.size.border * 2),
+                    border(g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
 
             // Draw the icon.
-            const Box2I g2 = margin(g, -(p.size.margin + p.size.border * 2));
+            const Box2I g2 = margin(g, -(p.size.margin + p.size.border));
             int x = g2.x();
             if (_iconImage)
             {

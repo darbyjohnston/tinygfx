@@ -158,11 +158,9 @@ namespace tg
                 p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);
                 p.draw.glyphs.clear();
             }
-            _setSizeHint(Size2I(
-                p.size.textSize.w +
-                p.size.margin * 2,
-                p.size.textSize.h +
-                p.size.margin * 2));
+            Size2I sizeHint(p.size.textSize.w, p.size.textSize.h);
+            sizeHint = margin(sizeHint, p.size.margin);
+            _setSizeHint(sizeHint);
         }
 
         void Label::clipEvent(const Box2I& clipRect, bool clipped)

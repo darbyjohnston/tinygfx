@@ -32,7 +32,7 @@ namespace tg
             p.widget->setColor(color);
 
             p.layout = VerticalLayout::create(context);
-            p.layout->setMarginRole(SizeRole::MarginInside);
+            p.layout->setMarginRole(SizeRole::MarginSmall);
             p.widget->setParent(p.layout);
             setWidget(p.layout);
 

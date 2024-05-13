@@ -86,8 +86,8 @@ namespace tg
                 const DrawEvent& event)
             {
                 IWidget::drawEvent(drawRect, event);
-                const Box2I& g = getGeometry();
 
+                const Box2I& g = getGeometry();
                 event.render->drawMesh(
                     border(g, _border),
                     event.style->getColorRole(ColorRole::Border));
@@ -97,7 +97,7 @@ namespace tg
                     Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                     event.style->getColorRole(ColorRole::Button));
 
-                if (_isMousePressed() && contains(g, _getMousePos()))
+                if (_isMousePressed())
                 {
                     event.render->drawRect(
                         Box2F(g2.x(), g2.y(), g2.w(), g2.h()),

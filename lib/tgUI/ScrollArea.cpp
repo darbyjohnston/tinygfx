@@ -250,8 +250,7 @@ namespace tg
                     break;
                 default: break;
             }
-            sizeHint.w += p.size.border * 2;
-            sizeHint.h += p.size.border * 2;
+            sizeHint = margin(sizeHint, p.size.border);
             _setSizeHint(sizeHint);
         }
 

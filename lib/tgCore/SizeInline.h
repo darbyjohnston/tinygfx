@@ -195,6 +195,18 @@ namespace tg
         }
 
         template<int C, typename T>
+        constexpr Size<C, T> margin(const Size<C, T>& a, T b)
+        {
+            return a + (b * 2);
+        }
+
+        template<typename T>
+        constexpr Size<2, T> margin(const Size<2, T>& a, T x, T y)
+        {
+            return Size<2, T>(a.w + x * 2, a.h + y * 2);
+        }
+
+        template<int C, typename T>
         constexpr Size<C, T> operator + (const Size<C, T>& a, T b)
         {
             Size<C, T> out;

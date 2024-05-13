@@ -123,15 +123,13 @@ namespace tg
                 p.draw.glyphs.clear();
             }
 
-            _setSizeHint(Size2I(
-                p.size.checkBox +
+            Size2I sizeHint;
+            sizeHint.w = p.size.checkBox +
                 p.size.spacing +
-                p.size.textSize.w + p.size.margin * 2 +
-                p.size.margin * 2 +
-                p.size.border * 4,
-                p.size.fontMetrics.lineHeight +
-                p.size.margin * 2 +
-                p.size.border * 4));
+                p.size.textSize.w + p.size.margin * 2;
+            sizeHint.h = p.size.fontMetrics.lineHeight;
+            sizeHint = margin(sizeHint, p.size.margin + p.size.border);
+            _setSizeHint(sizeHint);
         }
 
         void CheckBox::clipEvent(const Box2I& clipRect, bool clipped)
@@ -157,12 +155,12 @@ namespace tg
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border * 2),
+                    border(g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
 
-            const Box2I g2 = margin(g, -p.size.border * 2);
-            if (_isMousePressed() && contains(g, _getMousePos()))
+            const Box2I g2 = margin(g, -p.size.border);
+            if (_isMousePressed())
             {
                 event.render->drawRect(
                     Box2F(g2.x(), g2.y(), g2.w(), g2.h()),

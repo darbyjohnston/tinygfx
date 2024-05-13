@@ -154,11 +154,9 @@ namespace tg
                 auto fontInfo = event.style->getFontRole(FontRole::Label, p.size.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(fontInfo);
             }
-            _setSizeHint(Size2I(
-                p.size.size +
-                p.size.border * 6,
-                p.size.fontMetrics.lineHeight +
-                p.size.border * 6));
+            Size2I sizeHint(p.size.size, p.size.fontMetrics.lineHeight);
+            sizeHint = margin(sizeHint, p.size.border * 2);
+            _setSizeHint(sizeHint);
         }
 
         void FloatSlider::drawEvent(
@@ -173,17 +171,17 @@ namespace tg
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border * 2),
+                    border(g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
             else
             {
                 event.render->drawMesh(
-                    border(margin(g, -p.size.border), p.size.border),
+                    border(g, p.size.border),
                     event.style->getColorRole(ColorRole::Border));
             }
 
-            const Box2I g2 = margin(g, -p.size.border * 2);
+            const Box2I g2 = margin(g, -p.size.border);
             event.render->drawRect(
                 Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                 event.style->getColorRole(ColorRole::Base));
@@ -319,10 +317,10 @@ namespace tg
             TG_P();
             return margin(
                 getGeometry(),
-                -(p.size.border * 3 + p.size.handle / 2),
-                -(p.size.border * 3),
-                -(p.size.border * 3 + p.size.handle / 2),
-                -(p.size.border * 3));
+                -(p.size.border * 2 + p.size.handle / 2),
+                -(p.size.border * 2),
+                -(p.size.border * 2 + p.size.handle / 2),
+                -(p.size.border * 2));
         }
 
         float FloatSlider::_posToValue(int pos) const

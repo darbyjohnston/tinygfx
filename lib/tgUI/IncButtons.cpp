@@ -85,7 +85,7 @@ namespace tg
                     event.style->getColorRole(colorRole));
             }
 
-            if (_isMousePressed() && contains(g, _getMousePos()))
+            if (_isMousePressed())
             {
                 event.render->drawRect(
                     Box2F(g.x(), g.y(), g.w(), g.h()),

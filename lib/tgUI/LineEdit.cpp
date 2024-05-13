@@ -299,13 +299,9 @@ namespace tg
                 p.draw.glyphsBox.clear();
             }
 
-            _setSizeHint(Size2I(
-                p.size.formatSize.w +
-                p.size.margin * 2 +
-                p.size.border * 4,
-                p.size.fontMetrics.lineHeight +
-                p.size.margin * 2 +
-                p.size.border * 4));
+            Size2I sizeHint(p.size.formatSize.w, p.size.fontMetrics.lineHeight);
+            sizeHint = margin(sizeHint, p.size.margin + p.size.border);
+            _setSizeHint(sizeHint);
         }
 
         void LineEdit::clipEvent(const Box2I& clipRect, bool clipped)
@@ -332,17 +328,17 @@ namespace tg
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border * 2),
+                    border(g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
             else
             {
                 event.render->drawMesh(
-                    border(margin(g, -p.size.border), p.size.border),
+                    border(g, p.size.border),
                     event.style->getColorRole(ColorRole::Border));
             }
 
-            const Box2I g2 = margin(g, -p.size.border * 2);
+            const Box2I g2 = margin(g, -p.size.border);
             event.render->drawRect(
                 Box2F(g2.x(), g2.y(), g2.w(), g2.h()),
                 event.style->getColorRole(ColorRole::Base));
@@ -350,9 +346,9 @@ namespace tg
             const ClipRectEnabledState clipRectEnabledState(event.render);
             const ClipRectState clipRectState(event.render);
             event.render->setClipRectEnabled(true);
-            event.render->setClipRect(intersect(margin(g, -p.size.border * 2), drawRect));
+            event.render->setClipRect(intersect(margin(g, -p.size.border), drawRect));
 
-            const Box2I g3 = margin(g, -(p.size.border * 2 + p.size.margin));
+            const Box2I g3 = margin(g, -p.size.margin);
             if (p.selection.isValid())
             {
                 const auto selection = p.selection.getSorted();
@@ -361,11 +357,11 @@ namespace tg
                 const std::string text1 = p.text.substr(0, selection.second);
                 const int x1 = event.fontSystem->getSize(text1, p.size.fontInfo).w;
                 event.render->drawRect(
-                    Box2F(g3.x() + x0, g3.y(), x1 - x0, g3.h()),
+                    Box2F(g3.x() + x0, g3.y(), x1 - x0 + 1, g3.h()),
                     event.style->getColorRole(ColorRole::Checked));
             }
 
-            V2F pos(
+            const V2F pos(
                 g3.x(),
                 g3.y() + g3.h() / 2 - p.size.fontMetrics.lineHeight / 2);
             if (!p.text.empty() && p.draw.glyphs.empty())
@@ -760,18 +756,19 @@ namespace tg
             TG_P();
             int out = 0;
             const Box2I g = _getAlignGeometry();
-            const Box2I g2 = margin(g, -p.size.border * 2);
+            const Box2I g2 = margin(g, -p.size.border);
+            const Box2I g3 = margin(g, -p.size.margin);
             const V2I pos(
-                clamp(value.x, g2.min.x, g2.max.x - 1),
-                clamp(value.y, g2.min.y, g2.max.y - 1));
+                clamp(value.x, g3.min.x, g3.max.x),
+                clamp(value.y, g3.min.y, g3.max.y));
             Box2I box(
-                g2.x(),
-                g2.y(),
+                g3.x(),
+                g3.y(),
                 0,
-                g2.h());
+                g3.h());
             for (const auto& glyphBox : p.draw.glyphsBox)
             {
-                box.max.x = g2.x() + glyphBox.x() + glyphBox.w();
+                box.max.x = g3.x() + glyphBox.x() + glyphBox.w() - 1;
                 if (contains(box, pos))
                 {
                     break;
