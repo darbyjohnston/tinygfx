@@ -360,30 +360,20 @@ namespace tg
             if (auto app = p.app.lock()) { app->tick(); }
         }
 
-        void Window::setGeometry(const Box2I& value)
+        void Window::update(
+            const std::shared_ptr<FontSystem>& fontSystem,
+            const std::shared_ptr<Style>& style,
+            const std::shared_ptr<IconLibrary>& iconLibrary)
         {
-            IWindow::setGeometry(value);
-            for (const auto& child : getChildren())
-            {
-                child->setGeometry(value);
-            }
-        }
-
-        void Window::tickEvent(
-            bool parentsVisible,
-            bool parentsEnabled,
-            const TickEvent& event)
-        {
-            IWindow::tickEvent(parentsVisible, parentsEnabled, event);
             TG_P();
 
             if (_hasSizeUpdate(shared_from_this()))
             {
                 SizeHintEvent sizeHintEvent(
-                    event.fontSystem,
+                    fontSystem,
                     p.displayScale,
-                    event.style,
-                    event.iconLibrary);
+                    style,
+                    iconLibrary);
                 _sizeHintEventRecursive(shared_from_this(), sizeHintEvent);
 
                 setGeometry(Box2I(V2I(), p.bufferSize));
@@ -400,10 +390,10 @@ namespace tg
                 p.render->begin(p.bufferSize);
                 p.render->setClipRectEnabled(true);
                 DrawEvent drawEvent(
-                    event.fontSystem,
+                    fontSystem,
                     p.displayScale,
-                    event.style,
-                    event.iconLibrary,
+                    style,
+                    iconLibrary,
                     p.render);
                 _drawEventRecursive(
                     shared_from_this(),
@@ -413,6 +403,15 @@ namespace tg
                 p.render->end();
 
                 p.refresh = false;
+            }
+        }
+
+        void Window::setGeometry(const Box2I& value)
+        {
+            IWindow::setGeometry(value);
+            for (const auto& child : getChildren())
+            {
+                child->setGeometry(value);
             }
         }
 

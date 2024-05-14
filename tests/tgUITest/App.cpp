@@ -150,16 +150,9 @@ namespace tg
                 _context->tick();
                 for (auto& window : p.windows)
                 {
-                    TickEvent tickEvent(
-                        p.fontSystem,
-                        p.displayScale,
-                        p.style,
-                        p.iconLibrary);
-                    _tickRecursive(
-                        window,
-                        true,
-                        true,
-                        tickEvent);
+                    TickEvent tickEvent;
+                    _tickRecursive(window, true, true, tickEvent);
+                    window->update(p.fontSystem, p.style, p.iconLibrary);
                 }
             }
         }

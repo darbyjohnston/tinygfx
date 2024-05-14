@@ -44,13 +44,15 @@ namespace tg
 
             //! Get whether the window should close.
             bool shouldClose() const;
+
+            //! Update the window.
+            void update(
+                const std::shared_ptr<core::FontSystem>&,
+                const std::shared_ptr<Style>&,
+                const std::shared_ptr<IconLibrary>&);
         
             void setGeometry(const core::Box2I&) override;
             void setVisible(bool) override;
-            void tickEvent(
-                bool parentsVisible,
-                bool parentsEnabled,
-                const TickEvent&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:

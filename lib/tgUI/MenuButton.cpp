@@ -136,18 +136,6 @@ namespace tg
         {
             IButton::tickEvent(parentsVisible, parentsEnabled, event);
             TG_P();
-            if (event.displayScale != p.iconScale)
-            {
-                p.iconScale = event.displayScale;
-                p.subMenuIcon.init = true;
-                p.subMenuIcon.future = std::future<std::shared_ptr<Image> >();
-                p.subMenuIcon.image.reset();
-            }
-            if (!p.subMenuIcon.name.empty() && p.subMenuIcon.init)
-            {
-                p.subMenuIcon.init = false;
-                p.subMenuIcon.future = event.iconLibrary->request(p.subMenuIcon.name, p.iconScale);
-            }
             if (p.subMenuIcon.future.valid() &&
                 p.subMenuIcon.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
@@ -176,6 +164,19 @@ namespace tg
                 p.size.shortcutSize = event.fontSystem->getSize(p.shortcutText, p.size.fontInfo);
                 p.draw.textGlyphs.clear();
                 p.draw.shortcutGlyphs.clear();
+            }
+
+            if (event.displayScale != p.iconScale)
+            {
+                p.iconScale = event.displayScale;
+                p.subMenuIcon.init = true;
+                p.subMenuIcon.future = std::future<std::shared_ptr<Image> >();
+                p.subMenuIcon.image.reset();
+            }
+            if (!p.subMenuIcon.name.empty() && p.subMenuIcon.init)
+            {
+                p.subMenuIcon.init = false;
+                p.subMenuIcon.future = event.iconLibrary->request(p.subMenuIcon.name, p.iconScale);
             }
 
             Size2I sizeHint;

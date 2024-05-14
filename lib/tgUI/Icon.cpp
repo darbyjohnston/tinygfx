@@ -104,18 +104,6 @@ namespace tg
         {
             IWidget::tickEvent(parentsVisible, parentsEnabled, event);
             TG_P();
-            if (event.displayScale != p.iconScale)
-            {
-                p.iconScale = event.displayScale;
-                p.iconImage.reset();
-                p.iconInit = true;
-                p.iconFuture = std::future<std::shared_ptr<Image> >();
-            }
-            if (!p.icon.empty() && p.iconInit)
-            {
-                p.iconInit = false;
-                p.iconFuture = event.iconLibrary->request(p.icon, event.displayScale);
-            }
             if (p.iconFuture.valid() &&
                 p.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
@@ -134,6 +122,19 @@ namespace tg
             {
                 p.size.displayScale = event.displayScale;
                 p.size.margin = event.style->getSizeRole(p.marginRole, p.size.displayScale);
+            }
+
+            if (event.displayScale != p.iconScale)
+            {
+                p.iconScale = event.displayScale;
+                p.iconImage.reset();
+                p.iconInit = true;
+                p.iconFuture = std::future<std::shared_ptr<Image> >();
+            }
+            if (!p.icon.empty() && p.iconInit)
+            {
+                p.iconInit = false;
+                p.iconFuture = event.iconLibrary->request(p.icon, event.displayScale);
             }
 
             Size2I sizeHint;

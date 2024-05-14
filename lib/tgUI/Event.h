@@ -31,17 +31,6 @@ namespace tg
         //! Tick event.
         struct TickEvent
         {
-            TickEvent() = default;
-            TickEvent(
-                const std::shared_ptr<core::FontSystem>&,
-                float displayScale,
-                const std::shared_ptr<Style>&,
-                const std::shared_ptr<IconLibrary>&);
-
-            std::shared_ptr<core::FontSystem> fontSystem;
-            float                             displayScale = 1.F;
-            std::shared_ptr<Style>            style;
-            std::shared_ptr<IconLibrary>      iconLibrary;
         };
 
         //! Size hint event.

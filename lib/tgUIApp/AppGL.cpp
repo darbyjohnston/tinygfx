@@ -166,16 +166,14 @@ namespace tg
                 auto i = p.windows.begin();
                 while (i != p.windows.end())
                 {
-                    TickEvent tickEvent(
-                        p.fontSystem,
-                        (*i)->getDisplayScale(),
-                        p.style,
-                        p.iconLibrary);
+                    TickEvent tickEvent;
                     _tickRecursive(
                         *i,
                         (*i)->isVisible(false),
                         (*i)->isEnabled(false),
                         tickEvent);
+
+                    (*i)->update(p.fontSystem, p.style, p.iconLibrary);
 
                     if ((*i)->shouldClose())
                     {

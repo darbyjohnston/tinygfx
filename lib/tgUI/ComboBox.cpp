@@ -215,26 +215,6 @@ namespace tg
         {
             IWidget::tickEvent(parentsVisible, parentsEnabled, event);
             TG_P();
-            if (event.displayScale != p.draw.iconScale)
-            {
-                p.draw.iconScale = event.displayScale;
-                p.draw.iconInit = true;
-                p.draw.iconFuture = std::future<std::shared_ptr<Image> >();
-                p.draw.iconImage.reset();
-                p.draw.arrowIconInit = true;
-                p.draw.arrowIconFuture = std::future<std::shared_ptr<Image> >();
-                p.draw.arrowIconImage.reset();
-            }
-            if (!p.icon.empty() && p.draw.iconInit)
-            {
-                p.draw.iconInit = false;
-                p.draw.iconFuture = event.iconLibrary->request(p.icon, event.displayScale);
-            }
-            if (p.draw.arrowIconInit)
-            {
-                p.draw.arrowIconInit = false;
-                p.draw.arrowIconFuture = event.iconLibrary->request("MenuArrow", event.displayScale);
-            }
             if (p.draw.iconFuture.valid() &&
                 p.draw.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
@@ -276,6 +256,27 @@ namespace tg
                     }
                 }
                 p.draw.glyphs.clear();
+            }
+
+            if (event.displayScale != p.draw.iconScale)
+            {
+                p.draw.iconScale = event.displayScale;
+                p.draw.iconInit = true;
+                p.draw.iconFuture = std::future<std::shared_ptr<Image> >();
+                p.draw.iconImage.reset();
+                p.draw.arrowIconInit = true;
+                p.draw.arrowIconFuture = std::future<std::shared_ptr<Image> >();
+                p.draw.arrowIconImage.reset();
+            }
+            if (!p.icon.empty() && p.draw.iconInit)
+            {
+                p.draw.iconInit = false;
+                p.draw.iconFuture = event.iconLibrary->request(p.icon, event.displayScale);
+            }
+            if (p.draw.arrowIconInit)
+            {
+                p.draw.arrowIconInit = false;
+                p.draw.arrowIconFuture = event.iconLibrary->request("MenuArrow", event.displayScale);
             }
 
             Size2I sizeHint;

@@ -217,26 +217,6 @@ namespace tg
         {
             IWidget::tickEvent(parentsVisible, parentsEnabled, event);
             TG_P();
-            if (event.displayScale != p.iconScale)
-            {
-                p.iconScale = event.displayScale;
-                p.iconInit = true;
-                p.iconFuture = std::future<std::shared_ptr<Image> >();
-                _iconImage.reset();
-                p.checkedIconInit = true;
-                p.checkedIconFuture = std::future<std::shared_ptr<Image> >();
-                _checkedIconImage.reset();
-            }
-            if (!_icon.empty() && p.iconInit)
-            {
-                p.iconInit = false;
-                p.iconFuture = event.iconLibrary->request(_icon, event.displayScale);
-            }
-            if (!_checkedIcon.empty() && p.checkedIconInit)
-            {
-                p.checkedIconInit = false;
-                p.checkedIconFuture = event.iconLibrary->request(_checkedIcon, event.displayScale);
-            }
             if (p.iconFuture.valid() &&
                 p.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
@@ -262,6 +242,32 @@ namespace tg
                     p.repeatClickInit = false;
                     p.repeatClickTimer = now;
                 }
+            }
+        }
+
+        void IButton::sizeHintEvent(const SizeHintEvent& event)
+        {
+            IWidget::sizeHintEvent(event);
+            TG_P();
+            if (event.displayScale != p.iconScale)
+            {
+                p.iconScale = event.displayScale;
+                p.iconInit = true;
+                p.iconFuture = std::future<std::shared_ptr<Image> >();
+                _iconImage.reset();
+                p.checkedIconInit = true;
+                p.checkedIconFuture = std::future<std::shared_ptr<Image> >();
+                _checkedIconImage.reset();
+            }
+            if (!_icon.empty() && p.iconInit)
+            {
+                p.iconInit = false;
+                p.iconFuture = event.iconLibrary->request(_icon, event.displayScale);
+            }
+            if (!_checkedIcon.empty() && p.checkedIconInit)
+            {
+                p.checkedIconInit = false;
+                p.checkedIconFuture = event.iconLibrary->request(_checkedIcon, event.displayScale);
             }
         }
 

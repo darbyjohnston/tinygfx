@@ -24,16 +24,7 @@ namespace tg
                 .def_readwrite("child", &ChildEvent::child);
 
             py::class_<TickEvent>(m, "TickEvent")
-                .def(py::init<>())
-                .def(py::init<
-                    const std::shared_ptr<core::FontSystem>&,
-                    float,
-                    const std::shared_ptr<Style>&,
-                    const std::shared_ptr<IconLibrary>& >())
-                .def_readwrite("fontSystem", &TickEvent::fontSystem)
-                .def_readwrite("displayScale", &TickEvent::displayScale)
-                .def_readwrite("style", &TickEvent::style)
-                .def_readwrite("iconLibrary", &TickEvent::iconLibrary);
+                .def(py::init<>());
 
             py::class_<SizeHintEvent>(m, "SizeHintEvent")
                 .def(py::init<>())

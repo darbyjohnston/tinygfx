@@ -43,11 +43,12 @@ namespace tg
             void setText(const std::string&);
             void setDrop(const std::vector<std::string>&);
 
+            void update(
+                const std::shared_ptr<core::FontSystem>&,
+                const std::shared_ptr<ui::Style>&,
+                const std::shared_ptr<ui::IconLibrary>&);
+
             void setGeometry(const core::Box2I&) override;
-            void tickEvent(
-                bool parentsVisible,
-                bool parentsEnabled,
-                const ui::TickEvent&) override;
             void sizeHintEvent(const ui::SizeHintEvent&) override;
 
         private:

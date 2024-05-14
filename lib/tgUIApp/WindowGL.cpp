@@ -400,21 +400,20 @@ namespace tg
             }
         }
 
-        void Window::tickEvent(
-            bool parentsVisible,
-            bool parentsEnabled,
-            const TickEvent& event)
+        void Window::update(
+            const std::shared_ptr<FontSystem>& fontSystem,
+            const std::shared_ptr<Style>& style,
+            const std::shared_ptr<IconLibrary>& iconLibrary)
         {
-            IWindow::tickEvent(parentsVisible, parentsEnabled, event);
             TG_P();
 
             if (_hasSizeUpdate(shared_from_this()))
             {
                 SizeHintEvent sizeHintEvent(
-                    event.fontSystem,
+                    fontSystem,
                     p.contentScale.x,
-                    event.style,
-                    event.iconLibrary);
+                    style,
+                    iconLibrary);
                 _sizeHintEventRecursive(shared_from_this(), sizeHintEvent);
 
                 setGeometry(Box2I(V2I(), p.bufferSize));
@@ -424,7 +423,7 @@ namespace tg
                     getGeometry(),
                     !isVisible(false));
             }
-            
+
             const bool drawUpdate = _hasDrawUpdate(shared_from_this());
             if (p.refresh || drawUpdate)
             {
@@ -443,10 +442,10 @@ namespace tg
                     p.render->begin(p.bufferSize);
                     p.render->setClipRectEnabled(true);
                     DrawEvent drawEvent(
-                        event.fontSystem,
+                        fontSystem,
                         p.contentScale.x,
-                        event.style,
-                        event.iconLibrary,
+                        style,
+                        iconLibrary,
                         p.render);
                     _drawEventRecursive(
                         shared_from_this(),

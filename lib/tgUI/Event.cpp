@@ -19,17 +19,6 @@ namespace tg
             child(child)
         {}
 
-        TickEvent::TickEvent(
-            const std::shared_ptr<FontSystem>&  fontSystem,
-            float                               displayScale,
-            const std::shared_ptr<Style>&       style,
-            const std::shared_ptr<IconLibrary>& iconLibrary) :
-            fontSystem(fontSystem),
-            displayScale(displayScale),
-            style(style),
-            iconLibrary(iconLibrary)
-        {}
-
         SizeHintEvent::SizeHintEvent(
             const std::shared_ptr<FontSystem>&  fontSystem,
             float                               displayScale,
