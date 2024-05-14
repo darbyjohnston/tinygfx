@@ -35,10 +35,6 @@ namespace tg
             void setText(const std::string&) override;
 
             void setGeometry(const core::Box2I&) override;
-            void tickEvent(
-                bool,
-                bool,
-                const TickEvent&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void clipEvent(const core::Box2I&, bool) override;
             void drawEvent(

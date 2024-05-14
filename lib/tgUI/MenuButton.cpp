@@ -20,14 +20,8 @@ namespace tg
             std::string shortcutText;
 
             float iconScale = 1.F;
-            struct IconData
-            {
-                std::string name;
-                bool init = false;
-                std::future<std::shared_ptr<Image> > future;
-                std::shared_ptr<Image> image;
-            };
-            IconData subMenuIcon;
+            std::string subMenuIcon;
+            std::shared_ptr<Image> subMenuImage;
 
             struct SizeData
             {
@@ -103,9 +97,10 @@ namespace tg
         void MenuButton::setSubMenuIcon(const std::string& name)
         {
             TG_P();
-            p.subMenuIcon.name = name;
-            p.subMenuIcon.init = true;
-            p.subMenuIcon.image.reset();
+            if (name == p.subMenuIcon)
+                return;
+            p.subMenuIcon = name;
+            p.subMenuImage.reset();
         }
 
         void MenuButton::setText(const std::string& value)
@@ -127,22 +122,6 @@ namespace tg
             TG_P();
             p.draw.g = value;
             p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
-        }
-
-        void MenuButton::tickEvent(
-            bool parentsVisible,
-            bool parentsEnabled,
-            const TickEvent& event)
-        {
-            IButton::tickEvent(parentsVisible, parentsEnabled, event);
-            TG_P();
-            if (p.subMenuIcon.future.valid() &&
-                p.subMenuIcon.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-            {
-                p.subMenuIcon.image = p.subMenuIcon.future.get();
-                _setSizeUpdate();
-                _setDrawUpdate();
-            }
         }
 
         void MenuButton::sizeHintEvent(const SizeHintEvent& event)
@@ -169,14 +148,11 @@ namespace tg
             if (event.displayScale != p.iconScale)
             {
                 p.iconScale = event.displayScale;
-                p.subMenuIcon.init = true;
-                p.subMenuIcon.future = std::future<std::shared_ptr<Image> >();
-                p.subMenuIcon.image.reset();
+                p.subMenuImage.reset();
             }
-            if (!p.subMenuIcon.name.empty() && p.subMenuIcon.init)
+            if (!p.subMenuIcon.empty() && !p.subMenuImage)
             {
-                p.subMenuIcon.init = false;
-                p.subMenuIcon.future = event.iconLibrary->request(p.subMenuIcon.name, p.iconScale);
+                p.subMenuImage = event.iconLibrary->request(p.subMenuIcon, p.iconScale).get();
             }
 
             Size2I sizeHint;
@@ -195,10 +171,10 @@ namespace tg
                 sizeHint.w += p.size.spacing * 4 + p.size.shortcutSize.w;
                 sizeHint.h = std::max(sizeHint.h, p.size.shortcutSize.h);
             }
-            if (p.subMenuIcon.image)
+            if (p.subMenuImage)
             {
-                sizeHint.w += p.size.spacing + p.subMenuIcon.image->getWidth();
-                sizeHint.h = std::max(sizeHint.h, p.subMenuIcon.image->getHeight());
+                sizeHint.w += p.size.spacing + p.subMenuImage->getWidth();
+                sizeHint.h = std::max(sizeHint.h, p.subMenuImage->getHeight());
             }
             sizeHint = margin(sizeHint, p.size.margin + p.size.border);
             _setSizeHint(sizeHint);
@@ -309,11 +285,11 @@ namespace tg
             }
 
             // Draw the sub menu icon.
-            if (p.subMenuIcon.image)
+            if (p.subMenuImage)
             {
-                const Size2I& iconSize = p.subMenuIcon.image->getSize();
+                const Size2I& iconSize = p.subMenuImage->getSize();
                 event.render->drawImage(
-                    p.subMenuIcon.image,
+                    p.subMenuImage,
                     Box2F(
                         p.draw.g2.max.x - iconSize.w,
                         p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,

@@ -60,11 +60,7 @@ namespace tg
                 Box2I g3;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
                 float iconScale = 1.F;
-                bool iconInit = false;
-                std::future<std::shared_ptr<Image> > iconFuture;
                 std::shared_ptr<Image> iconImage;
-                bool arrowIconInit = false;
-                std::future<std::shared_ptr<Image> > arrowIconFuture;
                 std::shared_ptr<Image> arrowIconImage;
             };
             DrawData draw;
@@ -132,8 +128,6 @@ namespace tg
             p.text = item.text;
             p.icon = item.icon;
             p.size.init = true;
-            p.draw.iconInit = true;
-            p.draw.iconFuture = std::future<std::shared_ptr<Image> >();
             p.draw.iconImage.reset();
             _setSizeUpdate();
             _setDrawUpdate();
@@ -166,8 +160,6 @@ namespace tg
             p.text = item.text;
             p.icon = item.icon;
             p.size.init = true;
-            p.draw.iconInit = true;
-            p.draw.iconFuture = std::future<std::shared_ptr<Image> >();
             p.draw.iconImage.reset();
             _setSizeUpdate();
             _setDrawUpdate();
@@ -208,29 +200,6 @@ namespace tg
             p.draw.g3 = margin(p.draw.g2, -p.size.margin);
         }
 
-        void ComboBox::tickEvent(
-            bool parentsVisible,
-            bool parentsEnabled,
-            const TickEvent& event)
-        {
-            IWidget::tickEvent(parentsVisible, parentsEnabled, event);
-            TG_P();
-            if (p.draw.iconFuture.valid() &&
-                p.draw.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-            {
-                p.draw.iconImage = p.draw.iconFuture.get();
-                _setSizeUpdate();
-                _setDrawUpdate();
-            }
-            if (p.draw.arrowIconFuture.valid() &&
-                p.draw.arrowIconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-            {
-                p.draw.arrowIconImage = p.draw.arrowIconFuture.get();
-                _setSizeUpdate();
-                _setDrawUpdate();
-            }
-        }
-
         void ComboBox::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
@@ -261,22 +230,16 @@ namespace tg
             if (event.displayScale != p.draw.iconScale)
             {
                 p.draw.iconScale = event.displayScale;
-                p.draw.iconInit = true;
-                p.draw.iconFuture = std::future<std::shared_ptr<Image> >();
                 p.draw.iconImage.reset();
-                p.draw.arrowIconInit = true;
-                p.draw.arrowIconFuture = std::future<std::shared_ptr<Image> >();
                 p.draw.arrowIconImage.reset();
             }
-            if (!p.icon.empty() && p.draw.iconInit)
+            if (!p.icon.empty() && !p.draw.iconImage)
             {
-                p.draw.iconInit = false;
-                p.draw.iconFuture = event.iconLibrary->request(p.icon, event.displayScale);
+                p.draw.iconImage = event.iconLibrary->request(p.icon, event.displayScale).get();
             }
-            if (p.draw.arrowIconInit)
+            if (!p.draw.arrowIconImage)
             {
-                p.draw.arrowIconInit = false;
-                p.draw.arrowIconFuture = event.iconLibrary->request("MenuArrow", event.displayScale);
+                p.draw.arrowIconImage = event.iconLibrary->request("MenuArrow", event.displayScale).get();
             }
 
             Size2I sizeHint;

@@ -18,9 +18,7 @@ namespace tg
         {
             std::string icon;
             float iconScale = 1.F;
-            bool iconInit = false;
             std::shared_ptr<Image> iconImage;
-            std::future<std::shared_ptr<Image> > iconFuture;
             SizeRole marginRole = SizeRole::None;
 
             struct SizeData
@@ -77,7 +75,6 @@ namespace tg
                 return;
             p.icon = value;
             p.iconImage.reset();
-            p.iconInit = true;
             _setSizeUpdate();
             _setDrawUpdate();
         }
@@ -97,22 +94,6 @@ namespace tg
             _setDrawUpdate();
         }
 
-        void Icon::tickEvent(
-            bool parentsVisible,
-            bool parentsEnabled,
-            const TickEvent& event)
-        {
-            IWidget::tickEvent(parentsVisible, parentsEnabled, event);
-            TG_P();
-            if (p.iconFuture.valid() &&
-                p.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-            {
-                p.iconImage = p.iconFuture.get();
-                _setSizeUpdate();
-                _setDrawUpdate();
-            }
-        }
-
         void Icon::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
@@ -128,13 +109,10 @@ namespace tg
             {
                 p.iconScale = event.displayScale;
                 p.iconImage.reset();
-                p.iconInit = true;
-                p.iconFuture = std::future<std::shared_ptr<Image> >();
             }
-            if (!p.icon.empty() && p.iconInit)
+            if (!p.icon.empty() && !p.iconImage)
             {
-                p.iconInit = false;
-                p.iconFuture = event.iconLibrary->request(p.icon, event.displayScale);
+                p.iconImage = event.iconLibrary->request(p.icon, event.displayScale).get();
             }
 
             Size2I sizeHint;

@@ -86,7 +86,6 @@ namespace tg
             void setFontRole(FontRole);
 
             void setGeometry(const core::Box2I&) override;
-            void tickEvent(bool, bool, const TickEvent&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void drawEvent(const core::Box2I&, const DrawEvent&) override;
             void mouseEnterEvent() override;

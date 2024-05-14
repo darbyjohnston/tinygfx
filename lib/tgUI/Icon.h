@@ -49,10 +49,6 @@ namespace tg
             //! Set the margin role.
             void setMarginRole(SizeRole);
 
-            void tickEvent(
-                bool,
-                bool,
-                const TickEvent&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void clipEvent(const core::Box2I&, bool) override;
             void drawEvent(const core::Box2I&, const DrawEvent&) override;

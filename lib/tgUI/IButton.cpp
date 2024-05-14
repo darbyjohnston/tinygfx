@@ -16,10 +16,6 @@ namespace tg
         {
             bool checkable = false;
             float iconScale = 1.F;
-            bool iconInit = false;
-            std::future<std::shared_ptr<Image> > iconFuture;
-            bool checkedIconInit = false;
-            std::future<std::shared_ptr<Image> > checkedIconFuture;
             bool repeatClick = false;
             bool repeatClickInit = false;
             std::chrono::steady_clock::time_point repeatClickTimer;
@@ -113,7 +109,6 @@ namespace tg
             if (icon == _icon)
                 return;
             _icon = icon;
-            p.iconInit = true;
             _iconImage.reset();
             _setSizeUpdate();
             _setDrawUpdate();
@@ -130,7 +125,6 @@ namespace tg
             if (icon == _checkedIcon)
                 return;
             _checkedIcon = icon;
-            p.checkedIconInit = true;
             _checkedIconImage.reset();
             _setSizeUpdate();
             _setDrawUpdate();
@@ -217,20 +211,6 @@ namespace tg
         {
             IWidget::tickEvent(parentsVisible, parentsEnabled, event);
             TG_P();
-            if (p.iconFuture.valid() &&
-                p.iconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-            {
-                _iconImage = p.iconFuture.get();
-                _setSizeUpdate();
-                _setDrawUpdate();
-            }
-            if (p.checkedIconFuture.valid() &&
-                p.checkedIconFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-            {
-                _checkedIconImage = p.checkedIconFuture.get();
-                _setSizeUpdate();
-                _setDrawUpdate();
-            }
             if (_isMousePressed() && p.repeatClick)
             {
                 const float duration = p.repeatClickInit ? .4F : .02F;
@@ -252,22 +232,16 @@ namespace tg
             if (event.displayScale != p.iconScale)
             {
                 p.iconScale = event.displayScale;
-                p.iconInit = true;
-                p.iconFuture = std::future<std::shared_ptr<Image> >();
                 _iconImage.reset();
-                p.checkedIconInit = true;
-                p.checkedIconFuture = std::future<std::shared_ptr<Image> >();
                 _checkedIconImage.reset();
             }
-            if (!_icon.empty() && p.iconInit)
+            if (!_icon.empty() && !_iconImage)
             {
-                p.iconInit = false;
-                p.iconFuture = event.iconLibrary->request(_icon, event.displayScale);
+                _iconImage = event.iconLibrary->request(_icon, event.displayScale).get();
             }
-            if (!_checkedIcon.empty() && p.checkedIconInit)
+            if (!_checkedIcon.empty() && !_checkedIconImage)
             {
-                p.checkedIconInit = false;
-                p.checkedIconFuture = event.iconLibrary->request(_checkedIcon, event.displayScale);
+                _checkedIconImage = event.iconLibrary->request(_checkedIcon, event.displayScale).get();
             }
         }
 
