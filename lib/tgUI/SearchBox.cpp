@@ -34,9 +34,10 @@ namespace tg
             p.lineEdit->setHStretch(Stretch::Expanding);
 
             p.button = ToolButton::create(context);
+            p.button->setIcon("Clear");
 
             p.layout = HorizontalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(SizeRole::None);
+            p.layout->setSpacingRole(SizeRole::SpacingSmall);
             p.lineEdit->setParent(p.layout);
             p.button->setParent(p.layout);
 
@@ -113,7 +114,6 @@ namespace tg
             TG_P();
             const std::string& text = p.lineEdit->getText();
             p.button->setEnabled(!text.empty());
-            p.button->setIcon(text.empty() ? "Search" : "Clear");
        }
     }
 }
