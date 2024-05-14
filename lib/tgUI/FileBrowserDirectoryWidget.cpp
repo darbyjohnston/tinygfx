@@ -26,6 +26,7 @@ namespace tg
             std::shared_ptr<ButtonGroup> buttonGroup;
             std::shared_ptr<VerticalLayout> layout;
             std::function<void(const std::filesystem::path&)> callback;
+            std::shared_ptr<ObservableValue<int> > current;
 
             struct SizeData
             {
@@ -41,6 +42,7 @@ namespace tg
             IWidget::_init(context, "tg::ui::FileBrowserDirectoryWidget", parent);
             TG_P();
 
+            setAcceptsKeyFocus(true);
             setBackgroundRole(ColorRole::Base);
 
             p.buttonGroup = ButtonGroup::create(context, ButtonGroupType::Click);
@@ -66,6 +68,8 @@ namespace tg
                         }
                     }
                 });
+
+            p.current = ObservableValue<int>::create(-1);
         }
 
         FileBrowserDirectoryWidget::FileBrowserDirectoryWidget() :
@@ -120,6 +124,23 @@ namespace tg
                 return;
             p.options = value;
             _directoryUpdate();
+        }
+
+        std::shared_ptr<IObservableValue<int> > FileBrowserDirectoryWidget::observeCurrent() const
+        {
+            return _p->current;
+        }
+
+        Box2I FileBrowserDirectoryWidget::getRect(int index) const
+        {
+            TG_P();
+            Box2I out;
+            if (index >= 0 && index < p.buttons.size())
+            {
+                out = p.buttons[index]->getGeometry();
+                out = move(out, -p.layout->getGeometry().min);
+            }
+            return out;
         }
 
         void FileBrowserDirectoryWidget::setGeometry(const Box2I& value)
@@ -197,6 +218,69 @@ namespace tg
                 sizeHint.w += columns[i];
             }
             _setSizeHint(sizeHint);
+        }
+
+        void FileBrowserDirectoryWidget::keyFocusEvent(bool value)
+        {
+            IWidget::keyFocusEvent(value);
+            _currentUpdate();
+        }
+
+        void FileBrowserDirectoryWidget::keyPressEvent(KeyEvent& event)
+        {
+            TG_P();
+            if (0 == event.modifiers)
+            {
+                switch (event.key)
+                {
+                case Key::Up:
+                    event.accept = true;
+                    _setCurrent(p.current->get() - 1);
+                    break;
+                case Key::Down:
+                    event.accept = true;
+                    _setCurrent(p.current->get() + 1);
+                    break;
+                case Key::Home:
+                    event.accept = true;
+                    _setCurrent(0);
+                    break;
+                case Key::End:
+                    event.accept = true;
+                    _setCurrent(static_cast<int>(p.buttons.size()) - 1);
+                    break;
+                case Key::Enter:
+                {
+                    const int current = p.current->get();
+                    if (current >= 0 && current < p.buttons.size())
+                    {
+                        event.accept = true;
+                        takeKeyFocus();
+                        auto button = p.buttons[current];
+                        button->click();
+                    }
+                    break;
+                }
+                case Key::Escape:
+                    if (hasKeyFocus())
+                    {
+                        event.accept = true;
+                        releaseKeyFocus();
+                    }
+                    break;
+                default: break;
+                }
+            }
+            if (!event.accept)
+            {
+                IWidget::keyPressEvent(event);
+            }
+        }
+
+        void FileBrowserDirectoryWidget::keyReleaseEvent(KeyEvent& event)
+        {
+            IWidget::keyReleaseEvent(event);
+            event.accept = true;
         }
         
         namespace
@@ -316,6 +400,29 @@ namespace tg
                     p.buttons.push_back(button);
                     p.buttonGroup->addButton(button);
                 }
+            }
+            _setCurrent(0);
+            _currentUpdate();
+        }
+
+        void FileBrowserDirectoryWidget::_setCurrent(int value)
+        {
+            TG_P();
+            const int tmp = clamp(value, 0, static_cast<int>(p.buttons.size()) - 1);
+            if (p.current->setIfChanged(tmp))
+            {
+                _currentUpdate();
+            }
+        }
+
+        void FileBrowserDirectoryWidget::_currentUpdate()
+        {
+            TG_P();
+            const int current = p.current->get();
+            const bool focus = hasKeyFocus();
+            for (size_t i = 0; i < p.buttons.size(); ++i)
+            {
+                p.buttons[i]->setCurrent(current == i && focus);
             }
         }
     }

@@ -68,7 +68,7 @@ namespace tg
                     [this](int index)
                     {
                         takeKeyFocus();
-                        setCurrent(index);
+                        _setCurrent(index);
                         if (_p->callback)
                         {
                             _p->callback(index, true);
@@ -80,7 +80,7 @@ namespace tg
                     [this](int index, bool value)
                     {
                         takeKeyFocus();
-                        setCurrent(index);
+                        _setCurrent(index);
                         if (_p->callback)
                         {
                             _p->callback(index, value);
@@ -153,21 +153,6 @@ namespace tg
         void ListItemsWidget::setCallback(const std::function<void(int, bool)>& value)
         {
             _p->callback = value;
-        }
-
-        int ListItemsWidget::getCurrent() const
-        {
-            return _p->current->get();
-        }
-
-        void ListItemsWidget::setCurrent(int value)
-        {
-            TG_P();
-            const int tmp = clamp(value, 0, static_cast<int>(p.items.size()) - 1);
-            if (p.current->setIfChanged(tmp))
-            {
-                _currentUpdate();
-            }
         }
 
         std::shared_ptr<IObservableValue<int> > ListItemsWidget::observeCurrent() const
@@ -250,32 +235,22 @@ namespace tg
                 case Key::Up:
                     event.accept = true;
                     takeKeyFocus();
-                    setCurrent(getCurrent() - 1);
+                    _setCurrent(p.current->get() - 1);
                     break;
                 case Key::Down:
                     event.accept = true;
                     takeKeyFocus();
-                    setCurrent(getCurrent() + 1);
-                    break;
-                case Key::PageUp:
-                    event.accept = true;
-                    takeKeyFocus();
-                    setCurrent(getCurrent() - 10);
-                    break;
-                case Key::PageDown:
-                    event.accept = true;
-                    takeKeyFocus();
-                    setCurrent(getCurrent() + 10);
+                    _setCurrent(p.current->get() + 1);
                     break;
                 case Key::Home:
                     event.accept = true;
                     takeKeyFocus();
-                    setCurrent(0);
+                    _setCurrent(0);
                     break;
                 case Key::End:
                     event.accept = true;
                     takeKeyFocus();
-                    setCurrent(static_cast<int>(p.items.size()) - 1);
+                    _setCurrent(static_cast<int>(p.items.size()) - 1);
                     break;
                 case Key::Escape:
                     event.accept = true;
@@ -316,6 +291,16 @@ namespace tg
                     p.buttons.push_back(button);
                     p.buttonGroup->addButton(button);
                 }
+            }
+        }
+
+        void ListItemsWidget::_setCurrent(int value)
+        {
+            TG_P();
+            const int tmp = clamp(value, 0, static_cast<int>(p.items.size()) - 1);
+            if (p.current->setIfChanged(tmp))
+            {
+                _currentUpdate();
             }
         }
 

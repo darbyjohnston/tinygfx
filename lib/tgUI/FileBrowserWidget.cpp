@@ -57,6 +57,8 @@ namespace tg
             std::function<void(const std::filesystem::path&)> callback;
             std::function<void(void)> cancelCallback;
             std::function<void(const FileBrowserOptions&)> optionsCallback;
+
+            std::shared_ptr<ValueObserver<int> > currentObserver;
         };
 
         void FileBrowserWidget::_init(
@@ -81,14 +83,17 @@ namespace tg
 
             p.upButton = ToolButton::create(context);
             p.upButton->setIcon("DirectoryUp");
+            p.upButton->setRepeatClick(true);
             p.upButton->setTooltip("Go up a directory");
 
             p.backButton = ToolButton::create(context);
             p.backButton->setIcon("DirectoryBack");
+            p.backButton->setRepeatClick(true);
             p.backButton->setTooltip("Go back a directory");
 
             p.forwardButton = ToolButton::create(context);
             p.forwardButton->setIcon("DirectoryForward");
+            p.forwardButton->setRepeatClick(true);
             p.forwardButton->setTooltip("Go forward a directory");
 
             p.reloadButton = ToolButton::create(context);
@@ -318,6 +323,17 @@ namespace tg
                     if (p.cancelCallback)
                     {
                         p.cancelCallback();
+                    }
+                });
+
+            p.currentObserver = ValueObserver<int>::create(
+                p.directoryWidget->observeCurrent(),
+                [this](int value)
+                {
+                    if (value >= 0)
+                    {
+                        const Box2I r = _p->directoryWidget->getRect(value);
+                        _p->directoryScrollWidget->scrollTo(r);
                     }
                 });
         }

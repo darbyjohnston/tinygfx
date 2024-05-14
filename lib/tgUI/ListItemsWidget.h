@@ -67,12 +67,6 @@ namespace tg
             //! Set the callback.
             void setCallback(const std::function<void(int, bool)>&);
 
-            //! Get the current item.
-            int getCurrent() const;
-
-            //! Set the current item.
-            void setCurrent(int);
-
             //! Observer the current item.
             std::shared_ptr<core::IObservableValue<int> > observeCurrent() const;
 
@@ -96,6 +90,7 @@ namespace tg
 
         private:
             void _itemsUpdate();
+            void _setCurrent(int);
             void _currentUpdate();
 
             TG_PRIVATE();

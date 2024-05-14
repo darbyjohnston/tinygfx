@@ -80,6 +80,9 @@ namespace tg
             //! Set the columns.
             void setColumns(const std::vector<int>&);
 
+            //! Set whether the button is current.
+            void setCurrent(bool);
+
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void clipEvent(const core::Box2I&, bool) override;
@@ -127,11 +130,22 @@ namespace tg
             //! Set the options.
             void setOptions(const FileBrowserOptions&);
 
+            //! Observer the current item.
+            std::shared_ptr<core::IObservableValue<int> > observeCurrent() const;
+
+            //! Get an item rectangle.
+            core::Box2I getRect(int) const;
+
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
+            void keyFocusEvent(bool) override;
+            void keyPressEvent(KeyEvent&) override;
+            void keyReleaseEvent(KeyEvent&) override;
 
         private:
             void _directoryUpdate();
+            void _setCurrent(int);
+            void _currentUpdate();
 
             TG_PRIVATE();
         };

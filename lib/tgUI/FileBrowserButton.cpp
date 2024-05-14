@@ -55,7 +55,6 @@ namespace tg
             TG_P();
 
             setButtonRole(ColorRole::None);
-            setAcceptsKeyFocus(true);
 
             // Icon.
             setIcon(info.isDir ? "Directory" : "File");
@@ -119,7 +118,21 @@ namespace tg
 
         void FileBrowserButton::setColumns(const std::vector<int>& value)
         {
-            _p->columns = value;
+            TG_P();
+            if (value == p.columns)
+                return;
+            p.columns = value;
+            _setSizeUpdate();
+            _setDrawUpdate();
+        }
+
+        void FileBrowserButton::setCurrent(bool value)
+        {
+            TG_P();
+            if (value == p.current)
+                return;
+            p.current = value;
+            _setDrawUpdate();
         }
 
         void FileBrowserButton::setGeometry(const Box2I& value)
@@ -189,14 +202,6 @@ namespace tg
             IButton::drawEvent(drawRect, event);
             TG_P();
 
-            // Draw the focus.
-            if (hasKeyFocus())
-            {
-                event.render->drawMesh(
-                    border(p.draw.g, p.size.border),
-                    event.style->getColorRole(ColorRole::KeyFocus));
-            }
-
             // Draw the background.
             const ColorRole colorRole = _checked ?
                 ColorRole::Checked :
@@ -220,6 +225,14 @@ namespace tg
                 event.render->drawRect(
                     convert(p.draw.g),
                     event.style->getColorRole(ColorRole::Hover));
+            }
+
+            // Draw the current state.
+            if (p.current)
+            {
+                event.render->drawMesh(
+                    border(p.draw.g, p.size.border),
+                    event.style->getColorRole(ColorRole::KeyFocus));
             }
 
             // Draw the icon.
