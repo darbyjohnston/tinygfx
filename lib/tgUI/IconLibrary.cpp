@@ -54,10 +54,6 @@ namespace
 #include <Icons/Increment_96.h>
 #include <Icons/MenuArrow_192.h>
 #include <Icons/MenuArrow_96.h>
-#include <Icons/MenuChecked_192.h>
-#include <Icons/MenuChecked_96.h>
-#include <Icons/MenuUnchecked_192.h>
-#include <Icons/MenuUnchecked_96.h>
 #include <Icons/Mute_192.h>
 #include <Icons/Mute_96.h>
 #include <Icons/Next_192.h>
@@ -167,8 +163,6 @@ namespace tg
             p.iconData[std::make_pair("FramePrev", 96)] = FramePrev_96_png;
             p.iconData[std::make_pair("Increment", 96)] = Increment_96_png;
             p.iconData[std::make_pair("MenuArrow", 96)] = MenuArrow_96_png;
-            p.iconData[std::make_pair("MenuChecked", 96)] = MenuChecked_96_png;
-            p.iconData[std::make_pair("MenuUnchecked", 96)] = MenuUnchecked_96_png;
             p.iconData[std::make_pair("Mute", 96)] = Mute_96_png;
             p.iconData[std::make_pair("Next", 96)] = Next_96_png;
             p.iconData[std::make_pair("PlaybackForward", 96)] = PlaybackForward_96_png;
@@ -185,6 +179,7 @@ namespace tg
             p.iconData[std::make_pair("Volume", 96)] = Volume_96_png;
             p.iconData[std::make_pair("WindowFullScreen", 96)] = WindowFullScreen_96_png;
 
+            p.iconData[std::make_pair("Audio", 192)] = Audio_192_png;
             p.iconData[std::make_pair("BellowsClosed", 192)] = BellowsClosed_192_png;
             p.iconData[std::make_pair("BellowsOpen", 192)] = BellowsOpen_192_png;
             p.iconData[std::make_pair("Clear", 192)] = Clear_192_png;
@@ -205,8 +200,6 @@ namespace tg
             p.iconData[std::make_pair("FramePrev", 192)] = FramePrev_192_png;
             p.iconData[std::make_pair("Increment", 192)] = Increment_192_png;
             p.iconData[std::make_pair("MenuArrow", 192)] = MenuArrow_192_png;
-            p.iconData[std::make_pair("MenuChecked", 192)] = MenuChecked_192_png;
-            p.iconData[std::make_pair("MenuUnchecked", 192)] = MenuUnchecked_192_png;
             p.iconData[std::make_pair("Mute", 192)] = Mute_192_png;
             p.iconData[std::make_pair("Next", 192)] = Next_192_png;
             p.iconData[std::make_pair("PlaybackForward", 192)] = PlaybackForward_192_png;

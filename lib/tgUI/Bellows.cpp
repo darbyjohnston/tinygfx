@@ -2,10 +2,9 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/Bellows.h>
+#include <tgUI/BellowsPrivate.h>
 
 #include <tgUI/Divider.h>
-#include <tgUI/ListButton.h>
 #include <tgUI/RowLayout.h>
 
 using namespace tg::core;
@@ -16,7 +15,7 @@ namespace tg
     {
         struct Bellows::Private
         {
-            std::shared_ptr<ListButton> button;
+            std::shared_ptr<BellowsButton> button;
             std::shared_ptr<IWidget> widget;
             std::shared_ptr<VerticalLayout> layout;
         };
@@ -28,7 +27,7 @@ namespace tg
             IWidget::_init(context, "tg::ui::Bellows", parent);
             TG_P();
 
-            p.button = ListButton::create(context);
+            p.button = BellowsButton::create(context);
             p.button->setCheckable(true);
             p.button->setIcon("BellowsClosed");
             p.button->setCheckedIcon("BellowsOpen");

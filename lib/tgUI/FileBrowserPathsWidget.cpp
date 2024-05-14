@@ -7,7 +7,7 @@
 #include <tgUI/Bellows.h>
 #include <tgUI/ButtonGroup.h>
 #include <tgUI/DrivesModel.h>
-#include <tgUI/ListButton.h>
+#include <tgUI/ListItemsWidget.h>
 #include <tgUI/RecentFilesModel.h>
 #include <tgUI/RowLayout.h>
 
@@ -25,13 +25,11 @@ namespace tg
         {
             std::shared_ptr<DrivesModel> drivesModel;
             std::vector<std::filesystem::path> drives;
+            std::vector<std::filesystem::path> shortcuts;
             std::shared_ptr<RecentFilesModel> recentFilesModel;
             std::vector<std::filesystem::path> recent;
-            std::vector<std::filesystem::path> paths;
-            std::vector<std::shared_ptr<ListButton> > buttons;
-            std::shared_ptr<ButtonGroup> buttonGroup;
+            std::map<std::string, std::shared_ptr<ListItemsWidget> > listWidgets;
             std::map<std::string, std::shared_ptr<Bellows> > bellows;
-            std::map<std::string, std::shared_ptr<VerticalLayout> > layouts;
             std::shared_ptr<VerticalLayout> layout;
             std::function<void(const std::filesystem::path&)> callback;
             std::shared_ptr<ListObserver<std::filesystem::path> > drivesObserver;
@@ -49,42 +47,53 @@ namespace tg
 
             p.drivesModel = DrivesModel::create(context);
 
-            p.buttonGroup = ButtonGroup::create(context, ButtonGroupType::Click);
-
             p.layout = VerticalLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(SizeRole::None);
 
+            p.listWidgets["Drives"] = ListItemsWidget::create(context, ButtonGroupType::Click);
             p.bellows["Drives"] = Bellows::create(context, "Drives", p.layout);
             p.bellows["Drives"]->setOpen(true);
-            p.layouts["Drives"] = VerticalLayout::create(context);
-            p.layouts["Drives"]->setSpacingRole(SizeRole::None);
-            p.bellows["Drives"]->setWidget(p.layouts["Drives"]);
+            p.bellows["Drives"]->setWidget(p.listWidgets["Drives"]);
 
+            p.listWidgets["Shortcuts"] = ListItemsWidget::create(context, ButtonGroupType::Click);
             p.bellows["Shortcuts"] = Bellows::create(context, "Shortcuts", p.layout);
             p.bellows["Shortcuts"]->setOpen(true);
-            p.layouts["Shortcuts"] = VerticalLayout::create(context);
-            p.layouts["Shortcuts"]->setSpacingRole(SizeRole::None);
-            p.bellows["Shortcuts"]->setWidget(p.layouts["Shortcuts"]);
+            p.bellows["Shortcuts"]->setWidget(p.listWidgets["Shortcuts"]);
 
+            p.listWidgets["Recent"] = ListItemsWidget::create(context, ButtonGroupType::Click);
             p.bellows["Recent"] = Bellows::create(context, "Recent", p.layout);
             p.bellows["Recent"]->setOpen(true);
-            p.layouts["Recent"] = VerticalLayout::create(context);
-            p.layouts["Recent"]->setSpacingRole(SizeRole::None);
-            p.bellows["Recent"]->setWidget(p.layouts["Recent"]);
+            p.bellows["Recent"]->setWidget(p.listWidgets["Recent"]);
 
             _pathsUpdate();
 
-            p.buttonGroup->setClickedCallback(
-                [this](int value)
+            p.listWidgets["Drives"]->setCallback(
+                [this](int index, bool)
                 {
                     TG_P();
-                    if (value >= 0 && value < p.paths.size())
+                    if (index >= 0 && index < p.drives.size() && p.callback)
                     {
-                        const std::filesystem::path& path = p.paths[value];
-                        if (p.callback)
-                        {
-                            p.callback(path);
-                        }
+                        p.callback(p.drives[index]);
+                    }
+                });
+
+            p.listWidgets["Shortcuts"]->setCallback(
+                [this](int index, bool)
+                {
+                    TG_P();
+                    if (index >= 0 && index < p.shortcuts.size() && p.callback)
+                    {
+                        p.callback(p.shortcuts[index]);
+                    }
+                });
+
+            p.listWidgets["Recent"]->setCallback(
+                [this](int index, bool)
+                {
+                    TG_P();
+                    if (index >= 0 && index < p.recent.size() && p.callback)
+                    {
+                        p.callback(p.recent[index]);
                     }
                 });
 
@@ -147,68 +156,36 @@ namespace tg
             _setSizeHint(_p->layout->getSizeHint());
         }
 
-        void FileBrowserPathsWidget::_createButton(
-            const std::shared_ptr<Context>& context,
-            const std::string& text,
-            const std::string& toolTip,
-            const std::shared_ptr<IWidget>& parent)
-        {
-            TG_P();
-            auto button = ListButton::create(context, parent);
-            button->setText(text);
-            button->setTooltip(toolTip);
-            p.buttons.push_back(button);
-            p.buttonGroup->addButton(button);
-        }
-
         void FileBrowserPathsWidget::_pathsUpdate()
         {
             TG_P();
             
-            p.paths.clear();
-            for (auto layout : p.layouts)
+            std::vector<ListItem> items;
+            for (const auto& drive : p.drives)
             {
-                auto children = layout.second->getChildren();
-                for (auto i : children)
-                {
-                    i->setParent(nullptr);
-                }
+                items.push_back(ListItem(drive.string(), drive.string()));
             }
-            p.buttons.clear();
-            p.buttonGroup->clearButtons();
+            p.listWidgets["Drives"]->setItems(items);
 
-            if (auto context = _getContext().lock())
+            p.shortcuts.clear();
+            items.clear();
+            std::filesystem::path path = std::filesystem::current_path();
+            p.shortcuts.push_back(path);
+            items.push_back(ListItem("Current", path.string()));
+            for (auto userPath : getUserPathEnums())
             {
-                for (const auto& i : p.drives)
-                {
-                    _createButton(context, i.string(), std::string(), p.layouts["Drives"]);
-                    p.paths.push_back(i);
-                }
-
-                const std::filesystem::path currentPath = std::filesystem::current_path();
-                _createButton(context, "Current", currentPath.string(), p.layouts["Shortcuts"]);
-                p.paths.push_back(currentPath);
-                for (auto userPath : getUserPathEnums())
-                {
-                    const std::filesystem::path path = getUserPath(userPath);
-                    _createButton(
-                        context,
-                        path.filename().string(),
-                        path.string(),
-                        p.layouts["Shortcuts"]);
-                    p.paths.push_back(path);
-                }
-
-                for (auto recent : p.recent)
-                {
-                    _createButton(
-                        context,
-                        recent.filename().string(),
-                        recent.string(),
-                        p.layouts["Recent"]);
-                    p.paths.push_back(recent.parent_path());
-                }
+                path = getUserPath(userPath);
+                p.shortcuts.push_back(path);
+                items.push_back(ListItem(path.filename().string(), path.string()));
             }
+            p.listWidgets["Shortcuts"]->setItems(items);
+
+            items.clear();
+            for (const auto& recent : p.recent)
+            {
+                items.push_back(ListItem(recent.filename().string(), recent.string()));
+            }
+            p.listWidgets["Recent"]->setItems(items);
         }
     }
 }

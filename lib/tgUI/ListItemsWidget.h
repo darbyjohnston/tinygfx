@@ -4,12 +4,32 @@
 
 #pragma once
 
-#include <tgUI/ListWidget.h>
+#include <tgUI/ButtonGroup.h>
+#include <tgUI/IWidget.h>
 
 namespace tg
 {
     namespace ui
     {
+        //! \name List Widgets
+        ///@{
+
+        //! List item.
+        struct ListItem
+        {
+            ListItem() = default;
+            explicit ListItem(
+                const std::string& text,
+                const std::string& tooltip = std::string());
+
+            std::string text;
+            std::string tooltip;
+
+            bool operator == (const ListItem&) const;
+            bool operator != (const ListItem&) const;
+        };
+
+        //! List items widget.
         class ListItemsWidget : public IWidget
         {
         protected:
@@ -23,45 +43,60 @@ namespace tg
         public:
             virtual ~ListItemsWidget();
 
+            //! Create a new widget.
             static std::shared_ptr<ListItemsWidget> create(
                 const std::shared_ptr<core::Context>&,
                 ButtonGroupType,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            const std::vector<std::string>& getItems() const;
+            //! Get the items.
+            const std::vector<ListItem>& getItems() const;
+
+            //! Set the items.
+            void setItems(const std::vector<ListItem>&);
+
+            //! Set the items.
             void setItems(const std::vector<std::string>&);
+
+            //! Get whether an item is checked.
             bool getChecked(int) const;
+
+            //! Set whether an item is checked.
             void setChecked(int, bool);
+
+            //! Set the callback.
             void setCallback(const std::function<void(int, bool)>&);
 
+            //! Get the current item.
             int getCurrent() const;
+
+            //! Set the current item.
             void setCurrent(int);
+
+            //! Observer the current item.
             std::shared_ptr<core::IObservableValue<int> > observeCurrent() const;
 
+            //! Get the search.
             const std::string& getSearch() const;
+
+            //! Set the search.
             void setSearch(const std::string&);
+
+            //! Clear the search.
             void clearSearch();
 
-            FontRole getFontRole() const;
-            void setFontRole(FontRole);
-
+            //! Get an item rectangle.
             core::Box2I getRect(int) const;
 
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const core::Box2I&, const DrawEvent&) override;
-            void mouseLeaveEvent() override;
-            void mouseMoveEvent(MouseMoveEvent&) override;
-            void mousePressEvent(MouseClickEvent&) override;
-            void mouseReleaseEvent(MouseClickEvent&) override;
+            void keyFocusEvent(bool) override;
             void keyPressEvent(KeyEvent&) override;
             void keyReleaseEvent(KeyEvent&) override;
 
         private:
-            int _getItemHeight() const;
-            int _posToIndex(int) const;
-            
-            void _action(int);
+            void _itemsUpdate();
+            void _currentUpdate();
 
             TG_PRIVATE();
         };

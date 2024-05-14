@@ -44,7 +44,7 @@ set(HEADERS
     Label.h
     LayoutUtil.h
     LineEdit.h
-    ListButton.h
+    ListItemsWidget.h
     ListWidget.h
     MDICanvas.h
     MDIWidget.h
@@ -65,19 +65,23 @@ set(HEADERS
     Style.h
     StyleInline.h
     TabBar.h
+    TabWidget.h
     ToolButton.h
     Tooltip.h
     WidgetOptions.h)
 set(PRIVATE_HEADERS
+    BellowsPrivate.h
     ComboBoxPrivate.h
+    ListItemsWidgetPrivate.h
     MenuBarPrivate.h
     MenuPrivate.h
     MessageDialogPrivate.h
-    ListWidgetPrivate.h)
+    TabBarPrivate.h)
 
 set(SOURCE
     Action.cpp
     Bellows.cpp
+    BellowsButton.cpp
     ButtonGroup.cpp
     CheckBox.cpp
     ColorPopup.cpp
@@ -126,7 +130,7 @@ set(SOURCE
     Label.cpp
     LayoutUtil.cpp
     LineEdit.cpp
-    ListButton.cpp
+    ListItemsButton.cpp
     ListItemsWidget.cpp
     ListWidget.cpp
     MDICanvas.cpp
@@ -149,6 +153,8 @@ set(SOURCE
     StackLayout.cpp
     Style.cpp
     TabBar.cpp
+    TabBarButton.cpp
+    TabWidget.cpp
     ToolButton.cpp
     Tooltip.cpp
     WidgetOptions.cpp)

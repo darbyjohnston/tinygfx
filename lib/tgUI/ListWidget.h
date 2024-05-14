@@ -4,8 +4,7 @@
 
 #pragma once
 
-#include <tgUI/ButtonGroup.h>
-#include <tgUI/IWidget.h>
+#include <tgUI/ListItemsWidget.h>
 
 namespace tg
 {
@@ -35,7 +34,10 @@ namespace tg
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Get the items.
-            const std::vector<std::string>& getItems() const;
+            const std::vector<ListItem>& getItems() const;
+
+            //! Set the items.
+            void setItems(const std::vector<ListItem>&);
 
             //! Set the items.
             void setItems(const std::vector<std::string>&);
@@ -57,12 +59,6 @@ namespace tg
 
             //! Clear the search.
             void clearSearch();
-
-            //! Get the font role.
-            FontRole getFontRole() const;
-
-            //! Set the font role.
-            void setFontRole(FontRole);
 
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;

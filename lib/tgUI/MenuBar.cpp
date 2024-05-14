@@ -27,7 +27,9 @@ namespace tg
         {
             IWidget::_init(context, "tg::ui::MenuBar", parent);
             TG_P();
+
             setAcceptsKeyFocus(true);
+
             p.layout = HorizontalLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(SizeRole::None);
         }

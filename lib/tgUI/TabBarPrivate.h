@@ -4,52 +4,41 @@
 
 #pragma once
 
+#include <tgUI/TabBar.h>
+
 #include <tgUI/IButton.h>
 
 namespace tg
 {
     namespace ui
     {
-        //! \name Buttons
-        ///@{
-        
-        //! List button.
-        class ListButton : public IButton
+        class TabBarButton : public IButton
         {
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,
+                const std::string&,
                 const std::shared_ptr<IWidget>& parent);
 
-            ListButton();
+            TabBarButton();
 
         public:
-            virtual ~ListButton();
+            virtual ~TabBarButton();
 
-            //! Create a new widget.
-            static std::shared_ptr<ListButton> create(
-                const std::shared_ptr<core::Context>&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
-
-            //! Create a new widget.
-            static std::shared_ptr<ListButton> create(
+            static std::shared_ptr<TabBarButton> create(
                 const std::shared_ptr<core::Context>&,
                 const std::string&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setText(const std::string&) override;
-            void setFontRole(FontRole) override;
+            void setCurrent(bool);
 
+            void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void clipEvent(const core::Box2I&, bool) override;
             void drawEvent(const core::Box2I&, const DrawEvent&) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
 
         private:
             TG_PRIVATE();
         };
-        
-        ///@}
     }
 }

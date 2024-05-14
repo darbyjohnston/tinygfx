@@ -37,7 +37,7 @@ namespace tg
                 scrollLayout->setMarginRole(SizeRole::Margin);
                 scrollWidget->setWidget(scrollLayout);
 
-                // Create list widgets.
+                // Create a list widget.
                 auto listWidget = ListWidget::create(context, ButtonGroupType::Click, scrollLayout);
                 std::vector<std::string> items;
                 for (size_t i = 0; i < 100; ++i)
@@ -51,6 +51,25 @@ namespace tg
                         std::cout << "Click: " << index << std::endl;
                     });
 
+                // Create a list widget.
+                listWidget = ListWidget::create(context, ButtonGroupType::Check, scrollLayout);
+                items.clear();
+                for (size_t i = 0; i < 100; ++i)
+                {
+                    items.push_back(Format("Check {0}").arg(i));
+                }
+                listWidget->setItems(items);
+                listWidget->setChecked(0);
+                listWidget->setChecked(1);
+                listWidget->setChecked(2);
+                listWidget->setChecked(4);
+                listWidget->setCallback(
+                    [](int index, bool value)
+                    {
+                        std::cout << "Check: " << index << std::endl;
+                    });
+
+                // Create a list widget.
                 listWidget = ListWidget::create(context, ButtonGroupType::Radio, scrollLayout);
                 items.clear();
                 for (size_t i = 0; i < 100; ++i)
@@ -65,6 +84,7 @@ namespace tg
                         std::cout << "Radio: " << index << std::endl;
                     });
 
+                // Create a list widget.
                 listWidget = ListWidget::create(context, ButtonGroupType::Toggle, scrollLayout);
                 items.clear();
                 for (size_t i = 0; i < 100; ++i)
@@ -73,9 +93,6 @@ namespace tg
                 }
                 listWidget->setItems(items);
                 listWidget->setChecked(0);
-                listWidget->setChecked(1);
-                listWidget->setChecked(2);
-                listWidget->setChecked(4);
                 listWidget->setCallback(
                     [](int index, bool)
                     {

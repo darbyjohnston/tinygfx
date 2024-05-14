@@ -2,10 +2,9 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/TabBar.h>
+#include <tgUI/TabBarPrivate.h>
 
 #include <tgUI/ButtonGroup.h>
-#include <tgUI/ListButton.h>
 #include <tgUI/RowLayout.h>
 
 using namespace tg::core;
@@ -19,8 +18,9 @@ namespace tg
             std::vector<std::string> tabs;
             int currentTab = -1;
             std::shared_ptr<ButtonGroup> buttonGroup;
-            std::vector<std::shared_ptr<ListButton> > buttons;
+            std::vector<std::shared_ptr<TabBarButton> > buttons;
             std::shared_ptr<HorizontalLayout> layout;
+            int currentFocus = -1;
             std::function<void(int)> callback;
         };
 
@@ -31,6 +31,8 @@ namespace tg
             IWidget::_init(context, "tg::ui::TabBar", parent);
             TG_P();
 
+            setAcceptsKeyFocus(true);
+
             p.buttonGroup = ButtonGroup::create(context, ButtonGroupType::Radio);
 
             p.layout = HorizontalLayout::create(context, shared_from_this());
@@ -39,9 +41,15 @@ namespace tg
             p.buttonGroup->setCheckedCallback(
                 [this](int index, bool value)
                 {
-                    if (value && _p->callback)
+                    if (value)
                     {
-                        _p->callback(index);
+                        _p->currentTab = index;
+                        _p->currentFocus = index;
+                        if (_p->callback)
+                        {
+                            _p->callback(index);
+                        }
+                        _currentUpdate();
                     }
                 });
         }
@@ -74,18 +82,25 @@ namespace tg
                 return;
             p.tabs = value;
             p.currentTab = clamp(p.currentTab, 0, static_cast<int>(p.tabs.size()) - 1);
+            p.currentFocus = clamp(p.currentFocus, 0, static_cast<int>(p.tabs.size()) - 1);
             _widgetUpdate();
+            _currentUpdate();
         }
 
         void TabBar::addTab(const std::string& value)
         {
             TG_P();
             p.tabs.push_back(value);
-            if (p.currentTab < 0)
+            if (-1 == p.currentTab)
             {
                 p.currentTab = 0;
             }
+            if (-1 == p.currentFocus)
+            {
+                p.currentFocus = 0;
+            }
             _widgetUpdate();
+            _currentUpdate();
         }
 
         void TabBar::clearTabs()
@@ -93,7 +108,9 @@ namespace tg
             TG_P();
             p.tabs.clear();
             p.currentTab = -1;
+            p.currentFocus = -1;
             _widgetUpdate();
+            _currentUpdate();
         }
 
         int TabBar::getCurrentTab() const
@@ -109,6 +126,8 @@ namespace tg
                 return;
             _p->currentTab = tmp;
             _p->buttonGroup->setChecked(_p->currentTab, true);
+            _p->currentFocus = tmp;
+            _currentUpdate();
         }
 
         void TabBar::setCallback(const std::function<void(int)>& value)
@@ -128,6 +147,65 @@ namespace tg
             _setSizeHint(_p->layout->getSizeHint());
         }
 
+        void TabBar::keyFocusEvent(bool value)
+        {
+            IWidget::keyFocusEvent(value);
+            _currentUpdate();
+        }
+
+        void TabBar::keyPressEvent(KeyEvent& event)
+        {
+            TG_P();
+            if (0 == event.modifiers)
+            {
+                switch (event.key)
+                {
+                case Key::Left:
+                    _setCurrent(p.currentFocus - 1);
+                    break;
+                case Key::Right:
+                    _setCurrent(p.currentFocus + 1);
+                    break;
+                case Key::Home:
+                    _setCurrent(0);
+                    break;
+                case Key::End:
+                    _setCurrent(static_cast<int>(p.tabs.size()) - 1);
+                    break;
+                case Key::Enter:
+                    if (p.currentFocus >= 0 && p.currentFocus < p.tabs.size())
+                    {
+                        event.accept = true;
+                        takeKeyFocus();
+                        setCurrentTab(p.currentFocus);
+                        if (p.callback)
+                        {
+                            p.callback(p.currentTab);
+                        }
+                    }
+                    break;
+                case Key::Escape:
+                    if (hasKeyFocus())
+                    {
+                        event.accept = true;
+                        releaseKeyFocus();
+                    }
+                    break;
+                default: break;
+                }
+            }
+            if (!event.accept)
+            {
+                IWidget::keyPressEvent(event);
+            }
+        }
+
+        void TabBar::keyReleaseEvent(KeyEvent& event)
+        {
+            IWidget::keyReleaseEvent(event);
+            event.accept = true;
+        }
+
         void TabBar::_widgetUpdate()
         {
             TG_P();
@@ -142,13 +220,33 @@ namespace tg
             {
                 for (const auto& tab : p.tabs)
                 {
-                    auto button = ListButton::create(context, tab, p.layout);
+                    auto button = TabBarButton::create(context, tab, p.layout);
                     button->setCheckedRole(ColorRole::Button);
                     p.buttonGroup->addButton(button);
                     p.buttons.push_back(button);
                 }
             }
             p.buttonGroup->setChecked(p.currentTab, true);
+        }
+
+        void TabBar::_setCurrent(int value)
+        {
+            TG_P();
+            const int tmp = clamp(value, 0, static_cast<int>(p.tabs.size()) - 1);
+            if (tmp == p.currentFocus)
+                return;
+            p.currentFocus = tmp;
+            _currentUpdate();
+        }
+
+        void TabBar::_currentUpdate()
+        {
+            TG_P();
+            const bool focus = hasKeyFocus();
+            for (size_t i = 0; i < p.buttons.size(); ++i)
+            {
+                p.buttons[i]->setCurrent(p.currentFocus == i && focus);
+            }
         }
     }
 }

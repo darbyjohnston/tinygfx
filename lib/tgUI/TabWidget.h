@@ -13,32 +13,29 @@ namespace tg
         //! \name Layouts
         ///@{
 
-        //! Tab bar widget.
-        class TabBar : public IWidget
+        //! Tab widget.
+        class TabWidget : public IWidget
         {
         protected:
             void _init(
                 const std::shared_ptr<core::Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
-            TabBar();
+            TabWidget();
 
         public:
-            virtual ~TabBar();
+            virtual ~TabWidget();
 
             //! Create a new widget.
-            static std::shared_ptr<TabBar> create(
+            static std::shared_ptr<TabWidget> create(
                 const std::shared_ptr<core::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Get the tabs.
             const std::vector<std::string>& getTabs() const;
 
-            //! Set the tabs.
-            void setTabs(const std::vector<std::string>&);
-
             //! Add a tab.
-            void addTab(const std::string&);
+            void addTab(const std::string&, const std::shared_ptr<IWidget>&);
 
             //! Clear the tabs.
             void clearTabs();
@@ -54,14 +51,9 @@ namespace tg
 
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void keyFocusEvent(bool) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
 
         private:
             void _widgetUpdate();
-            void _setCurrent(int);
-            void _currentUpdate();
 
             TG_PRIVATE();
         };

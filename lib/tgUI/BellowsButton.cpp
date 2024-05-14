@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/ListButton.h>
+#include <tgUI/BellowsPrivate.h>
 
 #include <tgUI/DrawUtil.h>
 
@@ -12,7 +12,7 @@ namespace tg
 {
     namespace ui
     {
-        struct ListButton::Private
+        struct BellowsButton::Private
         {
             struct SizeData
             {
@@ -29,73 +29,51 @@ namespace tg
 
             struct DrawData
             {
+                Box2I g;
+                Box2I g2;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
             };
             DrawData draw;
         };
 
-        void ListButton::_init(
+        void BellowsButton::_init(
             const std::shared_ptr<Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
-            IButton::_init(context, "tg::ui::ListButton", parent);
-            setButtonRole(ColorRole::None);
+            IButton::_init(context, "tg::ui::BellowsButton", parent);
+            setCheckable(true);
+            setIcon("BellowsClosed");
+            setCheckedIcon("BellowsOpen");
+            setButtonRole(ColorRole::Button);
+            setCheckedRole(ColorRole::Button);
             setAcceptsKeyFocus(true);
         }
 
-        ListButton::ListButton() :
+        BellowsButton::BellowsButton() :
             _p(new Private)
         {}
 
-        ListButton::~ListButton()
+        BellowsButton::~BellowsButton()
         {}
 
-        std::shared_ptr<ListButton> ListButton::create(
+        std::shared_ptr<BellowsButton> BellowsButton::create(
             const std::shared_ptr<Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
-            auto out = std::shared_ptr<ListButton>(new ListButton);
+            auto out = std::shared_ptr<BellowsButton>(new BellowsButton);
             out->_init(context, parent);
             return out;
         }
 
-        std::shared_ptr<ListButton> ListButton::create(
-            const std::shared_ptr<Context>& context,
-            const std::string& text,
-            const std::shared_ptr<IWidget>& parent)
+        void BellowsButton::setGeometry(const Box2I& value)
         {
-            auto out = create(context, parent);
-            out->setText(text);
-            return out;
-        }
-
-        void ListButton::setText(const std::string& value)
-        {
-            const bool changed = value != _text;
-            IButton::setText(value);
+            IButton::setGeometry(value);
             TG_P();
-            if (changed)
-            {
-                p.size.init = true;
-                _setSizeUpdate();
-                _setDrawUpdate();
-            }
+            p.draw.g = value;
+            p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
         }
 
-        void ListButton::setFontRole(FontRole value)
-        {
-            const bool changed = value != _fontRole;
-            IButton::setFontRole(value);
-            TG_P();
-            if (changed)
-            {
-                p.size.init = true;
-                _setSizeUpdate();
-                _setDrawUpdate();
-            }
-        }
-
-        void ListButton::sizeHintEvent(const SizeHintEvent& event)
+        void BellowsButton::sizeHintEvent(const SizeHintEvent& event)
         {
             IButton::sizeHintEvent(event);
             TG_P();
@@ -109,8 +87,7 @@ namespace tg
                 p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
                 p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
                 p.size.fontInfo = event.style->getFontRole(_fontRole, p.size.displayScale);
-                p.size.fontMetrics = event.fontSystem->getMetrics(
-                    event.style->getFontRole(_fontRole, p.size.displayScale));
+                p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
                 p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
                 p.draw.glyphs.clear();
             }
@@ -120,32 +97,27 @@ namespace tg
             {
                 sizeHint.w = p.size.textSize.w + p.size.margin * 2;
                 sizeHint.h = p.size.fontMetrics.lineHeight;
+                if (_icon.empty())
+                {
+                    const int max = std::max(sizeHint.w, sizeHint.h);
+                    sizeHint.w = max;
+                    sizeHint.h = sizeHint.h;
+                }
             }
-            if (_iconImage || _checkedIconImage)
+            if (_iconImage)
             {
                 if (!_text.empty())
                 {
                     sizeHint.w += p.size.spacing;
                 }
-                V2I size;
-                if (_iconImage)
-                {
-                    size.x = std::max(size.x, _iconImage->getWidth());
-                    size.y = std::max(size.y, _iconImage->getHeight());
-                }
-                if (_checkedIconImage)
-                {
-                    size.x = std::max(size.x, _checkedIconImage->getWidth());
-                    size.y = std::max(size.y, _checkedIconImage->getHeight());
-                }
-                sizeHint.w += size.x;
-                sizeHint.h = std::max(sizeHint.h, size.y);
+                sizeHint.w += _iconImage->getWidth();
+                sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
             }
             sizeHint = margin(sizeHint, p.size.margin + p.size.border);
             _setSizeHint(sizeHint);
         }
 
-        void ListButton::clipEvent(const Box2I& clipRect, bool clipped)
+        void BellowsButton::clipEvent(const Box2I& clipRect, bool clipped)
         {
             IButton::clipEvent(clipRect, clipped);
             TG_P();
@@ -155,22 +127,19 @@ namespace tg
             }
         }
 
-        void ListButton::drawEvent(
+        void BellowsButton::drawEvent(
             const Box2I& drawRect,
             const DrawEvent& event)
         {
             IButton::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = getGeometry();
-            const bool enabled = isEnabled();
-
             // Draw the background.
             const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
             if (colorRole != ColorRole::None)
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(p.draw.g),
                     event.style->getColorRole(colorRole));
             }
 
@@ -178,13 +147,13 @@ namespace tg
             if (_isMousePressed())
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(p.draw.g),
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
-                    Box2F(g.x(), g.y(), g.w(), g.h()),
+                    convert(p.draw.g),
                     event.style->getColorRole(ColorRole::Hover));
             }
 
@@ -192,41 +161,26 @@ namespace tg
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
 
             // Draw the icon.
-            const Box2I g2 = margin(g, -p.size.border);
-            int x = g2.x();
-            if (_checked && _checkedIconImage)
+            auto icon = _checked ? _checkedIconImage : _iconImage;
+            int x = p.draw.g2.x();
+            if (icon)
             {
-                const Size2I& iconSize = _checkedIconImage->getSize();
+                const Size2I& iconSize = icon->getSize();
                 event.render->drawImage(
-                    _checkedIconImage,
+                    icon,
                     Box2F(
                         x,
-                        g2.y() + g2.h() / 2 - iconSize.h / 2,
+                        p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
                         iconSize.w,
                         iconSize.h),
-                    event.style->getColorRole(enabled ?
+                    event.style->getColorRole(isEnabled() ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));
-                x += iconSize.w + p.size.spacing;
-            }
-            else if (_iconImage)
-            {
-                const Size2I& iconSize = _iconImage->getSize();
-                event.render->drawImage(
-                  _iconImage,
-                  Box2F(
-                      x,
-                      g2.y() + g2.h() / 2 - iconSize.h / 2,
-                      iconSize.w,
-                      iconSize.h),
-                  event.style->getColorRole(enabled ?
-                      ColorRole::Text :
-                      ColorRole::TextDisabled));
                 x += iconSize.w + p.size.spacing;
             }
 
@@ -242,26 +196,22 @@ namespace tg
                     p.size.fontMetrics,
                     V2F(
                         x + p.size.margin,
-                        g2.y() + g2.h() / 2 - p.size.textSize.h / 2),
-                    event.style->getColorRole(enabled ?
+                        p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
+                    event.style->getColorRole(isEnabled() ?
                         ColorRole::Text :
                         ColorRole::TextDisabled));
             }
         }
 
-        void ListButton::keyPressEvent(KeyEvent& event)
+        void BellowsButton::keyPressEvent(KeyEvent& event)
         {
+            TG_P();
             if (0 == event.modifiers)
             {
                 switch (event.key)
                 {
                 case Key::Enter:
                     event.accept = true;
-                    takeKeyFocus();
-                    if (_pressedCallback)
-                    {
-                        _pressedCallback();
-                    }
                     click();
                     break;
                 case Key::Escape:
@@ -280,7 +230,7 @@ namespace tg
             }
         }
 
-        void ListButton::keyReleaseEvent(KeyEvent& event)
+        void BellowsButton::keyReleaseEvent(KeyEvent& event)
         {
             IButton::keyReleaseEvent(event);
             event.accept = true;

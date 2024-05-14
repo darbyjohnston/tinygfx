@@ -5,7 +5,6 @@
 #include <tgUITest/ButtonTest.h>
 
 #include <tgUI/CheckBox.h>
-#include <tgUI/ListButton.h>
 #include <tgUI/PushButton.h>
 #include <tgUI/ToolButton.h>
 #include <tgUI/Tooltip.h>
@@ -58,11 +57,6 @@ namespace tg
                 button->setObjectName("PushButton");
                 _print(button->getObjectName());
                 _print(button->getObjectPath());
-                _test(app, window, layout, button);
-                button->setParent(nullptr);
-                button.reset();
-
-                button = ListButton::create(context, "List", layout);
                 _test(app, window, layout, button);
                 button->setParent(nullptr);
                 button.reset();

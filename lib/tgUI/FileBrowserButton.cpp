@@ -22,6 +22,7 @@ namespace tg
         {
             std::vector<std::string> labels;
             std::vector<int> columns;
+            bool current = false;
 
             struct SizeData
             {

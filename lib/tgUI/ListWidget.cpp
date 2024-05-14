@@ -2,7 +2,9 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/ListWidgetPrivate.h>
+#include <tgUI/ListWidget.h>
+
+#include <tgUI/ListItemsWidget.h>
 
 #include <tgUI/ScrollWidget.h>
 
@@ -61,9 +63,14 @@ namespace tg
             return out;
         }
 
-        const std::vector<std::string>& ListWidget::getItems() const
+        const std::vector<ListItem>& ListWidget::getItems() const
         {
             return _p->widget->getItems();
+        }
+
+        void ListWidget::setItems(const std::vector<ListItem>& value)
+        {
+            _p->widget->setItems(value);
         }
 
         void ListWidget::setItems(const std::vector<std::string>& value)
@@ -99,16 +106,6 @@ namespace tg
         void ListWidget::clearSearch()
         {
             _p->widget->clearSearch();
-        }
-
-        FontRole ListWidget::getFontRole() const
-        {
-            return _p->widget->getFontRole();
-        }
-
-        void ListWidget::setFontRole(FontRole value)
-        {
-            _p->widget->setFontRole(value);
         }
 
         void ListWidget::setGeometry(const Box2I& value)

@@ -61,18 +61,18 @@ namespace tg
             ButtonGroupType type)
         {
             auto widget = ListWidget::create(context, type, window);
-            std::vector<std::string> items =
+            std::vector<ListItem> items =
             {
-                "Item 0",
-                "Item 1",
-                "Item 2",
-                "Item 3"
+                ListItem("Item 0"),
+                ListItem("Item 1"),
+                ListItem("Item 2"),
+                ListItem("Item 3")
             };
             widget->setItems(items);
             widget->setItems(items);
             TG_ASSERT(items == widget->getItems());
             app->tick();
-            items.push_back("Item 4");
+            items.push_back(ListItem("Item 4"));
             widget->setItems(items);
             app->tick();
             widget->setSearch("4");

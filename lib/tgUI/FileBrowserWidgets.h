@@ -40,12 +40,6 @@ namespace tg
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:
-            void _createButton(
-                const std::shared_ptr<core::Context>&,
-                const std::string& text,
-                const std::string& toolTip,
-                const std::shared_ptr<IWidget>& parent);
-
             void _pathsUpdate();
 
             TG_PRIVATE();

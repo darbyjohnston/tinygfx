@@ -110,7 +110,7 @@ namespace tg
             TG_P();
             const Size2I size = getChildrenClipRect().size();
             V2I scrollPos = _p->scrollPos;
-            if (value.min.x < scrollPos.x)
+            if (value.min.x <= scrollPos.x)
             {
                 scrollPos.x = value.min.x;
             }
@@ -118,7 +118,7 @@ namespace tg
             {
                 scrollPos.x = value.max.x - size.w + 1;
             }
-            if (value.min.y < scrollPos.y)
+            if (value.min.y <= scrollPos.y)
             {
                 scrollPos.y = value.min.y;
             }

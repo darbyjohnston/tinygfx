@@ -144,10 +144,7 @@ namespace tg
             case ButtonGroupType::Toggle:
                 for (size_t i = 0; i < p.buttons.size(); ++i)
                 {
-                    if (i != index)
-                    {
-                        p.buttons[i]->setChecked(false);
-                    }
+                    p.buttons[i]->setChecked(i == index ? value : false);
                 }
                 break;
             default: break;

@@ -2,9 +2,10 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/ListWidgetPrivate.h>
+#include <tgUI/ListItemsWidgetPrivate.h>
 
-#include <tgUI/DrawUtil.h>
+#include <tgUI/ButtonGroup.h>
+#include <tgUI/RowLayout.h>
 
 using namespace tg::core;
 
@@ -12,36 +13,35 @@ namespace tg
 {
     namespace ui
     {
+        ListItem::ListItem(
+            const std::string& text,
+            const std::string& tooltip) :
+            text(text),
+            tooltip(tooltip)
+        {}
+
+        bool ListItem::operator == (const ListItem& other) const
+        {
+            return
+                text == other.text &&
+                tooltip == other.tooltip;
+        }
+
+        bool ListItem::operator != (const ListItem& other) const
+        {
+            return !(*this == other);
+        }
+
         struct ListItemsWidget::Private
         {
             ui::ButtonGroupType type = ui::ButtonGroupType::Click;
-            std::vector<std::string> items;
+            std::vector<ListItem> items;
+            std::vector<std::shared_ptr<ListItemButton> > buttons;
+            std::shared_ptr<ButtonGroup> buttonGroup;
+            std::shared_ptr<VerticalLayout> layout;
             std::function<void(int, bool)> callback;
             std::shared_ptr<ObservableValue<int> > current;
-            int radio = -1;
-            std::vector<bool> toggle;
             std::string search;
-            ui::FontRole fontRole = ui::FontRole::Label;
-
-            struct SizeData
-            {
-                bool init = true;
-                float displayScale = 0.F;
-                int margin = 0;
-                int spacing = 0;
-                int border = 0;
-                core::FontInfo fontInfo;
-                core::FontMetrics fontMetrics;
-                core::Size2I itemsSize;
-            };
-            SizeData size;
-
-            struct MouseData
-            {
-                int hover = -1;
-                int pressed = -1;
-            };
-            MouseData mouse;
         };
 
         void ListItemsWidget::_init(
@@ -51,10 +51,44 @@ namespace tg
         {
             IWidget::_init(context, "tg::ui::ListItemsWidget", parent);
             TG_P();
+
             setAcceptsKeyFocus(true);
-            _setMouseHoverEnabled(true);
-            _setMousePressEnabled(true);
-            p.type = type;
+
+            p.buttonGroup = ButtonGroup::create(context, type);
+
+            p.layout = VerticalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(SizeRole::None);
+
+            _itemsUpdate();
+
+            switch (type)
+            {
+            case ButtonGroupType::Click:
+                p.buttonGroup->setClickedCallback(
+                    [this](int index)
+                    {
+                        takeKeyFocus();
+                        setCurrent(index);
+                        if (_p->callback)
+                        {
+                            _p->callback(index, true);
+                        }
+                    });
+                break;
+            default:
+                p.buttonGroup->setCheckedCallback(
+                    [this](int index, bool value)
+                    {
+                        takeKeyFocus();
+                        setCurrent(index);
+                        if (_p->callback)
+                        {
+                            _p->callback(index, value);
+                        }
+                    });
+                break;
+            }
+
             p.current = ObservableValue<int>::create(-1);
         }
 
@@ -75,71 +109,45 @@ namespace tg
             return out;
         }
 
-        const std::vector<std::string>& ListItemsWidget::getItems() const
+        const std::vector<ListItem>& ListItemsWidget::getItems() const
         {
             return _p->items;
         }
 
-        void ListItemsWidget::setItems(const std::vector<std::string>& value)
+        void ListItemsWidget::setItems(const std::vector<ListItem>& value)
         {
             TG_P();
             if (value == p.items)
                 return;
             p.items = value;
+            _itemsUpdate();
             p.current->setIfChanged(clamp(p.current->get(), 0, static_cast<int>(p.items.size()) - 1));
-            if (ButtonGroupType::Toggle == p.type)
+        }
+
+        void ListItemsWidget::setItems(const std::vector<std::string>& value)
+        {
+            std::vector<ListItem> items;
+            for (const auto& i : value)
             {
-                p.toggle.resize(value.size());
+                items.push_back(ListItem(i));
             }
-            p.size.init = true;
-            _setSizeUpdate();
-            _setDrawUpdate();
+            setItems(items);
         }
 
         bool ListItemsWidget::getChecked(int index) const
         {
             TG_P();
             bool out = false;
-            switch (p.type)
+            if (index >= 0 && index < p.buttons.size())
             {
-            case ButtonGroupType::Radio:
-                out = index == p.current->get();
-                break;
-            case ButtonGroupType::Toggle:
-                if (index >= 0 && index < p.items.size())
-                {
-                    out = p.toggle[index];
-                }
-                break;
-            default: break;
+                out = p.buttons[index]->isChecked();
             }
             return out;
         }
 
         void ListItemsWidget::setChecked(int index, bool value)
         {
-            TG_P();
-            switch (p.type)
-            {
-            case ButtonGroupType::Radio:
-                if (index != p.radio)
-                {
-                    p.radio = index;
-                    _setDrawUpdate();
-                }
-                break;
-            case ButtonGroupType::Toggle:
-                if (index >= 0 && index < p.items.size())
-                {
-                    if (p.toggle[index] != value)
-                    {
-                        p.toggle[index] = value;
-                        _setDrawUpdate();
-                    }
-                }
-                break;
-            default: break;
-            }
+            _p->buttonGroup->setChecked(index, value);
         }
 
         void ListItemsWidget::setCallback(const std::function<void(int, bool)>& value)
@@ -158,7 +166,7 @@ namespace tg
             const int tmp = clamp(value, 0, static_cast<int>(p.items.size()) - 1);
             if (p.current->setIfChanged(tmp))
             {
-                _setDrawUpdate();
+                _currentUpdate();
             }
         }
 
@@ -178,9 +186,7 @@ namespace tg
             if (value == p.search)
                 return;
             p.search = value;
-            p.size.init = true;
-            _setSizeUpdate();
-            _setDrawUpdate();
+            _itemsUpdate();
         }
 
         void ListItemsWidget::clearSearch()
@@ -189,208 +195,38 @@ namespace tg
             if (!p.search.empty())
             {
                 p.search = std::string();
-                _setSizeUpdate();
-                _setDrawUpdate();
+                _itemsUpdate();
             }
-        }
-
-        FontRole ListItemsWidget::getFontRole() const
-        {
-            return _p->fontRole;
-        }
-
-        void ListItemsWidget::setFontRole(FontRole value)
-        {
-            TG_P();
-            if (value == p.fontRole)
-                return;
-            p.fontRole = value;
-            p.size.init = true;
-            _setSizeUpdate();
-            _setDrawUpdate();
         }
 
         Box2I ListItemsWidget::getRect(int index) const
         {
             TG_P();
-            const Box2I& g = getGeometry();
-            const int h = _getItemHeight();
-            return Box2I(0, index * h, g.w(), h);
+            Box2I out;
+            if (index >= 0 && index < p.buttons.size())
+            {
+                out = p.buttons[index]->getGeometry();
+                out = move(out, -p.layout->getGeometry().min);
+            }
+            return out;
         }
 
         void ListItemsWidget::setGeometry(const Box2I& value)
         {
             IWidget::setGeometry(value);
+            _p->layout->setGeometry(value);
         }
 
         void ListItemsWidget::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
-            TG_P();
-            const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-            if (p.size.init || displayScaleChanged)
-            {
-                p.size.init = false;
-                p.size.displayScale = event.displayScale;
-                p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-                p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
-                p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-
-                p.size.fontInfo = event.style->getFontRole(p.fontRole, event.displayScale);
-                p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
-
-                const int h = _getItemHeight();
-                p.size.itemsSize = Size2I(0, h * p.items.size());
-                for (const auto& item : p.items)
-                {
-                    const Size2I size = event.fontSystem->getSize(item, p.size.fontInfo);
-                    p.size.itemsSize.w = std::max(p.size.itemsSize.w, size.w);
-                }
-                p.size.itemsSize.w +=
-                    p.size.margin * 4 +
-                    p.size.border * 4;
-            }
-            _setSizeHint(p.size.itemsSize);
+            _setSizeHint(_p->layout->getSizeHint());
         }
 
-        void ListItemsWidget::drawEvent(const Box2I& drawRect, const DrawEvent& event)
+        void ListItemsWidget::keyFocusEvent(bool value)
         {
-            IWidget::drawEvent(drawRect, event);
-            TG_P();
-
-            const Box2I& g = getGeometry();
-
-            std::vector<Box2F> checked;
-            switch (p.type)
-            {
-            case ButtonGroupType::Radio:
-                if (p.radio != -1)
-                {
-                    const Box2I r = move(getRect(p.radio), g.min);
-                    checked.push_back(Box2F(r.x(), r.y(), r.w(), r.h()));
-                }
-                break;
-            case ButtonGroupType::Toggle:
-            {
-                for (size_t i = 0; i < p.toggle.size(); ++i)
-                {
-                    if (p.toggle[i])
-                    {
-                        const Box2I r = move(getRect(i), g.min);
-                        checked.push_back(Box2F(r.x(), r.y(), r.w(), r.h()));
-                    }
-                }
-                break;
-            }
-            default: break;
-            }
-            if (!checked.empty())
-            {
-                event.render->drawRects(
-                    checked,
-                    event.style->getColorRole(ColorRole::Checked));
-            }
-
-            if (p.mouse.pressed != -1)
-            {
-                const Box2I r = move(getRect(p.mouse.pressed), g.min);
-                event.render->drawRect(
-                    Box2F(r.x(), r.y(), r.w(), r.h()),
-                    event.style->getColorRole(ColorRole::Pressed));
-            }
-            else if (p.mouse.hover != -1)
-            {
-                const Box2I r = move(getRect(p.mouse.hover), g.min);
-                event.render->drawRect(
-                    Box2F(r.x(), r.y(), r.w(), r.h()),
-                    event.style->getColorRole(ColorRole::Hover));
-            }
-
-            for (size_t i = 0; i < p.items.size(); ++i)
-            {
-                const Box2I r = move(getRect(i), g.min);
-                if (intersects(r, drawRect))
-                {
-                    const auto glyphs = event.fontSystem->getGlyphs(p.items[i], p.size.fontInfo);
-                    event.render->drawText(
-                        glyphs,
-                        p.size.fontMetrics,
-                        V2F(
-                            r.min.x + p.size.margin * 2 + p.size.border * 2,
-                            r.min.y + p.size.margin + p.size.border * 2),
-                        event.style->getColorRole(ColorRole::Text));
-                }
-            }
-
-            if (hasKeyFocus() && p.current->get() != -1)
-            {
-                const Box2I r = move(getRect(p.current->get()), g.min);
-                if (intersects(r, drawRect))
-                {
-                    event.render->drawMesh(
-                        border(r, p.size.border * 2),
-                        event.style->getColorRole(ColorRole::KeyFocus));
-                }
-            }
-        }
-
-        void ListItemsWidget::mouseLeaveEvent()
-        {
-            IWidget::mouseLeaveEvent();
-            TG_P();
-            if (p.mouse.hover != -1)
-            {
-                p.mouse.hover = -1;
-                _setDrawUpdate();
-            }
-        }
-
-        void ListItemsWidget::mouseMoveEvent(MouseMoveEvent& event)
-        {
-            IWidget::mouseMoveEvent(event);
-            TG_P();
-            const Box2I& g = getGeometry();
-            const int hover = _posToIndex(event.pos.y - g.min.y);
-            if (hover >= 0 &&
-                hover < p.items.size() &&
-                hover != p.mouse.hover)
-            {
-                p.mouse.hover = hover;
-                _setDrawUpdate();
-            }
-        }
-
-        void ListItemsWidget::mousePressEvent(MouseClickEvent& event)
-        {
-            IWidget::mousePressEvent(event);
-            TG_P();
-            event.accept = true;
-            takeKeyFocus();
-            const Box2I& g = getGeometry();
-            const int pressed = _posToIndex(event.pos.y - g.min.y);
-            if (pressed >= 0 &&
-                pressed < p.items.size())
-            {
-                p.mouse.pressed = pressed;
-                setCurrent(pressed);
-                _setDrawUpdate();
-            }
-        }
-
-        void ListItemsWidget::mouseReleaseEvent(MouseClickEvent& event)
-        {
-            IWidget::mouseReleaseEvent(event);
-            TG_P();
-            event.accept = true;
-            const Box2I& g = getGeometry();
-            const int index = _posToIndex(event.pos.y - g.min.y);
-            if (index == p.mouse.pressed)
-            {
-                _action(p.mouse.pressed);
-                _setDrawUpdate();
-            }
-            p.mouse.pressed = -1;
-            _setDrawUpdate();
+            IWidget::keyFocusEvent(value);
+            _currentUpdate();
         }
 
         void ListItemsWidget::keyPressEvent(KeyEvent& event)
@@ -401,10 +237,16 @@ namespace tg
                 switch (event.key)
                 {
                 case Key::Enter:
+                {
                     event.accept = true;
                     takeKeyFocus();
-                    _action(p.current->get());
+                    const int current = p.current->get();
+                    if (current >= 0 && current < p.buttons.size())
+                    {
+                        p.buttons[current]->click();
+                    }
                     break;
+                }
                 case Key::Up:
                     event.accept = true;
                     takeKeyFocus();
@@ -454,60 +296,37 @@ namespace tg
             event.accept = true;
         }
 
-        int ListItemsWidget::_getItemHeight() const
+        void ListItemsWidget::_itemsUpdate()
         {
             TG_P();
-            return
-                p.size.fontMetrics.lineHeight +
-                p.size.margin * 2 +
-                p.size.border * 4;
-        }
-
-        int ListItemsWidget::_posToIndex(int value) const
-        {
-            const int h = _getItemHeight();
-            return h > 0 ? (value / h) : 0;
-        }
-
-        void ListItemsWidget::_action(int index)
-        {
-            TG_P();
-            switch (p.type)
+            
+            for (const auto& button : p.buttons)
             {
-            case ButtonGroupType::Click:
-                if (index >= 0 &&
-                    index < p.items.size() &&
-                    p.callback)
+                button->setParent(nullptr);
+            }
+            p.buttons.clear();
+            p.buttonGroup->clearButtons();
+
+            if (auto context = _getContext().lock())
+            {
+                for (const auto& item : p.items)
                 {
-                    p.callback(index, true);
+                    auto button = ListItemButton::create(context, item.text, p.layout);
+                    button->setTooltip(item.tooltip);
+                    p.buttons.push_back(button);
+                    p.buttonGroup->addButton(button);
                 }
-                break;
-            case ButtonGroupType::Radio:
-                if (index != p.radio &&
-                    index >= 0 &&
-                    index < p.items.size())
-                {
-                    p.radio = index;
-                    if (p.callback)
-                    {
-                        p.callback(p.radio, true);
-                    }
-                    _setDrawUpdate();
-                }
-                break;
-            case ButtonGroupType::Toggle:
-                if (index >= 0 &&
-                    index < p.items.size())
-                {
-                    p.toggle[index] = !p.toggle[index];
-                    if (p.callback)
-                    {
-                        p.callback(index, p.toggle[index]);
-                    }
-                    _setDrawUpdate();
-                }
-                break;
-            default: break;
+            }
+        }
+
+        void ListItemsWidget::_currentUpdate()
+        {
+            TG_P();
+            const int current = p.current->get();
+            const bool focus = hasKeyFocus();
+            for (size_t i = 0; i < p.buttons.size(); ++i)
+            {
+                p.buttons[i]->setCurrent(current == i && focus);
             }
         }
     }
