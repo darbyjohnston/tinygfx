@@ -28,6 +28,13 @@ namespace tg
             };
             SizeData size;
 
+            struct DrawData
+            {
+                Box2I g;
+                Box2I g2;
+            };
+            DrawData draw;
+
             struct MouseData
             {
                 int pressedScrollPos = 0;
@@ -98,6 +105,14 @@ namespace tg
             _p->scrollPosCallback = value;
         }
 
+        void ScrollBar::setGeometry(const Box2I& value)
+        {
+            IWidget::setGeometry(value);
+            TG_P();
+            p.draw.g = _getBorderGeometry();
+            p.draw.g2 = _getHandleGeometry();
+        }
+
         void ScrollBar::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
@@ -135,30 +150,27 @@ namespace tg
             IWidget::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I g = _getBorderGeometry();
-
             event.render->drawMesh(
-                border(g, p.size.border),
+                border(p.draw.g, p.size.border),
                 event.style->getColorRole(ColorRole::Border));
 
             const int scrollPosMax = _getScrollPosMax();
             if (scrollPosMax > 0)
             {
-                const Box2I g2 = _getHandleGeometry();
                 event.render->drawRect(
-                    convert(g2),
+                    convert(p.draw.g2),
                     event.style->getColorRole(ColorRole::Button));
 
                 if (_isMousePressed())
                 {
                     event.render->drawRect(
-                        convert(g2),
+                        convert(p.draw.g2),
                         event.style->getColorRole(ColorRole::Pressed));
                 }
                 else if (_isMouseInside())
                 {
                     event.render->drawRect(
-                        convert(g2),
+                        convert(p.draw.g2),
                         event.style->getColorRole(ColorRole::Hover));
                 }
             }

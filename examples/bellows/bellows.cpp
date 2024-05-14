@@ -44,7 +44,7 @@ TG_MAIN()
             // Add a bellows.
             auto vLayout = VerticalLayout::create(context);
             vLayout->setMarginRole(SizeRole::Margin);
-            vLayout->setSpacingRole(SizeRole::Spacing);
+            vLayout->setSpacingRole(SizeRole::None);
             for (size_t i = 0; i < 10; ++i)
             {
                 PushButton::create(context, Format("Push Button {0}").arg(i), vLayout);
@@ -55,7 +55,7 @@ TG_MAIN()
             // Add a bellows.
             vLayout = VerticalLayout::create(context);
             vLayout->setMarginRole(SizeRole::Margin);
-            vLayout->setSpacingRole(SizeRole::Spacing);
+            vLayout->setSpacingRole(SizeRole::None);
             const std::vector<std::string> icons =
             {
                 "Audio",
@@ -83,7 +83,7 @@ TG_MAIN()
             // Add a bellows.
             vLayout = VerticalLayout::create(context);
             vLayout->setMarginRole(SizeRole::Margin);
-            vLayout->setSpacingRole(SizeRole::Spacing);
+            vLayout->setSpacingRole(SizeRole::None);
             for (size_t i = 0; i < 10; ++i)
             {
                 CheckBox::create(context, Format("Check Box {0}").arg(i), vLayout);

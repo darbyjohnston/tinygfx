@@ -50,7 +50,7 @@ namespace tg
                         PieChartData("Cyan", 25.F, Color4F(0.F, 1.F, 1.F)),
                         PieChartData("Magenta", 25.F, Color4F(1.F, 0.F, 1.F)),
                         PieChartData("Yellow", 25.F, Color4F(1.F, 1.F, 0.F)),
-                        PieChartData("Key", 25.F, Color4F(0.F, 0.F, 0.F))
+                        PieChartData("White", 25.F, Color4F(1.F, 1.F, 1.F))
                     });
                 scrollLayout->setGridPos(pieChart, 0, 1);
                 pieChart = PieChart::create(context, scrollLayout);

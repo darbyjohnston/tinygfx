@@ -120,6 +120,9 @@ namespace tg
 
             struct DrawData
             {
+                Box2I g;
+                Box2I g2;
+                Box2I g3;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
                 std::vector<Box2I> glyphsBox;
             };
@@ -216,6 +219,15 @@ namespace tg
             p.fontRole = value;
             _setSizeUpdate();
             _setDrawUpdate();
+        }
+
+        void LineEdit::setGeometry(const Box2I& value)
+        {
+            IWidget::setGeometry(value);
+            TG_P();
+            p.draw.g = _getAlignGeometry();
+            p.draw.g2 = margin(p.draw.g, -p.size.border);
+            p.draw.g3 = margin(p.draw.g, -p.size.margin);
         }
 
         void LineEdit::setVisible(bool value)
@@ -316,33 +328,34 @@ namespace tg
             IWidget::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I g = _getAlignGeometry();
             const bool enabled = isEnabled();
 
+            // Draw the focus and border.
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
             else
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::Border));
             }
 
-            const Box2I g2 = margin(g, -p.size.border);
+            // Draw the background.
             event.render->drawRect(
-                convert(g2),
+                convert(p.draw.g2),
                 event.style->getColorRole(ColorRole::Base));
 
+            // Enable clipping.
             const ClipRectEnabledState clipRectEnabledState(event.render);
             const ClipRectState clipRectState(event.render);
             event.render->setClipRectEnabled(true);
-            event.render->setClipRect(intersect(margin(g, -p.size.border), drawRect));
+            event.render->setClipRect(intersect(margin(p.draw.g, -p.size.border), drawRect));
 
-            const Box2I g3 = margin(g, -p.size.margin);
+            // Draw the selection.
             if (p.selection.isValid())
             {
                 const auto selection = p.selection.getSorted();
@@ -351,13 +364,14 @@ namespace tg
                 const std::string text1 = p.text.substr(0, selection.second);
                 const int x1 = event.fontSystem->getSize(text1, p.size.fontInfo).w;
                 event.render->drawRect(
-                    Box2F(g3.x() + x0, g3.y(), x1 - x0 + 1, g3.h()),
+                    Box2F(p.draw.g3.x() + x0, p.draw.g3.y(), x1 - x0 + 1, p.draw.g3.h()),
                     event.style->getColorRole(ColorRole::Checked));
             }
 
+            // Draw the text.
             const V2F pos(
-                g3.x(),
-                g3.y() + g3.h() / 2 - p.size.fontMetrics.lineHeight / 2);
+                p.draw.g3.x(),
+                p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.fontMetrics.lineHeight / 2);
             if (!p.text.empty() && p.draw.glyphs.empty())
             {
                 p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
@@ -371,16 +385,17 @@ namespace tg
                     ColorRole::Text :
                     ColorRole::TextDisabled));
 
+            // Draw the cursor.
             if (p.cursorVisible)
             {
                 const std::string text = p.text.substr(0, p.cursorPos);
                 const int x = event.fontSystem->getSize(text, p.size.fontInfo).w;
                 event.render->drawRect(
                     Box2F(
-                        g3.x() + x,
-                        g3.y(),
+                        p.draw.g3.x() + x,
+                        p.draw.g3.y(),
                         p.size.border,
-                        g3.h()),
+                        p.draw.g3.h()),
                     event.style->getColorRole(ColorRole::Text));
             }
         }

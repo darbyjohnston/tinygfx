@@ -64,6 +64,7 @@ namespace tg
             //! Get the model.
             const std::shared_ptr<FloatModel>& getModel() const;
 
+            void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void drawEvent(const core::Box2I&, const DrawEvent&) override;
             void mouseEnterEvent() override;

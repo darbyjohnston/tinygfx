@@ -27,6 +27,12 @@ namespace tg
                 int margin = 0;
             };
             SizeData size;
+
+            struct DrawData
+            {
+                Box2I g;
+            };
+            DrawData draw;
         };
 
         void Icon::_init(
@@ -94,6 +100,13 @@ namespace tg
             _setDrawUpdate();
         }
 
+        void Icon::setGeometry(const Box2I& value)
+        {
+            IWidget::setGeometry(value);
+            TG_P();
+            p.draw.g = margin(value, -p.size.margin);
+        }
+
         void Icon::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
@@ -124,30 +137,20 @@ namespace tg
             _setSizeHint(sizeHint);
         }
 
-        void Icon::clipEvent(const Box2I& clipRect, bool clipped)
-        {
-            IWidget::clipEvent(clipRect, clipped);
-            TG_P();
-            if (clipped)
-            {
-            }
-        }
-
         void Icon::drawEvent(
             const Box2I& drawRect,
             const DrawEvent& event)
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-            const Box2I g = margin(getGeometry(), -p.size.margin);
             if (p.iconImage)
             {
                 const Size2I& iconSize = p.iconImage->getSize();
                 event.render->drawImage(
                     p.iconImage,
                     Box2F(
-                        g.x() + g.w() / 2 - iconSize.w / 2,
-                        g.y() + g.h() / 2 - iconSize.h / 2,
+                        p.draw.g.x() + p.draw.g.w() / 2 - iconSize.w / 2,
+                        p.draw.g.y() + p.draw.g.h() / 2 - iconSize.h / 2,
                         iconSize.w,
                         iconSize.h),
                     event.style->getColorRole(ColorRole::Text));

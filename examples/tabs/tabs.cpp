@@ -41,7 +41,7 @@ TG_MAIN()
             // Add a tab.
             auto layout = VerticalLayout::create(context);
             layout->setMarginRole(SizeRole::Margin);
-            layout->setSpacingRole(SizeRole::Spacing);
+            layout->setSpacingRole(SizeRole::None);
             for (size_t i = 0; i < 10; ++i)
             {
                 PushButton::create(context, Format("Push Button {0}").arg(i), layout);
@@ -53,7 +53,7 @@ TG_MAIN()
             // Add a tab.
             layout = VerticalLayout::create(context);
             layout->setMarginRole(SizeRole::Margin);
-            layout->setSpacingRole(SizeRole::Spacing);
+            layout->setSpacingRole(SizeRole::None);
             const std::vector<std::string> icons =
             {
                 "Audio",
@@ -82,7 +82,7 @@ TG_MAIN()
             // Add a tab.
             layout = VerticalLayout::create(context);
             layout->setMarginRole(SizeRole::Margin);
-            layout->setSpacingRole(SizeRole::Spacing);
+            layout->setSpacingRole(SizeRole::None);
             for (size_t i = 0; i < 10; ++i)
             {
                 CheckBox::create(context, Format("Check Box {0}").arg(i), layout);

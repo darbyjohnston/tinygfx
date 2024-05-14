@@ -98,14 +98,13 @@ namespace tg
                     event.style->getColorRole(ColorRole::Hover));
             }
 
-            int x = g.x() + p.size.margin;
             if (_iconImage)
             {
                 const auto iconSize = _iconImage->getSize();
                 event.render->drawImage(
                   _iconImage,
                   Box2F(
-                      x,
+                      g.x() + p.size.margin,
                       g.y() + g.h() / 2 - iconSize.h / 2,
                       iconSize.w,
                       iconSize.h));

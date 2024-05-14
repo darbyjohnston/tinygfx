@@ -29,6 +29,13 @@ namespace tg
                 int shadow = 0;
             };
             SizeData size;
+
+            struct DrawData
+            {
+                Box2I g;
+                Box2I g2;
+            };
+            DrawData draw;
         };
 
         void Tooltip::_init(
@@ -120,6 +127,13 @@ namespace tg
                 });
             Box2I g = intersect.front().intersected;
             p.label->setGeometry(g);
+
+            p.draw.g = g;
+            p.draw.g2 = Box2I(
+                g.min.x - p.size.shadow,
+                g.min.y,
+                g.w() + p.size.shadow * 2,
+                g.h() + p.size.shadow);
         }
 
         void Tooltip::sizeHintEvent(const SizeHintEvent& event)
@@ -143,25 +157,14 @@ namespace tg
         {
             IPopup::drawEvent(drawRect, event);
             TG_P();
-            //event.render->drawRect(
-            //    _geometry,
-            //    Color4F(0.F, 0.F, 0.F, .2F));
-            const Box2I g = p.label->getGeometry();
-            const Box2I g2(
-                g.min.x - p.size.shadow,
-                g.min.y,
-                g.w() + p.size.shadow * 2,
-                g.h() + p.size.shadow);
             event.render->drawColorMesh(
-                shadow(g2, p.size.shadow),
+                shadow(p.draw.g2, p.size.shadow),
                 Color4F(1.F, 1.F, 1.F));
-
             event.render->drawMesh(
-                border(margin(g, p.size.border), p.size.border),
+                border(margin(p.draw.g, p.size.border), p.size.border),
                 event.style->getColorRole(ColorRole::Border));
-                
             event.render->drawRect(
-                convert(g),
+                convert(p.draw.g),
                 event.style->getColorRole(ColorRole::TooltipWindow));
         }
     }

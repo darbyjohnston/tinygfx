@@ -100,6 +100,13 @@ namespace tg
                 int shadow = 0;
             };
             SizeData size;
+
+            struct DrawData
+            {
+                Box2I g;
+                Box2I g2;
+            };
+            DrawData draw;
         };
 
         void IMenuPopup::_init(
@@ -254,6 +261,13 @@ namespace tg
                 });
             Box2I g = intersect.front().intersected;
             p.menuPopupWidget->setGeometry(g);
+
+            p.draw.g = g;
+            p.draw.g2 = Box2I(
+                g.min.x - p.size.shadow,
+                g.min.y,
+                g.w() + p.size.shadow * 2,
+                g.h() + p.size.shadow);
         }
 
         void IMenuPopup::sizeHintEvent(const SizeHintEvent& event)
@@ -274,22 +288,12 @@ namespace tg
         {
             IPopup::drawEvent(drawRect, event);
             TG_P();
-            const Box2I& g = p.menuPopupWidget->getGeometry();
-            if (g.size().isValid())
-            {
-                const Box2I g2(
-                    g.min.x - p.size.shadow,
-                    g.min.y,
-                    g.w() + p.size.shadow * 2,
-                    g.h() + p.size.shadow);
-                event.render->drawColorMesh(
-                    shadow(g2, p.size.shadow),
-                    Color4F(1.F, 1.F, 1.F));
-
-                event.render->drawRect(
-                    convert(g),
-                    event.style->getColorRole(p.popupRole));
-            }
+            event.render->drawColorMesh(
+                shadow(p.draw.g2, p.size.shadow),
+                Color4F(1.F, 1.F, 1.F));
+            event.render->drawRect(
+                convert(p.draw.g),
+                event.style->getColorRole(p.popupRole));
         }
 
         void IMenuPopup::keyPressEvent(KeyEvent& event)

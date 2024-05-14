@@ -51,6 +51,14 @@ namespace tg
             };
             SizeData size;
 
+            struct DrawData
+            {
+                Box2I g;
+                Box2I g2;
+                Box2I g3;
+            };
+            DrawData draw;
+
             struct MouseData
             {
                 MDIResize resize = MDIResize::None;
@@ -211,6 +219,10 @@ namespace tg
                 g.min.y - p.size.handle,
                 p.size.handle * 2,
                 p.size.handle * 2);
+
+            p.draw.g = value;
+            p.draw.g2 = core::margin(p.draw.g, -margin, -p.size.handle, -margin, -margin);
+            p.draw.g3 = core::margin(p.draw.g2, -p.size.border);
         }
 
         void MDIWidget::sizeHintEvent(const SizeHintEvent& event)
@@ -239,29 +251,27 @@ namespace tg
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-            const Box2I& g = getGeometry();
-            const int margin = std::max(p.size.handle, p.size.shadow);
-            const Box2I g2 = core::margin(g, -margin, -p.size.handle, -margin, -margin);
+
             event.render->drawColorMesh(
-                shadow(core::margin(g2, p.size.shadow, 0, p.size.shadow, p.size.shadow), p.size.shadow),
+                shadow(core::margin(p.draw.g2, p.size.shadow, 0, p.size.shadow, p.size.shadow), p.size.shadow),
                 Color4F(1.F, 1.F, 1.F));
+
             if (p.mouse.resize != MDIResize::None)
             {
                 const auto i = p.mouse.resizeBoxes.find(p.mouse.resize);
                 if (i != p.mouse.resizeBoxes.end())
                 {
-                    const Box2I g3 = i->second;
                     event.render->drawRect(
-                        convert(g3),
+                        convert(i->second),
                         event.style->getColorRole(ColorRole::Checked));
                 }
             }
+
             event.render->drawMesh(
-                border(g2, p.size.border),
+                border(p.draw.g2, p.size.border),
                 event.style->getColorRole(ColorRole::Border));
-            const Box2I g4 = core::margin(g2, -p.size.border);
             event.render->drawRect(
-                convert(g4),
+                convert(p.draw.g3),
                 event.style->getColorRole(ColorRole::Window));
         }
 

@@ -64,6 +64,7 @@ namespace tg
             //! Set the font role.
             void setFontRole(FontRole);
 
+            void setGeometry(const core::Box2I&) override;
             void setVisible(bool) override;
             void setEnabled(bool) override;
             void tickEvent(

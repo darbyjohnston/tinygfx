@@ -28,6 +28,13 @@ namespace tg
                 int shadow = 0;
             };
             SizeData size;
+
+            struct DrawData
+            {
+                Box2I g;
+                Box2I g2;
+            };
+            DrawData draw;
         };
 
         void IDialog::_init(
@@ -109,6 +116,18 @@ namespace tg
                     g.y() + g.h() / 2 - size.y / 2,
                     size.x,
                     size.y));
+
+                p.draw.g = children.front()->getGeometry();
+                p.draw.g2 = Box2I(
+                    p.draw.g.min.x - p.size.shadow,
+                    p.draw.g.min.y,
+                    p.draw.g.w() + p.size.shadow * 2,
+                    p.draw.g.h() + p.size.shadow);
+            }
+            else
+            {
+                p.draw.g = Box2I();
+                p.draw.g2 = Box2I();
             }
         }
 
@@ -132,25 +151,18 @@ namespace tg
         {
             IPopup::drawEvent(drawRect, event);
             TG_P();
-            const auto& children = getChildren();
-            if (!children.empty())
+            if (!getChildren().empty())
             {
-                const Box2I g = children.front()->getGeometry();
-                const Box2I g2(
-                    g.min.x - p.size.shadow,
-                    g.min.y,
-                    g.w() + p.size.shadow * 2,
-                    g.h() + p.size.shadow);
                 event.render->drawColorMesh(
-                    shadow(g2, p.size.shadow),
+                    shadow(p.draw.g2, p.size.shadow),
                     Color4F(1.F, 1.F, 1.F));
 
                 event.render->drawMesh(
-                    border(margin(g, p.size.border), p.size.border),
+                    border(margin(p.draw.g, p.size.border), p.size.border),
                     event.style->getColorRole(ColorRole::Border));
                 
                 event.render->drawRect(
-                    convert(g),
+                    convert(p.draw.g),
                     event.style->getColorRole(ColorRole::Window));
             }
         }

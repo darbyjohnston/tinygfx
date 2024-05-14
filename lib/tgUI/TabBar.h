@@ -14,6 +14,8 @@ namespace tg
         ///@{
 
         //! Tab bar widget.
+        //! 
+        //! \todo Add scrolling for the tab buttons.
         class TabBar : public IWidget
         {
         protected:

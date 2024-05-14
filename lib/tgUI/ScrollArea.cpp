@@ -260,11 +260,10 @@ namespace tg
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-            const Box2I& g = getGeometry();
             if (p.border)
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(getGeometry(), p.size.border),
                     event.style->getColorRole(ColorRole::Border));
             }
         }

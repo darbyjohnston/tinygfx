@@ -29,6 +29,15 @@ namespace tg
                 FontMetrics fontMetrics;
             };
             SizeData size;
+
+            struct DrawData
+            {
+                Box2I g;
+                Box2I g2;
+                Box2I g3;
+                Box2I g4;
+            };
+            DrawData draw;
         };
 
         void DoubleSlider::_init(
@@ -138,6 +147,25 @@ namespace tg
             return _p->model;
         }
 
+        void DoubleSlider::setGeometry(const Box2I& value)
+        {
+            IWidget::setGeometry(value);
+            TG_P();
+            p.draw.g = value;
+            int pos = 0;
+            if (p.model)
+            {
+                pos = _valueToPos(p.model->getValue());
+            }
+            p.draw.g2 = margin(p.draw.g, -p.size.border);
+            p.draw.g3 = _getSliderGeometry();
+            p.draw.g4 = Box2I(
+                pos - p.size.handle / 2,
+                p.draw.g3.y(),
+                p.size.handle,
+                p.draw.g3.h());
+        }
+
         void DoubleSlider::sizeHintEvent(const SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
@@ -164,53 +192,39 @@ namespace tg
             IWidget::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = getGeometry();
-
+            // Draw the focus and border.
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
             else
             {
                 event.render->drawMesh(
-                    border(g, p.size.border),
+                    border(p.draw.g, p.size.border),
                     event.style->getColorRole(ColorRole::Border));
             }
 
-            const Box2I g2 = margin(g, -p.size.border);
+            // Draw the background.
             event.render->drawRect(
-                convert(g2),
+                convert(p.draw.g2),
                 event.style->getColorRole(ColorRole::Base));
 
-            const Box2I g3 = _getSliderGeometry();
-            //event.render->drawRect(
-            //    convert(g3),
-            //    Color4F(1.F, 0.F, 0.F, .5F));
-            int pos = 0;
-            if (p.model)
-            {
-                pos = _valueToPos(p.model->getValue());
-            }
-            const Box2I g4(
-                pos - p.size.handle / 2,
-                g3.y(),
-                p.size.handle,
-                g3.h());
+            // Draw the handle.
             event.render->drawRect(
-                convert(g4),
+                convert(p.draw.g4),
                 event.style->getColorRole(ColorRole::Button));
             if (_isMousePressed())
             {
                 event.render->drawRect(
-                    convert(g4),
+                    convert(p.draw.g4),
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
-                    convert(g4),
+                    convert(p.draw.g4),
                     event.style->getColorRole(ColorRole::Hover));
             }
         }

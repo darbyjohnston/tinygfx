@@ -32,6 +32,8 @@ namespace tg
 
             struct DrawData
             {
+                Box2I g;
+                Box2I g2;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
             };
             DrawData draw;
@@ -108,6 +110,7 @@ namespace tg
         {
             IWidget::setGeometry(value);
             TG_P();
+
             Box2I g = value;
             g.min.y += p.size.fontMetrics.lineHeight + p.size.spacing;
             g = margin(g, -(p.size.border + p.size.margin));
@@ -115,6 +118,13 @@ namespace tg
             {
                 child->setGeometry(g);
             }
+
+            p.draw.g = value;
+            p.draw.g2 = Box2I(
+                V2I(
+                    p.draw.g.min.x,
+                    p.draw.g.min.y + p.size.fontMetrics.lineHeight + p.size.spacing),
+                p.draw.g.max);
         }
 
         void GroupBox::sizeHintEvent(const SizeHintEvent& event)
@@ -166,8 +176,6 @@ namespace tg
             IWidget::drawEvent(drawRect, event);
             TG_P();
 
-            const Box2I& g = getGeometry();
-
             if (!p.text.empty() && p.draw.glyphs.empty())
             {
                 p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
@@ -175,16 +183,11 @@ namespace tg
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2F(g.x(), g.y()),
+                convert(p.draw.g.min),
                 event.style->getColorRole(ColorRole::Text));
 
-            const Box2I g2(
-                V2I(
-                    g.min.x,
-                    g.min.y + p.size.fontMetrics.lineHeight + p.size.spacing),
-                g.max);
             event.render->drawMesh(
-                border(g2, p.size.border, p.size.margin),
+                border(p.draw.g2, p.size.border, p.size.margin),
                 event.style->getColorRole(ColorRole::Border));
         }
     }

@@ -62,6 +62,9 @@ namespace tg
 
             struct DrawData
             {
+                Box2I g;
+                Box2I g2;
+
                 struct PercentageLabel
                 {
                     std::string text;
@@ -71,6 +74,7 @@ namespace tg
                 };
                 std::vector<PercentageLabel> percentageLabels;
                 std::vector<TriMesh2F> pieSliceMeshes;
+                
                 struct TextLabel
                 {
                     std::string text;
@@ -152,6 +156,24 @@ namespace tg
             p.sizeMult = value;
             _setSizeUpdate();
             _setDrawUpdate();
+        }
+
+        void PieChart::setGeometry(const Box2I& value)
+        {
+            IWidget::setGeometry(value);
+            TG_P();
+            p.draw.g = align(
+                margin(value, -p.size.margin),
+                getSizeHint(),
+                Stretch::Fixed,
+                Stretch::Fixed,
+                getHAlign(),
+                getVAlign());
+            p.draw.g2 = Box2I(
+                p.draw.g.min.x,
+                p.draw.g.min.y,
+                p.size.pieDiameter,
+                p.size.pieDiameter);
         }
 
         void PieChart::sizeHintEvent(const SizeHintEvent& event)
@@ -267,23 +289,8 @@ namespace tg
             IWidget::drawEvent(drawRect, event);
             TG_P();
 
-            //event.render->drawRect(_geometry, Color4F(.5F, .3F, .3F));
-
-            const Box2I g = align(
-                margin(getGeometry() , -p.size.margin),
-                getSizeHint(),
-                Stretch::Fixed,
-                Stretch::Fixed,
-                getHAlign(),
-                getVAlign());
-
             // Draw the percentage labels.
-            const Box2I g2(
-                g.min.x,
-                g.min.y,
-                p.size.pieDiameter,
-                p.size.pieDiameter);
-            const V2I c = center(g2);
+            const V2I c = center(p.draw.g2);
             for (const auto& label : p.draw.percentageLabels)
             {
                 event.render->drawText(
@@ -304,8 +311,8 @@ namespace tg
 
             // Draw the text labels.
             V2I pos(
-                g.min.x + p.size.pieDiameter + p.size.spacing,
-                g.min.y + g.h() / 2 - p.size.textSize.h / 2);
+                p.draw.g.min.x + p.size.pieDiameter + p.size.spacing,
+                p.draw.g.min.y + p.draw.g.h() / 2 - p.size.textSize.h / 2);
             for (const auto& label : p.draw.textLabels)
             {
                 event.render->drawMesh(

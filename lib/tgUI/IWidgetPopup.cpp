@@ -96,6 +96,14 @@ namespace tg
                 int shadow = 0;
             };
             SizeData size;
+
+            struct DrawData
+            {
+                Box2I g;
+                Box2I g2;
+                Box2I g3;
+            };
+            DrawData draw;
         };
 
         void IWidgetPopup::_init(
@@ -232,6 +240,14 @@ namespace tg
                 });
             Box2I g = intersect.front().intersected;
             p.containerWidget->setGeometry(g);
+
+            p.draw.g = margin(g, p.size.border);
+            p.draw.g2 = Box2I(
+                p.draw.g.min.x - p.size.shadow,
+                p.draw.g.min.y,
+                p.draw.g.w() + p.size.shadow * 2,
+                p.draw.g.h() + p.size.shadow);
+            p.draw.g3 = margin(p.draw.g, -p.size.border);
         }
 
         void IWidgetPopup::sizeHintEvent(const SizeHintEvent& event)
@@ -248,27 +264,15 @@ namespace tg
         {
             IPopup::drawEvent(drawRect, event);
             TG_P();
-            const Box2I g = margin(p.containerWidget->getGeometry(), p.size.border);
-            if (g.size().isValid())
-            {
-                const Box2I g2(
-                    g.min.x - p.size.shadow,
-                    g.min.y,
-                    g.w() + p.size.shadow * 2,
-                    g.h() + p.size.shadow);
-                event.render->drawColorMesh(
-                    shadow(g2, p.size.shadow),
-                    Color4F(1.F, 1.F, 1.F));
-
-                event.render->drawMesh(
-                    border(g, p.size.border),
-                    event.style->getColorRole(ColorRole::Border));
-
-                const Box2I g3 = margin(g, -p.size.border);
-                event.render->drawRect(
-                    convert(g3),
-                    event.style->getColorRole(p.popupRole));
-            }
+            event.render->drawColorMesh(
+                shadow(p.draw.g2, p.size.shadow),
+                Color4F(1.F, 1.F, 1.F));
+            event.render->drawMesh(
+                border(p.draw.g, p.size.border),
+                event.style->getColorRole(ColorRole::Border));
+            event.render->drawRect(
+                convert(p.draw.g3),
+                event.style->getColorRole(p.popupRole));
         }
 
         void IWidgetPopup::keyPressEvent(KeyEvent& event)
