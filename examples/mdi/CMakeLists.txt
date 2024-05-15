@@ -1,4 +1,4 @@
-add_executable(mdi mdi.h mdi.cpp)
+add_executable(mdi mdi.cpp)
 target_link_libraries(mdi tgUIApp)
 set_target_properties(mdi PROPERTIES FOLDER examples)
 

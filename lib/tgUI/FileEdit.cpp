@@ -95,6 +95,11 @@ namespace tg
             return out;
         }
 
+        const std::filesystem::path& FileEdit::getPath() const
+        {
+            return _p->path;
+        }
+
         void FileEdit::setPath(const std::filesystem::path& value)
         {
             TG_P();
@@ -102,11 +107,6 @@ namespace tg
                 return;
             p.path = value;
             p.lineEdit->setText(value.string());
-        }
-
-        const std::filesystem::path& FileEdit::getPath() const
-        {
-            return _p->path;
         }
 
         void FileEdit::setCallback(const std::function<void(const std::filesystem::path&)>& value)

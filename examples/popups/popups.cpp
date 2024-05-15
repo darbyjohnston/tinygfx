@@ -31,9 +31,9 @@ namespace tg
                 ui::Window::_init(context, name, size);
 
                 // Create the menu bar.
-                auto layout = VerticalLayout::create(context, shared_from_this());
-                layout->setSpacingRole(SizeRole::None);
-                _menuBar = MenuBar::create(context, layout);
+                auto menuLayout = VerticalLayout::create(context, shared_from_this());
+                menuLayout->setSpacingRole(SizeRole::None);
+                _menuBar = MenuBar::create(context, menuLayout);
                 auto menu = Menu::create(context);
                 menu->addItem(std::make_shared<Action>(
                     "Action 1",
@@ -107,18 +107,15 @@ namespace tg
                     [] { std::cout << "Action 16" << std::endl; }));
                 _menuBar->addMenu("Menu 3", menu);
 
-                // Create the scroll widget.
-                auto scrollWidget = ScrollWidget::create(
-                    context,
-                    ScrollType::Both,
-                    layout);
+                // Create the layout.
+                auto layout = VerticalLayout::create(context);
+                layout->setMarginRole(SizeRole::Margin);
+                auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, menuLayout);
                 scrollWidget->setStretch(Stretch::Expanding);
-                auto scrollLayout = VerticalLayout::create(context);
-                scrollLayout->setMarginRole(SizeRole::Margin);
-                scrollWidget->setWidget(scrollLayout);
+                scrollWidget->setWidget(layout);
 
                 // Create combo boxes.
-                auto groupBox = GroupBox::create(context, "Combo Boxes", scrollLayout);
+                auto groupBox = GroupBox::create(context, "Combo Boxes", layout);
                 auto vLayout = VerticalLayout::create(context, groupBox);
                 auto comboBox = ComboBox::create(context, vLayout);
                 comboBox->setItems(
@@ -132,7 +129,7 @@ namespace tg
                 comboBox->setTooltip("Image types");
 
                 // Create color swatches.
-                groupBox = GroupBox::create(context, "Color Popups", scrollLayout);
+                groupBox = GroupBox::create(context, "Color Popups", layout);
                 auto hLayout = HorizontalLayout::create(context, groupBox);
                 const std::vector<Color4F> colors =
                 {
@@ -179,28 +176,27 @@ namespace tg
 
 TG_MAIN()
 {
-    int r = 0;
     try
     {
         auto context = Context::create();
         auto args = tg::app::convert(argc, argv);
         auto app = App::create(context, args, "popups", "Popups example");
-        r = app->getExit();
-        if (0 == r)
-        {
-            auto window = tg::examples::popups::Window::create(
-                context,
-                "popups",
-                Size2I(1280, 720));
-            app->addWindow(window);
-            window->show();
-            app->run();
-        }
+        if (app->getExit() != 0)
+            return app->getExit();
+
+        auto window = tg::examples::popups::Window::create(
+            context,
+            "popups",
+            Size2I(1280, 960));
+        app->addWindow(window);
+        window->show();
+        app->run();
     }
     catch (const std::exception& e)
     {
         std::cout << "ERROR: " << e.what() << std::endl;
+        return 1;
     }
-    return r;
+    return 0;
 }
 

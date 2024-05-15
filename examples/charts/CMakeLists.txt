@@ -1,4 +1,4 @@
-add_executable(charts charts.h charts.cpp)
+add_executable(charts charts.cpp)
 target_link_libraries(charts tgUIApp)
 set_target_properties(charts PROPERTIES FOLDER examples)
 

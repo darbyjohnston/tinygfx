@@ -20,15 +20,15 @@ namespace tg
         void iSystem(py::module_& m)
         {
             py::class_<ISystem, std::shared_ptr<ISystem> >(m, "ISystem")
-                .def(
-                    "getContext",
+                .def_property_readonly(
+                    "context",
                     [](std::shared_ptr<ISystem>& self)
                     {
                         return self->getContext().lock();
                     })
                 .def_property_readonly("name", &ISystem::getName)
                 .def("tick", &ISystem::tick)
-                .def("getTickTime", &ISystem::getTickTime);
+                .def_property_readonly("tickTime", &ISystem::getTickTime);
         }
     }
 }

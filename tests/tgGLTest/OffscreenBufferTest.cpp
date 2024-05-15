@@ -156,7 +156,7 @@ namespace tg
                 TG_ASSERT(create);
                 buffer = OffscreenBuffer::create(size, options);
 
-                size = Size2I(1280, 720);
+                size = Size2I(1280, 960);
                 create = doCreate(buffer, size, options);
                 TG_ASSERT(create);
                 buffer = OffscreenBuffer::create(size, options);

@@ -35,6 +35,9 @@ namespace tg
             //! Add a system.
             void addSystem(const std::shared_ptr<ISystem>&);
 
+            //! Get the systems.
+            const std::list<std::shared_ptr<ISystem> >& getSystems() const;
+
             //! Get a system.
             template<typename T>
             std::shared_ptr<T> getSystem() const;

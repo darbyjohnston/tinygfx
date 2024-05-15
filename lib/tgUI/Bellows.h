@@ -37,6 +37,9 @@ namespace tg
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            //! Get the text.
+            const std::string& getText() const;
+
             //! Set the text.
             void setText(const std::string&);
 

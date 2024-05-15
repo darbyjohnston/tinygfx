@@ -38,7 +38,7 @@ namespace tg
             {
                 PieChartData a;
                 PieChartData b;
-                b.text = "Pie";
+                b.percentage = 50.F;
                 TG_ASSERT(a == a);
                 TG_ASSERT(a != b);
             }
@@ -60,16 +60,12 @@ namespace tg
 
                 auto widget = PieChart::create(context, layout);
                 std::vector<PieChartData> data;
-                data.push_back(PieChartData("Apples", .6F, Color4F(1.F, 0.F, 0.F)));
-                data.push_back(PieChartData("Oranges", .3F, Color4F(1.F, .8F, 0.F)));
-                data.push_back(PieChartData("Pears", .1F, Color4F(.8F, 1.F, 0.F)));
+                data.push_back(PieChartData(60.F, Color4F(1.F, 0.F, 0.F)));
+                data.push_back(PieChartData(30.F, Color4F(1.F, .8F, 0.F)));
+                data.push_back(PieChartData(10.F, Color4F(.8F, 1.F, 0.F)));
                 widget->setData(data);
                 widget->setData(data);
                 TG_ASSERT(data == widget->getData());
-                app->tick();
-                widget->setFontRole(FontRole::Mono);
-                widget->setFontRole(FontRole::Mono);
-                TG_ASSERT(FontRole::Mono == widget->getFontRole());
                 app->tick();
                 widget->setSizeMult(2);
                 widget->setSizeMult(2);

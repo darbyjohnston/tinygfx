@@ -72,6 +72,11 @@ namespace tg
             return out;
         }
 
+        const std::string& Bellows::getText() const
+        {
+            return _p->button->getText();
+        }
+
         void Bellows::setText(const std::string& value)
         {
             _p->button->setText(value);

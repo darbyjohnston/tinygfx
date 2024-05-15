@@ -48,7 +48,7 @@ namespace tg
                     context,
                     std::dynamic_pointer_cast<App>(shared_from_this()),
                     "textedit",
-                    Size2I(1280, 720));
+                    Size2I(1280, 960));
                 addWindow(_window);
 
                 if (!_path.empty())

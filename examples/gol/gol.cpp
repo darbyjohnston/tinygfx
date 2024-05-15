@@ -211,28 +211,27 @@ namespace tg
 
 TG_MAIN()
 {
-    int r = 0;
     try
     {
         auto context = Context::create();
         auto args = tg::app::convert(argc, argv);
         auto app = App::create(context, args, "gol", "Game of life example");
-        r = app->getExit();
-        if (0 == r)
-        {
-            auto window = tg::examples::gol::Window::create(
-                context,
-                "gol",
-                Size2I(1280, 720));
-            app->addWindow(window);
-            window->show();
-            app->run();
-        }
+        if (app->getExit() != 0)
+            return app->getExit();
+
+        auto window = tg::examples::gol::Window::create(
+            context,
+            "gol",
+            Size2I(1280, 960));
+        app->addWindow(window);
+        window->show();
+        app->run();
     }
     catch (const std::exception& e)
     {
         std::cout << "ERROR: " << e.what() << std::endl;
+        return 1;
     }
-    return r;
+    return 0;
 }
 

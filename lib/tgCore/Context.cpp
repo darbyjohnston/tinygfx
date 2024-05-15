@@ -24,6 +24,11 @@ namespace tg
             _systemTimes[system] = std::chrono::steady_clock::now();
         }
 
+        const std::list<std::shared_ptr<ISystem> >& Context::getSystems() const
+        {
+            return _systems;
+        }
+
         void Context::tick()
         {
             const auto now = std::chrono::steady_clock::now();

@@ -1,4 +1,5 @@
 set(HEADERS
+    Bellows.h
     Bindings.h
     ButtonGroup.h
     CheckBox.h
@@ -10,6 +11,7 @@ set(HEADERS
     DoubleModel.h
     DoubleSlider.h
     Event.h
+    FileEdit.h
     FloatEdit.h
     FloatEditSlider.h
     FloatModel.h
@@ -31,10 +33,13 @@ set(HEADERS
     ScrollArea.h
     ScrollWidget.h
     Style.h
+    TabBar.h
+    TabWidget.h
     ToolButton.h
     WidgetOptions.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
+    Bellows.cpp
     Bindings.cpp
     ButtonGroup.cpp
     CheckBox.cpp
@@ -50,6 +55,7 @@ set(SOURCE
     FloatEditSlider.cpp
     FloatModel.cpp
     FloatSlider.cpp
+    FileEdit.cpp
     GroupBox.cpp
     IButton.cpp
     IPopup.cpp
@@ -67,6 +73,8 @@ set(SOURCE
     ScrollArea.cpp
     ScrollWidget.cpp
     Style.cpp
+    TabBar.cpp
+    TabWidget.cpp
     ToolButton.cpp
     WidgetOptions.cpp)
 

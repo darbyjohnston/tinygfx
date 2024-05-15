@@ -5,6 +5,7 @@
 #include <tgCorePy/Context.h>
 
 #include <tgCore/Context.h>
+#include <tgCore/ISystem.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -19,6 +20,8 @@ namespace tg
         {
             py::class_<Context, std::shared_ptr<Context> >(m, "Context")
                 .def(py::init(&Context::create))
+                .def("addSystem", &Context::addSystem)
+                .def_property_readonly("systems", &Context::getSystems)
                 .def("tick", &Context::tick);
         }
     }

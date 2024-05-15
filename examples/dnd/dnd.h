@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <tgUIApp/Window.h>
-
 #include <tgUI/Label.h>
 
 namespace tg
@@ -65,25 +63,6 @@ namespace tg
                 int _border = 0;
                 int _dragLength = 0;
                 bool _dropTarget = false;;
-            };
-
-            class Window : public ui::Window
-            {
-            protected:
-                void _init(
-                    const std::shared_ptr<core::Context>&,
-                    const std::string& name,
-                    const core::Size2I&);
-
-                Window() = default;
-
-            public:
-                virtual ~Window();
-
-                static std::shared_ptr<Window> create(
-                    const std::shared_ptr<core::Context>&,
-                    const std::string& name,
-                    const core::Size2I&);
             };
         }
     }

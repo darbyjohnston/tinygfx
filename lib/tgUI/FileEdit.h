@@ -33,11 +33,11 @@ namespace tg
                 const std::shared_ptr<core::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Set the path.
-            void setPath(const std::filesystem::path&);
-
             //! Get the path.
             const std::filesystem::path& getPath() const;
+
+            //! Set the path.
+            void setPath(const std::filesystem::path&);
 
             //! Set the callback.
             void setCallback(const std::function<void(const std::filesystem::path&)>&);

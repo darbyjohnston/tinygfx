@@ -1,4 +1,4 @@
-add_executable(lists lists.h lists.cpp)
+add_executable(lists lists.cpp)
 target_link_libraries(lists tgUIApp)
 set_target_properties(lists PROPERTIES FOLDER examples)
 

@@ -16,14 +16,12 @@ namespace tg
         //! Pie chart data.
         struct PieChartData
         {
-            PieChartData();
+            PieChartData() = default;
             PieChartData(
-                const std::string&   text,
                 float                percentage,
                 const core::Color4F& color);
 
-            std::string   text;
-            float         percentage;
+            float         percentage = 0.F;
             core::Color4F color;
 
             bool operator == (const PieChartData&) const;
@@ -53,12 +51,6 @@ namespace tg
 
             //! Set the pie chart data.
             void setData(const std::vector<PieChartData>&);
-
-            //! Get the font role.
-            FontRole getFontRole() const;
-
-            //! Set the font role.
-            void setFontRole(FontRole);
 
             //! Set the size multiplier.
             int getSizeMult() const;

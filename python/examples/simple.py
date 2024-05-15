@@ -31,9 +31,11 @@ class Window(tgUIApp.Window):
     
 context = tgCore.Context()
 app = tgUIApp.App(context, sys.argv, "simple", "Simple example")
-if 0 == app.getExit():
-    window = Window(context, "simple", tgCore.Size2I(1280, 960))
-    app.addWindow(window)
-    window.show()
-    app.run()
-    window = None
+if app.getExit() != 0:
+    sys.exit(app.getExit())
+window = Window(context, "simple", tgCore.Size2I(1280, 960))
+app.addWindow(window)
+window.show()
+app.run()
+# \bug Need to manually reset the window.
+window = None

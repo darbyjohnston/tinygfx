@@ -6,21 +6,19 @@
 
 TG_MAIN()
 {
-    int r = 0;
     try
     {
         auto context = tg::core::Context::create();
         auto args = tg::app::convert(argc, argv);
         auto app = tg::examples::textedit::App::create(context, args);
-        r = app->getExit();
-        if (0 == r)
-        {
-            app->run();
-        }
+        if (app->getExit() != 0)
+            return app->getExit();
+        app->run();
     }
     catch (const std::exception& e)
     {
         std::cout << "ERROR: " << e.what() << std::endl;
+        return 1;
     }
-    return r;
+    return 0;
 }

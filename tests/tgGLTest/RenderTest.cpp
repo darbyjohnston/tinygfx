@@ -65,7 +65,7 @@ namespace tg
                 render->begin(size);
                 TG_ASSERT(render->getRenderSize() == size);
 
-                size = Size2I(1280, 720);
+                size = Size2I(1280, 960);
                 render->setRenderSize(size);
                 TG_ASSERT(render->getRenderSize() == size);
                 

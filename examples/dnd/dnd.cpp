@@ -5,6 +5,7 @@
 #include "dnd.h"
 
 #include <tgUIApp/App.h>
+#include <tgUIApp/Window.h>
 
 #include <tgUI/DrawUtil.h>
 #include <tgUI/GridLayout.h>
@@ -204,81 +205,56 @@ namespace tg
                 ss << std::setfill('0') << std::setw(3) << _number;
                 _label->setText(ss.str());
             }
-
-            void Window::_init(
-                const std::shared_ptr<Context>& context,
-                const std::string& name,
-                const Size2I& size)
-            {
-                ui::Window::_init(context, name, size);
-
-                // Create the scroll widget.
-                auto scrollWidget = ScrollWidget::create(
-                    context,
-                    ScrollType::Both,
-                    shared_from_this());
-
-                // Create the grid layout.
-                auto layout = GridLayout::create(context);
-                layout->setMarginRole(SizeRole::MarginSmall);
-                layout->setSpacingRole(SizeRole::SpacingSmall);
-                scrollWidget->setWidget(layout);
-
-                // Create the drag and drop widgets.
-                const size_t count = 20;
-                for (size_t i = 0; i < count; ++i)
-                {
-                    for (size_t j = 0; j < count; ++j)
-                    {
-                        auto widget = DragAndDropWidget::create(
-                            context,
-                            i * count + j,
-                            layout);
-                        layout->setGridPos(widget, i, j);
-                    }
-                }
-            }
-
-            Window::~Window()
-            {}
-
-            std::shared_ptr<Window> Window::create(
-                const std::shared_ptr<Context>& context,
-                const std::string& name,
-                const Size2I& size)
-            {
-                auto out = std::shared_ptr<Window>(new Window);
-                out->_init(context, name, size);
-                return out;
-            }
         }
     }
 }
 
 TG_MAIN()
 {
-    int r = 0;
     try
     {
         auto context = Context::create();
         auto args = tg::app::convert(argc, argv);
         auto app = App::create(context, args, "dnd", "Drag and drop example");
-        r = app->getExit();
-        if (0 == r)
+        if (app->getExit() != 0)
+            return app->getExit();
+
+        // Create the window.
+        auto window = Window::create(
+            context,
+            "dnd",
+            Size2I(1280, 960));
+        app->addWindow(window);
+
+        // Create the layout.
+        auto layout = GridLayout::create(context);
+        layout->setMarginRole(SizeRole::MarginSmall);
+        layout->setSpacingRole(SizeRole::SpacingSmall);
+        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
+        scrollWidget->setWidget(layout);
+
+        // Create the drag and drop widgets.
+        const size_t count = 20;
+        for (size_t i = 0; i < count; ++i)
         {
-            auto window = tg::examples::dnd::Window::create(
-                context,
-                "dnd",
-                Size2I(1280, 720));
-            app->addWindow(window);
-            window->show();
-            app->run();
+            for (size_t j = 0; j < count; ++j)
+            {
+                auto widget = tg::examples::dnd::DragAndDropWidget::create(
+                    context,
+                    i * count + j,
+                    layout);
+                layout->setGridPos(widget, i, j);
+            }
         }
+
+        window->show();
+        app->run();
     }
     catch (const std::exception& e)
     {
         std::cout << "ERROR: " << e.what() << std::endl;
+        return 1;
     }
-    return r;
+    return 0;
 }
 

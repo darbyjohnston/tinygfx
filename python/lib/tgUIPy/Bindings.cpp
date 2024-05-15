@@ -4,6 +4,7 @@
 
 #include <tgUIPy/Bindings.h>
 
+#include <tgUIPy/Bellows.h>
 #include <tgUIPy/ButtonGroup.h>
 #include <tgUIPy/CheckBox.h>
 #include <tgUIPy/ColorPopup.h>
@@ -14,6 +15,7 @@
 #include <tgUIPy/DoubleModel.h>
 #include <tgUIPy/DoubleSlider.h>
 #include <tgUIPy/Event.h>
+#include <tgUIPy/FileEdit.h>
 #include <tgUIPy/FloatEdit.h>
 #include <tgUIPy/FloatEditSlider.h>
 #include <tgUIPy/FloatModel.h>
@@ -35,6 +37,8 @@
 #include <tgUIPy/ScrollArea.h>
 #include <tgUIPy/ScrollWidget.h>
 #include <tgUIPy/Style.h>
+#include <tgUIPy/TabBar.h>
+#include <tgUIPy/TabWidget.h>
 #include <tgUIPy/ToolButton.h>
 #include <tgUIPy/WidgetOptions.h>
 
@@ -66,6 +70,7 @@ namespace tg
             iWidgetPopup(sm);
             iButton(sm);
 
+            bellows(sm);
             buttonGroup(sm);
             checkBox(sm);
             colorPopup(sm);
@@ -75,6 +80,7 @@ namespace tg
             doubleEditSlider(sm);
             doubleModel(sm);
             doubleSlider(sm);
+            fileEdit(sm);
             floatEdit(sm);
             floatEditSlider(sm);
             floatModel(sm);
@@ -90,6 +96,8 @@ namespace tg
             rowLayout(sm);
             scrollArea(sm);
             scrollWidget(sm);
+            tabBar(sm);
+            tabWidget(sm);
             toolButton(sm);
         }
     }

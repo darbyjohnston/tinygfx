@@ -48,7 +48,6 @@ namespace tg
             //! Set the scroll position callback.
             void setScrollPosCallback(const std::function<void(int)>&);
 
-            void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void drawEvent(const core::Box2I&, const DrawEvent&) override;
             void mouseEnterEvent() override;
