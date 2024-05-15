@@ -32,7 +32,8 @@ namespace tg
             struct DrawData
             {
                 Box2I g;
-                Box2I g2;
+                TriMesh2F shadow;
+                TriMesh2F border;
             };
             DrawData draw;
         };
@@ -118,16 +119,19 @@ namespace tg
                     size.y));
 
                 p.draw.g = children.front()->getGeometry();
-                p.draw.g2 = Box2I(
+                const Box2I g2(
                     p.draw.g.min.x - p.size.shadow,
                     p.draw.g.min.y,
                     p.draw.g.w() + p.size.shadow * 2,
                     p.draw.g.h() + p.size.shadow);
+                p.draw.shadow = shadow(g2, p.size.shadow);
+                p.draw.border = border(margin(p.draw.g, p.size.border), p.size.border);
             }
             else
             {
                 p.draw.g = Box2I();
-                p.draw.g2 = Box2I();
+                p.draw.shadow = TriMesh2F();
+                p.draw.border = TriMesh2F();
             }
         }
 
@@ -153,14 +157,10 @@ namespace tg
             TG_P();
             if (!getChildren().empty())
             {
-                event.render->drawColorMesh(
-                    shadow(p.draw.g2, p.size.shadow),
-                    Color4F(1.F, 1.F, 1.F));
-
+                event.render->drawColorMesh(p.draw.shadow);
                 event.render->drawMesh(
-                    border(margin(p.draw.g, p.size.border), p.size.border),
+                    p.draw.border,
                     event.style->getColorRole(ColorRole::Border));
-                
                 event.render->drawRect(
                     convert(p.draw.g),
                     event.style->getColorRole(ColorRole::Window));

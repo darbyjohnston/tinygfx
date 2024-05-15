@@ -54,8 +54,8 @@ namespace tg
             struct DrawData
             {
                 Box2I g;
-                Box2I g2;
-                Box2I g3;
+                TriMesh2F shadow;
+                TriMesh2F border;
             };
             DrawData draw;
 
@@ -220,9 +220,10 @@ namespace tg
                 p.size.handle * 2,
                 p.size.handle * 2);
 
-            p.draw.g = value;
-            p.draw.g2 = core::margin(p.draw.g, -margin, -p.size.handle, -margin, -margin);
-            p.draw.g3 = core::margin(p.draw.g2, -p.size.border);
+            const Box2I g2 = core::margin(value, -margin, -p.size.handle, -margin, -margin);
+            p.draw.g = core::margin(g2, -p.size.border);
+            p.draw.shadow = shadow(core::margin(g2, p.size.shadow, 0, p.size.shadow, p.size.shadow), p.size.shadow);
+            p.draw.border = border(g2, p.size.border);
         }
 
         void MDIWidget::sizeHintEvent(const SizeHintEvent& event)
@@ -251,11 +252,7 @@ namespace tg
         {
             IWidget::drawEvent(drawRect, event);
             TG_P();
-
-            event.render->drawColorMesh(
-                shadow(core::margin(p.draw.g2, p.size.shadow, 0, p.size.shadow, p.size.shadow), p.size.shadow),
-                Color4F(1.F, 1.F, 1.F));
-
+            event.render->drawColorMesh(p.draw.shadow);
             if (p.mouse.resize != MDIResize::None)
             {
                 const auto i = p.mouse.resizeBoxes.find(p.mouse.resize);
@@ -266,12 +263,11 @@ namespace tg
                         event.style->getColorRole(ColorRole::Checked));
                 }
             }
-
             event.render->drawMesh(
-                border(p.draw.g2, p.size.border),
+                p.draw.border,
                 event.style->getColorRole(ColorRole::Border));
             event.render->drawRect(
-                convert(p.draw.g3),
+                convert(p.draw.g),
                 event.style->getColorRole(ColorRole::Window));
         }
 

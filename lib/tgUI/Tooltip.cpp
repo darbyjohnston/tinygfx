@@ -33,7 +33,8 @@ namespace tg
             struct DrawData
             {
                 Box2I g;
-                Box2I g2;
+                TriMesh2F shadow;
+                TriMesh2F border;
             };
             DrawData draw;
         };
@@ -129,11 +130,13 @@ namespace tg
             p.label->setGeometry(g);
 
             p.draw.g = g;
-            p.draw.g2 = Box2I(
+            const Box2I g2(
                 g.min.x - p.size.shadow,
                 g.min.y,
                 g.w() + p.size.shadow * 2,
                 g.h() + p.size.shadow);
+            p.draw.shadow = shadow(g2, p.size.shadow);
+            p.draw.border = border(margin(p.draw.g, p.size.border), p.size.border);
         }
 
         void Tooltip::sizeHintEvent(const SizeHintEvent& event)
@@ -157,11 +160,9 @@ namespace tg
         {
             IPopup::drawEvent(drawRect, event);
             TG_P();
-            event.render->drawColorMesh(
-                shadow(p.draw.g2, p.size.shadow),
-                Color4F(1.F, 1.F, 1.F));
+            event.render->drawColorMesh(p.draw.shadow);
             event.render->drawMesh(
-                border(margin(p.draw.g, p.size.border), p.size.border),
+                p.draw.border,
                 event.style->getColorRole(ColorRole::Border));
             event.render->drawRect(
                 convert(p.draw.g),

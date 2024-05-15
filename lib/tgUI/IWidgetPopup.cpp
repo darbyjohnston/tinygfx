@@ -100,8 +100,8 @@ namespace tg
             struct DrawData
             {
                 Box2I g;
-                Box2I g2;
-                Box2I g3;
+                TriMesh2F shadow;
+                TriMesh2F border;
             };
             DrawData draw;
         };
@@ -241,13 +241,15 @@ namespace tg
             Box2I g = intersect.front().intersected;
             p.containerWidget->setGeometry(g);
 
-            p.draw.g = margin(g, p.size.border);
-            p.draw.g2 = Box2I(
-                p.draw.g.min.x - p.size.shadow,
-                p.draw.g.min.y,
-                p.draw.g.w() + p.size.shadow * 2,
-                p.draw.g.h() + p.size.shadow);
-            p.draw.g3 = margin(p.draw.g, -p.size.border);
+            p.draw.g = g;
+            const Box2I g2 = margin(g, p.size.border);
+            const Box2I g3 = Box2I(
+                g.min.x - p.size.shadow,
+                g.min.y,
+                g.w() + p.size.shadow * 2,
+                g.h() + p.size.shadow);
+            p.draw.shadow = shadow(g3, p.size.shadow);
+            p.draw.border = border(g2, p.size.border);
         }
 
         void IWidgetPopup::sizeHintEvent(const SizeHintEvent& event)
@@ -264,14 +266,12 @@ namespace tg
         {
             IPopup::drawEvent(drawRect, event);
             TG_P();
-            event.render->drawColorMesh(
-                shadow(p.draw.g2, p.size.shadow),
-                Color4F(1.F, 1.F, 1.F));
+            event.render->drawColorMesh(p.draw.shadow);
             event.render->drawMesh(
-                border(p.draw.g, p.size.border),
+                p.draw.border,
                 event.style->getColorRole(ColorRole::Border));
             event.render->drawRect(
-                convert(p.draw.g3),
+                convert(p.draw.g),
                 event.style->getColorRole(p.popupRole));
         }
 

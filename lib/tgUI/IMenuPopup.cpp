@@ -104,7 +104,7 @@ namespace tg
             struct DrawData
             {
                 Box2I g;
-                Box2I g2;
+                TriMesh2F shadow;
             };
             DrawData draw;
         };
@@ -263,11 +263,12 @@ namespace tg
             p.menuPopupWidget->setGeometry(g);
 
             p.draw.g = g;
-            p.draw.g2 = Box2I(
+            const Box2I g2(
                 g.min.x - p.size.shadow,
                 g.min.y,
                 g.w() + p.size.shadow * 2,
                 g.h() + p.size.shadow);
+            p.draw.shadow = shadow(g2, p.size.shadow);
         }
 
         void IMenuPopup::sizeHintEvent(const SizeHintEvent& event)
@@ -288,9 +289,7 @@ namespace tg
         {
             IPopup::drawEvent(drawRect, event);
             TG_P();
-            event.render->drawColorMesh(
-                shadow(p.draw.g2, p.size.shadow),
-                Color4F(1.F, 1.F, 1.F));
+            event.render->drawColorMesh(p.draw.shadow);
             event.render->drawRect(
                 convert(p.draw.g),
                 event.style->getColorRole(p.popupRole));

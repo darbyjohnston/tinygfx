@@ -36,6 +36,7 @@ namespace tg
                 Box2I g2;
                 Box2I g3;
                 Box2I g4;
+                TriMesh2F border;
             };
             DrawData draw;
         };
@@ -164,6 +165,7 @@ namespace tg
                 p.draw.g3.y(),
                 p.size.handle,
                 p.draw.g3.h());
+            p.draw.border = border(p.draw.g, p.size.border);
         }
 
         void DoubleSlider::sizeHintEvent(const SizeHintEvent& event)
@@ -193,18 +195,10 @@ namespace tg
             TG_P();
 
             // Draw the focus and border.
-            if (hasKeyFocus())
-            {
-                event.render->drawMesh(
-                    border(p.draw.g, p.size.border),
-                    event.style->getColorRole(ColorRole::KeyFocus));
-            }
-            else
-            {
-                event.render->drawMesh(
-                    border(p.draw.g, p.size.border),
-                    event.style->getColorRole(ColorRole::Border));
-            }
+            event.render->drawMesh(
+                p.draw.border,
+                event.style->getColorRole(
+                    hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
 
             // Draw the background.
             event.render->drawRect(

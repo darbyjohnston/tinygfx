@@ -123,6 +123,7 @@ namespace tg
                 Box2I g;
                 Box2I g2;
                 Box2I g3;
+                TriMesh2F border;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
                 std::vector<Box2I> glyphsBox;
             };
@@ -228,6 +229,7 @@ namespace tg
             p.draw.g = _getAlignGeometry();
             p.draw.g2 = margin(p.draw.g, -p.size.border);
             p.draw.g3 = margin(p.draw.g, -p.size.margin);
+            p.draw.border = border(p.draw.g, p.size.border);
         }
 
         void LineEdit::setVisible(bool value)
@@ -331,18 +333,10 @@ namespace tg
             const bool enabled = isEnabled();
 
             // Draw the focus and border.
-            if (hasKeyFocus())
-            {
-                event.render->drawMesh(
-                    border(p.draw.g, p.size.border),
-                    event.style->getColorRole(ColorRole::KeyFocus));
-            }
-            else
-            {
-                event.render->drawMesh(
-                    border(p.draw.g, p.size.border),
-                    event.style->getColorRole(ColorRole::Border));
-            }
+            event.render->drawMesh(
+                p.draw.border,
+                event.style->getColorRole(
+                    hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
 
             // Draw the background.
             event.render->drawRect(

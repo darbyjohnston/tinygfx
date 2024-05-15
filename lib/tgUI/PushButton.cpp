@@ -33,6 +33,7 @@ namespace tg
                 Box2I g;
                 Box2I g2;
                 Box2I g3;
+                TriMesh2F border;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
             };
             DrawData draw;
@@ -110,6 +111,7 @@ namespace tg
                 -p.size.margin2,
                 -p.size.margin,
                 -p.size.margin2);
+            p.draw.border = border(p.draw.g, p.size.border);
         }
 
         void PushButton::sizeHintEvent(const SizeHintEvent& event)
@@ -172,18 +174,10 @@ namespace tg
             TG_P();
 
             // Draw the focus and border.
-            if (hasKeyFocus())
-            {
-                event.render->drawMesh(
-                    border(p.draw.g, p.size.border),
-                    event.style->getColorRole(ColorRole::KeyFocus));
-            } 
-            else
-            {
-                event.render->drawMesh(
-                    border(p.draw.g, p.size.border),
-                    event.style->getColorRole(ColorRole::Border));
-            }
+            event.render->drawMesh(
+                p.draw.border,
+                event.style->getColorRole(
+                    hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
 
             // Draw the background.
             const auto mesh = rect(p.draw.g2);
