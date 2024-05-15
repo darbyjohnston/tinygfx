@@ -15,6 +15,7 @@
 #include <tgUIPy/DoubleModel.h>
 #include <tgUIPy/DoubleSlider.h>
 #include <tgUIPy/Event.h>
+#include <tgUIPy/FileBrowser.h>
 #include <tgUIPy/FileEdit.h>
 #include <tgUIPy/FloatEdit.h>
 #include <tgUIPy/FloatEditSlider.h>
@@ -33,6 +34,7 @@
 #include <tgUIPy/MDICanvas.h>
 #include <tgUIPy/MDIWidget.h>
 #include <tgUIPy/PushButton.h>
+#include <tgUIPy/RecentFilesModel.h>
 #include <tgUIPy/RowLayout.h>
 #include <tgUIPy/ScrollArea.h>
 #include <tgUIPy/ScrollWidget.h>
@@ -80,6 +82,7 @@ namespace tg
             doubleEditSlider(sm);
             doubleModel(sm);
             doubleSlider(sm);
+            fileBrowser(sm);
             fileEdit(sm);
             floatEdit(sm);
             floatEditSlider(sm);
@@ -93,6 +96,7 @@ namespace tg
             mdiCanvas(sm);
             mdiWidget(sm);
             pushButton(sm);
+            recentFilesModel(sm);
             rowLayout(sm);
             scrollArea(sm);
             scrollWidget(sm);

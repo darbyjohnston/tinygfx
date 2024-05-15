@@ -10,8 +10,11 @@ context = tgCore.Context()
 app = tgUIApp.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
     sys.exit(1)
+
+# Disable the native file dialog.
 for system in context.systems:
-    print(system.name, system)
+    if isinstance(system, tgUI.FileBrowserSystem):
+        system.nativeFileDialog = False
 
 # Create the window.
 size = tgCore.Size2I(1280, 960)

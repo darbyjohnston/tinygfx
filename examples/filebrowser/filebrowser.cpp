@@ -24,6 +24,8 @@ TG_MAIN()
         auto app = App::create(context, args, "filebrowser", "File browser example");
         if (app->getExit() != 0)
             return app->getExit();
+
+        // Disable the native file dialog.
         context->getSystem<tg::ui::FileBrowserSystem>()->setNativeFileDialog(false);
 
         // Create the window.

@@ -11,6 +11,7 @@ set(HEADERS
     DoubleModel.h
     DoubleSlider.h
     Event.h
+    FileBrowser.h
     FileEdit.h
     FloatEdit.h
     FloatEditSlider.h
@@ -29,6 +30,7 @@ set(HEADERS
     MDICanvas.h
     MDIWidget.h
     PushButton.h
+    RecentFilesModel.h
     RowLayout.h
     ScrollArea.h
     ScrollWidget.h
@@ -51,6 +53,7 @@ set(SOURCE
     DoubleModel.cpp
     DoubleSlider.cpp
     Event.cpp
+    FileBrowser.cpp
     FloatEdit.cpp
     FloatEditSlider.cpp
     FloatModel.cpp
@@ -69,6 +72,7 @@ set(SOURCE
     MDICanvas.cpp
     MDIWidget.cpp
     PushButton.cpp
+    RecentFilesModel.cpp
     RowLayout.cpp
     ScrollArea.cpp
     ScrollWidget.cpp
