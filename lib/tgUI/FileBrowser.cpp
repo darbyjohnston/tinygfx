@@ -4,7 +4,7 @@
 
 #include <tgUI/FileBrowser.h>
 
-#include <tgUI/FileBrowserWidgets.h>
+#include <tgUI/FileBrowserPrivate.h>
 
 #include <tgCore/Error.h>
 #include <tgCore/String.h>

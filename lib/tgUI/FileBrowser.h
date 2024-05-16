@@ -44,7 +44,63 @@ namespace tg
             bool operator != (const FileBrowserOptions&) const;
         };
 
-        //! File browser.
+        //! File browser widget.
+        class FileBrowserWidget : public IWidget
+        {
+        protected:
+            void _init(
+                const std::shared_ptr<core::Context>&,
+                const std::filesystem::path&,
+                const std::shared_ptr<IWidget>& parent);
+
+            FileBrowserWidget();
+
+        public:
+            virtual ~FileBrowserWidget();
+
+            //! Create a new widget.
+            static std::shared_ptr<FileBrowserWidget> create(
+                const std::shared_ptr<core::Context>&,
+                const std::filesystem::path&,
+                const std::shared_ptr<IWidget>& parent = nullptr);
+
+            //! Set the callback.
+            void setCallback(const std::function<void(const std::filesystem::path&)>&);
+
+            //! Set the cancel callback.
+            void setCancelCallback(const std::function<void(void)>&);
+
+            //! Get the path.
+            std::filesystem::path getPath() const;
+
+            //! Get the options.
+            const FileBrowserOptions& getOptions() const;
+
+            //! Set the options.
+            void setOptions(const FileBrowserOptions&);
+
+            //! Set the options callback.
+            void setOptionsCallback(const std::function<void(const FileBrowserOptions&)>&);
+
+            //! Get the recent files model.
+            const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
+
+            //! Set the recent files model.
+            void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
+
+            void setGeometry(const core::Box2I&) override;
+            void sizeHintEvent(const SizeHintEvent&) override;
+
+        private:
+            void _setPath(const std::filesystem::path&);
+
+            void _pathUpdate();
+            void _optionsUpdate();
+
+            TG_PRIVATE();
+        };
+
+        //! File browser dialog.
         class FileBrowser : public IDialog
         {
         protected:

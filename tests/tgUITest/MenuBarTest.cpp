@@ -110,8 +110,15 @@ namespace tg
 
                 window->setKey(Key::Enter);
                 window->setKey(Key::Down);
-                window->setKey(Key::Down);
+                window->setKey(Key::Up);
+                window->setKey(Key::End);
+                window->setKey(Key::Home);
                 window->setKey(Key::Enter);
+
+                window->setKey(Key::Right);
+                window->setKey(Key::Left);
+                window->setKey(Key::End);
+                window->setKey(Key::Home);
 
                 window->setKey(Key::Enter);
                 window->setKey(Key::Escape);

@@ -68,6 +68,7 @@ namespace tg
                 edit->setLargeStep(.3F);
                 TG_ASSERT(.3F == edit->getLargeStep());
                 edit->setPrecision(3);
+                edit->setPrecision(3);
                 TG_ASSERT(3 == edit->getPrecision());
                 edit->setPrecision(2);
                 edit->setFontRole(FontRole::Label);

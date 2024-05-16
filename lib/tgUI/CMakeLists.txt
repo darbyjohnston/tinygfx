@@ -18,7 +18,6 @@ set(HEADERS
     GridLayout.h
     GroupBox.h
     FileBrowser.h
-    FileBrowserWidgets.h
     FileEdit.h
     FloatEdit.h
     FloatEditSlider.h
@@ -72,6 +71,7 @@ set(HEADERS
 set(PRIVATE_HEADERS
     BellowsPrivate.h
     ComboBoxPrivate.h
+    FileBrowserPrivate.h
     ListItemsWidgetPrivate.h
     MenuBarPrivate.h
     MenuPrivate.h

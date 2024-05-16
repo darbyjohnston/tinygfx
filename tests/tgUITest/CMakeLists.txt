@@ -43,7 +43,7 @@ set(HEADERS
     SplitterTest.h
     StackLayoutTest.h
     StyleTest.h
-    TabBarTest.h
+    TabWidgetTest.h
     WidgetOptionsTest.h
     Window.h)
 set(PRIVATE_HEADERS)
@@ -93,7 +93,7 @@ set(SOURCE
     SplitterTest.cpp
     StackLayoutTest.cpp
     StyleTest.cpp
-    TabBarTest.cpp
+    TabWidgetTest.cpp
     WidgetOptionsTest.cpp
     Window.cpp)
 

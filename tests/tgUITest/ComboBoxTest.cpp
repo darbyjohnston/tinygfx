@@ -7,7 +7,7 @@
 #include <tgUITest/App.h>
 #include <tgUITest/Window.h>
 
-#include <tgUI/ComboBox.h>
+#include <tgUI/ComboBoxPrivate.h>
 #include <tgUI/RowLayout.h>
 
 #include <tgCore/Assert.h>
@@ -83,6 +83,11 @@ namespace tg
                 TG_ASSERT(FontRole::Mono == widget->getFontRole());
                 widget->setFontRole(FontRole::Label);
 
+                auto button = ComboBoxButton::create(
+                    context,
+                    ComboBoxItem("Item"),
+                    layout);
+
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
@@ -116,6 +121,13 @@ namespace tg
                 TG_ASSERT(0 == index);
                 window->setKey(Key::Escape);
                 TG_ASSERT(!widget->hasKeyFocus());
+
+                g = button->getGeometry();
+                c = center(g);
+                window->setCursorPos(c);
+                window->setButton(0);
+                window->setKey(Key::Escape);
+                window->setCursorPos(V2I(0, 0));
 
                 app->setDisplayScale(2.F);
                 app->tick();

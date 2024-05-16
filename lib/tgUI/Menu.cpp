@@ -69,7 +69,7 @@ namespace tg
                 p.buttons.push_back(button);
 
                 button->setHoveredCallback(
-                    [this, button, index](bool value)
+                    [this, index](bool value)
                     {
                         if (value)
                         {

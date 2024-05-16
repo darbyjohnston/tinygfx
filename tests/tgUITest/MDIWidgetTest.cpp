@@ -50,13 +50,13 @@ namespace tg
             if (auto context = _context.lock())
             {
                 std::vector<std::string> argv;
-                argv.push_back("DoubleSliderTest");
+                argv.push_back("MDIWidgetTest");
                 auto app = App::create(
                     context,
                     argv,
-                    "DoubleSliderTest",
-                    "Double slider test.");
-                auto window = Window::create(context, app, "DoubleSliderTest");
+                    "MDIWidgetTest",
+                    "MDI widget test.");
+                auto window = Window::create(context, app, "MDIWidgetTest");
                 app->addWindow(window);
                 window->show();
                 app->tick();
@@ -88,6 +88,14 @@ namespace tg
                 TG_ASSERT(label == widget->getWidget());
                 widget->setPos(V2I(200, 200));
                 widget->setSize(Size2I(1000, 1000));
+
+                window->setCursorEnter(true);
+                Box2I g = widget->getGeometry();
+                V2I c = center(g);
+                window->setCursorPos(c);
+                window->setButton(0, true);
+                window->setCursorPos(c + V2I(100, 100));
+                window->setButton(0, false);
             }
         }
     }

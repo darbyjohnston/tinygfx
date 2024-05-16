@@ -117,9 +117,9 @@ namespace tg
                 case Key::Enter:
                     event.accept = true;
                     takeKeyFocus();
-                    if (p.callback)
+                    if (p.current >= 0 && p.current < p.buttons.size())
                     {
-                        p.callback(p.current);
+                        p.buttons[p.current]->click();
                     }
                     break;
                 case Key::Up:
@@ -131,16 +131,6 @@ namespace tg
                     event.accept = true;
                     takeKeyFocus();
                     _setCurrent(p.current + 1);
-                    break;
-                case Key::PageUp:
-                    event.accept = true;
-                    takeKeyFocus();
-                    _setCurrent(p.current - 10);
-                    break;
-                case Key::PageDown:
-                    event.accept = true;
-                    takeKeyFocus();
-                    _setCurrent(p.current + 10);
                     break;
                 case Key::Home:
                     event.accept = true;

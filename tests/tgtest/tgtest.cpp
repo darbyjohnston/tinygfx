@@ -49,7 +49,7 @@
 #include <tgUITest/SplitterTest.h>
 #include <tgUITest/StackLayoutTest.h>
 #include <tgUITest/StyleTest.h>
-#include <tgUITest/TabBarTest.h>
+#include <tgUITest/TabWidgetTest.h>
 #include <tgUITest/WidgetOptionsTest.h>
 
 #include <tgBaseAppTest/AppTest.h>
@@ -234,7 +234,7 @@ namespace tg
             p.tests.push_back(ui_test::SplitterTest::create(context));
             p.tests.push_back(ui_test::StackLayoutTest::create(context));
             p.tests.push_back(ui_test::StyleTest::create(context));
-            p.tests.push_back(ui_test::TabBarTest::create(context));
+            p.tests.push_back(ui_test::TabWidgetTest::create(context));
             p.tests.push_back(ui_test::WidgetOptionsTest::create(context));
 
             p.tests.push_back(ui_test::AppTest::create(context));

@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <tgUI/FileBrowserWidgets.h>
+#include <tgUI/FileBrowserPrivate.h>
 
 #include <tgUI/Bellows.h>
 #include <tgUI/ButtonGroup.h>
