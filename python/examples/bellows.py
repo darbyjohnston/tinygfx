@@ -12,8 +12,7 @@ if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create the window.
-size = tgCore.Size2I(1280, 960)
-window = tgUIApp.Window(context, "buttons", size)
+window = tgUIApp.Window(context, "buttons", tgCore.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the layout.
