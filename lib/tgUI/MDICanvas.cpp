@@ -17,7 +17,7 @@ namespace tg
             Size2I canvasSize = Size2I(500, 500);
             Size2I gridSize = Size2I(20, 20);
             std::vector<std::pair<V2I, std::shared_ptr<MDIWidget> > > newWidgets;
-            std::map<std::shared_ptr<MDIWidget>, Size2I> sizeHints;
+            std::map<std::shared_ptr<IWidget>, Size2I> sizeHints;
 
             struct SizeData
             {
@@ -100,14 +100,18 @@ namespace tg
             {
                 out = MDIWidget::create(context, title, shared_from_this());
                 out->setWidget(value);
+                auto weak = std::weak_ptr<MDIWidget>(out);
                 out->setPressCallback(
-                    [this, out](bool value)
+                    [this, weak](bool value)
                     {
                         if (value)
                         {
-                            moveToFront(out);
-                            _p->mouse.widget = out;
-                            _p->mouse.geom = out->getGeometry();
+                            if (auto widget = weak.lock())
+                            {
+                                moveToFront(widget);
+                                _p->mouse.widget = widget;
+                                _p->mouse.geom = widget->getGeometry();
+                            }
                         }
                         else
                         {
@@ -305,7 +309,7 @@ namespace tg
         {
             IWidget::childRemovedEvent(event);
             TG_P();
-            const auto i = p.sizeHints.find(std::dynamic_pointer_cast<MDIWidget>(event.child));
+            const auto i = p.sizeHints.find(event.child);
             if (i != p.sizeHints.end())
             {
                 p.sizeHints.erase(i);

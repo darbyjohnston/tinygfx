@@ -250,6 +250,7 @@ namespace tg
                 window->setKey(Key::Down);
                 window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
                 window->setKey(Key::Down);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
                 window->setText("Filter");
                 window->setText("");
                 window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));

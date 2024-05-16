@@ -43,6 +43,7 @@ namespace tg
                 {
                     if (value)
                     {
+                        takeKeyFocus();
                         _p->currentTab = index;
                         _p->currentFocus = index;
                         if (_p->callback)
@@ -161,27 +162,26 @@ namespace tg
                 switch (event.key)
                 {
                 case Key::Left:
+                    event.accept = true;
                     _setCurrent(p.currentFocus - 1);
                     break;
                 case Key::Right:
+                    event.accept = true;
                     _setCurrent(p.currentFocus + 1);
                     break;
                 case Key::Home:
+                    event.accept = true;
                     _setCurrent(0);
                     break;
                 case Key::End:
+                    event.accept = true;
                     _setCurrent(static_cast<int>(p.tabs.size()) - 1);
                     break;
                 case Key::Enter:
-                    if (p.currentFocus >= 0 && p.currentFocus < p.tabs.size())
+                    if (p.currentFocus >= 0 && p.currentFocus < p.buttons.size())
                     {
                         event.accept = true;
-                        takeKeyFocus();
-                        setCurrentTab(p.currentFocus);
-                        if (p.callback)
-                        {
-                            p.callback(p.currentTab);
-                        }
+                        p.buttons[p.currentFocus]->click();
                     }
                     break;
                 case Key::Escape:

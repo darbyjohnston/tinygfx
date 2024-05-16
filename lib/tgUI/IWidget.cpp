@@ -71,12 +71,13 @@ namespace tg
                 _releaseMouse();
                 releaseKeyFocus();
             }
+            auto widget = shared_from_this();
             if (auto parent = _parent.lock())
             {
                 auto i = std::find(
                     parent->_children.begin(),
                     parent->_children.end(),
-                    shared_from_this());
+                    widget);
                 if (i != parent->_children.end())
                 {
                     ChildEvent event(*i);

@@ -40,8 +40,6 @@ namespace tg
             void drawEvent(
                 const core::Box2I&,
                 const DrawEvent&) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
 
         private:
             TG_PRIVATE();
