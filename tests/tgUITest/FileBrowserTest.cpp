@@ -82,6 +82,11 @@ namespace tg
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Tab);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
             }
         }
@@ -168,6 +173,11 @@ namespace tg
                 window->setKey(Key::Tab);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
+                window->setKey(Key::Down);
+                window->setKey(Key::Up);
+                window->setKey(Key::End);
+                window->setKey(Key::Home);
+                window->setKey(Key::Escape);
             }
         }
 

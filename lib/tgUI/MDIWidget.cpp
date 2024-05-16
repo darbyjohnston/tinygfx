@@ -133,6 +133,11 @@ namespace tg
             _p->titleLabel->setText(value);
         }
 
+        const std::shared_ptr<IWidget>& MDIWidget::getWidget() const
+        {
+            return _p->widget;
+        }
+
         void MDIWidget::setWidget(const std::shared_ptr<IWidget>& value)
         {
             TG_P();

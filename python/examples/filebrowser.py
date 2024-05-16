@@ -24,7 +24,7 @@ app.addWindow(window)
 layout = tgUI.VerticalLayout(context)
 layout.marginRole = tgUI.SizeRole.Margin
 scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both, window)
-scrollWidget.setWidget(layout);
+scrollWidget.widget = layout
         
 # Create the file widgets.
 for i in range(0, 10):

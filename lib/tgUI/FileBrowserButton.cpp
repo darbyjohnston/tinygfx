@@ -202,17 +202,6 @@ namespace tg
             IButton::drawEvent(drawRect, event);
             TG_P();
 
-            // Draw the background.
-            const ColorRole colorRole = _checked ?
-                ColorRole::Checked :
-                _buttonRole;
-            if (colorRole != ColorRole::None)
-            {
-                event.render->drawRect(
-                    convert(p.draw.g),
-                    event.style->getColorRole(colorRole));
-            }
-
             // Draw the mouse states.
             if (_isMousePressed())
             {

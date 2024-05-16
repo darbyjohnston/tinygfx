@@ -150,6 +150,11 @@ namespace tg
             return out;
         }
 
+        const std::shared_ptr<IWidget>& ScrollWidget::getWidget() const
+        {
+            return _p->widget;
+        }
+
         void ScrollWidget::setWidget(const std::shared_ptr<IWidget>& value)
         {
             TG_P();

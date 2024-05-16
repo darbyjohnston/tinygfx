@@ -84,6 +84,8 @@ namespace tg
                 widget = canvas->addWidget("Widget 1", V2I(100, 100), label);
                 label = Label::create(context, "Label 2");
                 widget->setWidget(label);
+                widget->setWidget(label);
+                TG_ASSERT(label == widget->getWidget());
                 widget->setPos(V2I(200, 200));
                 widget->setSize(Size2I(1000, 1000));
             }

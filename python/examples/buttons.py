@@ -19,10 +19,10 @@ app.addWindow(window)
 layout = tgUI.VerticalLayout(context)
 layout.marginRole = tgUI.SizeRole.Margin
 scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both, window)
-scrollWidget.setWidget(layout);
+scrollWidget.widget = layout
         
 # Create push buttons
-groupBox = tgUI.GroupBox(context, "Push Buttons", layout);
+groupBox = tgUI.GroupBox(context, "Push Buttons", layout)
 hLayout = tgUI.HorizontalLayout(context, groupBox)
 pushButton = tgUI.PushButton(context, "Click", hLayout)
 pushButton.setClickedCallback(lambda: print("Click"))
@@ -58,7 +58,7 @@ toolButton.enabled = False
 toolButtonGroup.addButton(toolButton)
 
 # Create check boxes
-groupBox = tgUI.GroupBox(context, "Check Boxes", layout);
+groupBox = tgUI.GroupBox(context, "Check Boxes", layout)
 vLayout = tgUI.VerticalLayout(context, groupBox)
 checkBox = tgUI.CheckBox(context, "Checkable", vLayout)
 checkBox.setCheckedCallback(lambda checked: print("Checked:", checked))

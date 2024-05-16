@@ -21,7 +21,7 @@ scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both, window)
         
 # Create the MDI canvas.
 canvas = tgUI.MDICanvas(context)
-scrollWidget.setWidget(canvas)
+scrollWidget.widget = canvas
         
 # Create the MDI widgets.
 random = tgCore.Random()

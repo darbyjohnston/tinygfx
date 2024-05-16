@@ -77,6 +77,8 @@ namespace tg
                 }
             }
             scrollWidget->setWidget(layout);
+            scrollWidget->setWidget(layout);
+            TG_ASSERT(layout == scrollWidget->getWidget());
             app->tick();
 
             _print(Format("Scroll type: {0}").arg(scrollType));

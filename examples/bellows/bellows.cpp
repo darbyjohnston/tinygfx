@@ -43,7 +43,7 @@ TG_MAIN()
         // Add a bellows.
         auto vLayout = VerticalLayout::create(context);
         vLayout->setMarginRole(SizeRole::Margin);
-        vLayout->setSpacingRole(SizeRole::None);
+        vLayout->setSpacingRole(SizeRole::SpacingSmall);
         for (size_t i = 0; i < 10; ++i)
         {
             PushButton::create(context, Format("Push Button {0}").arg(i), vLayout);

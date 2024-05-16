@@ -82,6 +82,11 @@ namespace tg
             _p->button->setText(value);
         }
 
+        const std::shared_ptr<IWidget>& Bellows::getWidget() const
+        {
+            return _p->widget;
+        }
+
         void Bellows::setWidget(const std::shared_ptr<IWidget>& value)
         {
             TG_P();

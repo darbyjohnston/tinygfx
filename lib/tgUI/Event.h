@@ -22,7 +22,6 @@ namespace tg
         //! Child event.
         struct ChildEvent
         {
-            ChildEvent() = default;
             ChildEvent(const std::shared_ptr<IWidget>&);
 
             std::shared_ptr<IWidget> child;
@@ -36,7 +35,6 @@ namespace tg
         //! Size hint event.
         struct SizeHintEvent
         {
-            SizeHintEvent() = default;
             SizeHintEvent(
                 const std::shared_ptr<core::FontSystem>&,
                 float displayScale,
@@ -52,7 +50,6 @@ namespace tg
         //! Draw event.
         struct DrawEvent
         {
-            DrawEvent() = default;
             DrawEvent(
                 const std::shared_ptr<core::FontSystem>&,
                 float displayScale,
@@ -77,7 +74,6 @@ namespace tg
         //! Mouse move event.
         struct MouseMoveEvent
         {
-            MouseMoveEvent() = default;
             MouseMoveEvent(
                 const core::V2I& pos,
                 const core::V2I& prev);
@@ -128,7 +124,6 @@ namespace tg
         //! Scroll event (mouse wheel or touch pad).
         struct ScrollEvent
         {
-            ScrollEvent() = default;
             ScrollEvent(
                 const core::V2F& value,
                 int              modifiers,
@@ -258,7 +253,6 @@ namespace tg
         //! Text event.
         struct TextEvent
         {
-            TextEvent() = default;
             TextEvent(const std::string& text);
 
             std::string text;
@@ -282,7 +276,6 @@ namespace tg
         //! Drag and drop event.
         struct DragAndDropEvent
         {
-            DragAndDropEvent() = default;
             DragAndDropEvent(
                 const core::V2I&                        pos,
                 const core::V2I&                        prev,

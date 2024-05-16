@@ -34,7 +34,7 @@ namespace tg
                     py::arg("text"),
                     py::arg("parent") = nullptr)
             .def_property("text", &Bellows::getText, &Bellows::setText)
-            .def("setWidget", &Bellows::setWidget)
+            .def_property("widget", &Bellows::getWidget, &Bellows::setWidget)
             .def_property("open", &Bellows::isOpen, &Bellows::setOpen);
         }
     }

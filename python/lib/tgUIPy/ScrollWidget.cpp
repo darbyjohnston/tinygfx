@@ -23,8 +23,8 @@ namespace tg
                     py::arg("context"),
                     py::arg("type"),
                     py::arg("parent") = nullptr)
-                .def("setWidget", &ScrollWidget::setWidget)
-                .def("getViewport", &ScrollWidget::getViewport)
+                .def_property("widget", &ScrollWidget::getWidget, &ScrollWidget::setWidget)
+                .def_property_readonly("viewport", &ScrollWidget::getViewport)
                 .def_property("scrollPos", &ScrollWidget::getScrollPos, &ScrollWidget::setScrollPos)
                 .def("setScrollPosCallback", &ScrollWidget::setScrollPosCallback)
                 .def_property("scrollBarsVisible", &ScrollWidget::areScrollBarsVisible, &ScrollWidget::setScrollBarsVisible)

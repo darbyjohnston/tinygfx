@@ -21,9 +21,9 @@ namespace tg
         {
             py::class_<IWidgetPopup, IPopup, std::shared_ptr<IWidgetPopup> >(m, "IWidgetPopup")
                 .def("open", &IWidgetPopup::open)
-                .def("isOpen", &IWidgetPopup::isOpen)
+                .def_property_readonly("isOpen", &IWidgetPopup::isOpen)
                 .def("setCloseCallback", &IWidgetPopup::setCloseCallback)
-                .def("setWidget", &IWidgetPopup::setWidget)
+                .def_property("widget", &IWidgetPopup::getWidget, &IWidgetPopup::setWidget)
                 .def_property("popupRole", &IWidgetPopup::getPopupRole, &IWidgetPopup::setPopupRole);
         }
     }

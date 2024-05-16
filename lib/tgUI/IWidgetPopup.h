@@ -43,6 +43,9 @@ namespace tg
             //! Set the close callback.
             void setCloseCallback(const std::function<void(void)>&);
 
+            //! Get the widget.
+            const std::shared_ptr<IWidget>& getWidget() const;
+
             //! Set the widget.
             void setWidget(const std::shared_ptr<IWidget>&);
 

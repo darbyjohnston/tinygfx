@@ -33,6 +33,9 @@ namespace tg
                 ScrollType = ScrollType::Both,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            //! Get the widget.
+            const std::shared_ptr<IWidget>& getWidget() const;
+
             //! Set the widget.
             void setWidget(const std::shared_ptr<IWidget>&);
 

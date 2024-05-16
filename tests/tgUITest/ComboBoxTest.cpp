@@ -90,6 +90,12 @@ namespace tg
                 window->setKey(Key::Enter);
                 TG_ASSERT(0 == index);
                 TG_ASSERT(items[0] == item);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Down);
+                window->setKey(Key::Up);
+                window->setKey(Key::End);
+                window->setKey(Key::Home);
+                window->setKey(Key::Escape);
 
                 Box2I g = widget->getGeometry();
                 V2I c = center(g);
@@ -104,13 +110,17 @@ namespace tg
                 TG_ASSERT(1 == index);
                 window->setKey(Key::Up);
                 TG_ASSERT(0 == index);
+                window->setKey(Key::End);
+                TG_ASSERT(items.size() - 1 == index);
+                window->setKey(Key::Home);
+                TG_ASSERT(0 == index);
                 window->setKey(Key::Escape);
                 TG_ASSERT(!widget->hasKeyFocus());
 
                 app->setDisplayScale(2.F);
-                app->tick(1000);
+                app->tick();
                 app->setDisplayScale(1.F);
-                app->tick(1000);
+                app->tick();
             }
         }
     }

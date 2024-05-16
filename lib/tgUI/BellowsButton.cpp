@@ -97,12 +97,6 @@ namespace tg
             {
                 sizeHint.w = p.size.textSize.w + p.size.margin * 2;
                 sizeHint.h = p.size.fontMetrics.lineHeight;
-                if (_icon.empty())
-                {
-                    const int max = std::max(sizeHint.w, sizeHint.h);
-                    sizeHint.w = max;
-                    sizeHint.h = sizeHint.h;
-                }
             }
             if (_iconImage)
             {

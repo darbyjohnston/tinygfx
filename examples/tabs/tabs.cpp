@@ -40,7 +40,7 @@ TG_MAIN()
         // Add a tab.
         auto layout = VerticalLayout::create(context);
         layout->setMarginRole(SizeRole::Margin);
-        layout->setSpacingRole(SizeRole::None);
+        layout->setSpacingRole(SizeRole::SpacingSmall);
         for (size_t i = 0; i < 10; ++i)
         {
             PushButton::create(context, Format("Push Button {0}").arg(i), layout);

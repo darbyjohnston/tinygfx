@@ -37,7 +37,7 @@ namespace tg
                     py::arg("title"),
                     py::arg("parent") = nullptr)
                 .def_property("title", &MDIWidget::getTitle, &MDIWidget::setTitle)
-                .def("setWidget", &MDIWidget::setWidget)
+                .def_property("widget", &MDIWidget::getWidget, &MDIWidget::setWidget)
                 .def("setPressCallback", &MDIWidget::setPressCallback)
                 .def("setMoveCallback", &MDIWidget::setMoveCallback)
                 .def("setResizeCallback", &MDIWidget::setResizeCallback);

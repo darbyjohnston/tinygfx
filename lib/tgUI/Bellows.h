@@ -43,6 +43,9 @@ namespace tg
             //! Set the text.
             void setText(const std::string&);
 
+            //! Get the widget.
+            const std::shared_ptr<IWidget>& getWidget() const;
+
             //! Set the widget.
             void setWidget(const std::shared_ptr<IWidget>&);
 

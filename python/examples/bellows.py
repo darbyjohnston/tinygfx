@@ -19,16 +19,16 @@ app.addWindow(window)
 layout = tgUI.VerticalLayout(context)
 layout.spacingRole = tgUI.SizeRole.SizeRoleNone
 scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both, window)
-scrollWidget.setWidget(layout);
+scrollWidget.widget = layout;
 
 # Add a bellows.
 vLayout = tgUI.VerticalLayout(context)
 vLayout.marginRole = tgUI.SizeRole.Margin
-vLayout.spacingRole = tgUI.SizeRole.SizeRoleNone
+vLayout.spacingRole = tgUI.SizeRole.SpacingSmall
 for i in range(0, 10):
     tgUI.PushButton(context, "Push Button {}".format(i), vLayout)
 bellows = tgUI.Bellows(context, "Push Buttons", layout)
-bellows.setWidget(vLayout)
+bellows.widget = vLayout
 
 # Add a bellows.
 vLayout = tgUI.VerticalLayout(context)
@@ -51,7 +51,7 @@ for i in range(0, 10):
     if i < len(icons):
         button.icon = icons[i]
 bellows = tgUI.Bellows(context, "Tool Buttons", layout)
-bellows.setWidget(vLayout)
+bellows.widget = vLayout
 
 # Add a bellows.
 vLayout = tgUI.VerticalLayout(context)
@@ -60,7 +60,7 @@ vLayout.spacingRole = tgUI.SizeRole.SizeRoleNone
 for i in range(0, 10):
     tgUI.CheckBox(context, "Check Box {}".format(i), vLayout)
 bellows = tgUI.Bellows(context, "Check Boxes", layout)
-bellows.setWidget(vLayout)
+bellows.widget = vLayout
 
 window.show()
 app.run()

@@ -19,10 +19,10 @@ app.addWindow(window)
 layout = tgUI.VerticalLayout(context)
 layout.marginRole = tgUI.SizeRole.Margin
 scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both, window)
-scrollWidget.setWidget(layout);
+scrollWidget.widget = layout
         
 # Create integer sliders.
-groupBox = tgUI.GroupBox(context, "Integer sliders", layout);
+groupBox = tgUI.GroupBox(context, "Integer sliders", layout)
 vLayout = tgUI.VerticalLayout(context, groupBox)
 intEditSlider = tgUI.IntEditSlider(context, None, vLayout)
 intEditSlider.setCallback(lambda value: print("Int:", value))
@@ -34,7 +34,7 @@ intEditSlider.range = tgCore.RangeI(-100, 100)
 intEditSlider.setCallback(lambda value: print("Int:", value))
         
 # Create float sliders.
-groupBox = tgUI.GroupBox(context, "Float sliders", layout);
+groupBox = tgUI.GroupBox(context, "Float sliders", layout)
 vLayout = tgUI.VerticalLayout(context, groupBox)
 floatEditSlider = tgUI.FloatEditSlider(context, None, vLayout)
 floatEditSlider.setCallback(lambda value: print("Float:", value))
@@ -46,7 +46,7 @@ floatEditSlider.range = tgCore.RangeF(-100, 100)
 floatEditSlider.setCallback(lambda value: print("Float:", value))
         
 # Create double sliders.
-groupBox = tgUI.GroupBox(context, "Double sliders", layout);
+groupBox = tgUI.GroupBox(context, "Double sliders", layout)
 vLayout = tgUI.VerticalLayout(context, groupBox)
 doubleEditSlider = tgUI.DoubleEditSlider(context, None, vLayout)
 doubleEditSlider.setCallback(lambda value: print("Double:", value))

@@ -19,15 +19,12 @@ namespace tg
         void event(py::module_& m)
         {
             py::class_<ChildEvent>(m, "ChildEvent")
-                .def(py::init<>())
                 .def(py::init<const std::shared_ptr<IWidget>& >())
                 .def_readwrite("child", &ChildEvent::child);
 
-            py::class_<TickEvent>(m, "TickEvent")
-                .def(py::init<>());
+            py::class_<TickEvent>(m, "TickEvent");
 
             py::class_<SizeHintEvent>(m, "SizeHintEvent")
-                .def(py::init<>())
                 .def(py::init<
                     const std::shared_ptr<core::FontSystem>&,
                     float,
@@ -39,7 +36,6 @@ namespace tg
                 .def_readwrite("iconLibrary", &SizeHintEvent::iconLibrary);
 
             py::class_<DrawEvent>(m, "DrawEvent")
-                .def(py::init<>())
                 .def(py::init<
                     const std::shared_ptr<core::FontSystem>&,
                     float,
@@ -55,7 +51,6 @@ namespace tg
             py::class_<DragAndDropData, std::shared_ptr<DragAndDropData> >(m, "DragAndDropData");
 
             py::class_<MouseMoveEvent>(m, "MouseMoveEvent")
-                .def(py::init<>())
                 .def(py::init<const core::V2I&, const core::V2I&>())
                 .def_readwrite("pos", &MouseMoveEvent::pos)
                 .def_readwrite("prev", &MouseMoveEvent::prev)
@@ -83,7 +78,6 @@ namespace tg
                 .def_readwrite("accept", &MouseClickEvent::accept);
 
             py::class_<ScrollEvent>(m, "ScrollEvent")
-                .def(py::init<>())
                 .def(py::init<const core::V2F&, int, const core::V2I&>())
                 .def_readwrite("value", &ScrollEvent::value)
                 .def_readwrite("modifiers", &ScrollEvent::modifiers)
@@ -195,7 +189,6 @@ namespace tg
                 .def_readwrite("accept", &KeyEvent::accept);
 
             py::class_<TextEvent>(m, "TextEvent")
-                .def(py::init<>())
                 .def(py::init<const std::string&>())
                 .def_readwrite("text", &TextEvent::text)
                 .def_readwrite("accept", &TextEvent::accept);
@@ -205,7 +198,6 @@ namespace tg
                 .def_property_readonly("text", &TextDragAndDropData::getText);
 
             py::class_<DragAndDropEvent>(m, "DragAndDropEvent")
-                .def(py::init<>())
                 .def(py::init<
                     const core::V2I&,
                     const core::V2I&,

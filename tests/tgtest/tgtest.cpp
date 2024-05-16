@@ -7,6 +7,7 @@
 #include <tgUIAppTest/AppTest.h>
 
 #include <tgUITest/ActionTest.h>
+#include <tgUITest/BellowsTest.h>
 #include <tgUITest/ButtonGroupTest.h>
 #include <tgUITest/ButtonTest.h>
 #include <tgUITest/ColorWidgetTest.h>
@@ -191,6 +192,7 @@ namespace tg
             p.tests.push_back(app_test::CmdLineTest::create(context));
 
             p.tests.push_back(ui_test::ActionTest::create(context));
+            p.tests.push_back(ui_test::BellowsTest::create(context));
             p.tests.push_back(ui_test::ButtonTest::create(context));
             p.tests.push_back(ui_test::ButtonGroupTest::create(context));
             p.tests.push_back(ui_test::ColorWidgetTest::create(context));

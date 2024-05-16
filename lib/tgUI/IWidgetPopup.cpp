@@ -179,6 +179,11 @@ namespace tg
             _setDrawUpdate();
         }
 
+        const std::shared_ptr<IWidget>& IWidgetPopup::getWidget() const
+        {
+            return _p->widget;
+        }
+
         void IWidgetPopup::setWidget(const std::shared_ptr<IWidget>& value)
         {
             TG_P();
