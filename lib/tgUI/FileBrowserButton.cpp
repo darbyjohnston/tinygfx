@@ -275,42 +275,5 @@ namespace tg
                 }
             }
         }
-
-        void FileBrowserButton::keyPressEvent(KeyEvent& event)
-        {
-            if (0 == event.modifiers)
-            {
-                switch (event.key)
-                {
-                case Key::Enter:
-                    event.accept = true;
-                    takeKeyFocus();
-                    if (_pressedCallback)
-                    {
-                        _pressedCallback();
-                    }
-                    click();
-                    break;
-                case Key::Escape:
-                    if (hasKeyFocus())
-                    {
-                        event.accept = true;
-                        releaseKeyFocus();
-                    }
-                    break;
-                default: break;
-                }
-            }
-            if (!event.accept)
-            {
-                IButton::keyPressEvent(event);
-            }
-        }
-
-        void FileBrowserButton::keyReleaseEvent(KeyEvent& event)
-        {
-            IButton::keyReleaseEvent(event);
-            event.accept = true;
-        }
     }
 }

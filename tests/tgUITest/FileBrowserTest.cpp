@@ -121,9 +121,8 @@ namespace tg
                 window->setCursorEnter(true);
                 Box2I g = button->getGeometry();
                 V2I c = center(g);
+                window->setCursorPos(c);
                 window->setButton(0);
-                window->setKey(Key::Enter);
-                window->setKey(Key::Escape);
                 window->setCursorPos(V2I(0, 0));
             }
         }
@@ -239,32 +238,30 @@ namespace tg
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
                 window->setKey(Key::Tab);
-                window->setKey(Key::Enter);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Enter);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Enter);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Enter);
-                window->setKey(Key::Tab);
-                window->setText("Filter");
-                window->setKey(Key::Tab);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Down);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Down);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Enter);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Enter);
-                window->setKey(Key::Tab);
-                window->setKey(Key::Enter);
+                window->setKey(Key::Escape);
 
                 window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
                 window->setKey(Key::Enter);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Down);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Down);
+                window->setText("Filter");
+                window->setText("");
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
+                window->setKey(Key::Enter);
+                window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
                 window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
                 window->setKey(Key::Enter);
             }

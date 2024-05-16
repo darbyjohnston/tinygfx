@@ -54,6 +54,7 @@ namespace tg
                 [this](int value)
                 {
                     TG_P();
+                    takeKeyFocus();
                     if (value >= 0 && value < p.info.size())
                     {
                         const FileBrowserInfo info = p.info[value];
