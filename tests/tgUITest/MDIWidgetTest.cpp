@@ -96,6 +96,8 @@ namespace tg
                 window->setButton(0, true);
                 window->setCursorPos(c + V2I(100, 100));
                 window->setButton(0, false);
+                window->setCursorPos(c);
+                window->setButton(0);
             }
         }
     }

@@ -87,6 +87,12 @@ namespace tg
                     Key::_4,
                     static_cast<int>(KeyModifier::Control),
                     [&action4] { action4 = true; }));
+                bool action5 = false;
+                menu->addItem(std::make_shared<Action>(
+                    "Action 5",
+                    Key::_5,
+                    static_cast<int>(KeyModifier::Control),
+                    [&action5](bool value) { action5 = value; }));
                 menuBar->addMenu("Menu 2", menu);
                 app->tick();
 
@@ -133,6 +139,10 @@ namespace tg
 
                 menuBar->shortcut(Key::_4, static_cast<int>(KeyModifier::Control));
                 TG_ASSERT(action4);
+                menuBar->shortcut(Key::_5, static_cast<int>(KeyModifier::Control));
+                TG_ASSERT(action5);
+                menuBar->shortcut(Key::_5, static_cast<int>(KeyModifier::Control));
+                TG_ASSERT(!action5);
 
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
