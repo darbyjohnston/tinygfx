@@ -132,6 +132,7 @@ namespace tg
 
             p.reverseSortButton = ToolButton::create(context);
             p.reverseSortButton->setCheckable(true);
+            p.reverseSortButton->setIcon("ReverseSort");
             p.reverseSortButton->setTooltip("Reverse sorting");
 
             p.okButton = PushButton::create(context);
