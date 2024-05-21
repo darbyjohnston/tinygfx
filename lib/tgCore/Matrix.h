@@ -22,6 +22,9 @@ namespace tg
 
             constexpr T get(int row, int column) const;
             constexpr void set(int row, int column, T);
+
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
             constexpr const T* data() const;
             constexpr T* data();
@@ -43,6 +46,9 @@ namespace tg
 
             constexpr T get(int row, int column) const;
             constexpr void set(int row, int column, T);
+
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
             constexpr const T* data() const;
             constexpr T* data();
@@ -65,6 +71,9 @@ namespace tg
 
             constexpr T get(int row, int column) const;
             constexpr void set(int row, int column, T);
+
+            constexpr T operator [] (int) const;
+            constexpr T& operator [] (int);
             
             constexpr const T* data() const;
             constexpr T* data();

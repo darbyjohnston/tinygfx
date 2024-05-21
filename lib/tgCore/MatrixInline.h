@@ -33,6 +33,18 @@ namespace tg
         {
             _e[row * C + column] = v;
         }
+
+        template<int R, int C, typename T>
+        constexpr T Matrix<R, C, T>::operator [] (int index) const
+        {
+            return _e[index];
+        }
+
+        template<int R, int C, typename T>
+        constexpr T& Matrix<R, C, T>::operator [] (int index)
+        {
+            return _e[index];
+        }
             
         template<int R, int C, typename T>
         constexpr const T* Matrix<R, C, T>::data() const
@@ -77,6 +89,18 @@ namespace tg
         constexpr void Matrix<3, 3, T>::set(int row, int column, T v)
         {
             _e[row * 3 + column] = v;
+        }
+
+        template<typename T>
+        constexpr T Matrix<3, 3, T>::operator [] (int index) const
+        {
+            return _e[index];
+        }
+
+        template<typename T>
+        constexpr T& Matrix<3, 3, T>::operator [] (int index)
+        {
+            return _e[index];
         }
             
         template<typename T>
@@ -126,7 +150,19 @@ namespace tg
         {
             _e[row * 4 + column] = v;
         }
-            
+
+        template<typename T>
+        constexpr T Matrix<4, 4, T>::operator [] (int index) const
+        {
+            return _e[index];
+        }
+
+        template<typename T>
+        constexpr T& Matrix<4, 4, T>::operator [] (int index)
+        {
+            return _e[index];
+        }
+
         template<typename T>
         constexpr const T* Matrix<4, 4, T>::data() const
         {
@@ -161,32 +197,32 @@ namespace tg
         template<typename T>
         inline Matrix<4, 4, T> rotateX(T angle)
         {
-            const T a = std::cos(deg2rad(-angle));
-            const T b = std::sin(deg2rad(-angle));
+            const T a = std::cos(deg2rad(angle));
+            const T b = std::sin(deg2rad(angle));
             return Matrix<4, 4, T>(
                 T(1), T(0), T(0), T(0),
-                T(0), a,   -b,    T(0),
-                T(0), b,    a,    T(0),
+                T(0), a,    b,    T(0),
+                T(0), -b,   a,    T(0),
                 T(0), T(0), T(0), T(1));
         }
 
         template<typename T>
         inline Matrix<4, 4, T> rotateY(T angle)
         {
-            const T a = std::cos(deg2rad(-angle));
-            const T b = std::sin(deg2rad(-angle));
+            const T a = std::cos(deg2rad(angle));
+            const T b = std::sin(deg2rad(angle));
             return Matrix<4, 4, T>(
-                a,    T(0), b,    T(0),
+                a,    T(0), -b,   T(0),
                 T(0), T(1), T(0), T(0),
-                -b,   T(0), a,    T(0),
+                b,    T(0), a,    T(0),
                 T(0), T(0), T(0), T(1));
         }
 
         template<typename T>
         inline Matrix<4, 4, T> rotateZ(T angle)
         {
-            const T a = std::cos(deg2rad(-angle));
-            const T b = std::sin(deg2rad(-angle));
+            const T a = std::cos(deg2rad(angle));
+            const T b = std::sin(deg2rad(angle));
             return Matrix<4, 4, T>(
                 a,   -b,    T(0), T(0),
                 b,    a,    T(0), T(0),
@@ -256,15 +292,9 @@ namespace tg
         template<typename T>
         inline Vector<2, T> operator * (const Matrix<3, 3, T>& a, const Vector<2, T>& v)
         {
-            Vector<2, T> out;
-            for (int i = 0; i < 2; ++i)
-            {
-                for (int j = 0; j < 2; ++j)
-                {
-                    out[i] += a.get(i, j) * v[j];
-                }
-            }
-            return out;
+            const T x = v[0] * a[0] + v[1] * a[3] + a[6];
+            const T y = v[0] * a[1] + v[1] * a[4] + a[7];
+            return Vector<2, T>(x, y);
         }
 
         template<typename T>
@@ -289,28 +319,21 @@ namespace tg
         template<typename T>
         inline Vector<3, T> operator * (const Matrix<4, 4, T>& a, const Vector<3, T>& v)
         {
-            Vector<3, T> out;
-            for (int i = 0; i < 3; ++i)
-            {
-                for (int j = 0; j < 3; ++j)
-                {
-                    out[i] += a.get(i, j) * v[j];
-                }
-            }
-            return out;
+            const T x = v[0] * a[0] + v[1] * a[4] + v[2] * a[8] + a[12];
+            const T y = v[0] * a[1] + v[1] * a[5] + v[2] * a[9] + a[13];
+            const T z = v[0] * a[2] + v[1] * a[6] + v[2] * a[10] + a[14];
+            const T w = v[0] * a[3] + v[1] * a[7] + v[2] * a[11] + a[15];
+            return Vector<3, T>(x / w, y / w, z / w);
         }
 
         template<typename T>
         inline Vector<4, T> operator * (const Matrix<4, 4, T>& a, const Vector<4, T>& v)
         {
             Vector<4, T> out;
-            for (int i = 0; i < 4; ++i)
-            {
-                for (int j = 0; j < 4; ++j)
-                {
-                    out[i] += a.get(i, j) * v[j];
-                }
-            }
+            out.x = v[0] * a[0] + v[1] * a[4] + v[2] * a[8] + v[3] * a[12];
+            out.y = v[0] * a[1] + v[1] * a[5] + v[2] * a[9] + v[3] * a[13];
+            out.z = v[0] * a[2] + v[1] * a[6] + v[2] * a[10] + v[3] * a[14];
+            out.w = v[0] * a[3] + v[1] * a[7] + v[2] * a[11] + v[3] * a[15];
             return out;
         }
         

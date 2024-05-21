@@ -83,7 +83,7 @@ namespace tg
         {
         public:
             constexpr Vector();
-            constexpr Vector(T, T, T, T = T(0));
+            constexpr Vector(T, T, T, T = T(1));
             constexpr Vector(const Vector<4, T>&);
 
             constexpr T operator [] (int) const;

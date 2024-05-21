@@ -105,13 +105,38 @@ namespace tg
         void MatrixTest::_operators()
         {
             {
-                const auto m33 = M33F() * M33F();
+                const auto m33 = translate(V2F(-1.F, -2.F));
                 const auto v2 = m33 * V2F(1.F, 2.f);
+                TG_ASSERT(v2 == V2F(0.F, 0.F));
             }
             {
-                const auto m44 = translate(V3F(1.F, 2.F, 3.F)) * rotateX(90.F);
+                const auto m44 = translate(V3F(-1.F, -2.F, -3.F));
                 const auto v3 = m44 * V3F(1.F, 2.F, 3.F);
-                const auto v4 = m44 * V4F(1.F, 2.F, 3.F, 1.F);
+                TG_ASSERT(v3 == V3F(0.F, 0.F, 0.F));
+            }
+            {
+                const auto m44 = rotateX(90.F);
+                const auto v4 = m44 * V4F(0.F, 0.F, 1.F);
+                TG_ASSERT(fuzzyCompare(v4.x, 0.F));
+                TG_ASSERT(fuzzyCompare(v4.y, -1.F));
+                TG_ASSERT(fuzzyCompare(v4.z, 0.F));
+                TG_ASSERT(fuzzyCompare(v4.w, 1.F));
+            }
+            {
+                const auto m44 = rotateY(90.F);
+                const auto v4 = m44 * V4F(1.F, 0.F, 0.F);
+                TG_ASSERT(fuzzyCompare(v4.x, 0.F));
+                TG_ASSERT(fuzzyCompare(v4.y, 0.F));
+                TG_ASSERT(fuzzyCompare(v4.z, -1.F));
+                TG_ASSERT(fuzzyCompare(v4.w, 1.F));
+            }
+            {
+                const auto m44 = rotateZ(90.F);
+                const auto v4 = m44 * V4F(1.F, 0.F, 0.F);
+                TG_ASSERT(fuzzyCompare(v4.x, 0.F));
+                TG_ASSERT(fuzzyCompare(v4.y, -1.F));
+                TG_ASSERT(fuzzyCompare(v4.z, 0.F));
+                TG_ASSERT(fuzzyCompare(v4.w, 1.F));
             }
             {
                 M44F a;
