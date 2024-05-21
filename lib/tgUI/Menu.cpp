@@ -148,8 +148,9 @@ namespace tg
                 const int index = p.buttons.size();
                 p.buttons.push_back(button);
 
+                auto buttonWeak = std::weak_ptr<MenuButton>(button);
                 button->setHoveredCallback(
-                    [this, out, button, index](bool value)
+                    [this, out, buttonWeak](bool value)
                     {
                         if (value)
                         {
@@ -159,12 +160,15 @@ namespace tg
                                 {
                                     openMenu->close();
                                 }
-                                out->open(getWindow(), button->getGeometry());
+                                if (auto button = buttonWeak.lock())
+                                {
+                                    out->open(getWindow(), button->getGeometry());
+                                }
                             }
                         }
                     });
                 button->setPressedCallback(
-                    [this, out, button, index]
+                    [this, out, buttonWeak, index]
                     {
                         _setCurrent(index);
                         if (!out->isOpen())
@@ -173,7 +177,10 @@ namespace tg
                             {
                                 openMenu->close();
                             }
-                            out->open(getWindow(), button->getGeometry());
+                            if (auto button = buttonWeak.lock())
+                            {
+                                out->open(getWindow(), button->getGeometry());
+                            }
                         }
                     });
 
