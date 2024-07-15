@@ -1,6 +1,7 @@
 add_subdirectory(bellows)
 add_subdirectory(buttons)
 add_subdirectory(charts)
+add_subdirectory(dock)
 add_subdirectory(dnd)
 add_subdirectory(filebrowser)
 add_subdirectory(gol)
