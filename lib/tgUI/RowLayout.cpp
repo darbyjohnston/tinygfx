@@ -259,14 +259,16 @@ namespace tg
             _setSizeHint(sizeHint);
         }
 
-        void RowLayout::childAddedEvent(const ChildEvent&)
+        void RowLayout::childAddEvent(const ChildAddEvent& event)
         {
+            IWidget::childAddEvent(event);
             _setSizeUpdate();
             _setDrawUpdate();
         }
 
-        void RowLayout::childRemovedEvent(const ChildEvent&)
+        void RowLayout::childRemoveEvent(const ChildRemoveEvent& event)
         {
+            IWidget::childRemoveEvent(event);
             _setSizeUpdate();
             _setDrawUpdate();
         }

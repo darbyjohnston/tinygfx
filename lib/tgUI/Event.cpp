@@ -15,8 +15,13 @@ namespace tg
 {
     namespace ui
     {
-        ChildEvent::ChildEvent(const std::shared_ptr<IWidget>& child) :
+        ChildAddEvent::ChildAddEvent(const std::shared_ptr<IWidget>& child) :
             child(child)
+        {}
+
+        ChildRemoveEvent::ChildRemoveEvent(const std::shared_ptr<IWidget>&child, int index) :
+            child(child),
+            index(index)
         {}
 
         SizeHintEvent::SizeHintEvent(

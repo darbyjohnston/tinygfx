@@ -278,8 +278,9 @@ namespace tg
             _setSizeHint(sizeHint);
         }
 
-        void GridLayout::childRemovedEvent(const ChildEvent& event)
+        void GridLayout::childRemoveEvent(const ChildRemoveEvent& event)
         {
+            IWidget::childRemoveEvent(event);
             TG_P();
             const auto i = p.gridPos.find(event.child);
             if (i != p.gridPos.end())

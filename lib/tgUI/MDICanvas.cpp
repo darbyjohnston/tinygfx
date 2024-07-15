@@ -305,9 +305,9 @@ namespace tg
             }
         }
 
-        void MDICanvas::childRemovedEvent(const ChildEvent& event)
+        void MDICanvas::childRemoveEvent(const ChildRemoveEvent& event)
         {
-            IWidget::childRemovedEvent(event);
+            IWidget::childRemoveEvent(event);
             TG_P();
             const auto i = p.sizeHints.find(event.child);
             if (i != p.sizeHints.end())

@@ -19,12 +19,21 @@ namespace tg
         //! \name Events
         ///@{
         
-        //! Child event.
-        struct ChildEvent
+        //! Child added event.
+        struct ChildAddEvent
         {
-            ChildEvent(const std::shared_ptr<IWidget>&);
+            ChildAddEvent(const std::shared_ptr<IWidget>&);
 
             std::shared_ptr<IWidget> child;
+        };
+
+        //! Child removed event.
+        struct ChildRemoveEvent
+        {
+            ChildRemoveEvent(const std::shared_ptr<IWidget>&, int index);
+
+            std::shared_ptr<IWidget> child;
+            int index = 0;
         };
 
         //! Tick event.

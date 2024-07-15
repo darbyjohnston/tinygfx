@@ -27,8 +27,8 @@ namespace tg
                 parent->_children.push_back(
                     std::static_pointer_cast<IWidget>(shared_from_this()));
 
-                ChildEvent event(shared_from_this());
-                parent->childAddedEvent(event);
+                ChildAddEvent event(shared_from_this());
+                parent->childAddEvent(event);
             }
         }
 
@@ -74,15 +74,20 @@ namespace tg
             auto widget = shared_from_this();
             if (auto parent = _parent.lock())
             {
-                auto i = std::find(
-                    parent->_children.begin(),
-                    parent->_children.end(),
-                    widget);
+                auto i = parent->_children.begin();
+                int j = 0;
+                for (; i != parent->_children.end(); ++i, ++j)
+                {
+                    if (*i == widget)
+                    {
+                        break;
+                    }
+                }
                 if (i != parent->_children.end())
                 {
-                    ChildEvent event(*i);
+                    ChildRemoveEvent event(*i, j);
                     parent->_children.erase(i);
-                    parent->childRemovedEvent(event);
+                    parent->childRemoveEvent(event);
                     parent->_setSizeUpdate();
                     parent->_setDrawUpdate();
                 }
@@ -92,8 +97,8 @@ namespace tg
             {
                 value->_children.push_back(
                     std::static_pointer_cast<IWidget>(shared_from_this()));
-                ChildEvent event(shared_from_this());
-                value->childAddedEvent(event);
+                ChildAddEvent event(shared_from_this());
+                value->childAddEvent(event);
                 value->_setSizeUpdate();
                 value->_setDrawUpdate();
             }
@@ -229,6 +234,11 @@ namespace tg
             }
             _setSizeUpdate();
             _setDrawUpdate();
+            if (auto parent = _parent.lock())
+            {
+                parent->_setSizeUpdate();
+                parent->_setDrawUpdate();
+            }
         }
 
         void IWidget::show()
@@ -293,10 +303,10 @@ namespace tg
             _tooltip = value;
         }
 
-        void IWidget::childAddedEvent(const ChildEvent&)
+        void IWidget::childAddEvent(const ChildAddEvent&)
         {}
 
-        void IWidget::childRemovedEvent(const ChildEvent&)
+        void IWidget::childRemoveEvent(const ChildRemoveEvent&)
         {}
 
         void IWidget::tickEvent(

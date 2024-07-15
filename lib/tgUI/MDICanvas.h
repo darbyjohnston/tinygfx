@@ -52,7 +52,7 @@ namespace tg
                 const std::shared_ptr<IWidget>&);
 
             void setGeometry(const core::Box2I&) override;
-            void childRemovedEvent(const ChildEvent&) override;
+            void childRemoveEvent(const ChildRemoveEvent&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void drawEvent(const core::Box2I&, const DrawEvent&) override;
             void mouseMoveEvent(MouseMoveEvent&) override;

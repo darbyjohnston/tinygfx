@@ -15,15 +15,13 @@ namespace tg
         struct Splitter::Private
         {
             Orientation orientation = Orientation::Horizontal;
-            float split = .5F;
+            std::vector<float> split;
             SizeRole spacingRole = SizeRole::SpacingSmall;
 
             struct SizeData
             {
                 bool init = true;
                 float displayScale = 0.F;
-                int size = 0;
-                int spacing = 0;
                 int handle = 0;
 
                 std::vector<Box2I> handleGeometry;
@@ -34,6 +32,7 @@ namespace tg
             {
                 int hoverHandle = -1;
                 int pressedHandle = -1;
+                float pressedSplit = 0.F;
             };
             MouseData mouse;
         };
@@ -68,33 +67,17 @@ namespace tg
             return out;
         }
 
-        float Splitter::getSplit() const
+        std::vector<float> Splitter::getSplit() const
         {
             return _p->split;
         }
 
-        void Splitter::setSplit(float value)
+        void Splitter::setSplit(const std::vector<float>& value)
         {
             TG_P();
             if (value == p.split)
                 return;
             p.split = value;
-            _setSizeUpdate();
-            _setDrawUpdate();
-        }
-
-        SizeRole Splitter::getSpacingRole() const
-        {
-            return _p->spacingRole;
-        }
-
-        void Splitter::setSpacingRole(SizeRole value)
-        {
-            TG_P();
-            if (value == p.spacingRole)
-                return;
-            p.spacingRole = value;
-            p.size.init = true;
             _setSizeUpdate();
             _setDrawUpdate();
         }
@@ -105,82 +88,72 @@ namespace tg
             TG_P();
 
             const Box2I& g = getGeometry();
-
-            std::vector<bool> childVisible;
-            const auto& children = getChildren();
-            for (const auto& child : children)
-            {
-                childVisible.push_back(child->isVisible(false));
-            }
-            p.size.handleGeometry.clear();
+            const int w = g.w();
+            const int h = g.h();
             std::vector<Box2I> childGeometry;
-            int x = g.x();
-            int y = g.y();
-            int w = 0;
-            int h = 0;
+            p.size.handleGeometry.clear();
             switch (p.orientation)
             {
             case Orientation::Horizontal:
-                if (children.size() > 1 &&
-                    childVisible[0] &&
-                    childVisible[1])
+            {
+                int x = 0;
+                for (size_t i = 0; i < p.split.size(); ++i)
                 {
-                    w = g.w() * p.split - p.size.handle / 2;
-                    h = g.h();
-                    childGeometry.push_back(Box2I(x, y, w, h));
-                    x += w;
-                    x += p.size.spacing;
-                    w = p.size.handle;
-                    p.size.handleGeometry.push_back(Box2I(x, y, w, h));
-                    x += w;
-                    x += p.size.spacing;
-                    w = g.x() + g.w() - x;
-                    childGeometry.push_back(Box2I(x, y, w, h));
+                    const int w2 = w * p.split[i];
+                    childGeometry.push_back(Box2I(g.min.x + x, g.min.y, w2, h));
+                    x += w2;
                 }
-                else
+                for (size_t i = 1; i < childGeometry.size(); ++i)
                 {
-                    for (size_t i = 0; i < children.size(); ++i)
-                    {
-                        childGeometry.push_back(Box2I(x, y, g.w(), g.h()));
-                    }
+                    childGeometry[i - 1].max.x -= p.size.handle / 2;
+                    childGeometry[i].min.x += p.size.handle / 2;
+                    p.size.handleGeometry.push_back(Box2I(
+                        childGeometry[i - 1].max.x,
+                        childGeometry[i - 1].min.y,
+                        p.size.handle,
+                        childGeometry[i - 1].h()));
+                }
+                if (!childGeometry.empty())
+                {
+                    childGeometry[childGeometry.size() - 1].max.x = g.max.x;
                 }
                 break;
+            }
             case Orientation::Vertical:
-                if (children.size() > 1 &&
-                    childVisible[0] &&
-                    childVisible[1])
+            {
+                int y = 0;
+                for (size_t i = 0; i < p.split.size(); ++i)
                 {
-                    w = g.w();
-                    h = g.h() * p.split - p.size.handle / 2;
-                    childGeometry.push_back(Box2I(x, y, w, h));
-                    y += h;
-                    y += p.size.spacing;
-                    h = p.size.handle;
-                    p.size.handleGeometry.push_back(Box2I(x, y, w, h));
-                    y += h;
-                    y += p.size.spacing;
-                    h = g.y() + g.h() - y;
-                    childGeometry.push_back(Box2I(x, y, w, h));
+                    const int h2 = h * p.split[i];
+                    childGeometry.push_back(Box2I(g.min.x, g.min.y + y, w, h2));
+                    y += h2;
                 }
-                else
+                for (size_t i = 1; i < childGeometry.size(); ++i)
                 {
-                    for (size_t i = 0; i < children.size(); ++i)
-                    {
-                        childGeometry.push_back(Box2I(x, y, g.w(), g.h()));
-                    }
+                    childGeometry[i - 1].max.y -= p.size.handle / 2;
+                    childGeometry[i].min.y += p.size.handle / 2;
+                    p.size.handleGeometry.push_back(Box2I(
+                        childGeometry[i - 1].min.x,
+                        childGeometry[i - 1].max.y,
+                        childGeometry[i - 1].w(),
+                        p.size.handle));
+                }
+                if (!childGeometry.empty())
+                {
+                    childGeometry[childGeometry.size() - 1].max.y = g.max.y;
                 }
                 break;
+            }
             default: break;
             }
 
-            size_t i = 0;
-            for (auto child : children)
+            const auto& children = getChildren();
+            int i = 0;
+            for (auto j = children.begin();
+                i < childGeometry.size() && j != children.end();
+                ++i, ++j)
             {
-                child->setGeometry(
-                    i < childGeometry.size() ?
-                    childGeometry[i] :
-                    g);
-                ++i;
+                (*j)->setGeometry(childGeometry[i]);
             }
         }
 
@@ -194,12 +167,78 @@ namespace tg
             {
                 p.size.init = false;
                 p.size.displayScale = event.displayScale;
-                p.size.size = event.style->getSizeRole(SizeRole::ScrollArea, p.size.displayScale);
-                p.size.spacing = event.style->getSizeRole(p.spacingRole, p.size.displayScale);
                 p.size.handle = event.style->getSizeRole(SizeRole::HandleSmall, p.size.displayScale);
             }
 
-            _setSizeHint(Size2I(p.size.size, p.size.size));
+            Size2I sizeHint;
+            const auto& children = getChildren();
+            for (const auto& child : children)
+            {
+                const auto& childSizeHint = child->getSizeHint();
+                switch (p.orientation)
+                {
+                case Orientation::Horizontal:
+                    sizeHint.w += childSizeHint.w;
+                    sizeHint.h = std::max(sizeHint.h, childSizeHint.h);
+                    break;
+                case Orientation::Vertical:
+                    sizeHint.w = std::max(sizeHint.w, childSizeHint.w);
+                    sizeHint.h += childSizeHint.h;
+                    break;
+                default: break;
+                }
+            }
+            switch (p.orientation)
+            {
+            case Orientation::Horizontal:
+                sizeHint.w += p.size.handle * children.size();
+                break;
+            case Orientation::Vertical:
+                sizeHint.h += p.size.handle * children.size();
+                break;
+            default: break;
+            }
+            _setSizeHint(sizeHint);
+        }
+
+        void Splitter::childAddEvent(const ChildAddEvent& event)
+        {
+            IWidget::childAddEvent(event);
+            TG_P();
+            const auto& children = getChildren();
+            if (p.split.size() < children.size())
+            {
+                float split = 1.F;
+                if (!p.split.empty())
+                {
+                    split = p.split.back() / 2.F;
+                    p.split.back() = split;
+                }
+                p.split.push_back(split);
+            }
+            _setSizeUpdate();
+            _setDrawUpdate();
+        }
+
+        void Splitter::childRemoveEvent(const ChildRemoveEvent& event)
+        {
+            IWidget::childRemoveEvent(event);
+            TG_P();
+            if (event.index < p.split.size())
+            {
+                const float split = p.split[event.index];
+                p.split.erase(p.split.begin() + event.index);
+                if (event.index > 0)
+                {
+                    p.split[event.index - 1] += split;
+                }
+                else if (!p.split.empty())
+                {
+                    p.split[0] += split;
+                }
+            }
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
 
         void Splitter::drawEvent(
@@ -252,24 +291,32 @@ namespace tg
             if (p.mouse.pressedHandle != -1)
             {
                 const Box2I& g = getGeometry();
-                float split = 0.F;
+                float s = 0.F;
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
-                    split = (event.pos.x - g.min.x) / static_cast<float>(g.w());
+                    s = (event.pos.x - event.prev.x) / static_cast<float>(g.w());
                     break;
                 case Orientation::Vertical:
-                    split = (event.pos.y - g.min.y) / static_cast<float>(g.h());
+                    s = (event.pos.y - event.prev.y) / static_cast<float>(g.h());
                     break;
                 default: break;
                 }
-                split = clamp(split, .1F, .9F);
-                if (split != p.split)
+                p.split[p.mouse.pressedHandle] += s;
+
+                const int last = static_cast<int>(p.split.size()) - 1;
+                if (p.mouse.pressedHandle < last)
                 {
-                    p.split = split;
-                    _setSizeUpdate();
-                    _setDrawUpdate();
+                    float size = 0.F;
+                    for (int i = 0; i < last; ++i)
+                    {
+                        size += p.split[i];
+                    }
+                    p.split[last] = 1.F - size;
                 }
+
+                _setSizeUpdate();
+                _setDrawUpdate();
             }
             else
             {
@@ -300,6 +347,7 @@ namespace tg
                 {
                     event.accept = true;
                     p.mouse.pressedHandle = i;
+                    p.mouse.pressedSplit = p.split[i];
                     _setDrawUpdate();
                     break;
                 }

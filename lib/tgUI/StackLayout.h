@@ -48,8 +48,8 @@ namespace tg
 
             void setGeometry(const core::Box2I&) override;
             core::Box2I getChildrenClipRect() const override;
-            void childAddedEvent(const ChildEvent&) override;
-            void childRemovedEvent(const ChildEvent&) override;
+            void childAddEvent(const ChildAddEvent&) override;
+            void childRemoveEvent(const ChildRemoveEvent&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:

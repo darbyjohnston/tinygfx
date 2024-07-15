@@ -206,11 +206,11 @@ namespace tg
             //! Events
             ///@{
 
-            //! Child added event.
-            virtual void childAddedEvent(const ChildEvent&);
+            //! Child add event.
+            virtual void childAddEvent(const ChildAddEvent&);
 
-            //! Child removed event.
-            virtual void childRemovedEvent(const ChildEvent&);
+            //! Child remove event.
+            virtual void childRemoveEvent(const ChildRemoveEvent&);
 
             //! Tick event.
             virtual void tickEvent(

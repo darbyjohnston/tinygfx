@@ -18,9 +18,14 @@ namespace tg
     {
         void event(py::module_& m)
         {
-            py::class_<ChildEvent>(m, "ChildEvent")
-                .def(py::init<const std::shared_ptr<IWidget>& >())
-                .def_readwrite("child", &ChildEvent::child);
+            py::class_<ChildAddEvent>(m, "ChildAddEvent")
+                .def(py::init<const std::shared_ptr<IWidget>&>())
+                .def_readwrite("child", &ChildAddEvent::child);
+
+            py::class_<ChildRemoveEvent>(m, "ChildRemoveEvent")
+                .def(py::init<const std::shared_ptr<IWidget>&, int>())
+                .def_readwrite("child", &ChildRemoveEvent::child)
+                .def_readwrite("index", &ChildRemoveEvent::index);
 
             py::class_<TickEvent>(m, "TickEvent");
 

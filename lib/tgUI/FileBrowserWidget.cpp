@@ -157,7 +157,7 @@ namespace tg
             p.reloadButton->setParent(hLayout);
             p.pathEdit->setParent(hLayout);
             p.splitter = Splitter::create(context, Orientation::Horizontal, vLayout);
-            p.splitter->setSplit(0.2);
+            p.splitter->setSplit({ 0.2 });
             p.pathsScrollWidget->setParent(p.splitter);
             p.directoryScrollWidget->setParent(p.splitter);
             hLayout = HorizontalLayout::create(context, vLayout);

@@ -51,7 +51,7 @@ namespace tg
 
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void childRemovedEvent(const ChildEvent&) override;
+            void childRemoveEvent(const ChildRemoveEvent&) override;
 
         private:
             TG_PRIVATE();

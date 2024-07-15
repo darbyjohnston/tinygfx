@@ -85,8 +85,8 @@ namespace tg
 
                 .def_property("tooltip", &IWidget::getTooltip, &IWidget::setTooltip)
 
-                .def("childAddedEvent", &IWidget::childAddedEvent, py::arg("event"))
-                .def("childRemovedEvent", &IWidget::childRemovedEvent, py::arg("event"))
+                .def("childAddEvent", &IWidget::childAddEvent, py::arg("event"))
+                .def("childRemoveEvent", &IWidget::childRemoveEvent, py::arg("event"))
                 .def(
                     "tickEvent",
                     &IWidget::tickEvent,

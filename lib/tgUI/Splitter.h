@@ -33,20 +33,16 @@ namespace tg
                 Orientation,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Get the split amount.
-            float getSplit() const;
+            //! Get the split values.
+            std::vector<float> getSplit() const;
 
-            //! Set the split amount.
-            void setSplit(float);
-
-            //! Get the spacing role.
-            SizeRole getSpacingRole() const;
-
-            //! Set the spacing role.
-            void setSpacingRole(SizeRole);
+            //! Set the split values.
+            void setSplit(const std::vector<float>&);
 
             void setGeometry(const core::Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
+            void childAddEvent(const ChildAddEvent&) override;
+            void childRemoveEvent(const ChildRemoveEvent&) override;
             void drawEvent(const core::Box2I&, const DrawEvent&) override;
             void mouseEnterEvent() override;
             void mouseLeaveEvent() override;

@@ -107,13 +107,15 @@ namespace tg
             return margin(getGeometry(), -_p->size.margin);
         }
 
-        void StackLayout::childAddedEvent(const ChildEvent& event)
+        void StackLayout::childAddEvent(const ChildAddEvent& event)
         {
+            IWidget::childAddEvent(event);
             _widgetUpdate();
         }
 
-        void StackLayout::childRemovedEvent(const ChildEvent& event)
+        void StackLayout::childRemoveEvent(const ChildRemoveEvent& event)
         {
+            IWidget::childRemoveEvent(event);
             TG_P();
             p.currentIndex = clamp(
                 p.currentIndex,

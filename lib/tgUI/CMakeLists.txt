@@ -8,6 +8,7 @@ set(HEADERS
     ColorWidget.h
     ComboBox.h
     Divider.h
+    DockLayout.h
     DoubleEdit.h
     DoubleEditSlider.h
     DoubleModel.h
@@ -91,6 +92,7 @@ set(SOURCE
     ComboBoxButton.cpp
     ComboBoxMenu.cpp
     Divider.cpp
+    DockLayout.cpp
     DoubleEdit.cpp
     DoubleEditSlider.cpp
     DoubleModel.cpp
