@@ -15,7 +15,6 @@ cmake --build dtk/build -j 4 --config $BUILD_TYPE
 cmake -S tinygfx \
     -B tinygfx/build \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-    -DCMAKE_INSTALL_PREFIX=$PWD/install \
     -DCMAKE_PREFIX_PATH=$PWD/install
 cmake --build tinygfx/build -j 4 --config $BUILD_TYPE
 

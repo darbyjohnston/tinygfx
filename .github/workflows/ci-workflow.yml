@@ -11,15 +11,11 @@ jobs:
       with:
         path: tinygfx
         submodules: recursive
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
 
     - name: Setup environment
       run: |
         echo "$PWD/build/install/bin" >> $GITHUB_PATH
         echo "LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
         bash tinygfx/etc/Linux/linux-setup-gha.sh
 
     - name: Build
@@ -33,18 +29,13 @@ jobs:
       with:
         path: tinygfx
         submodules: recursive
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
 
     # \bug DYLD_LIBRARY_PATH is not being set here?
     - name: Setup environment
       run: |
         echo "$PWD/build/install/bin" >> $GITHUB_PATH
         echo "DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
-        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
         cmake --version
-        python --version
 
     - name: Build
       run: |
@@ -63,18 +54,13 @@ jobs:
       with:
         path: tinygfx
         submodules: recursive
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
 
     # \bug DYLD_LIBRARY_PATH is not being set here?
     - name: Setup environment
       run: |
         echo "$PWD/build/install/bin" >> $GITHUB_PATH
         echo "DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
-        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
         cmake --version
-        python --version
 
     - name: Build
       run: |
@@ -89,9 +75,6 @@ jobs:
       with:
         path: tinygfx
         submodules: recursive
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
 
     # \bug Any spaces before the ">>" will be considered part of the path.
     - name: Setup environment
@@ -99,7 +82,6 @@ jobs:
       run: |
         echo %CD%\build\install\bin>> %GITHUB_PATH%
         echo %CD%\build\install\lib>> %GITHUB_PATH%
-        echo PYTHONPATH=%CD%\build\install\lib >> %GITHUB_ENV%
         echo CTEST_OUTPUT_ON_FAILURE=1 >> %GITHUB_ENV%
         cmake --version
 
