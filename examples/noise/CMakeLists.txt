@@ -1,10 +1,5 @@
 add_executable(noise noise.h noise.cpp)
-target_link_libraries(noise tgUIApp)
+target_link_libraries(noise dtk::dtkUIApp)
 set_target_properties(noise PROPERTIES FOLDER examples)
-
-install(TARGETS noise
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    RUNTIME DESTINATION bin)
 
 add_test(NAME noise COMMAND noise -exit -log)

@@ -4,12 +4,13 @@
 
 #include "gol.h"
 
-#include <tgUIApp/App.h>
+#include <dtkUIApp/App.h>
 
-#include <tgCore/Noise.h>
+#include <dtkCore/Noise.h>
 
-using namespace tg::core;
-using namespace tg::ui;
+using namespace dtk;
+using namespace dtk::core;
+using namespace dtk::ui;
 
 namespace tg
 {
@@ -209,12 +210,12 @@ namespace tg
     }
 }
 
-TG_MAIN()
+DTK_MAIN()
 {
     try
     {
         auto context = Context::create();
-        auto args = tg::app::convert(argc, argv);
+        auto args = app::convert(argc, argv);
         auto app = App::create(context, args, "gol", "Game of life example");
         if (app->getExit() != 0)
             return app->getExit();

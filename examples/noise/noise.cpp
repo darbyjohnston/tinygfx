@@ -4,12 +4,13 @@
 
 #include "noise.h"
 
-#include <tgUIApp/App.h>
+#include <dtkUIApp/App.h>
 
-#include <tgCore/Noise.h>
+#include <dtkCore/Noise.h>
 
-using namespace tg::core;
-using namespace tg::ui;
+using namespace dtk;
+using namespace dtk::core;
+using namespace dtk::ui;
 
 namespace tg
 {
@@ -57,47 +58,53 @@ namespace tg
             void Window::drawEvent(const Box2I& drawRect, const DrawEvent& event)
             {
                 ui::Window::drawEvent(drawRect, event);
-                const Box2I& g = getGeometry();
-                ImageOptions options;
-                options.cache = false;
-                event.render->drawImage(
-                    _image,
-                    Box2F(0.F, 0.F, g.w(), g.h()),
-                    Color4F(1.F, 1.F, 1.F),
-                    options);
+                if (_image)
+                {
+                    const Box2I& g = getGeometry();
+                    ImageOptions options;
+                    options.cache = false;
+                    event.render->drawImage(
+                        _image,
+                        Box2F(0.F, 0.F, g.w(), g.h()),
+                        Color4F(1.F, 1.F, 1.F),
+                        options);
+                }
             }
 
             void Window::_tick()
             {
-                const Size2I& size = _image->getSize();
-                uint8_t* data = _image->getData();
-                Noise noise;
-                for (int y = 0; y < size.h; ++y)
+                if (_image)
                 {
-                    for (int x = 0; x < size.w; ++x)
+                    const Size2I& size = _image->getSize();
+                    uint8_t* data = _image->getData();
+                    Noise noise;
+                    for (int y = 0; y < size.h; ++y)
                     {
-                        const double n = noise.get(x / 100.0, y / 100.0, _noiseZ / 100.0);
-                        data[y * size.w + x] = clamp(n, 0.0, 1.0) * 255;
+                        for (int x = 0; x < size.w; ++x)
+                        {
+                            const double n = noise.get(x / 100.0, y / 100.0, _noiseZ / 100.0);
+                            data[y * size.w + x] = clamp(n, 0.0, 1.0) * 255;
+                        }
                     }
+                    _noiseZ += 1.0;
+                    _setDrawUpdate();
                 }
-                _noiseZ += 1.0;
-                _setDrawUpdate();
             }
         }
     }
 }
 
-TG_MAIN()
+DTK_MAIN()
 {
     try
     {
         auto context = Context::create();
-        auto args = tg::app::convert(argc, argv);
+        auto args = app::convert(argc, argv);
         auto app = App::create(context, args, "noise", "Noise example");
         if (app->getExit() != 0)
             return app->getExit();
 
-    auto window = tg::examples::noise::Window::create(
+        auto window = tg::examples::noise::Window::create(
             context,
             "noise",
             Size2I(1280, 960));

@@ -7,16 +7,11 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TINYGFX_API: GL_4_1
-      TINYGFX_NFD: OFF
-      TINYGFX_PYTHON: ON
-      TINYGFX_TESTS: ON
-      TINYGFX_EXAMPLES: ON
-      TINYGFX_GCOV: ON
 
     steps:
     - uses: actions/checkout@v4
       with:
+        path: tinygfx
         submodules: recursive
     - uses: actions/setup-python@v5
       with:
@@ -31,79 +26,16 @@ jobs:
 
     - name: Build
       run: bash etc/Linux/linux-build-gha.sh Debug
-
-    - name: Run tests
-      run: |
-        cd build
-        cd tinygfx/src/tinygfx-build
-        #xvfb-run cmake --build . --target test
-        xvfb-run ctest --verbose -C Debug
-    
-    - name: Code coverage
-      if: env.TINYGFX_GCOV == 'ON'
-      run: |
-        cd build/tinygfx/src/tinygfx-build
-        bash ../../../../etc/Linux/lcov.sh
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        files: ${{ github.workspace }}/build/tinygfx/src/tinygfx-build/coverage_filtered.info
-        fail_ci_if_error: true
-        token: ${{ secrets.CODECOV_TOKEN }}
-
-  linux-gles2-build:
-    runs-on: ubuntu-latest
-
-    env:
-      TINYGFX_API: GLES_2
-      TINYGFX_NFD: OFF
-      TINYGFX_PYTHON: ON
-      TINYGFX_TESTS: ON
-      TINYGFX_EXAMPLES: ON
-      TINYGFX_GCOV: OFF
-
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        submodules: recursive
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-
-    - name: Setup environment
-      run: |
-        echo "$PWD/build/install/bin" >> $GITHUB_PATH
-        echo "LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
-        bash etc/Linux/linux-setup-gha.sh
-
-    - name: Build
-      run: bash etc/Linux/linux-build-gha.sh Debug
-
-    - name: Run tests
-      run: |
-        cd build
-        cd tinygfx/src/tinygfx-build
-        #xvfb-run cmake --build . --target test
-        xvfb-run ctest --verbose -C Debug
 
   macos-12-build:
     runs-on: macos-12
 
     env:
-      TINYGFX_API: GL_4_1
-      TINYGFX_NFD: OFF
-      TINYGFX_PYTHON: ON
-      TINYGFX_TESTS: ON
-      TINYGFX_EXAMPLES: OFF
-      TINYGFX_GCOV: OFF
-      CMAKE_OSX_DEPLOYMENT_TARGET: 10.15
-      CMAKE_OSX_ARCHITECTURES: x86_64
 
     steps:
     - uses: actions/checkout@v4
       with:
+        path: tinygfx
         submodules: recursive
     - uses: actions/setup-python@v5
       with:
@@ -123,30 +55,17 @@ jobs:
         export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
         bash etc/macOS/macos-build-gha.sh Debug
 
-    - name: Run tests
-      run: |
-        export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
-        cd build
-        cd tinygfx/src/tinygfx-build
-        #cmake --build . --target test
-        ctest --verbose -C Debug
-
   macos-14-build:
     runs-on: macos-14
 
     env:
-      TINYGFX_API: GL_4_1
-      TINYGFX_NFD: OFF
-      TINYGFX_PYTHON: ON
-      TINYGFX_TESTS: ON
-      TINYGFX_EXAMPLES: OFF
-      TINYGFX_GCOV: OFF
       CMAKE_OSX_DEPLOYMENT_TARGET: 14
       CMAKE_OSX_ARCHITECTURES: arm64
 
     steps:
     - uses: actions/checkout@v4
       with:
+        path: tinygfx
         submodules: recursive
     - uses: actions/setup-python@v5
       with:
@@ -166,28 +85,15 @@ jobs:
         export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
         bash etc/macOS/macos-build-gha.sh Debug
 
-    - name: Run tests
-      run: |
-        export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
-        cd build
-        cd tinygfx/src/tinygfx-build
-        #cmake --build . --target test
-        ctest --verbose -C Debug
-
   windows-build:
     runs-on: windows-latest
 
     env:
-      TINYGFX_API: GL_4_1
-      TINYGFX_NFD: OFF
-      TINYGFX_PYTHON: ON
-      TINYGFX_TESTS: ON
-      TINYGFX_EXAMPLES: OFF
-      TINYGFX_GCOV: OFF
 
     steps:
     - uses: actions/checkout@v4
       with:
+        path: tinygfx
         submodules: recursive
     - uses: actions/setup-python@v5
       with:
@@ -207,12 +113,3 @@ jobs:
       shell: cmd
       run: |
         etc\Windows\windows-build-gha.bat Debug
-
-    - name: Run tests
-      shell: cmd
-      run: |
-        cd build
-        cd tinygfx\src\tinygfx-build
-        #cmake --build . --target RUN_TESTS
-        ctest --verbose -C Debug
-

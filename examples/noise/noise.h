@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <tgUIApp/Window.h>
+#include <dtkUIApp/Window.h>
 
-#include <tgCore/Timer.h>
+#include <dtkCore/Timer.h>
 
 namespace tg
 {
@@ -14,30 +14,30 @@ namespace tg
     {
         namespace noise
         {
-            class Window : public ui::Window
+            class Window : public dtk::ui::Window
             {
             protected:
                 void _init(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<dtk::core::Context>&,
                     const std::string& name,
-                    const core::Size2I&);
+                    const dtk::core::Size2I&);
 
             public:
                 virtual ~Window();
 
                 static std::shared_ptr<Window> create(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<dtk::core::Context>&,
                     const std::string& name,
-                    const core::Size2I&);
+                    const dtk::core::Size2I&);
 
-                void setGeometry(const core::Box2I&) override;
-                void drawEvent(const core::Box2I&, const ui::DrawEvent&) override;
+                void setGeometry(const dtk::core::Box2I&) override;
+                void drawEvent(const dtk::core::Box2I&, const dtk::ui::DrawEvent&) override;
 
             private:
                 void _tick();
 
-                std::shared_ptr<core::Image> _image;
-                std::shared_ptr<core::Timer> _timer;
+                std::shared_ptr<dtk::core::Image> _image;
+                std::shared_ptr<dtk::core::Timer> _timer;
                 double _noiseZ = 0.0;
             };
         }
