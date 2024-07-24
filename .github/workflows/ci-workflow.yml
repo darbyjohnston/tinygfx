@@ -20,10 +20,10 @@ jobs:
         echo "$PWD/build/install/bin" >> $GITHUB_PATH
         echo "LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
         echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
-        bash etc/Linux/linux-setup-gha.sh
+        bash tinygfx/etc/Linux/linux-setup-gha.sh
 
     - name: Build
-      run: bash etc/Linux/linux-build-gha.sh Debug
+      run: bash tinygfx/etc/Linux/linux-build-gha.sh Debug
 
   macos-12-build:
     runs-on: macos-12
@@ -49,7 +49,7 @@ jobs:
     - name: Build
       run: |
         export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
-        bash etc/macOS/macos-build-gha.sh Debug
+        bash tinygfx/etc/macOS/macos-build-gha.sh Debug
 
   macos-14-build:
     runs-on: macos-14
@@ -79,7 +79,7 @@ jobs:
     - name: Build
       run: |
         export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
-        bash etc/macOS/macos-build-gha.sh Debug
+        bash tinygfx/etc/macOS/macos-build-gha.sh Debug
 
   windows-build:
     runs-on: windows-latest
@@ -106,4 +106,4 @@ jobs:
     - name: Build
       shell: cmd
       run: |
-        etc\Windows\windows-build-gha.bat Debug
+        tinygfx\etc\Windows\windows-build-gha.bat Debug
