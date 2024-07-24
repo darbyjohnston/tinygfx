@@ -6,8 +6,6 @@ jobs:
   linux-build:
     runs-on: ubuntu-latest
 
-    env:
-
     steps:
     - uses: actions/checkout@v4
       with:
@@ -29,8 +27,6 @@ jobs:
 
   macos-12-build:
     runs-on: macos-12
-
-    env:
 
     steps:
     - uses: actions/checkout@v4
@@ -87,8 +83,6 @@ jobs:
 
   windows-build:
     runs-on: windows-latest
-
-    env:
 
     steps:
     - uses: actions/checkout@v4
