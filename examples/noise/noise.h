@@ -34,6 +34,7 @@ namespace tg
                 void drawEvent(const dtk::core::Box2I&, const dtk::ui::DrawEvent&) override;
 
             private:
+                void _render();
                 void _tick();
 
                 std::shared_ptr<dtk::core::Image> _image;
