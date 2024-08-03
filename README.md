@@ -45,7 +45,6 @@ Try running the `gol` example:
 ```
 Release/tinygfx/src/tinygfx-build/examples/gol/gol
 ```
-```
 
 Notes for building on macOS
 ---------------------------
