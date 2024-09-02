@@ -49,6 +49,7 @@ namespace tg
                 dtk::Window::setGeometry(value);
                 const dtk::Box2I& g = getGeometry();
                 _image = dtk::Image::create(g.w() / 2, g.h() / 2, dtk::ImageType::L_U8);
+                _render();
             }
 
             void Window::drawEvent(const dtk::Box2I& drawRect, const dtk::DrawEvent& event)
@@ -67,7 +68,7 @@ namespace tg
                 }
             }
 
-            void Window::_tick()
+            void Window::_render()
             {
                 if (_image)
                 {
@@ -82,9 +83,14 @@ namespace tg
                             data[y * size.w + x] = dtk::clamp(n, 0.0, 1.0) * 255;
                         }
                     }
-                    _noiseZ += 1.0;
-                    _setDrawUpdate();
                 }
+            }
+
+            void Window::_tick()
+            {
+                _render();
+                _setDrawUpdate();
+                _noiseZ += 1.0;
             }
         }
     }
