@@ -18,7 +18,7 @@ set(tinygfx_IGNORE_PREFIX_PATH ${tinygfx_IGNORE_PREFIX_PATH_DEFAULT} CACHE STRIN
 #-------------------------------------------------------------------------------
 # Configuration
 
-list(PREPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
+list(PREPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
 
 if(NOT CMAKE_CXX_STANDARD)
     set(CMAKE_CXX_STANDARD 17)
