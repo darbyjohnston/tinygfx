@@ -4,13 +4,9 @@
 
 #include "gol.h"
 
-#include <dtkUIApp/App.h>
+#include <dtk/ui/App.h>
 
-#include <dtkCore/Noise.h>
-
-using namespace dtk;
-using namespace dtk::core;
-using namespace dtk::ui;
+#include <dtk/core/Noise.h>
 
 namespace tg
 {
@@ -19,13 +15,13 @@ namespace tg
         namespace gol
         {
             void Window::_init(
-                const std::shared_ptr<Context>& context,
+                const std::shared_ptr<dtk::Context>& context,
                 const std::string& name,
-                const Size2I& size)
+                const dtk::Size2I& size)
             {
-                ui::Window::_init(context, name, size);
+                dtk::Window::_init(context, name, size);
 
-                _timer = Timer::create(context);
+                _timer = dtk::Timer::create(context);
                 _timer->setRepeating(true);
                 _timer->start(
                     std::chrono::milliseconds(1000 / 60),
@@ -34,7 +30,7 @@ namespace tg
                         _tick();
                     });
 
-                _timer2 = Timer::create(context);
+                _timer2 = dtk::Timer::create(context);
                 _timer2->setRepeating(true);
                 /*_timer2->start(
                     std::chrono::milliseconds(10 * 1000),
@@ -48,22 +44,22 @@ namespace tg
             {}
 
             std::shared_ptr<Window> Window::create(
-                const std::shared_ptr<Context>& context,
+                const std::shared_ptr<dtk::Context>& context,
                 const std::string& name,
-                const Size2I& size)
+                const dtk::Size2I& size)
             {
                 auto out = std::shared_ptr<Window>(new Window);
                 out->_init(context, name, size);
                 return out;
             }
 
-            void Window::setGeometry(const Box2I& value)
+            void Window::setGeometry(const dtk::Box2I& value)
             {
                 const bool changed = value != getGeometry();
-                ui::Window::setGeometry(value);
+                dtk::Window::setGeometry(value);
                 if (changed)
                 {
-                    const Box2I& g = getGeometry();
+                    const dtk::Box2I& g = getGeometry();
                     _cellsSize.w = g.w() / _cellSize;
                     _cellsSize.h = g.h() / _cellSize;
                     const size_t size = _cellsSize.w * _cellsSize.h;
@@ -73,20 +69,20 @@ namespace tg
                 }
             }
 
-            void Window::sizeHintEvent(const SizeHintEvent& event)
+            void Window::sizeHintEvent(const dtk::SizeHintEvent& event)
             {
-                ui::Window::sizeHintEvent(event);
+                dtk::Window::sizeHintEvent(event);
                 _cellSize = 3 * event.displayScale;
             }
 
-            void Window::drawEvent(const Box2I& drawRect, const DrawEvent& event)
+            void Window::drawEvent(const dtk::Box2I& drawRect, const dtk::DrawEvent& event)
             {
-                ui::Window::drawEvent(drawRect, event);
-                const Box2I& g = getGeometry();
-                const Box2F box(0, 0, g.w(), g.h());
-                event.render->drawRect(box, Color4F(0.F, 0.F, 0.F));
-                std::vector<Box2F> rects;
-                V2I pos;
+                dtk::Window::drawEvent(drawRect, event);
+                const dtk::Box2I& g = getGeometry();
+                const dtk::Box2F box(0, 0, g.w(), g.h());
+                event.render->drawRect(box, dtk::Color4F(0.F, 0.F, 0.F));
+                std::vector<dtk::Box2F> rects;
+                dtk::V2I pos;
                 for (; pos.y < _cellsSize.h; ++pos.y)
                 {
                     for (pos.x = 0; pos.x < _cellsSize.w; ++pos.x)
@@ -94,7 +90,7 @@ namespace tg
                         const uint8_t v = _getCell(_currentCells, pos);
                         if (v)
                         {
-                            rects.push_back(Box2F(
+                            rects.push_back(dtk::Box2F(
                                 pos.x * _cellSize,
                                 pos.y * _cellSize,
                                 _cellSize - 1,
@@ -102,12 +98,12 @@ namespace tg
                         }
                     }
                 }
-                event.render->drawRects(rects, Color4F(1.F, 1.F, 1.F));
+                event.render->drawRects(rects, dtk::Color4F(1.F, 1.F, 1.F));
             }
 
-            V2I Window::_wrap(const V2I& pos) const
+            dtk::V2I Window::_wrap(const dtk::V2I& pos) const
             {
-                V2I out = pos;
+                dtk::V2I out = pos;
                 if (out.x < 0)
                 {
                     out.x = _cellsSize.w - 1;
@@ -127,22 +123,22 @@ namespace tg
                 return out;
             }
 
-            uint8_t Window::_getCell(size_t index, const V2I& pos) const
+            uint8_t Window::_getCell(size_t index, const dtk::V2I& pos) const
             {
-                const V2I pos2 = _wrap(pos);
+                const dtk::V2I pos2 = _wrap(pos);
                 return _cells[index][pos2.y * _cellsSize.w + pos2.x];
             }
 
-            void Window::_setCell(size_t index, const V2I& pos, uint8_t value)
+            void Window::_setCell(size_t index, const dtk::V2I& pos, uint8_t value)
             {
-                const V2I pos2 = _wrap(pos);
+                const dtk::V2I pos2 = _wrap(pos);
                 _cells[index][pos2.y * _cellsSize.w + pos2.x] = value;
             }
 
             void Window::_randomize(size_t index)
             {
-                Noise noise;
-                V2I pos;
+                dtk::Noise noise;
+                dtk::V2I pos;
                 for (; pos.y < _cellsSize.h; pos.y = ++pos.y)
                 {
                     for (pos.x = 0; pos.x < _cellsSize.w; pos.x = ++pos.x)
@@ -161,13 +157,13 @@ namespace tg
             {
                 const size_t source = _currentCells;
                 const size_t dest = (_currentCells + 1) % 2;
-                const std::vector<V2I> offsets =
+                const std::vector<dtk::V2I> offsets =
                 {
                     { -1, -1 }, { 0, -1 }, { 1, -1 },
                     { -1,  0 },            { 1,  0 },
                     { -1,  1 }, { 0,  1 }, { 1,  1 }
                 };
-                V2I pos;
+                dtk::V2I pos;
                 for (; pos.y < _cellsSize.h; ++pos.y)
                 {
                     for (pos.x = 0; pos.x < _cellsSize.w; ++pos.x)
@@ -214,16 +210,16 @@ DTK_MAIN()
 {
     try
     {
-        auto context = Context::create();
-        auto args = app::convert(argc, argv);
-        auto app = App::create(context, args, "gol", "Game of life example");
+        auto context = dtk::Context::create();
+        auto args = dtk::convert(argc, argv);
+        auto app = dtk::App::create(context, args, "gol", "Game of life example");
         if (app->getExit() != 0)
             return app->getExit();
 
         auto window = tg::examples::gol::Window::create(
             context,
             "gol",
-            Size2I(1280, 960));
+            dtk::Size2I(1280, 960));
         app->addWindow(window);
         window->show();
         app->run();

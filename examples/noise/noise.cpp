@@ -4,13 +4,9 @@
 
 #include "noise.h"
 
-#include <dtkUIApp/App.h>
+#include <dtk/ui/App.h>
 
-#include <dtkCore/Noise.h>
-
-using namespace dtk;
-using namespace dtk::core;
-using namespace dtk::ui;
+#include <dtk/core/Noise.h>
 
 namespace tg
 {
@@ -19,13 +15,13 @@ namespace tg
         namespace noise
         {
             void Window::_init(
-                const std::shared_ptr<Context>& context,
+                const std::shared_ptr<dtk::Context>& context,
                 const std::string& name,
-                const Size2I& size)
+                const dtk::Size2I& size)
             {
-                ui::Window::_init(context, name, size);
+                dtk::Window::_init(context, name, size);
 
-                _timer = Timer::create(context);
+                _timer = dtk::Timer::create(context);
                 _timer->setRepeating(true);
                 _timer->start(
                     std::chrono::milliseconds(1000 / 24),
@@ -39,34 +35,34 @@ namespace tg
             {}
 
             std::shared_ptr<Window> Window::create(
-                const std::shared_ptr<Context>& context,
+                const std::shared_ptr<dtk::Context>& context,
                 const std::string& name,
-                const Size2I& size)
+                const dtk::Size2I& size)
             {
                 auto out = std::shared_ptr<Window>(new Window);
                 out->_init(context, name, size);
                 return out;
             }
 
-            void Window::setGeometry(const Box2I& value)
+            void Window::setGeometry(const dtk::Box2I& value)
             {
-                ui::Window::setGeometry(value);
-                const Box2I& g = getGeometry();
-                _image = Image::create(g.w() / 2, g.h() / 2, ImageType::L_U8);
+                dtk::Window::setGeometry(value);
+                const dtk::Box2I& g = getGeometry();
+                _image = dtk::Image::create(g.w() / 2, g.h() / 2, dtk::ImageType::L_U8);
             }
 
-            void Window::drawEvent(const Box2I& drawRect, const DrawEvent& event)
+            void Window::drawEvent(const dtk::Box2I& drawRect, const dtk::DrawEvent& event)
             {
-                ui::Window::drawEvent(drawRect, event);
+                dtk::Window::drawEvent(drawRect, event);
                 if (_image)
                 {
-                    const Box2I& g = getGeometry();
-                    ImageOptions options;
+                    const dtk::Box2I& g = getGeometry();
+                    dtk::ImageOptions options;
                     options.cache = false;
                     event.render->drawImage(
                         _image,
-                        Box2F(0.F, 0.F, g.w(), g.h()),
-                        Color4F(1.F, 1.F, 1.F),
+                        dtk::Box2F(0.F, 0.F, g.w(), g.h()),
+                        dtk::Color4F(1.F, 1.F, 1.F),
                         options);
                 }
             }
@@ -75,15 +71,15 @@ namespace tg
             {
                 if (_image)
                 {
-                    const Size2I& size = _image->getSize();
+                    const dtk::Size2I& size = _image->getSize();
                     uint8_t* data = _image->getData();
-                    Noise noise;
+                    dtk::Noise noise;
                     for (int y = 0; y < size.h; ++y)
                     {
                         for (int x = 0; x < size.w; ++x)
                         {
                             const double n = noise.get(x / 100.0, y / 100.0, _noiseZ / 100.0);
-                            data[y * size.w + x] = clamp(n, 0.0, 1.0) * 255;
+                            data[y * size.w + x] = dtk::clamp(n, 0.0, 1.0) * 255;
                         }
                     }
                     _noiseZ += 1.0;
@@ -98,16 +94,16 @@ DTK_MAIN()
 {
     try
     {
-        auto context = Context::create();
-        auto args = app::convert(argc, argv);
-        auto app = App::create(context, args, "noise", "Noise example");
+        auto context = dtk::Context::create();
+        auto args = dtk::convert(argc, argv);
+        auto app = dtk::App::create(context, args, "noise", "Noise example");
         if (app->getExit() != 0)
             return app->getExit();
 
         auto window = tg::examples::noise::Window::create(
             context,
             "noise",
-            Size2I(1280, 960));
+            dtk::Size2I(1280, 960));
         app->addWindow(window);
         window->show();
         app->run();

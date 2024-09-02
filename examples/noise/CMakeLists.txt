@@ -1,5 +1,3 @@
 add_executable(noise noise.h noise.cpp)
-target_link_libraries(noise dtk::dtkUIApp)
+target_link_libraries(noise dtk::dtkUI)
 set_target_properties(noise PROPERTIES FOLDER examples)
-
-add_test(NAME noise COMMAND noise -exit -log)
